@@ -3,9 +3,3 @@
 @tailwind utilities;
 
 
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Pretendard-Regular, sans-serif;
-}
