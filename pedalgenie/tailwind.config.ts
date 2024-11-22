@@ -11,6 +11,23 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        // Primary Colors
+        black: "#0C0D11",
+        ivory: "#E9E7E1",
+        red: "#C1192D",
+
+        // Secondary Colors
+        white: "#FFFFFF",
+        grey1000: "#1A1A1A",
+        grey850: "#3A3A3A",
+        grey750: "#545454",
+        grey650: "#6E6E6E",
+        grey550: "#8E8E8E",
+        grey450: "#BDBEBD",
+        grey350: "#DDDDDD",
+        grey250: "#E8E8E8",
+        grey150: "#F3F3F3",
+        grey50: "#FAFAFA",
       },
       fontFamily: {
         pretendard: ["Pretendard", "sans-serif"],
@@ -18,13 +35,13 @@ const config: Config = {
       // Typography 커스텀 유틸리티
       extend: {
         typography: {
-          h0: {
+          head0: {
             fontSize: "24px",
             lineHeight: "36px",
             letterSpacing: "0",
             fontWeight: "600", // SemiBold
           },
-          h1: {
+          head1: {
             fontSize: "20px",
             lineHeight: "30px",
             letterSpacing: "-0.025em",
