@@ -22,7 +22,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
       </head>
-      <body className="w-full h-[100vh] max-w-[375px] mx-auto">
+      <body className="w-full h-[100vh] max-w-[375px] mx-auto bg-grey1000">
         {children}
       </body>
     </html>

@@ -1,7 +1,7 @@
-import Navigation from "@/components/ui/Navigation";
+import CTA from "@/components/ui/CTA";
 
 
-export default function GNBLayout({
+export default function CTALayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -9,7 +9,7 @@ export default function GNBLayout({
   return (
     <div className="relative w-full h-full">
         {children}
-        <Navigation/>
+        <CTA/>
     </div>
   );
 }

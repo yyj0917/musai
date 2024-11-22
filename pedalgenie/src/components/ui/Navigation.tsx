@@ -42,7 +42,7 @@ export default function Navigation() {
                     <Link
                         key={item.id}
                         href={item.route}
-                        className={`w-[48px] h-[48px] flex flex-1 flex-col items-center gap-1 ${
+                        className={`h-[50px] flex flex-1 flex-col items-center gap-1 ${
                             activeIndex === item.id ? "text-white" : "text-grey250 opacity-[0.5]"
                         }`}
                     >
