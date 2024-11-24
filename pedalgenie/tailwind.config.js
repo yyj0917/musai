@@ -31,6 +31,7 @@ module.exports= {
       },
       fontFamily: {
         pretendard: ["Pretendard", "sans-serif"],
+        outfit: ["Outfit", "sans-serif"],
       },      
     },
   },

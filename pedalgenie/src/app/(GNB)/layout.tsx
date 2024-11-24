@@ -1,4 +1,4 @@
-import Navigation from "@/components/ui/Navigation";
+import Navigation from "@/components/ui/navigation";
 
 
 export default function GNBLayout({
@@ -7,7 +7,7 @@ export default function GNBLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="relative w-full h-full">
+    <div className="relative w-full h-full bg-grey1000">
         {children}
         <Navigation/>
     </div>
