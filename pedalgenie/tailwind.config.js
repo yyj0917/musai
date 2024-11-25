@@ -32,12 +32,27 @@ module.exports= {
       fontFamily: {
         pretendard: ["Pretendard", "sans-serif"],
         outfit: ["Outfit", "sans-serif"],
+      },
+      keyframes: {
+        loading: {
+          '0%': { transform: 'translateX(0)' },
+          '50%, 100%': { transform: 'translateX(460px)' },
+        },
+      },
+      animation: {
+        loading: 'loading 2s infinite linear',
       },      
     },
   },
   plugins: [
     function({ addUtilities }) {
       const newTypography = {
+        '.text-logo': {
+          fontSize: '24px',
+          lineHeight: '30px',
+          letterSpacing: '0',
+          fontWeight: '600',
+        },
         '.text-head0': {
           fontSize: '24px',
           lineHeight: '36px',
@@ -102,6 +117,6 @@ module.exports= {
 
       addUtilities(newTypography);
     },
-
+    require('tailwind-scrollbar-hide'),
   ],
 };

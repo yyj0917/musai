@@ -33,7 +33,7 @@ export default function Navigation() {
         }
     }, [pathname]);
     return (
-        <nav className='absolute bottom-0 w-full flex justify-center items-center pt-3 pb-6 px-[18px] border-t-[1px] border-grey750'>
+        <nav className='absolute bottom-0 w-full flex justify-center items-center pt-3 pb-6 px-[18px] border-t-[1px] border-grey750 bg-grey1000'>
             {navItems.map((item) => {
                 const Icon = item.icon;
                 const isActive = activeIndex === item.id;
