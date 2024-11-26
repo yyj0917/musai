@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import SaveHeart from '@/public/svg/home/save-heart.svg';
+import SaveHeart from '@public/svg/home/save-heart.svg';
 
 export default function ItemSkeleton() {
     return (

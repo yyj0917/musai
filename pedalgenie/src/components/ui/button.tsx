@@ -13,16 +13,16 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary:
-          'bg-neutral-900 text-neutral-50 shadow hover:bg-neutral-900/90 dark:bg-neutral-50 dark:text-neutral-900 dark:hover:bg-neutral-50/90',
+          '!text-body2 text-grey450 w-auto h-[31px] px-3 py-[5px] rounded',
         secondary:
           'bg-neutral-100 text-neutral-900 shadow-sm hover:bg-neutral-100/80 dark:bg-neutral-800 dark:text-neutral-50 dark:hover:bg-neutral-800/80',
-        destructive:
-          'bg-red-500 text-neutral-50 shadow-sm hover:bg-red-500/90 dark:bg-red-800 dark:text-neutral-50 dark:hover:bg-red-800/90',
+        filter:
+          '!text-white px-3 py-1 w-auto h-[29px] rounded-[20px] border-[1.5px] border-grey750  text-body1',
         chip:
-          'bg-grey850 text-grey450 text-caption1 px-2 py-1 rounded',
+          'bg-grey850 !text-grey450 text-caption1 px-2 py-1 rounded',
         ghost:
           'text-grey650 text-grey650',
-        link: 'text-grey250 text-head1 px-1 py-[3px]',
+        link: '!text-grey750 text-head1 px-1 py-[3px]',
         custom: 'text-neutral-900 dark:text-neutral-50',
       },
       size: {
@@ -52,12 +52,12 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const pathname = usePathname(); // 현재 경로 가져오기
 
     // active function
-    const isActive = href && pathname === href;
+    const isActive = href && pathname === href && variant === 'link';
 
 
     return <Comp 
             className={cn(buttonVariants({ variant, size, className }),
-            isActive ? 'border-b-[2px]': 'text-grey750')} ref={ref} {...props} />;
+            isActive ? 'border-b-[2px] !text-grey250': '')} ref={ref} {...props} />;
   },
 );
 Button.displayName = 'Button';

@@ -1,9 +1,9 @@
 "use client"
 
-import Home from '@/public/svg/home.svg';
-import Calendar from '@/public/svg/calendar.svg';
-import Heart from '@/public/svg/heart.svg';
-import Profile from '@/public/svg/profile.svg';
+import Home from '@public/svg/home.svg';
+import Calendar from '@public/svg/calendar.svg';
+import Heart from '@public/svg/heart.svg';
+import Profile from '@public/svg/profile.svg';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';

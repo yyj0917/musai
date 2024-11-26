@@ -5,6 +5,7 @@ module.exports= {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/skeleton/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
@@ -112,6 +113,12 @@ module.exports= {
           lineHeight: '18px',
           letterSpacing: '-0.025em',
           fontWeight: '400',
+        },
+        '.line-clamp-1': {
+          display: '-webkit-box',
+          '-webkit-box-orient': 'vertical',
+          '-webkit-line-clamp': '1',
+          overflow: 'hidden',
         },
       };
 

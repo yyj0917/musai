@@ -1,8 +1,8 @@
 // "use client"
 
 
-import CTAHeart from '@/public/svg/CTA-heart.svg';
-import CTAvector from '@/public/svg/CTA-vector.svg';
+import CTAHeart from '@public/svg/CTA-heart.svg';
+import CTAvector from '@public/svg/CTA-vector.svg';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';

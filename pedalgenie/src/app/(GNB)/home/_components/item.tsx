@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import SaveHeart from '@/public/svg/home/save-heart.svg';
+import SaveHeart from '@public/svg/home/save-heart.svg';
 import ItemSkeleton from '@/skeleton/item-skeleton';
 import Image from 'next/image';
 
