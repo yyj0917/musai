@@ -23,7 +23,7 @@ const buttonVariants = cva(
         ghost:
           'text-grey650 text-grey650',
         link: '!text-grey750 text-head1 px-1 py-[3px]',
-        custom: 'text-neutral-900 dark:text-neutral-50',
+        custom: '!text-grey250 text-label2 rounded py-[18px] w-auto h-[50px]',
       },
       size: {
         sm: 'h-9 px-3 text-xs',

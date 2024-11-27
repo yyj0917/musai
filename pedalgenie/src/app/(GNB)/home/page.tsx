@@ -34,7 +34,7 @@ export default function Home() {
         ))}
         </div>
       </header>
-      <main className='w-full h-[calc(100vh-88.5px-87px)] overflow-y-auto scroll-smooth scrollbar-hide'>
+      <main id='main' className='w-full h-[calc(100vh-88.5px-87px)] overflow-y-auto scrollbar-hide'>
         {/* article이 들어갈 section */}
         <section className='mt-5 pl-4'>
           <p className='text-title1 text-grey250'>오늘의 밴드 이야기</p>

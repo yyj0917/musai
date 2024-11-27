@@ -98,7 +98,7 @@ module.exports= {
         },
         '.text-body2': {
           fontSize: '14px',
-          lineHeight: '21px',
+          lineHeight: '18px',
           letterSpacing: '-0.025em',
           fontWeight: '400',
         },

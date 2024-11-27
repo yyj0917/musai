@@ -9,8 +9,8 @@ export default function ProductItem({ product } : any) {
         <div className="w-full flex flex-col">
             <div className="relative w-full aspect-square overflow-hidden">
                 <Image
-                    src={'/img/카피바라.jpg'}
-                    alt={'카피바라'}
+                    src={'/img/깁슨.jpg'}
+                    alt={'깁슨'}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" // 화면 크기에 맞춰 이미지의 사이즈 지정
                     className="object-cover"
