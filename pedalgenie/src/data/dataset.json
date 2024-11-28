@@ -1,0 +1,83 @@
+{
+    "article": [
+      {
+        "id": 1,
+        "image": "/img/article/실리카겔.jpg",
+        "title": "실리카겔",
+        "category": ["밴드", "락"]
+      },
+      {
+        "id": 2,
+        "image": "/img/article/루시.jpg",
+        "title": "루시",
+        "category": ["공연", "현악기밴드"]
+      },
+      {
+        "id": 3,
+        "image": "/img/article/데이식스.jpg",
+        "title": "데이식스 - Welcome to the Show",
+        "category": ["2024", "밴드"]
+      }
+    ],
+    "item": [
+      {
+        "id": 1,
+        "image": "/img/item1.jpg",
+        "shop": "서울낙원악기",
+        "name": "깁슨 레스폴_Gibson Les Paul Studio",
+        "price": "2,730,000원",
+        "chip": ["시연 가능", "구매 가능"]
+      },
+      {
+        "id": 2,
+        "image": "/img/item2.jpg",
+        "shop": "서울낙원악기",
+        "name": "펜더 스트라토캐스터_Fender Stratocaster",
+        "price": "1,900,000원",
+        "chip": ["대여 가능", "구매 가능"]
+      },
+      {
+        "id": 3,
+        "image": "/img/item3.jpg",
+        "shop": "서울낙원악기",
+        "name": "야마하 피아노_Yamaha Upright Piano",
+        "price": "3,500,000원",
+        "chip": ["대여 가능"]
+      }
+    ],
+    "product": [
+      {
+        "id": 1,
+        "image": "/img/product/깁슨.jpg",
+        "shop": "서울낙원악기",
+        "name": "깁슨 레스폴_Gibson Les Paul",
+        "price": "3,200,000원",
+        "chip": ["시연", "구매"]
+      },
+      {
+        "id": 2,
+        "image": "/img/product/깁슨-335.jpg",
+        "shop": "서울낙원악기",
+        "name": "깁슨 ES-335 Block Reissue(Antiqued Finish)",
+        "price": "6,160,000원",
+        "chip": ["시연", "대여"]
+      },
+      {
+        "id": 3,
+        "image": "/img/product/카피바라.jpg",
+        "shop": "호수",
+        "name": "카피바라",
+        "price": "1,500,000원",
+        "chip": ["구매"]
+      },
+      {
+        "id": 4,
+        "image": "/img/product/깁슨 어쿠스틱.jpg",
+        "shop": "서울낙원악기",
+        "name": "깁슨 어쿠스틱기타 Dove/Gibson USA/서울낙원",
+        "price": "3,250,000원",
+        "chip": ["대여", "구매"]
+      }
+    ]
+  }
+  
