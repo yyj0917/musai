@@ -12,7 +12,7 @@ import Heart from "@public/svg/product/heart.svg"
 
 export default function Product() {
     return (
-      <div className="w-full flex flex-col text-grey250">
+      <div className="w-full flex flex-col text-grey250 font-pretendard">
         <TopBar/>
         <div className=""> {/* Overflow-Y 설정해야됨 */}
           <ProductImg/>
