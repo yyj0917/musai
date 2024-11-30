@@ -14,7 +14,7 @@ export default function Product() {
     return (
       <div className="w-full flex flex-col text-grey250 font-pretendard">
         <TopBar/>
-        <div className=""> {/* Overflow-Y 설정해야됨 */}
+        <div className="w-full h-[calc(100vh-48px-87px)] overflow-y-auto scroll-smooth scrollbar-hide">
           <ProductImg/>
           <StoreNameBar/>
           <div className="px-4 py-[14px]">
