@@ -30,6 +30,11 @@ module.exports= {
         grey150: "#F3F3F3",
         grey50: "#FAFAFA",
       },
+      screens: {
+        sm: '375px',
+        lg: '420px',
+      },
+
       fontFamily: {
         pretendard: ["Pretendard", "sans-serif"],
         outfit: ["Outfit", "sans-serif"],
