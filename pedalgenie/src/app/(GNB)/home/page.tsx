@@ -24,7 +24,7 @@ export default function Home() {
         <ArticleSection article={article}/>
         {/* 시연가능한 제품(기준미정) section */}
         <PreviewSection product={product}/>
-        {/* 전체 제품들 카테고리, 앵커링할 section */}
+        {/* 전체 제품들 카테고리, 앵커링할 section - Client Comp.*/}
         <ProductSection product={product}/>
       </main>
     </div>

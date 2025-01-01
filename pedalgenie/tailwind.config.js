@@ -15,7 +15,7 @@ module.exports= {
         // Primary Colors
         black: "#0C0D11",
         ivory: "#E9E7E1",
-        red: "#C1192D",
+        red: "#F1404C",
 
         // Secondary Colors
         white: "#FFFFFF",
@@ -68,55 +68,55 @@ module.exports= {
         '.text-head1': {
           fontSize: '20px',
           lineHeight: '30px',
-          letterSpacing: '-0.025em',
+          letterSpacing: '-0.015em',
           fontWeight: '600',
         },
         '.text-title1': {
           fontSize: '18px',
           lineHeight: '27px',
-          letterSpacing: '-0.025em',
+          letterSpacing: '-0.015em',
           fontWeight: '600',
         },
         '.text-title2': {
           fontSize: '18px',
           lineHeight: '27px',
-          letterSpacing: '-0.025em',
+          letterSpacing: '-0.015em',
           fontWeight: '500',
         },
         '.text-label1': {
           fontSize: '16px',
           lineHeight: '24px',
-          letterSpacing: '-0.025em',
+          letterSpacing: '-0.015em',
           fontWeight: '600',
         },
         '.text-label2': {
           fontSize: '16px',
           lineHeight: '24px',
-          letterSpacing: '-0.025em',
+          letterSpacing: '-0.015em',
           fontWeight: '500',
         },
         '.text-body1': {
           fontSize: '14px',
           lineHeight: '21px',
-          letterSpacing: '-0.025em',
+          letterSpacing: '-0.015em',
           fontWeight: '500',
         },
         '.text-body2': {
           fontSize: '14px',
           lineHeight: '18px',
-          letterSpacing: '-0.025em',
+          letterSpacing: '-0.015em',
           fontWeight: '400',
         },
         '.text-caption1': {
           fontSize: '12px',
           lineHeight: '18px',
-          letterSpacing: '-0.025em',
+          letterSpacing: '-0.015em',
           fontWeight: '500',
         },
         '.text-caption2': {
           fontSize: '12px',
           lineHeight: '18px',
-          letterSpacing: '-0.025em',
+          letterSpacing: '-0.015em',
           fontWeight: '400',
         },
         '.line-clamp-1': {

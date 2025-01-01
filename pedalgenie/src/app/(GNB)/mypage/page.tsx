@@ -6,7 +6,8 @@ import ReserveInfo from "@public/svg/mypage/reserve-info.svg";
 import ChannelTalk from "@public/svg/mypage/channel-talk.svg";
 import ChannelIOScript from "@/utils/channeltalk";
 import { useState } from "react";
-import LoginModal from "./_components/login-modal";
+import LoginModal from "../../../components/login-modal";
+import { useModalStore } from "@/lib/zustand/useModalStore";
 
 
 export default function MyPage() {
@@ -15,14 +16,9 @@ export default function MyPage() {
         'email': 'yyj0917@yonsei.ac.kr',
     }
     const [isUser, setIsUser] = useState(false);
-    const [isOpen, setIsOpen] = useState(false);
+    const { openModal } = useModalStore();
 
-    const openModal = () => {
-        setIsOpen(true);
-    }
-    const closeModal = () => {
-        setIsOpen(false);
-    }
+    
     
     const etc = [
         {
@@ -128,7 +124,7 @@ export default function MyPage() {
                 </div>
             </div>
             {/* LoginModal 컴포넌트 */}
-            <LoginModal isOpen={isOpen} onClose={closeModal} />
+            <LoginModal/>
             {/* ChannelIOScript 컴포넌트 */}
             <ChannelIOScript />
 
