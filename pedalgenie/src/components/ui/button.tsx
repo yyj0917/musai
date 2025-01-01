@@ -15,7 +15,7 @@ const buttonVariants = cva(
         primary:
           '!text-body2 text-grey450 w-auto h-[31px] px-3 py-[5px] rounded',
         secondary:
-          'bg-neutral-100 text-neutral-900 shadow-sm hover:bg-neutral-100/80 dark:bg-neutral-800 dark:text-neutral-50 dark:hover:bg-neutral-800/80',
+          '!text-body1 text-grey150 w-auto h-[44px] rounded-[4px] bg-red',
         filter:
           '!text-white px-3 py-1 w-auto h-[29px] rounded-[20px] border-[1.5px] border-grey750  text-body1',
         chip:

@@ -74,7 +74,7 @@ module.exports= {
         '.text-title1': {
           fontSize: '18px',
           lineHeight: '27px',
-          letterSpacing: '-0.015em',
+          letterSpacing: '-0.045em',
           fontWeight: '600',
         },
         '.text-title2': {

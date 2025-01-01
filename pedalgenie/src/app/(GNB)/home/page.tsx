@@ -13,7 +13,7 @@ import Header from './_components/header';
 
 export default function Home() {
   
-  const { article, product } = dataset;
+  const { article, product, effector } = dataset;
   return (
     <div className="w-full flex flex-col">
       {/* Scroll시 고정되어 있는 header */}
@@ -25,7 +25,7 @@ export default function Home() {
         {/* 시연가능한 제품(기준미정) section */}
         <PreviewSection product={product}/>
         {/* 전체 제품들 카테고리, 앵커링할 section - Client Comp.*/}
-        <ProductSection product={product}/>
+        <ProductSection product={effector}/>
       </main>
     </div>
   );

@@ -41,6 +41,7 @@ const ChannelIOScript = () => {
           ChannelIO('boot', {
             "pluginKey": "b82ad4b8-a7bf-4fd2-a1c3-2cfe0a636620",
             "customLauncherSelector": ".custom",
+            "hideDefaultLauncher": true,
           });
           `,
         }}

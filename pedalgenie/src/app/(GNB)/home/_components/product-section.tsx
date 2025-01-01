@@ -41,7 +41,7 @@ export default function ProductSection({product} : any) {
                             key={index}
                             variant="primary"
                             className={`${
-                                selectedCategory === item ? "bg-white text-black !text-body1" : ""
+                                selectedCategory === item ? "bg-red text-grey150 !text-body1" : ""
                             }`}
                             onClick={() => handleScroll("product-section", item)}
                         >{item}</Button>

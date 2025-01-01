@@ -2,13 +2,26 @@
 import { create } from "zustand";
 
 interface ModalStoreState {
-  isOpen: boolean;
-  openModal: () => void;
-  closeModal: () => void;
+    isLoginOpen: boolean;
+    isLogoutOpen: boolean;
+    isWithdrawOpen: boolean;
+
+    openLoginModal: () => void;
+    closeLoginModal: () => void;
+    openLogoutModal: () => void;
+    closeLogoutModal: () => void;
+    openWithdrawModal: () => void;
+    closeWithdrawModal: () => void;
 }
 
 export const useModalStore = create<ModalStoreState>((set) => ({
-  isOpen: false,
-  openModal: () => set({ isOpen: true }),
-  closeModal: () => set({ isOpen: false }),
+    isLoginOpen: false,
+    isLogoutOpen: false,
+    isWithdrawOpen: false,
+    openLoginModal: () => set({ isLoginOpen: true }),
+    closeLoginModal: () => set({ isLoginOpen: false }),
+    openLogoutModal: () => set({ isLogoutOpen: true }),
+    closeLogoutModal: () => set({ isLogoutOpen: false }),
+    openWithdrawModal: () => set({ isWithdrawOpen: true }),
+    closeWithdrawModal: () => set({ isWithdrawOpen: false }),
 }));

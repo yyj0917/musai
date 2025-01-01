@@ -5,21 +5,21 @@ import Link from 'next/link';
 
 export default function LoginModal() {
 
-    const { isOpen, closeModal } = useModalStore();
+    const { isLoginOpen, closeLoginModal } = useModalStore();
 
 
-    if (!isOpen) return null; // 모달이 열리지 않으면 렌더링하지 않음
+    if (!isLoginOpen) return null; // 모달이 열리지 않으면 렌더링하지 않음
 
     return (
         <div 
             className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-            onClick={closeModal}>
+            onClick={closeLoginModal}>
             <div 
                 className="relative px-5 pt-[50px] pb-6 bg-grey850 text-center w-[90%] max-w-[320px] max-h-[276px] rounded-md shadow-lg"
                 onClick={(e) => e.stopPropagation()}>
                 <button 
                     className='absolute top-5 right-5 text-grey450'
-                    onClick={closeModal}>
+                    onClick={closeLoginModal}>
                     <CloseX/>
                 </button>
                 <div className="flex flex-col justify-center items-center gap-6">
@@ -47,7 +47,6 @@ export default function LoginModal() {
                             로그인
                         </button>
                     </div>
-
                 </div>
             </div>
             
