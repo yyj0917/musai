@@ -13,9 +13,14 @@ module.exports= {
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
+
+        // primary
   			black: '#0C0D11',
   			ivory: '#E9E7E1',
   			red: '#F1404C',
+        darkRed: "#5A2529",
+
+        // secondary
   			white: '#FFFFFF',
   			grey1000: '#1A1A1A',
   			grey850: '#3A3A3A',
@@ -27,6 +32,8 @@ module.exports= {
   			grey250: '#E8E8E8',
   			grey150: '#F3F3F3',
   			grey50: '#FAFAFA',
+
+        // shadcn-ui
   			card: {
   				DEFAULT: 'hsl(var(--card))',
   				foreground: 'hsl(var(--card-foreground))'

@@ -67,7 +67,7 @@ export default function ArticleSection({article} : any) {
         {article.map((_ : any, idx : number) => (
           <div
             key={idx}
-            className={` w-2 h-2 rounded-full transition-all duration-300 ease-in-out
+            className={` w-2 h-2 rounded-full transition-all duration-500 ease-in-out
               ${idx === current-1 ? "w-4 bg-red animate-bubble" : "bg-grey550"}`}
           />
         ))}

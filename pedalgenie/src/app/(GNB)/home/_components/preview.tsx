@@ -34,7 +34,7 @@ export default function Preview({ product }: ProductProps) {
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" // 화면 크기에 맞춰 이미지의 사이즈 지정
                     className="object-fit"
                 />
-            <span className='absolute text-grey550 '>
+            <span className='absolute text-red '>
                 <SaveHeart/>
             </span>
           </div>
