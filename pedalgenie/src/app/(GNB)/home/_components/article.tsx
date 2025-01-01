@@ -8,9 +8,11 @@ type ArticleProps = {
       title: string;
       category: string[];
     };
+    currentIdx: number;
+    articleLength: number;
   };
 
-export default function Article({ article }: ArticleProps) {
+export default function Article({ article, currentIdx, articleLength }: ArticleProps) {
     // Skeleton UI 
     // if (!article) {
     //     return (
@@ -32,12 +34,17 @@ export default function Article({ article }: ArticleProps) {
 
             <div className='absolute left-[22px] bottom-[22px] flex flex-col'>
               <h3 className="text-grey250 text-head1">{article?.title}</h3>
-              <p className="text-grey450 text-body1">
-                  {article?.category.map((cat, index) => (
-                  <span key={index} className="mr-2">
-                      #{cat}
-                  </span>
-                  ))}
+              <p className="w-72 flex justify-between items-center text-grey450 text-body1">
+                <div>
+                    {article?.category.map((cat, index) => (
+                        <span key={index} className="mr-2">
+                            #{cat}
+                        </span>
+                    ))}
+                </div>
+                <span>
+                    {currentIdx}/{articleLength}
+                </span>
               </p>
             </div>
         </article>
