@@ -91,7 +91,7 @@ export default function FilterSpan() {
 
     return (
         <>
-            <span className="pl-4 py-5 w-full flex gap-2">
+            <span className="pl-4 py-3 w-full flex gap-2">
                 {/* Reset Button */}
                 {showResetButton && (
                     <button

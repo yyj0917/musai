@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import ProductItem from "./product";
-import FilterSpan from "./filter-span";
+import FilterSpan from "./(filter)/filter-span";
 
 export default function ProductSection({product} : any) {
     const router = useRouter()
@@ -61,7 +61,7 @@ export default function ProductSection({product} : any) {
     }, []); 
     
 
-    const category =['전체', '기타', '베이스', '키보드', '드럼', '현악기'];
+    const category =['전체', '기타', '베이스', '키보드', '드럼', '관현악'];
 
     const handleCategoryPick = (targetId : any, item : any) => {
         setSelectedCategory(item);
