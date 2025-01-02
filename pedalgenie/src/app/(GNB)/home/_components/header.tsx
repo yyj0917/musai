@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from "@/components/ui/button";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import Search from '@public/svg/search.svg';
 import MainLogo from '@public/svg/main-logo.svg';
@@ -12,18 +12,22 @@ export default function Header() {
         { name: '제품', href: '/home' },
         { name: '매장', href: '/home/shop' },
       ]
+    const router = useRouter();
     const pathname = usePathname();
 
     const isStoreDetailPage = pathname.startsWith('/home/shop/description');
+    const isArticleDetailPage = pathname.startsWith('/home/article');
 
 
     return (
         <header className="w-full flex flex-col">
-          {isStoreDetailPage ? (
+          {isStoreDetailPage || isArticleDetailPage ? (
             <div className="px-4 py-[18px] w-full flex justify-start">
-              <Link href="/home/shop" className="text-grey150">
+              <button 
+                onClick={() => router.back()}
+                className="text-grey150">
                 <LeftArrow/>
-              </Link>
+              </button>
             </div>
             ) :
             (
