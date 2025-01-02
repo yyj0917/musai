@@ -1,11 +1,10 @@
 import { create } from "zustand"
 
-export type NameFilter = "최신순" | "이름순" | "좋아요순"
 
 interface FilterStore {
   // 정렬 기준 (단일)
-  nameFilter: NameFilter
-  setNameFilter: (filter: NameFilter) => void
+  nameFilter: string
+  setNameFilter: (filter: string) => void
 
   // 이용 범위 (복수 선택)
   usageConditions: string[]

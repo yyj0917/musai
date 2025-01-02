@@ -17,7 +17,7 @@ const buttonVariants = cva(
         secondary:
           '!text-body1 text-grey150 w-auto h-[44px] rounded-[4px] bg-red',
         filter:
-          '!text-white px-3 py-1 w-auto h-[29px] rounded-[20px] border-[1.5px] border-grey750  text-body1',
+          '!text-grey150 px-3 py-1 w-auto h-[30px] rounded-[20px] border-[1.5px] border-grey750  text-body1',
         chip:
           'bg-grey850 !text-grey450 text-caption1 px-2 py-1 rounded',
         ghost:

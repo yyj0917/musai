@@ -1,11 +1,9 @@
-"use client"
+"use client";
 
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { NameFilter, useFilterStore } from "@/lib/zustand/useFilterStore";
 import ProductItem from "./product";
-import FilterModal from "./filter-modal";
 import FilterSpan from "./filter-span";
 
 export default function ProductSection({product} : any) {
@@ -13,16 +11,8 @@ export default function ProductSection({product} : any) {
     const searchParams = useSearchParams()
     const initialCategory = searchParams.get("category") || "전체"; // URL에서 바로 카테고리 가져오기
 
-
     const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [filterType, setFilterType] = useState<'name' | 'condition' | 'detail'>('name');
-
-
-    const handleOpenModal = (type: 'name' | 'condition' | 'detail') => {
-        setFilterType(type);
-        setIsModalOpen(true);
-    };
+    
     const updateQueryParam = (key: string, value: string | string[] | null) => {
         const newParams = new URLSearchParams(searchParams.toString())
     
@@ -34,29 +24,42 @@ export default function ProductSection({product} : any) {
           const valueString = Array.isArray(value) ? value.join(",") : value
           newParams.set(key, valueString)
         }
-    
         // URL 업데이트
         router.replace(`?${newParams.toString()}`)
       }
 
-    const handleCloseModal = () => {
-        setIsModalOpen(false);
-    };
+
+    // selectedCategory 변경 시 URL 업데이트
     useEffect(() => {
-        // 초기 로드: URL에서 category 쿼리 파라미터를 읽어 selectedCategory 초기화
+        updateQueryParam("category", selectedCategory);
+    }, [selectedCategory]); 
+
+    // 초기 로드 시 URL category, nameFilter 쿼리파라미터 초기값 설정
+    useEffect(() => {
         const categoryFromURL = searchParams.get("category") || "전체";
+        const nameFromURL = searchParams.get("nameFilter") || "최신순";
         setSelectedCategory(categoryFromURL);
     
-        // URL에 기본값 설정 (category가 없을 경우)
+        // URL에 기본값 설정
+        const newParams = new URLSearchParams(searchParams.toString());
+        let hasUpdated = false;
+
         if (!searchParams.has("category")) {
-            updateQueryParam("category", categoryFromURL);
+            newParams.set("category", categoryFromURL);
+            hasUpdated = true;
         }
-    }, []); // 의존성 배열을 빈 배열로 설정 (한 번만 실행)
+
+        if (!searchParams.has("nameFilter")) {
+            newParams.set("nameFilter", nameFromURL);
+            hasUpdated = true;
+        }
+
+        // URL을 한 번만 업데이트
+        if (hasUpdated) {
+            router.replace(`?${newParams.toString()}`);
+        }
+    }, []); 
     
-    useEffect(() => {
-        // selectedCategory가 변경될 때 URL 업데이트
-        updateQueryParam("category", selectedCategory);
-    }, [selectedCategory]); // selectedCategory 변경 시 실행
 
     const category =['전체', '기타', '베이스', '키보드', '드럼', '현악기'];
 
@@ -85,8 +88,9 @@ export default function ProductSection({product} : any) {
                         >{item}</Button>
                     ))}
                 </nav>
+
                 {/* filter span */}
-                <FilterSpan handleOpenModal={handleOpenModal}/>
+                <FilterSpan/>
                 
                 <main className="w-full grid grid-cols-2 gap-[2px]">
                     {product.map((product: any, index: number) => (
@@ -97,7 +101,6 @@ export default function ProductSection({product} : any) {
                     ))}
                     
                 </main>
-                <FilterModal isOpen={isModalOpen} onClose={handleCloseModal} filterType={filterType} />
             </div>
         </section>
     )

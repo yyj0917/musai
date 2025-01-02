@@ -6,7 +6,8 @@ import clsx from 'clsx';
 import Check from '@public/svg/home/check.svg';
 import { useFilterStore } from '@/lib/zustand/useFilterStore';
 
-type NameFilter = "최신순" | "이름순" | "좋아요순";
+import dataset from '@/data/dataset.json';
+
 
 
 interface FilterModalProps {
@@ -20,9 +21,11 @@ export default function FilterModal({ isOpen, onClose, filterType }: FilterModal
   const searchParams = useSearchParams()
   const [isBrowser, setIsBrowser] = useState(false);
 
-  const [isActiveCondition, setIsActiveCondition] = useState<string[]>([])
-  const [isCategoryActiveName, setIsCategoryActiveName] = useState<string | null>(null)
-  const [isCategoryActiveDetail, setIsCategoryActiveDetail] = useState<string | null>(null)
+  // const [subCategories, setSubCategories] = useState<string[]>([]);
+
+  const [isActiveCondition, setIsActiveCondition] = useState<string[]>([]);
+  const [isCategoryActiveName, setIsCategoryActiveName] = useState<string | null>(null);
+  const [isActiveDetail, setIsActiveDetail] = useState<string[]>([]);
 
   const {
     nameFilter,
@@ -54,7 +57,6 @@ export default function FilterModal({ isOpen, onClose, filterType }: FilterModal
 
   useEffect(() => {
     setIsBrowser(true);
-    updateQueryParam("nameFilter", nameFilter);
   }, []);
 
   // 활성화된 필터 상태를 URL 쿼리 파라미터에서 가져와 적용
@@ -87,7 +89,7 @@ export default function FilterModal({ isOpen, onClose, filterType }: FilterModal
   
 
 
-  // ==================== (예시) 정렬 기준 ====================
+  // ==================== 정렬 기준 ====================
   const nameFilters = ["최신순", "이름순", "좋아요순"] as const
 
   const handleSelectName = (filter: typeof nameFilters[number]) => {
@@ -98,7 +100,7 @@ export default function FilterModal({ isOpen, onClose, filterType }: FilterModal
     // fetchFilteredData({ nameFilter: filter, ... })
   }
 
-  // ==================== (예시) 이용 조건 ====================
+  // ==================== 이용 조건 ====================
   const conditionOptions = ["시연가능", "대여가능", "구매가능"]
 
   const handleToggleCondition = (condition: string) => {
@@ -114,16 +116,29 @@ export default function FilterModal({ isOpen, onClose, filterType }: FilterModal
     resetUsageConditions()
     setIsActiveCondition([])
     updateQueryParam("usageConditions", null)
-
   }
 
-  // ==================== (예시) 세부 종류 ====================
-  const detailOptions = ["일렉 기타", "어쿠스틱 기타", "클래식 기타"]
+  // ==================== 세부 종류 ====================  
+  // Subcategories 가져오기
+  const selectedCategory = searchParams.get("category");
+  const category = dataset.categories.find(
+    (cat) => cat.title === selectedCategory
+  );
+  const subCategories = category?.subcategories || [];
 
-  const handleConfirmDetail = () => {
-    handleClose()
-    // 필요하면 여기서 API 호출
-    // fetchFilteredData({ detailFilters, ... })
+  const handleToggleDetail = (details: string) => {
+    toggleDetailFilter(details)
+    const updatedDetails = isActiveDetail.includes(details)
+      ? isActiveDetail.filter((c) => c !== details)
+      : [...isActiveDetail, details]
+
+    setIsActiveDetail(updatedDetails)
+    updateQueryParam("detailFilters", updatedDetails)
+  }
+  const handleResetDetail = () => {
+    resetDetailFilters();
+    setIsActiveDetail([]);
+    updateQueryParam("detailFilters", null);
   }
 
   return (
@@ -202,12 +217,36 @@ export default function FilterModal({ isOpen, onClose, filterType }: FilterModal
           </div>
         )}
         {filterType === 'detail' && (
-          <div>
-            <h2 className="text-lg font-semibold mb-4">세부 종류</h2>
-            <button className="block w-full py-2">일반 기타</button>
-            <button className="block w-full py-2">어쿠스틱 기타</button>
-            <button className="block w-full py-2">클래식 기타</button>
-          </div>
+          <div className='w-full flex flex-col items-start gap-6'>
+            <h2 className="text-title1 !text-white">카테고리</h2>
+            <div className='w-full flex flex-wrap items-start gap-2'>
+              {subCategories?.map((detail) => {
+                const isActive = isActiveDetail.includes(detail)
+                return (
+                  <div
+                    key={detail}
+                    className="flex items-center"
+                  >
+                    <Button
+                      variant={"filter"}
+                      className={clsx("py-2 text-body2", {
+                        "bg-darkRed border-red": isActive,
+                        "": !isActive,
+                      })}
+                      onClick={() => handleToggleDetail(detail)}>
+                      {detail}
+                    </Button>
+                  </div>
+                )
+              })}
+            </div>
+            <div className='w-full flex gap-2'>
+                <Button variant={'custom'} className='flex-1 bg-grey750'
+                  onClick={() => handleResetDetail()}>초기화</Button>
+                <Button variant={'custom'} className='w-[70%] bg-red'
+                  onClick={handleClose}>확인</Button>
+            </div>
+        </div>
         )}
       </div>
       <style jsx>{`
