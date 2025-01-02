@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import ProductItem from './product';
 import FilterSpan from './(filter)/filter-span';
+import { useFilterStore } from '@/lib/zustand/useFilterStore';
 
 
 export default function ProductSection({ effector }: EffectorProps) {
@@ -13,6 +14,12 @@ export default function ProductSection({ effector }: EffectorProps) {
   const initialCategory = searchParams.get('category') || '전체'; // URL에서 바로 카테고리 가져오기
 
   const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory);
+
+  const {
+    setNameFilter,
+    resetUsageConditions,
+    resetDetailFilters,
+  } = useFilterStore();
 
   // 의존성 관리 useCallback
   const updateQueryParam = useCallback((key: string, value: string | string[] | null) => {
@@ -27,9 +34,25 @@ export default function ProductSection({ effector }: EffectorProps) {
     router.replace(`?${newParams.toString()}`);
   }, [searchParams, router]);
   
+  // 카테고리 변경
   useEffect(() => {
-    updateQueryParam('category', selectedCategory);
-  }, [selectedCategory, updateQueryParam]);
+    const currentCategory = searchParams.get('category') || '전체';
+
+    if (currentCategory !== selectedCategory) {
+        const newParams = new URLSearchParams();
+
+        // 카테고리와 기본 필터 초기화
+        newParams.set('category', selectedCategory);
+        newParams.set('nameFilter', '최신순');
+        newParams.delete('usageCondition');
+        newParams.delete('detailFilter');
+        resetUsageConditions();
+        resetDetailFilters();
+        // URL 업데이트
+        router.replace(`?${newParams.toString()}`);
+        }
+
+  }, [selectedCategory, router, searchParams]);
 
   // 초기 로드 시 URL category, nameFilter 쿼리파라미터 초기값 설정
   useEffect(() => {
@@ -61,6 +84,7 @@ export default function ProductSection({ effector }: EffectorProps) {
 
   const handleCategoryPick = (targetId: string, item: string) => {
     setSelectedCategory(item);
+
     const targetSection = document.getElementById(targetId);
     const mainContainer = document.getElementById('main');
     if (targetSection && mainContainer) {
@@ -89,9 +113,6 @@ export default function ProductSection({ effector }: EffectorProps) {
         <main className="w-full grid grid-cols-2 gap-[2px]">
           {effector.map((effectorItem : Effector, index: number) => (
             <ProductItem key={index} effector={effectorItem} />
-            // <section key={index} className="w-full flex gap-[2px]">
-            //     <ProductItem/>
-            // </section>
           ))}
         </main>
       </div>
