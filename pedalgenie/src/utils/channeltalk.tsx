@@ -1,9 +1,8 @@
-
 const ChannelIOScript = () => {
-    return (
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `(function() {
+  return (
+    <script
+      dangerouslySetInnerHTML={{
+        __html: `(function() {
             var w = window;
             if (w.ChannelIO) {
               return (window.console.error || window.console.log || function(){})('ChannelIO script included twice.');
@@ -44,9 +43,9 @@ const ChannelIOScript = () => {
             "hideDefaultLauncher": true,
           });
           `,
-        }}
-      />
-    );
-  };
-  
-  export default ChannelIOScript;
+      }}
+    />
+  );
+};
+
+export default ChannelIOScript;
