@@ -20,6 +20,7 @@ type EffectorProps = {
 type ProductProps = {
     product : Product[];
 };
+
 type Article = {
     id : number;
     image : string;
@@ -29,3 +30,8 @@ type Article = {
 type ArticleProps = {
     article : Article[];
 };
+
+type FilterProps = {
+    isOpen : boolean;
+    onClose : () => void;
+}

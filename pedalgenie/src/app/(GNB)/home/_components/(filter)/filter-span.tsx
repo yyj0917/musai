@@ -4,11 +4,11 @@ import { Button } from '@/components/ui/button';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import { useEffect, useState, useMemo } from 'react';
-
-import FilterModal from './filter-modal';
-
 import DownArrow from '@public/svg/home/down-arrow.svg';
 import Initiate from '@public/svg/home/initiate.svg';
+import FilterName from './filter-name';
+import FilterCondition from './filter-condition';
+import FilterDetail from './filter-detail';
 
 export default function FilterSpan() {
   const router = useRouter();
@@ -72,7 +72,6 @@ export default function FilterSpan() {
     router.replace(`?${newParams.toString()}`); // URL 갱신
     setShowResetButton(false); // 새로고침 버튼 숨김
   };
-  console.log(showResetButton);
 
   const detailLabel = () => {
     // 선택된 세부 종류 배열
@@ -138,8 +137,17 @@ export default function FilterSpan() {
           </div>
         </Button>
       </span>
-      {/* Type에 따른 FilterModal */}
-      <FilterModal isOpen={isModalOpen} onClose={handleCloseModal} filterType={filterType} />
+        {/* Type에 따른 FilterModal */}
+        {filterType === 'name' && (
+            <FilterName isOpen={isModalOpen} onClose={handleCloseModal}/>)}
+        
+        {filterType === 'condition' && (
+            <FilterCondition isOpen={isModalOpen} onClose={handleCloseModal}/>)}
+        
+        {filterType === 'detail' && (
+            <FilterDetail isOpen={isModalOpen} onClose={handleCloseModal}/>)}
+
+        {/* <FilterModal isOpen={isModalOpen} onClose={handleCloseModal} filterType={filterType} /> */}
     </>
   );
 }
