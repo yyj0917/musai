@@ -16,6 +16,9 @@ export default function ProductSection({ effector }: EffectorProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory);
 
   const {
+    setIsActiveCondition,
+    setIsCategoryActiveName,
+    setIsActiveDetail,
     setNameFilter,
     resetUsageConditions,
     resetDetailFilters,
@@ -48,6 +51,8 @@ export default function ProductSection({ effector }: EffectorProps) {
         newParams.delete('detailFilter');
         resetUsageConditions();
         resetDetailFilters();
+        setIsActiveCondition([]);
+        setIsActiveDetail([]);
         // URL 업데이트
         router.replace(`?${newParams.toString()}`);
         }

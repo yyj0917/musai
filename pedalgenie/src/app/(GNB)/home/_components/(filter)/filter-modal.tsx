@@ -20,13 +20,14 @@ export default function FilterModal({ isOpen, onClose, filterType }: FilterModal
   const searchParams = useSearchParams();
   const [isBrowser, setIsBrowser] = useState(false);
 
-  // const [subCategories, setSubCategories] = useState<string[]>([]);
-
-  const [isActiveCondition, setIsActiveCondition] = useState<string[]>([]);
-  const [isCategoryActiveName, setIsCategoryActiveName] = useState<string | null>(null);
-  const [isActiveDetail, setIsActiveDetail] = useState<string[]>([]);
 
   const {
+    isActiveCondition,
+    isCategoryActiveName,
+    isActiveDetail,
+    setIsActiveCondition,
+    setIsCategoryActiveName,
+    setIsActiveDetail,
     setNameFilter,
     toggleUsageCondition,
     resetUsageConditions,

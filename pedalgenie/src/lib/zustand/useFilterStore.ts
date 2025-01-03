@@ -14,12 +14,25 @@ interface FilterStore {
   detailFilters: string[];
   toggleDetailFilter: (detail: string) => void;
   resetDetailFilters: () => void;
+
+  // 현재 Active된 필터들 state
+  isActiveCondition: string[];
+  setIsActiveCondition: (conditions: string[]) => void;
+
+  isCategoryActiveName: string | null;
+  setIsCategoryActiveName: (categoryName: string | null) => void;
+
+  isActiveDetail: string[];
+  setIsActiveDetail: (details: string[]) => void;
 }
 
 export const useFilterStore = create<FilterStore>((set, get) => ({
   nameFilter: '최신순',
   usageConditions: [],
   detailFilters: [],
+  isActiveCondition: [],
+  isCategoryActiveName: null,
+  isActiveDetail: [],
 
   setNameFilter: (filter) => {
     set({ nameFilter: filter });
@@ -57,5 +70,17 @@ export const useFilterStore = create<FilterStore>((set, get) => ({
   },
   resetDetailFilters: () => {
     set({ detailFilters: [] });
+  },
+  // 추가 상태 메서드
+  setIsActiveCondition: (conditions) => {
+    set({ isActiveCondition: conditions });
+  },
+
+  setIsCategoryActiveName: (categoryName) => {
+    set({ isCategoryActiveName: categoryName });
+  },
+
+  setIsActiveDetail: (details) => {
+    set({ isActiveDetail: details });
   },
 }));
