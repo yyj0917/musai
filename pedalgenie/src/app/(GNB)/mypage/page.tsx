@@ -16,6 +16,7 @@ import LogoutModal from '@/components/logout-modal';
 import WithdrawModal from '@/components/withdraw-modal';
 
 export default function MyPage() {
+
   const tmpUser = {
     name: '윤영준',
     email: 'yyj0917@yonsei.ac.kr',
