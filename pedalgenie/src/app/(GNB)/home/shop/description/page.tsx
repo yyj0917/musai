@@ -3,6 +3,7 @@ import Clock from '@public/svg/home/shop/shop-clock.svg';
 import Phone from '@public/svg/home/shop/shop-phone.svg';
 import Location from '@public/svg/home/shop/shop-location.svg';
 import ShopProductSection from './_components/shop-product-section';
+// import { Heart } from 'lucide-react';
 
 export default function ShopDescription() {
   return (
@@ -15,6 +16,7 @@ export default function ShopDescription() {
         </div>
         <span className="text-red">
           <SaveHeart />
+          {/* <Heart strokeWidth={1.5}/> */}
         </span>
       </div>
       {/* Shop Operation */}

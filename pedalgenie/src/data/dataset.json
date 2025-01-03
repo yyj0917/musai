@@ -343,5 +343,129 @@
       "title": "관현악",
       "subcategories": ["바이올린", "비올라", "첼로", "콘트라베이스", "금관 악기", "목관 악기", "그 외"]
     }
+  ],
+  "likeProduct": [
+    {
+      "id": 1,
+      "image": "/img/product/깁슨.jpg",
+      "shop": "서울낙원악기",
+      "name": "깁슨 레스폴_Gibson Les Paul",
+      "price": "3,200,000원",
+      "chip": ["시연", "구매"],
+      "like": true
+    },
+    {
+      "id": 2,
+      "image": "/img/product/깁슨-335.jpg",
+      "shop": "서울낙원악기",
+      "name": "깁슨 ES-335 Block Reissue(Antiqued Finish)",
+      "price": "6,160,000원",
+      "chip": ["시연", "대여"],
+      "like": true
+
+    },
+    {
+      "id": 3,
+      "image": "/img/product/깁슨 어쿠스틱.jpg",
+      "shop": "서울낙원악기",
+      "name": "깁슨 어쿠스틱기타 Dove/Gibson USA/서울낙원",
+      "price": "3,250,000원",
+      "chip": ["대여", "구매"],
+      "like": true
+    },
+    {
+      "id": 4,
+      "image": "/img/product/깁슨.jpg",
+      "shop": "서울낙원악기",
+      "name": "깁슨 레스폴_Gibson Les Paul",
+      "price": "3,200,000원",
+      "chip": ["시연", "구매"],
+      "like": true
+    },
+    {
+      "id": 5,
+      "image": "/img/product/깁슨-335.jpg",
+      "shop": "서울낙원악기",
+      "name": "깁슨 ES-335 Block Reissue(Antiqued Finish)",
+      "price": "6,160,000원",
+      "chip": ["시연", "대여"],
+      "like": true
+
+    },
+    {
+      "id": 6,
+      "image": "/img/product/깁슨 어쿠스틱.jpg",
+      "shop": "서울낙원악기",
+      "name": "깁슨 어쿠스틱기타 Dove/Gibson USA/서울낙원",
+      "price": "3,250,000원",
+      "chip": ["대여", "구매"],
+      "like": true
+    },
+    {
+      "id": 7,
+      "image": "/img/product/깁슨.jpg",
+      "shop": "서울낙원악기",
+      "name": "깁슨 레스폴_Gibson Les Paul",
+      "price": "3,200,000원",
+      "chip": ["시연", "구매"],
+      "like": true
+    },
+    {
+      "id": 8,
+      "image": "/img/product/깁슨-335.jpg",
+      "shop": "서울낙원악기",
+      "name": "깁슨 ES-335 Block Reissue(Antiqued Finish)",
+      "price": "6,160,000원",
+      "chip": ["시연", "대여"],
+      "like": true
+
+    },
+    {
+      "id": 9,
+      "image": "/img/product/깁슨 어쿠스틱.jpg",
+      "shop": "서울낙원악기",
+      "name": "깁슨 어쿠스틱기타 Dove/Gibson USA/서울낙원",
+      "price": "3,250,000원",
+      "chip": ["대여", "구매"],
+      "like": true
+    }
+  ],
+  "likeShop" :[
+    {
+      "id": 1,
+      "image": "/img/shop-tmp.jpg",
+      "shop": "서울낙원악기",
+      "like": true
+    },
+    {
+      "id": 2,
+      "image": "/img/shop-tmp.jpg",
+      "shop": "서울뮤즈",
+      "like": true
+    },
+    {
+      "id": 3,
+      "image": "/img/shop-tmp.jpg",
+      "shop": "서울낙원을걷는악기",
+      "like": true
+    },
+    {
+      "id": 4,
+      "image": "/img/shop-tmp.jpg",
+      "shop": "서울낙원악기",
+      "like": true
+    },
+    {
+      "id": 5,
+      "image": "/img/shop-tmp.jpg",
+      "shop": "서울뮤즈",
+      "like": true
+    },
+    {
+      "id": 6,
+      "image": "/img/shop-tmp.jpg",
+      "shop": "서울낙원을걷는악기",
+      "like": true
+    }
   ]
 }

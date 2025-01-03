@@ -17,6 +17,7 @@ export default function Header() {
 
   const isStoreDetailPage = pathname.startsWith('/home/shop/description');
   const isArticleDetailPage = pathname.startsWith('/home/article');
+  const isSaveListPage = pathname.startsWith('/saveList');
 
   return (
     <header className="w-full flex flex-col">
@@ -32,7 +33,9 @@ export default function Header() {
             <Link href={'/'}>
               <MainLogo />
             </Link>
-            <Search />
+            {!isSaveListPage && (
+              <Search />
+            )}
           </div>
           <div className="pl-4 flex gap-4 text-head1 border-b-[0.5px] border-grey750">
             {link.map((link) => (
