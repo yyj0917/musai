@@ -59,9 +59,7 @@ export default function FilterDetail({ isOpen, onClose }: FilterProps) {
     return null;
   }
 
-  const handleClose = () => {
-    onClose();
-  };
+  
 
   // ==================== 세부 종류 ====================
   // Subcategories 가져오기
@@ -76,18 +74,23 @@ export default function FilterDetail({ isOpen, onClose }: FilterProps) {
       : [...isActiveDetail, details];
 
     setIsActiveDetail(updatedDetails);
-    updateQueryParam('detailFilters', updatedDetails);
   };
   const handleResetDetail = () => {
     resetDetailFilters();
     setIsActiveDetail([]);
     updateQueryParam('detailFilters', null);
   };
+  // 확인 시 필터변경
+  const handleClose = () => {
+    onClose();
+    updateQueryParam('detailFilters', isActiveDetail);
+
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center bg-black bg-opacity-50" onClick={handleClose}>
       <div
-        className="bg-grey850 px-4 pt-5 pb-6 rounded-t-2xl rounded-b-none w-[375px] transition-transform duration-300 transform translate-y-0"
+        className="bg-grey850 px-4 pt-5 pb-6 rounded-t-2xl rounded-b-none min-w-[360px] max-w-[415px] lg:max-w-[375px] transition-transform duration-300 transform translate-y-0"
         onClick={(e) => e.stopPropagation()} // 모달 안쪽 클릭 시 닫히지 않도록
         style={{ animation: `${isOpen ? 'slideUp' : 'slideDown'} 0.3s ease-in-out` }}>
         {/* ================ 필터 타입: 세부종류 (detail) ================ */}
