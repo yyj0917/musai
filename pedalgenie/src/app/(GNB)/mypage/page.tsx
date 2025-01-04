@@ -76,7 +76,7 @@ export default function MyPage() {
           {isUser && <p className="text-body1 text-grey550">보기</p>}
         </Link>
         <button
-          className="custom flex flex-col items-center justify-center w-1/2 gap-1 text-grey150"
+          className="custom-channeltalk flex flex-col items-center justify-center w-1/2 gap-1 text-grey150"
           onClick={showMessenger}>
           <ChannelTalk />
           <p className="text-body1">1:1 채널톡</p>

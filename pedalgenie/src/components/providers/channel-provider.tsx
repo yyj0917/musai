@@ -13,7 +13,9 @@ export function ChannelProvider({ children }: ChannelProviderProps) {
         <ReactChannelIO 
             pluginKey={'b82ad4b8-a7bf-4fd2-a1c3-2cfe0a636620'} 
             language="ko" 
-            autoBoot={false}>
+            autoBoot
+            customLauncherSelector='.custom-channeltalk'
+            hideChannelButtonOnBoot={true}>
         {children}
         </ReactChannelIO>
     );
