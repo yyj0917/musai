@@ -32,18 +32,22 @@ export default function ArticleSection({ article }: ArticleProps) {
       {/* shadcn-ui Carousel 사용 */}
       <Carousel
         className="mt-3 w-full h-80"
+        opts={{
+          loop: true,
+        }}
         setApi={setApi}
         plugins={[
           Autoplay({
             delay: 4000, // 2초마다 넘어가도록
           }),
-        ]}>
+        ]}
+        >
         {/* 마지막 아티클 오른쪽 마진 추가하는 거 + 다른 아티클 겹쳐보이는 거 확실히 하기 */}
-        <CarouselContent>
+        <CarouselContent className=''>
           {article.map((item: Article, index: number) => (
             <CarouselItem
               key={index}
-              className={`flex-shrink-0 min-w-80 h-80 ${index === article.length - 1 ? 'pr-4' : ''}`}>
+              className={`flex-shrink-0 min-w-80 h-80 ${index === article.length - 1 ? 'mr-[10px]' : ''}`}>
               <Article currentIdx={index + 1} articleLength={count} article={item} />
             </CarouselItem>
           ))}
