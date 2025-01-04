@@ -467,5 +467,49 @@
       "shop": "서울낙원을걷는악기",
       "like": true
     }
+  ],
+  "tmpShop" : [
+    {
+      "id": 1,
+      "image": "/img/search-shop-tmp.jpg",
+      "shop": "서울낙원악기",
+      "info": "밴드악기전문",
+      "like": false
+    },
+    {
+      "id": 2,
+      "image": "/img/search-shop-tmp.jpg",
+      "shop": "서울뮤즈",
+      "info": "밴드악기전문",
+      "like": true
+    },
+    {
+      "id": 3,
+      "image": "/img/search-shop-tmp.jpg",
+      "shop": "서울낙원을걷는악기",
+      "info": "밴드악기전문",
+      "like": true
+    },
+    {
+      "id": 4,
+      "image": "/img/search-shop-tmp.jpg",
+      "shop": "서울낙원악기",
+      "info": "밴드악기전문",
+      "like": false
+    },
+    {
+      "id": 5,
+      "image": "/img/search-shop-tmp.jpg",
+      "shop": "서울뮤즈",
+      "info": "밴드악기전문",
+      "like": false
+    },
+    {
+      "id": 6,
+      "image": "/img/search-shop-tmp.jpg",
+      "shop": "서울낙원을걷는악기",
+      "info": "밴드악기전문",
+      "like": false
+    }
   ]
 }

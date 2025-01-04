@@ -10,7 +10,7 @@ export default function Home() {
   // data api로 불러올 부분
 
   return (
-    <main id="main" className="w-full h-[calc(100vh-88.5px-87px)] overflow-y-auto scrollbar-hide">
+    <main id="main" className="w-full h-[calc(100dvh-88.5px-87px)] overflow-y-auto scrollbar-hide">
       {/* article이 들어갈 section */}
       <ArticleSection article={article} />
       {/* 시연가능한 제품(기준미정) section */}

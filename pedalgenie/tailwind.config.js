@@ -175,6 +175,7 @@ module.exports = {
           '-webkit-box-orient': 'vertical',
           '-webkit-line-clamp': '1',
           overflow: 'hidden',
+          textOverflow: 'ellipsis',
         },
       };
 

@@ -7,7 +7,7 @@ import ShopProductSection from './_components/shop-product-section';
 
 export default function ShopDescription() {
   return (
-    <div className="w-full h-[calc(100vh-50px-87px)] flex flex-col overflow-y-auto scrollbar-hide">
+    <div className="w-full h-[calc(100dvh-50px-87px)] flex flex-col overflow-y-auto scrollbar-hide">
       {/* Shop Banner */}
       <div className="px-4 py-7 w-full min-h-[220px] bg-grey750 flex justify-between items-start">
         <div className="max-w-[250px] flex flex-col gap-1">
