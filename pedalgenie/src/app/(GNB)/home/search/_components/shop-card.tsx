@@ -1,6 +1,6 @@
-import { Heart } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
+import { Heart } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
 
 type ShopCardProps = {
     shop: {
@@ -25,7 +25,7 @@ export default function ShopCard({ shop } : ShopCardProps) {
         <Heart 
             strokeWidth={1.5} 
             className={`${
-                shop.like ? "fill-red" : ""
+                shop.like ? 'fill-red' : ''
             } text-red`} />
         </article>
     </Link>

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import LeftArrow from '@public/svg/home/shop/shop-leftarrow.svg';
 import SearchIcon from '@public/svg/search.svg';
@@ -16,7 +16,7 @@ export default function Search() {
         if (searchQuery) {
             router.push(`/search?query=${searchQuery}`);
         }
-    }
+    };
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
             handleSearch(); // 엔터 키를 누르면 handleSearch 호출
@@ -51,5 +51,5 @@ export default function Search() {
                 </div>
             )}
         </div>
-    )
+    );
 }

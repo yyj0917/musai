@@ -1,7 +1,7 @@
-import { Suspense } from "react";
-import FilterSpan from "../../_components/(filter)/filter-span";
+import { Suspense } from 'react';
+import FilterSpan from '../../_components/(filter)/filter-span';
 import dataset from '@/data/dataset.json';
-import ProductItem from "../../_components/product";
+import ProductItem from '../../_components/product';
 
 
 export default function SearchedProduct() {
