@@ -3,10 +3,16 @@ import { Suspense } from 'react';
 import ProductSection from './_components/product-section';
 import ArticleSection from './_components/article-section';
 import PreviewSection from './_components/preview-section';
+import { fetchArticles } from '@/lib/api/article';
+import { fetchProductGenre } from '@/lib/api/(product)/product-genre';
 
-export default function Home() {
+export default async function Home() {
   const { article, product, effector } = dataset;
 
+  // // 아티클 목록 조회
+  // const articleList = await fetchArticles();
+  // // 시연해볼 수 있는 장르별 악기 조회
+  // const productGenre = await fetchProductGenre('guitar');
   // data api로 불러올 부분
 
   return (
