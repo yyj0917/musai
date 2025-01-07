@@ -25,7 +25,7 @@ export default function Search() {
 
     return (
         <div className="w-full h-full">
-            <div className='px-4 py-[18px] w-full h-15 flex items-center'>
+            <div className='px-4 py-2 w-full h-15 flex items-center'>
                 <button onClick={() => router.back()} className='w-6 h-6 flex justify-center items-center text-grey150'>
                     <LeftArrow/>
                 </button>

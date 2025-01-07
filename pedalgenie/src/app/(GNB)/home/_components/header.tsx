@@ -2,10 +2,13 @@
 
 import { Button } from '@/components/ui/button';
 import { usePathname, useRouter } from 'next/navigation';
+
 import Link from 'next/link';
 import Search from '@public/svg/search.svg';
 import MainLogo from '@public/svg/main-logo.svg';
 import LeftArrow from '@public/svg/home/shop/shop-leftarrow.svg';
+import { useScrollStore } from '@/lib/zustand/useScrollStore';
+import { useEffect } from 'react';
 
 export default function Header() {
   const link = [
@@ -14,6 +17,9 @@ export default function Header() {
   ];
   const router = useRouter();
   const pathname = usePathname();
+
+  const isHeaderVisible = useScrollStore((state) => state.isHeaderVisible);
+
 
   const isStoreDetailPage = pathname.startsWith('/home/shop/description');
   const isArticleDetailPage = pathname.startsWith('/home/article');
@@ -24,7 +30,11 @@ export default function Header() {
     return null;
   }
   return (
-    <header className="w-full flex flex-col">
+    <header
+      id='main-header'
+      className={`w-full flex flex-col transition-transform duration-300 ease-in-out ${
+        isHeaderVisible ? 'transform translate-y-0' : 'transform -translate-y-full'
+      }`}>
       {isStoreDetailPage || isArticleDetailPage ? (
         <div className="px-4 py-[18px] w-full flex justify-start">
           <button onClick={() => router.back()} className="text-grey150">
