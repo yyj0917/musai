@@ -14,9 +14,7 @@
   ],
   "overrides": [
     {
-      "files": [
-        "**/components/ui/*.tsx"
-      ],
+      "files": ["**/components/ui/*.tsx"],
       "rules": {
         "react/prop-types": "off",
         "react-refresh/only-export-components": "off"
@@ -28,11 +26,7 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": [
-    "react",
-    "@typescript-eslint",
-    "prettier"
-  ],
+  "plugins": ["react", "@typescript-eslint", "prettier"],
   "rules": {
     "react/react-in-jsx-scope": "off",
     "no-unused-vars": "off",
@@ -44,18 +38,10 @@
         "printWidth": 120
       }
     ],
-    "linebreak-style": [
-      "error",
-      "unix"
-    ],
-    "quotes": [
-      "error",
-      "single"
-    ],
-    "semi": [
-      "error",
-      "always"
-    ]
+    "linebreak-style": ["error", "unix"],
+    "quotes": ["error", "single"],
+    "semi": ["error", "always"]
   }
 }
+
 // 출처 : slyce

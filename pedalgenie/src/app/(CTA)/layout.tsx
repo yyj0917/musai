@@ -1,5 +1,4 @@
-import CTA from "@/components/ui/cta";
-
+import CTA from '@/components/ui/cta';
 
 export default function CTALayout({
   children,
@@ -8,8 +7,8 @@ export default function CTALayout({
 }>) {
   return (
     <div className="relative w-full h-full">
-        {children}
-        <CTA/>
+      {children}
+      <CTA />
     </div>
   );
 }

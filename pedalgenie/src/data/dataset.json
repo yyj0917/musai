@@ -1,83 +1,515 @@
 {
-    "article": [
-      {
-        "id": 1,
-        "image": "/img/article/실리카겔.jpg",
-        "title": "실리카겔",
-        "category": ["밴드", "락"]
-      },
-      {
-        "id": 2,
-        "image": "/img/article/루시.jpg",
-        "title": "루시",
-        "category": ["공연", "현악기밴드"]
-      },
-      {
-        "id": 3,
-        "image": "/img/article/데이식스.jpg",
-        "title": "데이식스 - Welcome to the Show",
-        "category": ["2024", "밴드"]
-      }
-    ],
-    "item": [
-      {
-        "id": 1,
-        "image": "/img/item1.jpg",
-        "shop": "서울낙원악기",
-        "name": "깁슨 레스폴_Gibson Les Paul Studio",
-        "price": "2,730,000원",
-        "chip": ["시연 가능", "구매 가능"]
-      },
-      {
-        "id": 2,
-        "image": "/img/item2.jpg",
-        "shop": "서울낙원악기",
-        "name": "펜더 스트라토캐스터_Fender Stratocaster",
-        "price": "1,900,000원",
-        "chip": ["대여 가능", "구매 가능"]
-      },
-      {
-        "id": 3,
-        "image": "/img/item3.jpg",
-        "shop": "서울낙원악기",
-        "name": "야마하 피아노_Yamaha Upright Piano",
-        "price": "3,500,000원",
-        "chip": ["대여 가능"]
-      }
-    ],
-    "product": [
-      {
-        "id": 1,
-        "image": "/img/product/깁슨.jpg",
-        "shop": "서울낙원악기",
-        "name": "깁슨 레스폴_Gibson Les Paul",
-        "price": "3,200,000원",
-        "chip": ["시연", "구매"]
-      },
-      {
-        "id": 2,
-        "image": "/img/product/깁슨-335.jpg",
-        "shop": "서울낙원악기",
-        "name": "깁슨 ES-335 Block Reissue(Antiqued Finish)",
-        "price": "6,160,000원",
-        "chip": ["시연", "대여"]
-      },
-      {
-        "id": 3,
-        "image": "/img/product/카피바라.jpg",
-        "shop": "호수",
-        "name": "카피바라",
-        "price": "1,500,000원",
-        "chip": ["구매"]
-      },
-      {
-        "id": 4,
-        "image": "/img/product/깁슨 어쿠스틱.jpg",
-        "shop": "서울낙원악기",
-        "name": "깁슨 어쿠스틱기타 Dove/Gibson USA/서울낙원",
-        "price": "3,250,000원",
-        "chip": ["대여", "구매"]
-      }
-    ]
-  }
-  
+  "article": [
+    {
+      "id": 1,
+      "image": "/img/article/실리카겔.jpg",
+      "title": "실리카겔",
+      "category": ["밴드", "락"]
+    },
+    {
+      "id": 2,
+      "image": "/img/article/루시.jpg",
+      "title": "루시",
+      "category": ["공연", "현악기밴드"]
+    },
+    {
+      "id": 3,
+      "image": "/img/article/데이식스.jpg",
+      "title": "데이식스",
+      "category": ["2024", "밴드"]
+    }
+  ],
+  "item": [
+    {
+      "id": 1,
+      "image": "/img/item1.jpg",
+      "shop": "서울낙원악기",
+      "name": "깁슨 레스폴_Gibson Les Paul Studio",
+      "price": "2,730,000원",
+      "chip": ["시연 가능", "구매 가능"]
+    },
+    {
+      "id": 2,
+      "image": "/img/item2.jpg",
+      "shop": "서울낙원악기",
+      "name": "펜더 스트라토캐스터_Fender Stratocaster",
+      "price": "1,900,000원",
+      "chip": ["대여 가능", "구매 가능"]
+    },
+    {
+      "id": 3,
+      "image": "/img/item3.jpg",
+      "shop": "서울낙원악기",
+      "name": "야마하 피아노_Yamaha Upright Piano",
+      "price": "3,500,000원",
+      "chip": ["대여 가능"]
+    }
+  ],
+  "product": [
+    {
+      "id": 1,
+      "image": "/img/product/깁슨.jpg",
+      "shop": "서울낙원악기",
+      "name": "깁슨 레스폴_Gibson Les Paul",
+      "price": "3,200,000원",
+      "chip": ["시연", "구매"]
+    },
+    {
+      "id": 2,
+      "image": "/img/product/깁슨-335.jpg",
+      "shop": "서울낙원악기",
+      "name": "깁슨 ES-335 Block Reissue(Antiqued Finish)",
+      "price": "6,160,000원",
+      "chip": ["시연", "대여"]
+    },
+    {
+      "id": 3,
+      "image": "/img/product/깁슨 어쿠스틱.jpg",
+      "shop": "서울낙원악기",
+      "name": "깁슨 어쿠스틱기타 Dove/Gibson USA/서울낙원",
+      "price": "3,250,000원",
+      "chip": ["대여", "구매"]
+    }
+  ],
+  "effector": [
+    {
+      "id": 1,
+      "image": "/img/effector/effector1.webp",
+      "name": "BOSS SD-2",
+      "price": 20000,
+      "chip": ["대여", "구매"],
+      "link": "https://u--x.notion.site/BOSS-BD-2-1320fb8090ab81ceb77dfe4ad26d644e"
+    },
+    {
+      "id": 2,
+      "image": "/img/effector/effector2.webp",
+      "name": "BOSS SD-1",
+      "price": 20000,
+      "chip": ["대여", "구매"],
+      "link": "https://u--x.notion.site/BOSS-SD-1-1320fb8090ab818cb531f17284383c53?pvs=25"
+    },
+    {
+      "id": 3,
+      "image": "/img/effector/effector3.webp",
+      "name": "BOSS OD-3",
+      "price": 20000,
+      "chip": ["대여", "구매"],
+      "link": "https://u--x.notion.site/BOSS-OD-3-1320fb8090ab812ebf06fa23f352a965?pvs=25"
+    },
+    {
+      "id": 4,
+      "image": "/img/effector/effector4.webp",
+      "name": "BOSS MT-2",
+      "price": 20000,
+      "chip": ["대여", "구매"],
+      "link": "https://u--x.notion.site/BOSS-MT-2-1320fb8090ab816cb843eed164b26921?pvs=25"
+    },
+    {
+      "id": 5,
+      "image": "/img/effector/effector5.webp",
+      "name": "BOSS DS-2",
+      "price": 20000,
+      "chip": ["대여", "구매"],
+      "link": "https://u--x.notion.site/BOSS-DS-2-1320fb8090ab81dabd8bdd902d480952?pvs=25"
+    },
+    {
+      "id": 6,
+      "image": "/img/effector/effector6.webp",
+      "name": "BOSS FZ-5",
+      "price": 20000,
+      "chip": ["대여", "구매"],
+      "link": "https://u--x.notion.site/BOSS-FZ-5-1320fb8090ab81bebb80e50723fd37fd?pvs=25"
+    },
+    {
+      "id": 7,
+      "image": "/img/effector/effector7.webp",
+      "name": "BOSS DD-3",
+      "price": 20000,
+      "chip": ["대여", "구매"],
+      "link": "https://u--x.notion.site/BOSS-DD-3-1320fb8090ab8160adf4c3c72cc75900?pvs=25"
+    },
+    {
+      "id": 8,
+      "image": "/img/effector/effector8.webp",
+      "name": "BOSS DD-7",
+      "price": 20000,
+      "chip": ["대여", "구매"],
+      "link": "https://u--x.notion.site/BOSS-DD-7-1320fb8090ab810ca4f0ebf8e511dc4d?pvs=25"
+    },
+    {
+      "id": 9,
+      "image": "/img/effector/effector9.webp",
+      "name": "BOSS CE-2w",
+      "price": 20000,
+      "chip": ["대여", "구매"],
+      "link": "https://u--x.notion.site/BOSS-CE-2w-1320fb8090ab817a87e7ecabff7f82d4?pvs=25"
+    },
+    {
+      "id": 10,
+      "image": "/img/effector/effector10.webp",
+      "name": "BOSS CH-1",
+      "price": 20000,
+      "chip": ["대여", "구매"],
+      "link": "https://u--x.notion.site/BOSS-CH-1-1320fb8090ab81389afedd276c8682f4?pvs=25"
+    },
+    {
+      "id": 11,
+      "image": "/img/effector/effector11.webp",
+      "name": "BOSS TR-2",
+      "price": 20000,
+      "chip": ["대여", "구매"],
+      "link": "https://u--x.notion.site/BOSS-TR-2-1320fb8090ab8174b5a9e49994911c0d?pvs=25"
+    },
+    {
+      "id": 12,
+      "image": "/img/effector/effector12.webp",
+      "name": "JHS Pedals - Morning Glory (Ver.4)",
+      "price": 20000,
+      "chip": ["대여", "구매"],
+      "link": "https://u--x.notion.site/JHS-Pedals-Morning-Glory-Ver-4-1320fb8090ab81ec922ff5e79aebb40d?pvs=25"
+    },
+    {
+      "id": 13,
+      "image": "/img/effector/effector13.webp",
+      "name": "JHS Pedals - The Milkman",
+      "price": 20000,
+      "chip": ["대여", "구매"],
+      "link": "https://u--x.notion.site/JHS-Pedals-The-Milkman-1320fb8090ab81c48008d28eeed4fdda?pvs=25"
+    },
+    {
+      "id": 14,
+      "image": "/img/effector/effector14.webp",
+      "name": "JHS Pedals - Angry Charlie (Ver.3)",
+      "price": 20000,
+      "chip": ["대여", "구매"],
+      "link": "https://u--x.notion.site/JHS-Pedals-Angry-Charlie-Ver-3-1320fb8090ab81d5b03ef6e76ef8df73?pvs=25"
+    },
+    {
+      "id": 15,
+      "image": "/img/effector/effector15.webp",
+      "name": "JHS Pedals - The Bonsai",
+      "price": 20000,
+      "chip": ["대여", "구매"],
+      "link": "https://u--x.notion.site/JHS-Pedals-The-Bonsai-1320fb8090ab81fdaa5be01e56916a7e?pvs=25"
+    },
+    {
+      "id": 16,
+      "image": "/img/effector/effector16.webp",
+      "name": "JHS SuperBolt (Ver 2)",
+      "price": 20000,
+      "chip": ["대여", "구매"],
+      "link": "https://u--x.notion.site/JHS-SuperBolt-Ver-2-1320fb8090ab81849f4cc7cac84f8db0?pvs=25"
+    },
+    {
+      "id": 17,
+      "image": "/img/effector/effector17.webp",
+      "name": "JHS Kilt (Ver 2)",
+      "price": 20000,
+      "chip": ["대여", "구매"],
+      "link": "https://u--x.notion.site/JHS-Kilt-Ver-2-1320fb8090ab810cab7cc0882727de45?pvs=25"
+    },
+    {
+      "id": 18,
+      "image": "/img/effector/effector18.webp",
+      "name": "JHS Pedals - Paul Gilbert PG14",
+      "price": 20000,
+      "chip": ["대여", "구매"],
+      "link": "https://u--x.notion.site/JHS-Pedals-Paul-Gilbert-PG14-1320fb8090ab81b0a4faca911e995038?pvs=25"
+    },
+    {
+      "id": 19,
+      "image": "/img/effector/effector19.webp",
+      "name": "JHS Pedals - Tidewater Tremolo",
+      "price": 20000,
+      "chip": ["대여", "구매"],
+      "link": "https://u--x.notion.site/JHS-Pedals-Tidewater-Tremolo-1320fb8090ab8184bb92f565fb60aa70?pvs=25"
+    },
+    {
+      "id": 20,
+      "image": "/img/effector/effector20.webp",
+      "name": "JHS Pedals - 3 Series Delay",
+      "price": 20000,
+      "chip": ["대여", "구매"],
+      "link": "https://u--x.notion.site/JHS-Pedals-3-Series-Delay-1320fb8090ab8142abedc2cd44266803?pvs=25"
+    },
+    {
+      "id": 21,
+      "image": "/img/effector/effector21.webp",
+      "name": "JHS Pedals - 3 Series Reverb",
+      "price": 20000,
+      "chip": ["대여", "구매"],
+      "link": "https://u--x.notion.site/JHS-Pedals-3-Series-Reverb-1320fb8090ab8183bf30fb77bc1933ee?pvs=25"
+    },
+    {
+      "id": 22,
+      "image": "/img/effector/effector22.webp",
+      "name": "Ibanez TS808 Tube Screamer",
+      "price": 20000,
+      "chip": ["대여", "구매"],
+      "link": "https://u--x.notion.site/Ibanez-TS808-Tube-Screamer-1320fb8090ab81e7a62ac7ffd9c74ebb?pvs=25"
+    },
+    {
+      "id": 23,
+      "image": "/img/effector/effector23.webp",
+      "name": "Ibanez TS9 Tube Screamer",
+      "price": 20000,
+      "chip": ["대여", "구매"],
+      "link": "https://u--x.notion.site/Ibanez-TS9-Tube-Screamer-1320fb8090ab81b48c4adb51377daebf?pvs=25"
+    },
+    {
+      "id": 24,
+      "image": "/img/effector/effector24.webp",
+      "name": "Proco RAT2",
+      "price": 20000,
+      "chip": ["대여", "구매"],
+      "link": "https://u--x.notion.site/Proco-RAT2-1320fb8090ab81f18fabce5b62f77b39?pvs=25"
+    },
+    {
+      "id": 25,
+      "image": "/img/effector/effector25.webp",
+      "name": "MXR CustomShop - Timmy Overdrive",
+      "price": 20000,
+      "chip": ["대여", "구매"],
+      "link": "https://u--x.notion.site/MXR-CustomShop-Timmy-Overdrive-1320fb8090ab815c8f21eba5e0e8d80c?pvs=25"
+    },
+    {
+      "id": 26,
+      "image": "/img/effector/effector26.webp",
+      "name": "MXR CustomShop - Duke Of Tone",
+      "price": 20000,
+      "chip": ["대여", "구매"],
+      "link": "https://u--x.notion.site/MXR-CustomShop-Duke-Of-Tone-1320fb8090ab81148d81d9e2c510243e?pvs=25"
+    },
+    {
+      "id": 27,
+      "image": "/img/effector/effector27.webp",
+      "name": "MXR Phase 90",
+      "price": 20000,
+      "chip": ["대여", "구매"],
+      "link": "https://u--x.notion.site/MXR-Phase-90-1320fb8090ab81f0bfcdf78412a8ff0d?pvs=25"
+    },
+    {
+      "id": 28,
+      "image": "/img/effector/effector28.webp",
+      "name": "MXR Carbon Copy",
+      "price": 20000,
+      "chip": ["대여", "구매"],
+      "link": "https://u--x.notion.site/MXR-Carbon-Copy-1320fb8090ab819db0eff0dc55d1aa0b?pvs=25"
+    },
+    {
+      "id": 29,
+      "image": "/img/effector/effector29.webp",
+      "name": "MXR Micro Amp",
+      "price": 20000,
+      "chip": ["대여", "구매"],
+      "link": "https://u--x.notion.site/MXR-Micro-Amp-1320fb8090ab81f2b195f9bda05c85c4?pvs=25"
+    },
+    {
+      "id": 30,
+      "image": "/img/effector/effector30.webp",
+      "name": "MXR Dyna comp",
+      "price": 20000,
+      "chip": ["대여", "구매"],
+      "link": "https://u--x.notion.site/MXR-Dyna-comp-1320fb8090ab811e9ecde11e92923bb6?pvs=25"
+    }
+  ],
+  "categories": [
+    {
+      "title": "기타",
+      "subcategories": [
+        "일렉 기타",
+        "어쿠스틱 기타",
+        "클래식 기타",
+        "앰프",
+        "이펙터",
+        "스트링",
+        "악세사리 / 도구",
+        "그 외"
+      ]
+    },
+    {
+      "title": "베이스",
+      "subcategories": ["일렉 베이스", "어쿠스틱 베이스", "앰프", "이펙터", "스트링", "악세사리 / 도구", "그 외"]
+    },
+    {
+      "title": "키보드",
+      "subcategories": ["신디사이저", "디지털 피아노", "악세사리 / 도구", "오르간", "그 외"]
+    },
+    {
+      "title": "드럼",
+      "subcategories": ["어쿠스틱 드럼", "퍼커션", "심벌", "스틱 / 브러시", "드럼 헤드 / 머플링", "그 외"]
+    },
+    {
+      "title": "관현악",
+      "subcategories": ["바이올린", "비올라", "첼로", "콘트라베이스", "금관 악기", "목관 악기", "그 외"]
+    }
+  ],
+  "likeProduct": [
+    {
+      "id": 1,
+      "image": "/img/product/깁슨.jpg",
+      "shop": "서울낙원악기",
+      "name": "깁슨 레스폴_Gibson Les Paul",
+      "price": "3,200,000원",
+      "chip": ["시연", "구매"],
+      "like": true
+    },
+    {
+      "id": 2,
+      "image": "/img/product/깁슨-335.jpg",
+      "shop": "서울낙원악기",
+      "name": "깁슨 ES-335 Block Reissue(Antiqued Finish)",
+      "price": "6,160,000원",
+      "chip": ["시연", "대여"],
+      "like": true
+
+    },
+    {
+      "id": 3,
+      "image": "/img/product/깁슨 어쿠스틱.jpg",
+      "shop": "서울낙원악기",
+      "name": "깁슨 어쿠스틱기타 Dove/Gibson USA/서울낙원",
+      "price": "3,250,000원",
+      "chip": ["대여", "구매"],
+      "like": true
+    },
+    {
+      "id": 4,
+      "image": "/img/product/깁슨.jpg",
+      "shop": "서울낙원악기",
+      "name": "깁슨 레스폴_Gibson Les Paul",
+      "price": "3,200,000원",
+      "chip": ["시연", "구매"],
+      "like": true
+    },
+    {
+      "id": 5,
+      "image": "/img/product/깁슨-335.jpg",
+      "shop": "서울낙원악기",
+      "name": "깁슨 ES-335 Block Reissue(Antiqued Finish)",
+      "price": "6,160,000원",
+      "chip": ["시연", "대여"],
+      "like": true
+
+    },
+    {
+      "id": 6,
+      "image": "/img/product/깁슨 어쿠스틱.jpg",
+      "shop": "서울낙원악기",
+      "name": "깁슨 어쿠스틱기타 Dove/Gibson USA/서울낙원",
+      "price": "3,250,000원",
+      "chip": ["대여", "구매"],
+      "like": true
+    },
+    {
+      "id": 7,
+      "image": "/img/product/깁슨.jpg",
+      "shop": "서울낙원악기",
+      "name": "깁슨 레스폴_Gibson Les Paul",
+      "price": "3,200,000원",
+      "chip": ["시연", "구매"],
+      "like": true
+    },
+    {
+      "id": 8,
+      "image": "/img/product/깁슨-335.jpg",
+      "shop": "서울낙원악기",
+      "name": "깁슨 ES-335 Block Reissue(Antiqued Finish)",
+      "price": "6,160,000원",
+      "chip": ["시연", "대여"],
+      "like": true
+
+    },
+    {
+      "id": 9,
+      "image": "/img/product/깁슨 어쿠스틱.jpg",
+      "shop": "서울낙원악기",
+      "name": "깁슨 어쿠스틱기타 Dove/Gibson USA/서울낙원",
+      "price": "3,250,000원",
+      "chip": ["대여", "구매"],
+      "like": true
+    }
+  ],
+  "likeShop" :[
+    {
+      "id": 1,
+      "image": "/img/shop-tmp.jpg",
+      "shop": "서울낙원악기",
+      "like": true
+    },
+    {
+      "id": 2,
+      "image": "/img/shop-tmp.jpg",
+      "shop": "서울뮤즈",
+      "like": true
+    },
+    {
+      "id": 3,
+      "image": "/img/shop-tmp.jpg",
+      "shop": "서울낙원을걷는악기",
+      "like": true
+    },
+    {
+      "id": 4,
+      "image": "/img/shop-tmp.jpg",
+      "shop": "서울낙원악기",
+      "like": true
+    },
+    {
+      "id": 5,
+      "image": "/img/shop-tmp.jpg",
+      "shop": "서울뮤즈",
+      "like": true
+    },
+    {
+      "id": 6,
+      "image": "/img/shop-tmp.jpg",
+      "shop": "서울낙원을걷는악기",
+      "like": true
+    }
+  ],
+  "tmpShop" : [
+    {
+      "id": 1,
+      "image": "/img/search-shop-tmp.jpg",
+      "shop": "서울낙원악기",
+      "info": "밴드악기전문",
+      "like": false
+    },
+    {
+      "id": 2,
+      "image": "/img/search-shop-tmp.jpg",
+      "shop": "서울뮤즈",
+      "info": "밴드악기전문",
+      "like": true
+    },
+    {
+      "id": 3,
+      "image": "/img/search-shop-tmp.jpg",
+      "shop": "서울낙원을걷는악기",
+      "info": "밴드악기전문",
+      "like": true
+    },
+    {
+      "id": 4,
+      "image": "/img/search-shop-tmp.jpg",
+      "shop": "서울낙원악기",
+      "info": "밴드악기전문",
+      "like": false
+    },
+    {
+      "id": 5,
+      "image": "/img/search-shop-tmp.jpg",
+      "shop": "서울뮤즈",
+      "info": "밴드악기전문",
+      "like": false
+    },
+    {
+      "id": 6,
+      "image": "/img/search-shop-tmp.jpg",
+      "shop": "서울낙원을걷는악기",
+      "info": "밴드악기전문",
+      "like": false
+    }
+  ]
+}
