@@ -245,13 +245,13 @@ export default function ProductSection({ effector }: EffectorProps) {
     }
   };
   return (
-    <section className="mt-9">
+    <section className="mt-11">
       <div id="product-section" className="w-full flex flex-col">
         <div className={`bg-grey1000
             ${
                 isHeaderVisible ? 'sticky top-0' : 'fixed top-0'
             } z-40 transition-all duration-300`}>
-            <nav className='px-4 pt-2 w-full flex justify-between items-center'>
+            <nav className='px-4 w-full flex justify-between items-center'>
             {category.map((item, index) => (
                 <Button
                 key={index}
@@ -264,7 +264,7 @@ export default function ProductSection({ effector }: EffectorProps) {
             </nav>
 
             {/* filter span */}
-            <FilterSpan />
+            <FilterSpan className='py-5' />
         </div>
 
         <main className="w-full grid grid-cols-2 gap-[2px]">

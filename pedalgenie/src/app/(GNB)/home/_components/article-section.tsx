@@ -26,8 +26,8 @@ export default function ArticleSection({ article }: ArticleProps) {
   }, [api]);
 
   return (
-    <section className="mt-5 pl-4">
-      <p className="text-title1 text-grey250">오늘의 영감</p>
+    <section className="mt-5 ">
+      <p className="pl-4 text-title1 text-grey250">오늘의 영감</p>
 
       {/* shadcn-ui Carousel 사용 */}
       <Carousel

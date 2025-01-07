@@ -75,6 +75,7 @@ export default function FilterCondition({ isOpen, onClose }: FilterProps) {
     const handleResetCondition = () => {
         resetUsageConditions();
         setIsActiveCondition([]);
+        onClose();
         updateQueryParam('usageConditions', null);
     };
     // 확인 시 필터 적용
@@ -97,17 +98,16 @@ export default function FilterCondition({ isOpen, onClose }: FilterProps) {
               {conditionOptions.map((cond) => {
                 const isActive = isActiveCondition.includes(cond);
                 return (
-                  <div key={cond} className="flex items-center gap-2">
-                    <button
+                  <button key={cond} onClick={() => handleToggleCondition(cond)} className="flex items-center gap-2">
+                    <span
                       className={clsx({
                         'text-red': isActive,
                         'text-grey650': !isActive,
-                      })}
-                      onClick={() => handleToggleCondition(cond)}>
+                      })}>
                       <Check />
-                    </button>
+                    </span>
                     <span className="text-grey150 text-body2">{cond}</span>
-                  </div>
+                  </button>
                 );
               })}
             </div>

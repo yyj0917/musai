@@ -2,6 +2,7 @@ import Image from 'next/image';
 import SaveHeart from '@public/svg/home/save-heart.svg';
 import RightArrow from '@public/svg/home/right-arrow.svg';
 import { Button } from '@/components/ui/button';
+import { Heart } from 'lucide-react';
 
 type EffectorItem = {
     effector: Effector;
@@ -19,23 +20,27 @@ export default function ProductItem({ effector } : EffectorItem) {
           className="object-cover"
         />
         <span className="absolute bottom-0 right-0 text-red ">
-          <SaveHeart />
+          <Heart strokeWidth={1.5} />
         </span>
       </div>
       <div className="px-4 py-3 w-full">
         <div className="w-full flex flex-col gap-1">
-          <p className="text-body1 text-grey250 flex items-center gap-3">
-            <span>{effector?.name}</span>
+          {/* Shop Name */}
+          <div className="text-body1 text-grey250 flex items-center gap-2">
+            <p className='w-auto max-w-[122px] truncate'>{effector?.name}</p>
             <RightArrow />
-          </p>
-          <p className="text-ellipsis text-grey450 text-body1 line-clamp-1">{effector?.name}</p>
+          </div>
+          {/* Product Name */}
+          <p className="text-ellipsis text-grey450 text-body2 line-clamp-1">{effector?.name}</p>
+          {/* Rental Price */}
           <p className="text-body1 flex item-center gap-1">
-            <span className="text-grey550 flex">
+            <span className="text-grey550 flex mb-1">
               <span>일</span>
               <span>ㅣ</span>
             </span>
-            <span className="text-grey250">32000원</span>
+            <span className="text-grey250">32,000원</span>
           </p>
+          {/* 시연, 대여, 구매 여부 chip */}
           <div className="flex gap-1">
             {effector?.chip.map((chip: string, index: number) => (
               <Button key={index} variant="chip">

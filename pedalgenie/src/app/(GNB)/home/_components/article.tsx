@@ -22,7 +22,7 @@ export default function Article({ article, currentIdx, articleLength }: ArticleI
   // Article UI
   return (
     <Link href={`/home/article/${article?.id}`}>
-      <article className="relative min-w-80 min-h-80 rounded-sm overflow-hidden">
+      <article className="relative min-w-80 min-h-80 rounded-sm overflow-hidden" style={{aspectRatio: '1/1'}}>
         <Image
           src={`${article?.image}`}
           alt={`${article?.title}`}

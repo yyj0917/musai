@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { ChannelProvider } from '@/components/providers/channel-provider';
+import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
   title: 'MUSAI',
@@ -31,6 +32,7 @@ export default function RootLayout({
       {/* 데스크탑 & 태블릿에서는 375px고정, 모바일에서는 폰 화면에 따라 조정 */}
       <body className="h-[100dvh] min-w-[360px] max-w-[415px] lg:max-w-[375px] mx-auto bg-white">
         <ChannelProvider>{children}</ChannelProvider>
+        <Toaster/>
       </body>
     </html>
   );

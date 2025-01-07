@@ -18,7 +18,7 @@ module.exports = {
         black: '#0C0D11',
         ivory: '#E9E7E1',
         red: '#F1404C',
-        darkRed: '#5A2529',
+        darkRed: '#4B2024',
 
         // secondary
         white: '#FFFFFF',
@@ -154,7 +154,7 @@ module.exports = {
         },
         '.text-body2': {
           fontSize: '14px',
-          lineHeight: '18px',
+          lineHeight: '21px',
           letterSpacing: '-0.015em',
           fontWeight: '400',
         },

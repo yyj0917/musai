@@ -11,12 +11,18 @@ export default function ArticleProducts() {
   };
   return (
     <section className="pt-3 pb-10 w-full flex flex-col">
-      <h3 className="px-4 py-4 text-grey150 text-body1">아티클에 나온 제품</h3>
+      <h3 className="px-4 py-4 text-grey150 text-title1">아티클에 나온 제품</h3>
       <div className="flex flex-col gap-[10px]">
         {product.map((product, index) => (
           <div key={index} className="px-4 flex justify-between items-center">
             <div className="flex gap-3">
-              <Image src={product.image} alt={product.name} width={68} height={68} className="rounded-[2px]" />
+              <div className='relative w-[68px] h-[68px]' style={{aspectRatio: '1/1'}}>
+                <Image 
+                  src={product.image} 
+                  alt={product.name} 
+                  layout='fill' 
+                  className="rounded-[2px]" />
+              </div>
               <span className="flex flex-col items-start gap-1">
                 <p className="flex items-center gap-3 text-grey250 text-body1 ">
                   <span>{product.shop}</span>

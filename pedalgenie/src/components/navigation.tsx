@@ -36,8 +36,12 @@ export default function Navigation() {
       setActiveIndex(currentIndex);
     }
   }, [pathname]);
+
+  // GNB 없는 곳에서는 null 반환
+  if (pathname.startsWith('/home/article') || pathname.startsWith('/home/shop/description')) return null;
+
   return (
-    <nav className="absolute bottom-0 w-full flex justify-center items-center pt-3 pb-6 px-[18px] border-t-[1px] border-grey750 bg-grey1000">
+    <nav className="absolute bottom-0 w-full flex justify-center items-center pt-3 pb-6 px-[10px] border-t-[1px] border-grey850 bg-grey1000">
       {navItems.map((item) => {
         const Icon = item.icon;
 
