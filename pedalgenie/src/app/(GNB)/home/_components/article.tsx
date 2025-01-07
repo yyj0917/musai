@@ -1,41 +1,55 @@
-import ArticleSkeleton from '@/skeleton/article-skeleton';
 import Image from 'next/image';
+import Link from 'next/link';
 
-
-type ArticleProps = {
-    article?: {
-      image: string;
-      title: string;
-      category: string[];
-    };
+type ArticleItemProps = {
+  article?: {
+    id: number;
+    image: string;
+    title: string;
+    category: string[];
   };
+  currentIdx: number;
+  articleLength: number;
+};
 
-export default function Article({ article }: ArticleProps) {
+export default function Article({ article, currentIdx, articleLength }: ArticleItemProps) {
+  // Skeleton UI
+  // if (!article) {
+  //     return (
+  //       <ArticleSkeleton/>
+  //     );
+  //   }
+  // Article UI
+  return (
+    <Link href={`/home/article/${article?.id}`}>
+      <article className="relative min-w-80 min-h-80 rounded-sm overflow-hidden">
+        <Image
+          src={`${article?.image}`}
+          alt={`${article?.title}`}
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" // 화면 크기에 맞춰 이미지의 사이즈 지정
+          className="object-fit"
+          priority
+        />
+        {/* 그라데이션 효과 */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
 
-    // Skeleton UI 
-    if (!article) {
-        return (
-          <ArticleSkeleton/>
-        );
-      }
-    // Article UI
-    return (
-        <article className="min-w-80 h-full rounded-sm bg-grey750">
-            <Image
-                src={article.image}
-                alt={article.title}
-                width={300}
-                height={200}
-                className="object-cover w-full h-full absolute top-0 left-0 -z-10"
-            />
-            <h3 className="text-white text-lg font-semibold">{article.title}</h3>
-            <p className="text-grey250 text-sm mt-1">
-                {article.category.map((cat, index) => (
+        <div className="absolute left-[22px] bottom-[22px] flex flex-col">
+          <h3 className="text-grey250 text-head1">{article?.title}</h3>
+          <div className="w-72 flex justify-between items-center text-grey450 text-body1">
+            <div>
+              {article?.category.map((cat, index) => (
                 <span key={index} className="mr-2">
-                    #{cat}
+                  #{cat}
                 </span>
-                ))}
-            </p>
-        </article>
-    )
+              ))}
+            </div>
+            <span>
+              {currentIdx}/{articleLength}
+            </span>
+          </div>
+        </div>
+      </article>
+    </Link>
+  );
 }
