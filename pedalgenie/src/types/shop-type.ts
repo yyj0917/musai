@@ -12,6 +12,7 @@ export type LikeShopList = LikeShop[];
 export interface Shop {
     id: number;
     shopname: string;
+    thumbnailImageUrl: string;
     isLiked?: boolean;
     products: ShopProductList;
 }

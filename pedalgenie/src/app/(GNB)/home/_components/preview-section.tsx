@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import Preview from './preview';
+import PreviewItem from './preview';
 
 export default function PreviewSection({ product }: ProductProps) {
   return (
@@ -9,7 +9,7 @@ export default function PreviewSection({ product }: ProductProps) {
       </div>
       <div className="mt-3 w-full h-[300px] flex gap-[10px] overflow-x-auto overflow-y-hidden scroll-smooth scrollbar-hide">
         {product.map((productItem: Product, index: number) => (
-          <Preview key={index} product={productItem} />
+          <PreviewItem key={index} product={productItem} />
         ))}
         {/* <Suspense fallback={<Preview />}>
         </Suspense> */}

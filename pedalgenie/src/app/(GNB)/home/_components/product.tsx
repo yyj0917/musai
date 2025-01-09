@@ -7,6 +7,8 @@ import { Heart } from 'lucide-react';
 import { useAuthStore } from '@/lib/zustand/useAuthStore';
 import { useModalStore } from '@/lib/zustand/useModalStore';
 import { handleLikeProduct } from '@/lib/utils/like-util';
+import { useState } from 'react';
+import './../../../globals.css';
 
 type EffectorItem = {
     effector: Effector;
@@ -15,6 +17,24 @@ type EffectorItem = {
 export default function ProductItem({ effector } : EffectorItem) {
   const { isLoggedIn } = useAuthStore();
   const { openLoginModal } = useModalStore();
+  const [isAnimating, setIsAnimating] = useState(false);
+
+
+  const [ isUILike, setIsUILike] = useState<boolean>(false);
+
+
+  const toggleLikeProduct = async (productId: number) => {
+    // await handleLikeProduct(productId, isLoggedIn, openLoginModal);
+    
+    // 애니메이션 클래스 추가 - 하트 애니메이션
+    setIsAnimating(true);
+    setIsUILike(!isUILike);
+
+    // 애니메이션이 끝난 후 클래스 제거
+    setTimeout(() => {
+      setIsAnimating(false);
+    }, 500); // 애니메이션 지속 시간과 동일
+  }
 
 
   return (
@@ -28,9 +48,13 @@ export default function ProductItem({ effector } : EffectorItem) {
           className="object-cover"
         />
         <button
-          onClick={() => handleLikeProduct(effector.id, isLoggedIn, openLoginModal)}
+          onClick={() => toggleLikeProduct(effector?.id)}
           className="absolute bottom-4 right-4 text-red ">
-          <Heart strokeWidth={1.5} />
+          <Heart 
+            strokeWidth={1.5}
+            className={`like-animation ${effector?.isLiked || isAnimating ? 'scale fill-red' : ''} ${
+              isUILike ? 'fill-red' : ''
+            }`} />
         </button>
       </div>
       <div className="px-4 py-3 w-full">

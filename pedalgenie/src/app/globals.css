@@ -120,6 +120,20 @@
     transform: translateX(0);
   }
 }
+/* 좋아요 애니메이션 */
+@keyframes beating {
+  0% {transform: scale(1);}
+  40% {transform: scale(1.25);}
+  70% {transform: scale(0.9);}
+  100% {transform: scale(1);}
+}
+.like-animation {
+  transition: transform 0.2s ease-in-out; /* 부드러운 전환 효과 */
+}
+
+.like-animation.scale {
+  animation: beating 0.5s 1 alternate; /* 좋아요 애니메이션 */
+}
 
 .fade-in-up {
   animation: fadeInUp 0.3s ease-out;

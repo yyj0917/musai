@@ -39,6 +39,7 @@ type Effector = {
     price : number;
     chip : string[];
     link : string;
+    isLiked? : boolean;
 }
 type EffectorProps = {
     effector : Effector[];
