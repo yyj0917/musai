@@ -3,11 +3,12 @@
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import RightArrow from '@public/svg/home/right-arrow.svg';
-import { Heart } from 'lucide-react';
+import { Heart} from 'lucide-react';
 import { useAuthStore } from '@/lib/zustand/useAuthStore';
 import { useModalStore } from '@/lib/zustand/useModalStore';
 import { handleLikeProduct } from '@/lib/utils/like-util';
 import { useState } from 'react';
+import Link from 'next/link';
 
 type ProductItemProps = {
   product: Product;
@@ -65,7 +66,10 @@ export default function PreviewItem({ product }: ProductItemProps) {
         <div className="w-full flex flex-col gap-1">
           <p className="text-body1 text-grey250 flex items-center gap-3">
             <span>{product?.shop}</span>
-            <RightArrow />
+            {/* 매장 상세 페이지 이동 - 해당 shopId */}
+            <Link href='/home/shop/description'>
+              <RightArrow />
+            </Link>
           </p>
           <p className="text-ellipsis text-grey450 text-body1 line-clamp-1">{product?.name}</p>
           <p className="text-body1 flex item-center gap-1">
