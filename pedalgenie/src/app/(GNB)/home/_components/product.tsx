@@ -1,14 +1,22 @@
+'use client';
+
 import Image from 'next/image';
-import SaveHeart from '@public/svg/home/save-heart.svg';
 import RightArrow from '@public/svg/home/right-arrow.svg';
 import { Button } from '@/components/ui/button';
 import { Heart } from 'lucide-react';
+import { useAuthStore } from '@/lib/zustand/useAuthStore';
+import { useModalStore } from '@/lib/zustand/useModalStore';
+import { handleLikeProduct } from '@/lib/utils/like-util';
 
 type EffectorItem = {
     effector: Effector;
 }
 
 export default function ProductItem({ effector } : EffectorItem) {
+  const { isLoggedIn } = useAuthStore();
+  const { openLoginModal } = useModalStore();
+
+
   return (
     <div className="pb-5 w-full flex flex-col">
       <div className="relative w-full aspect-square overflow-hidden">
@@ -19,9 +27,11 @@ export default function ProductItem({ effector } : EffectorItem) {
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" // 화면 크기에 맞춰 이미지의 사이즈 지정
           className="object-cover"
         />
-        <span className="absolute bottom-4 right-4 text-red ">
+        <button
+          onClick={() => handleLikeProduct(effector.id, isLoggedIn, openLoginModal)}
+          className="absolute bottom-4 right-4 text-red ">
           <Heart strokeWidth={1.5} />
-        </span>
+        </button>
       </div>
       <div className="px-4 py-3 w-full">
         <div className="w-full flex flex-col gap-1">

@@ -13,6 +13,7 @@ export type ArticleProductList = ArticleProduct[];
 export interface Product {
     id: number;
     shopName: string;
+    shopId: number;
     name: string;
     rentPricePerDay: number;
     isRentable: boolean;

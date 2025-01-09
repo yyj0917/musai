@@ -7,23 +7,30 @@ import Profile from '@public/svg/profile.svg';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useAuthStore } from '@/lib/zustand/useAuthStore';
+import { useModalStore } from '@/lib/zustand/useModalStore';
+import LoginModal from './login-modal';
 
 type NavItem = {
   id: number;
   icon: React.FC<React.SVGProps<SVGSVGElement>>;
   text: string;
   route: string;
+  // 로그인 필요한 페이지
+  requiresAuth?: boolean;
 };
 
 const navItems: NavItem[] = [
   { id: 0, icon: Home, text: '홈', route: '/home' },
-  { id: 1, icon: Calendar, text: '예약현황', route: '/rent' },
-  { id: 2, icon: Heart, text: '좋아요', route: '/saveList/product' },
+  { id: 1, icon: Calendar, text: '예약현황', route: '/rent', requiresAuth: true },
+  { id: 2, icon: Heart, text: '좋아요', route: '/saveList/product', requiresAuth: true },
   { id: 3, icon: Profile, text: '마이페이지', route: '/mypage' },
 ];
 
 export default function Navigation() {
     const pathname = usePathname(); // 현재 경로 가져오기
+    const { isLoggedIn } = useAuthStore(); // 로그인 상태 가져오기
+    const { isLoginOpen, openLoginModal } = useModalStore(); // 로그인 모달 상태 가져오기
     // 초기 상태 계산
     const initialIndex = navItems.findIndex((item) => 
         pathname === item.route || pathname.startsWith(item.route)
@@ -40,23 +47,33 @@ export default function Navigation() {
   // GNB 없는 곳에서는 null 반환
   if (pathname.startsWith('/home/article') || pathname.startsWith('/home/shop/description')) return null;
 
+  const handleNavigation = (route: string, requiresAuth?: boolean) => {
+    if (requiresAuth && !isLoggedIn) {
+      // 로그인 상태가 아니고 인증이 필요한 경우
+      openLoginModal();
+    } else {
+      // 로그인 상태이거나 인증이 필요하지 않은 경우
+      window.location.href = route;
+    }
+  };
   return (
     <nav className="absolute bottom-0 w-full flex justify-center items-center pt-3 pb-6 px-[10px] border-t-[1px] border-grey850 bg-grey1000">
       {navItems.map((item) => {
         const Icon = item.icon;
 
         return (
-          <Link
+          <button
             key={item.id}
-            href={item.route}
+            onClick={() => handleNavigation(item.route, item.requiresAuth)}
             className={`h-[50px] flex flex-1 flex-col items-center gap-1 ${
               activeIndex === item.id ? 'text-white' : 'text-grey250 opacity-[0.5]'
             }`}>
             <Icon />
             <p className="w-15 text-caption1">{item.text}</p>
-          </Link>
+          </button>
         );
       })}
+      {isLoginOpen && <LoginModal />}
     </nav>
   );
 }

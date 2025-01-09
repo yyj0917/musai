@@ -7,12 +7,16 @@ import ProductItem from './product';
 import FilterSpan from './(filter)/filter-span';
 import { useFilterStore } from '@/lib/zustand/useFilterStore';
 import { useScrollStore } from '@/lib/zustand/useScrollStore';
+import { useModalStore } from '@/lib/zustand/useModalStore';
+import LoginModal from '@/components/login-modal';
 
 
 export default function ProductSection({ effector }: EffectorProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const initialCategory = searchParams.get('category') || '전체'; // URL에서 바로 카테고리 가져오기
+
+  const { isLoginOpen } = useModalStore();
 
   const isHeaderVisible = useScrollStore((state) => state.isHeaderVisible);
 //   const setHeaderVisible = useScrollStore((state) => state.setHeaderVisible);
@@ -273,6 +277,8 @@ export default function ProductSection({ effector }: EffectorProps) {
           ))}
         </main>
       </div>
+      {/* 로그인 유저가 아닐 시 로그인 모달 */}
+      {isLoginOpen && <LoginModal />}
     </section>
   );
 }
