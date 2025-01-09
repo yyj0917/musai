@@ -4,7 +4,7 @@ import ProductSection from './_components/product-section';
 import ArticleSection from './_components/article-section';
 import PreviewSection from './_components/preview-section';
 import { fetchArticles } from '@/lib/api/article';
-import { fetchProductGenre } from '@/lib/api/(product)/product-genre';
+import { fetchProductGenre } from '@/lib/api/(product)/genre-product';
 
 export default async function Home() {
   const { article, product, effector } = dataset;
@@ -13,7 +13,8 @@ export default async function Home() {
   // const articleList = await fetchArticles();
   // // 시연해볼 수 있는 장르별 악기 조회
   // const productGenre = await fetchProductGenre('guitar');
-  // data api로 불러올 부분
+  // // 초기 상품 조회 - 10개만 (SEO용)
+  // const initialProduct = await fetchProductList();
 
   return (
     <main id="main" className="w-full h-[calc(100dvh-88.5px-87px)] overflow-y-auto scrollbar-hide">

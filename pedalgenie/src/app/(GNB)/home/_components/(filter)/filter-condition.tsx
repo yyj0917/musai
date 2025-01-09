@@ -62,7 +62,7 @@ export default function FilterCondition({ isOpen, onClose }: FilterProps) {
   
   
   // ==================== 이용 조건 ====================
-  const conditionOptions = ['시연가능', '대여가능', '구매가능'];
+  const conditionOptions = ['시연 가능', '대여 가능', '구매 가능'];
   
   const handleToggleCondition = (condition: string) => {
       toggleUsageCondition(condition);
@@ -81,7 +81,11 @@ export default function FilterCondition({ isOpen, onClose }: FilterProps) {
     // 확인 시 필터 적용
     const handleClose = () => {
       onClose();
-      updateQueryParam('usageConditions', isActiveCondition);
+      // 쿼리 파라미터에 전달하기 전 공백 제거
+    const trimmedConditions = isActiveCondition.map((condition) =>
+      condition.replace(/\s+/g, '') // 모든 공백 제거
+    );
+      updateQueryParam('usageConditions', trimmedConditions);
   
     };
 
