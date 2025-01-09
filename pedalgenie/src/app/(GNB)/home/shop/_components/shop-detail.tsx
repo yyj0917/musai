@@ -3,8 +3,13 @@ import RightArrow from '@public/svg/home/shop/shop-rightarrow.svg';
 import Link from 'next/link';
 import ShopItem from './shop-item';
 import { Heart } from 'lucide-react';
+import { Shop } from '@/types/shop-type';
 
-export default function ShopDetail() {
+type ShopProps = {
+  shopOne: Shop;
+}
+
+export default function ShopDetail({ shopOne } : ShopProps) {
   const shopItems = [
     { id: 1, name: 'Item 1', image: '/img/storeimg-item1.jpg', description: '상품 설명 1' },
     { id: 2, name: 'Item 2', image: '/img/storeimg-item2.jpg', description: '상품 설명 2' },

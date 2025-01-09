@@ -17,7 +17,7 @@ type NavItem = {
 
 const navItems: NavItem[] = [
   { id: 0, icon: Home, text: '홈', route: '/home' },
-  { id: 1, icon: Calendar, text: '예약현황', route: '/reserve' },
+  { id: 1, icon: Calendar, text: '예약현황', route: '/rent' },
   { id: 2, icon: Heart, text: '좋아요', route: '/saveList/product' },
   { id: 3, icon: Profile, text: '마이페이지', route: '/mypage' },
 ];

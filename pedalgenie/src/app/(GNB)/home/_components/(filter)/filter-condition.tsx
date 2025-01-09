@@ -3,7 +3,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
 import clsx from 'clsx';
-import Check from '@public/svg/home/check.svg';
+import Check from '@public/svg/filter-check.svg';
 import { useFilterStore } from '@/lib/zustand/useFilterStore';
 
 import '../../../../globals.css';
@@ -98,7 +98,7 @@ export default function FilterCondition({ isOpen, onClose }: FilterProps) {
               {conditionOptions.map((cond) => {
                 const isActive = isActiveCondition.includes(cond);
                 return (
-                  <button key={cond} onClick={() => handleToggleCondition(cond)} className="flex items-center gap-2">
+                  <button key={cond} onClick={() => handleToggleCondition(cond)} className="flex items-center gap-1">
                     <span
                       className={clsx({
                         'text-red': isActive,

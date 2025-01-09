@@ -241,31 +241,31 @@ export default function ProductSection({ effector }: EffectorProps) {
     const mainContainer = document.getElementById('main');
     if (targetSection && mainContainer) {
       const scrollPosition = targetSection.offsetTop;
-      mainContainer.scrollTo({ top: scrollPosition, behavior: 'smooth' });
+      mainContainer.scrollTo({ top: scrollPosition-100, behavior: 'smooth' });
     }
   };
   return (
     <section className="mt-11">
       <div id="product-section" className="w-full flex flex-col">
-        <div className={`bg-grey1000
+          <nav className='px-4 w-full flex justify-between items-center'>
+          {category.map((item, index) => (
+              <Button
+              key={index}
+              variant="primary"
+              className={`${selectedCategory === item ? 'bg-red text-grey150 !text-body1' : ''}`}
+              onClick={() => handleCategoryPick('product-section', item)}>
+              {item}
+              </Button>
+          ))}
+          </nav>
+          <FilterSpan className='py-5' />
+        {/* <div className={`
             ${
-                isHeaderVisible ? 'sticky top-0' : 'fixed top-0'
+                isHeaderVisible ? '' : 'fixed top-0'
             } z-40 transition-all duration-300`}>
-            <nav className='px-4 w-full flex justify-between items-center'>
-            {category.map((item, index) => (
-                <Button
-                key={index}
-                variant="primary"
-                className={`${selectedCategory === item ? 'bg-red text-grey150 !text-body1' : ''}`}
-                onClick={() => handleCategoryPick('product-section', item)}>
-                {item}
-                </Button>
-            ))}
-            </nav>
 
             {/* filter span */}
-            <FilterSpan className='py-5' />
-        </div>
+        {/* </div> */} 
 
         <main className="w-full grid grid-cols-2 gap-[2px]">
           {effector.map((effectorItem : Effector, index: number) => (

@@ -6,8 +6,8 @@ import Location from '@public/svg/home/shop/shop-location.svg';
 import ShopProductSection from './_components/shop-product-section';
 import { Heart } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast"
-import { text } from 'stream/consumers';
 import { Button } from '@/components/ui/button';
+import { fetchShopDetail } from '@/lib/api/shop';
 
 
 const shopInfo = [
@@ -29,8 +29,10 @@ const shopInfo = [
 ];
 
 
-export default function ShopDescription() {
+export default async function ShopDescription() {
   const { toast } = useToast();
+
+  const shopDetail = await fetchShopDetail(1);
 
   const handleCopyToast = (text: string) => {
     navigator.clipboard.writeText(text);
