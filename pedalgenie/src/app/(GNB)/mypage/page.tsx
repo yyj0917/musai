@@ -69,7 +69,7 @@ export default function MyPage() {
       {/* 예약내역 && 채널톡 region */}
       <div className="w-full h-[106px] flex">
         <Link
-          href="/mypage/reservation"
+          href="/mypage/reservation/preview"
           className="flex flex-col items-center justify-center w-1/2 gap-1 text-grey150 border-r-[0.5px] border-grey850">
           <ReserveInfo />
           <p className="text-body1 ">예약 내역</p>

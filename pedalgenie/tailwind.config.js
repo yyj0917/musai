@@ -22,6 +22,7 @@ module.exports = {
 
         // secondary
         white: '#FFFFFF',
+        green: '#51C879',
         grey1000: '#1A1A1A',
         grey850: '#3A3A3A',
         grey750: '#545454',
@@ -125,7 +126,7 @@ module.exports = {
         '.text-title1': {
           fontSize: '18px',
           lineHeight: '27px',
-          letterSpacing: '-0.045em',
+          letterSpacing: '-0.015em',
           fontWeight: '600',
         },
         '.text-title2': {
@@ -150,7 +151,7 @@ module.exports = {
           fontSize: '14px',
           lineHeight: '21px',
           letterSpacing: '-0.015em',
-          fontWeight: '500',
+          fontWeight: '600',
         },
         '.text-body2': {
           fontSize: '14px',

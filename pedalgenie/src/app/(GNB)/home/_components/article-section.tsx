@@ -45,7 +45,7 @@ export default function ArticleSection({ article }: ArticleProps) {
         <>
           {/* shadcn-ui Carousel 사용 */}
           <Carousel
-            className="mt-3 w-full h-80 transition-all duration-500 ease-in-out"
+            className="fade-in mt-3 w-full h-80 transition-all duration-500 ease-in-out"
             opts={{
               loop: true,
             }}
