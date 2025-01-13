@@ -20,7 +20,7 @@ export async function withDrawUser(): Promise<void> {
     }
 }
 
-// 회원조회 - header bearer type access token 필요
+// 회원조회 - header bearer type access token 필요 - tanstack query 캐싱
 export async function fetchUserInfo(): Promise<UserInfo> {
     try {
       const response = await axiosInstance.get('/members');

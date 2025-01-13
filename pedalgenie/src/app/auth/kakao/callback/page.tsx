@@ -1,12 +1,15 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import axios from 'axios';
+import { useAuthStore } from '@/lib/zustand/useAuthStore';
 
 export default function KakaoCallbackPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
+
 
   useEffect(() => {
     // URL에서 code 파라미터 추출
@@ -16,15 +19,23 @@ export default function KakaoCallbackPage() {
     if (code) {
       // 백엔드로 인가 코드 전달
       axios
-        .get('http://localhost:8080/auth/kakao/callback', { params: { code } })
+        .get(`${process.env.NEXT_PUBLIC_API_URL}/auth/kakao/callback`, { params: { code }, withCredentials: true,})
         .then((response) => {
           console.log('로그인 성공:', response.data);
-          // JWT 토큰을 로컬스토리지에 저장
-          localStorage.setItem('accessToken', response.data.data.accessToken);
+          console.log('토큰:', response.data.data.accessToken);
+          // JWT 토큰을 AuthStore에 저장
+          useAuthStore.getState().setAccessToken(response.data.data.accessToken);
+          console.log('토큰:', useAuthStore.getState().accessToken);
           setLoading(false);
+
+          // 이전 페이지로 이동
+          // if (window.history.length > 1) {
+          //   router.back(); // 이전 페이지로 이동
+          // } else {
+          //   router.push('/'); // 이전 페이지가 없는 경우 홈으로 이동
+          // }
         })
         .catch((error) => {
-          console.error('로그인 실패:', error);
           setError('로그인에 실패했습니다.');
           setLoading(false);
         });

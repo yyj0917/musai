@@ -3,7 +3,7 @@ import PreviewItem from './preview';
 
 export default function PreviewSection({ product }: ProductProps) {
   return (
-    <section className="mt-11 pl-4">
+    <section id='preview-section' className="mt-11 pl-4 overflow-auto">
       <div className="pr-4 w-full flex justify-between items-center">
         <p className="text-title1 text-grey250">시연해볼 수 있는 [ 실리카겔 ]</p>
       </div>

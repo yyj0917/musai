@@ -3,7 +3,7 @@ import { ArticleDetail, ArticleList } from '@/types/article-type';
 import axiosInstance from './config/axiosConfig';
 
 /**
- * 첫 홈화면 아티클 목록 조회 - token 필요 x
+ * 첫 홈화면 아티클 목록 조회 - token 필요 x - tanstackquery 캐싱
  * @returns Array of articles or an error message
  */
 export async function fetchArticles(): Promise<ArticleList> {
@@ -17,7 +17,7 @@ export async function fetchArticles(): Promise<ArticleList> {
 }
 
 /**
- * 아티클 상세 조회 - token 필요 x
+ * 아티클 상세 조회 - token 필요 x - tanstackquery 캐싱
  * @param articleId The ID of the article to fetch
  * @returns Article details or an error message
  */

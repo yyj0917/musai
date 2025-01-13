@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useModalStore } from '@/lib/zustand/useModalStore';
 import { useChannelIOApi } from 'react-channel-plugin';
 
@@ -14,6 +14,7 @@ import LogoHeader from '@/components/logo-header';
 import LoginModal from '../../../components/login-modal';
 import LogoutModal from '@/components/logout-modal';
 import WithdrawModal from '@/components/withdraw-modal';
+import { fetchUserInfo } from '@/lib/api/auth';
 
 export default function MyPage() {
 
@@ -27,6 +28,17 @@ export default function MyPage() {
   const { openWithdrawModal } = useModalStore();
 
   const { showMessenger } = useChannelIOApi();
+
+  useEffect(() => {
+    const fetchMembers = async () => {
+      const response = await fetchUserInfo();
+      console.log(response);
+      if (response) {
+        setIsUser(true);
+      }
+    }
+    fetchMembers();
+  }, []);
 
   const etc = [
     {

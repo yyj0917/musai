@@ -13,7 +13,9 @@ const axiosInstance = axios.create({
 // 요청 인터셉터 - zustand에 있는 토큰 가져와서 헤더에 담아서 보내는 instance
 axiosInstance.interceptors.request.use(
   (config) => {
+    
     const accessToken = useAuthStore.getState().accessToken;
+    // const accessToken = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwicm9sZSI6IkNVU1RPTUVSIiwiaWF0IjoxNzM2NzY2OTU1LCJleHAiOjE3MzY4NTMzNTV9.C23ZGdq4aGYI72Po1QUl2BEjtWY2O-UilSj5gAYWcXs';
     if (accessToken) {
       config.headers['Authorization'] = `Bearer ${accessToken}`;
     }

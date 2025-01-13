@@ -19,7 +19,7 @@ export async function unlikeProduct(productId: number): Promise<void> {
     }
 }
 
-// 좋아요한 악기 목록 조회 - header bearer type access token 필요
+// 좋아요한 악기 목록 조회 - header bearer type access token 필요 - tanstackquery 캐싱
 export async function fetchLikedProductList(): Promise<ProductProps> {
     try {
         const response = await axiosInstance.get('/likes/products');
@@ -47,7 +47,7 @@ export async function unlikeShop(shopId: number): Promise<void> {
     }
 }
 
-// 좋아요한 가게 목록 조회 - header bearer type access token 필요
+// 좋아요한 가게 목록 조회 - header bearer type access token 필요 - tanstackquery 캐싱
 export async function fetchLikedShopList(): Promise<LikeShopList> {
     try {
         const response = await axiosInstance.get('/likes/shops');
