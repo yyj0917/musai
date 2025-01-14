@@ -1,78 +1,86 @@
-"use client"
+'use client';
 
-import React, { useState } from "react";
-import { addDays, format, isBefore, isAfter, isWithinInterval, parseISO } from 'date-fns';
+import NextMonth from '@public/svg/rent/next-month.svg';
+import PrevMonth from '@public/svg/rent/prev-month.svg';
 
-export default function ({}){
-  const today = new Date();  
-  const maxDate = addDays(today, 30); // 오늘부터 30일 이후까지 선택 가능
-  
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+import React, { useState } from 'react';
+import { addMonths, format, startOfMonth, endOfMonth, eachDayOfInterval, isBefore } from 'date-fns';
+
+export default function Calendar() {
+  const today = new Date(); // 현재 날짜
+  const [currentMonth, setCurrentMonth] = useState(startOfMonth(today)); // 현재 월의 시작일
+  const [startDate, setStartDate] = useState(null); // 대여 시작일
+  const [endDate, setEndDate] = useState(null); // 대여 종료일
+
+  const handlePrevMonth = () => {
+    setCurrentMonth(addMonths(currentMonth, -1)); // 이전 달로 이동
+  };
+
+  const handleNextMonth = () => {
+    setCurrentMonth(addMonths(currentMonth, 1)); // 다음 달로 이동
+  };
 
   const handleDateClick = (selectedDate) => {
     if (!startDate) {
       setStartDate(selectedDate);
       setEndDate(null); // 새 시작일 선택 시 종료일 초기화
-    } else if (
-      isAfter(selectedDate, addDays(startDate, 2)) && // 최소 3일 이후만 선택 가능
-      isBefore(selectedDate, maxDate)
-    ) {
+    } else if (selectedDate > startDate && selectedDate - startDate >= 3 * 24 * 60 * 60 * 1000) {
       setEndDate(selectedDate);
     } else {
-      alert("대여 종료일은 대여 시작일로부터 최소 3일 이후여야 합니다!");
+      alert('대여 종료일은 대여 시작일로부터 최소 3일 이후여야 합니다!');
     }
-  };
-
-  const renderDay = (date) => {
-    const formattedDate = format(date, "yyyy-MM-dd");
-    const isDisabled = isBefore(date, today) || isAfter(date, maxDate);
-    const isSelectable = startDate && isWithinInterval(date, { start: addDays(startDate, 3), end: maxDate });
-    const isStart = startDate && format(startDate, "yyyy-MM-dd") === formattedDate;
-    const isEnd = endDate && format(endDate, "yyyy-MM-dd") === formattedDate;
-
-    return (
-      <button
-        key={formattedDate}
-        onClick={() => handleDateClick(date)}
-        className={`w-10 h-10 rounded-full mx-1 my-1 ${
-          isStart ? "bg-blue-500 text-white" : isEnd ? "bg-green-500 text-white" : ""
-        } ${isDisabled ? "text-gray-400 cursor-not-allowed" : isSelectable ? "bg-gray-200 hover:bg-blue-100" : "hover:bg-gray-200"}
-        `}
-        disabled={isDisabled}
-      >
-        {format(date, "d")}
-      </button>
-    );
   };
 
   const generateDates = () => {
-    const dates = [];
-    for (let i = 0; i <= 30; i++) {
-      const date = addDays(today, i);
-      dates.push(date);
-    }
-    return dates;
+    const start = startOfMonth(currentMonth);
+    const end = endOfMonth(currentMonth);
+    return eachDayOfInterval({ start, end });
   };
 
   return (
-    <div className="flex flex-col items-center justify-center space-y-4">
-      <h2 className="text-xl font-semibold">대여 기간 선택</h2>
-      <div className="grid grid-cols-7 gap-2">
-        {generateDates().map((date) => renderDay(date))}
+    <div className='flex flex-col items-center justify-center space-y-4 bg-grey950 p-4 rounded-lg w-full'>
+      {/* 헤더 영역 */}
+      <div className='flex items-center justify-between gap-3'>
+        <button onClick={handlePrevMonth}>
+          <PrevMonth />
+          {/* 좌측버튼 */}
+        </button>
+        <h2 className='text-base font-semibold'>{format(currentMonth, 'yyyy년 M월')}</h2>
+        <button onClick={handleNextMonth}>
+          <NextMonth />
+          {/* 우측버튼 */}
+        </button>
       </div>
-      <div className="mt-4">
-        {startDate && (
-          <p className="text-gray-700">
-            대여 시작일: <span className="font-semibold">{format(startDate, "yyyy-MM-dd")}</span>
-          </p>
-        )}
-        {endDate && (
-          <p className="text-gray-700">
-            대여 종료일: <span className="font-semibold">{format(endDate, "yyyy-MM-dd")}</span>
-          </p>
-        )}
+
+      {/* 날짜 그리드 */}
+      <div className='w-full grid place-items-center grid-cols-7 gap-y-2'>
+        {['일', '월', '화', '수', '목', '금', '토'].map((day) => (
+          <span key={day} className='text-center text-sm text-grey450'>
+            {day}
+          </span>
+        ))}
+        {generateDates().map((date) => {
+          const formattedDate = format(date, 'yyyy-MM-dd');
+          const isToday = formattedDate === format(today, 'yyyy-MM-dd');
+          const isStart = startDate && formattedDate === format(startDate, 'yyyy-MM-dd');
+          const isEnd = endDate && formattedDate === format(endDate, 'yyyy-MM-dd');
+          const isInRange = startDate && endDate && date > startDate && date < endDate;
+          const isBeforeToday = isBefore(date, today); // 오늘 이전 날짜 확인
+
+          return (
+            <button
+              key={formattedDate}
+              onClick={() => handleDateClick(date)}
+              className={`w-[34px] h-[34px] rounded-full text-sm ${
+                isBeforeToday ? 'text-grey750' : 'text-grey250'
+              } ${isStart ? 'border-1.5 border-red  bg-darkRed' : isEnd ? 'border-1.5 border-red bg-darkRed' : isInRange ? 'bg-red bg-opacity-10 rounded-none w-full' : 'hover:bg-gray-700'}`}
+              disabled={isBeforeToday}>
+              {format(date, 'd')}
+              {/* isToday 오늘 날짜부분, hover 부분 수정하기 */}
+            </button>
+          );
+        })}
       </div>
     </div>
   );
-};
+}
