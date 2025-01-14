@@ -7,10 +7,10 @@ export default function Confirmation() {
   return (
     <div className="w-full flex flex-col text-grey250 font-pretendard">
       <TopBar />
-      <div className='w-full p-4'>
+      <div className="w-full p-4">
         <RentFeeSummary />
         <RentFeeInfo />
-        <SubmitButton />
+        <SubmitButton text="300,000원 입금하기" />
       </div>
     </div>
   );
