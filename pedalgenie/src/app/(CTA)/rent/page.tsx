@@ -15,9 +15,9 @@ export default function Rent() {
         <AlertCircle />대여 기간은 최소 3일 이상부터 가능합니다</p>
         <PriceSummary/>
       </section>
-      <section className="p-4 border-t-0.5 border-grey850">
+      <section className="w-full p-4 border-t-0.5 border-grey850">
         <TimePicker />
-      </section>
+      </section> 
     </div>
   );
 }
