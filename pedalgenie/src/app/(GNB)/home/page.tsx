@@ -5,7 +5,7 @@ import ArticleSection from './_components/article-section';
 import PreviewSection from './_components/preview-section';
 
 export default function Home() {
-  const { article, product, effector } = dataset;
+  const { article, product, effector } = datawset;
 
   // data api로 불러올 부분
 

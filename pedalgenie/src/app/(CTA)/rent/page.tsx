@@ -1,7 +1,7 @@
 import Calendar from "./_components/calendar";
 import TimePicker from "./_components/timePicker";
 import TopBar from "./_components/topBar";
-import PriceSummary from './_components/priceSummary'
+import PaymentSummary from './_components/paymentSummary'
 import AlertCircle from '@public/svg/rent/alert-circle.svg';
 
 export default function Rent() {
@@ -13,7 +13,7 @@ export default function Rent() {
         <Calendar />
         <p className="flex w-full pt-5 text-body2 text-red gap-1.5 pb-">
         <AlertCircle />대여 기간은 최소 3일 이상부터 가능합니다</p>
-        <PriceSummary/>
+        <PaymentSummary/>
       </section>
       <section className="w-full p-4 border-t-0.5 border-grey850">
         <TimePicker />

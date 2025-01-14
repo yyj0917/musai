@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 
 {/* API 데이터로 수정 */ }
 
-export default function PriceSummary() {
+export default function PaymentSummary() {
   return (
     <section className="w-full">
       <div className='pt-3 flex justify-between'>
