@@ -53,7 +53,7 @@ export default function Calendar() {
       </div>
 
       {/* 날짜 그리드 */}
-      <div className='w-full grid place-items-center grid-cols-7 gap-y-2'>
+      <div className='w-full grid place-items-center grid-cols-7 gap-y-[10px]'>
         {['일', '월', '화', '수', '목', '금', '토'].map((day) => (
           <span key={day} className='text-center text-sm text-grey450'>
             {day}
