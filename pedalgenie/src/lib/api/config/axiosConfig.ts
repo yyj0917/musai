@@ -15,8 +15,8 @@ axiosInstance.interceptors.request.use(
   (config) => {
     // const accessToken = queryClient.getQueryData<string>(['authToken']);
 
-    const accessToken = useAuthStore.getState().accessToken;
-    // const accessToken = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwicm9sZSI6IkNVU1RPTUVSIiwiaWF0IjoxNzM2NzY2OTU1LCJleHAiOjE3MzY4NTMzNTV9.C23ZGdq4aGYI72Po1QUl2BEjtWY2O-UilSj5gAYWcXs';
+    // const accessToken = useAuthStore.getState().accessToken;
+    const accessToken = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwicm9sZSI6IkNVU1RPTUVSIiwiaWF0IjoxNzM2OTU2NjU3LCJleHAiOjE3MzcwNDMwNTd9.PU3wycESDwk_2sDS6KGld-WrJCDcn2_yiLTEAF69Mkk';
     if (accessToken) {
       config.headers['Authorization'] = `Bearer ${accessToken}`;
     }

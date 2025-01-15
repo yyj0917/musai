@@ -17,6 +17,8 @@ import WithdrawModal from '@/components/withdraw-modal';
 import { fetchUserInfo } from '@/lib/api/auth';
 import { useAuthStore } from '@/lib/zustand/useAuthStore';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { Spinner } from 'basic-loading';
+import { size } from 'lodash';
 
 export default function MyPage() {
 
@@ -34,13 +36,14 @@ export default function MyPage() {
 
   const fetchMembers = async () => {
     const accessToken = queryClient.getQueryData<string>(['authToken']);
-    if (!accessToken) {
-      throw new Error('로그인 정보가 없습니다.');
-    }
+    // if (!accessToken) {
+    //   throw new Error('로그인 정보가 없습니다.');
+    // }
     useAuthStore.getState().setAccessToken(accessToken);
     try {
 
       const response = await fetchUserInfo(); // API 호출
+      console.log('회원 정보:', response);
       setIsUser(true);
       return response;
     } catch (error) {
@@ -89,6 +92,20 @@ export default function MyPage() {
       text: '개인정보처리방침',
     },
   ];
+  const option = {
+    bgColor: '#6E6E6E',
+    barColor: '#FFFFFF',
+    size: 50,
+    speed: 1,
+    thickness: 4,
+  }
+  if (isLoading) {
+    return (
+      <div className="w-full h-full flex justify-center items-center">
+        <Spinner option={option} />
+      </div>
+    );
+  }
 
   return (
     <div className="w-full h-auto flex flex-col ">

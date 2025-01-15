@@ -1,3 +1,4 @@
+'use client';
 import dataset from '@/data/dataset.json';
 import Image from 'next/image';
 import SaveHeart from '@public/svg/home/shop/shop-heart.svg';

@@ -23,7 +23,7 @@ export async function fetchArticles(): Promise<ArticleList> {
 export async function fetchArticleDetail(articleId: string): Promise<ArticleDetail> {
   try {
     const response = await axiosInstance.get(`/api/articles/${articleId}`);
-    return response.data;
+    return response.data.data;
   } catch (error) {
     console.error(`Error fetching article with ID ${articleId}:`, error);
     throw new Error('Unable to fetch the article. Please try again later.');

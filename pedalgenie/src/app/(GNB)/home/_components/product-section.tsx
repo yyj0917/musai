@@ -152,7 +152,7 @@ export default function ProductSection({ effector }: EffectorProps) {
       <div  className="w-full flex flex-col">
         <div id='scroll-event' className={`
           bg-grey1000
-          ${isHeaderVisible ? 'sticky top-0 z-40' : 'pt-3 w-full absolute top-0 z-40'}
+          ${isHeaderVisible ? 'sticky top-0 z-40' : 'pt-3 w-full  top-0 z-100'}
           transition-transform duration-300
         `}>
           <nav id="product-nav" className={`px-4 w-full flex justify-between items-center`}>
