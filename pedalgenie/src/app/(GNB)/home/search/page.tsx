@@ -37,7 +37,7 @@ export default function Search() {
                         onChange={(e) => setSearchQuery(e.target.value)}
                         onKeyDown={handleKeyDown} // 엔터 키 이벤트 추가
                         className="max-w-64 w-full flex justify-start bg-inherit 
-                             text-white text-body2 placeholder:text-grey650 focus:outline-none focus:ring-0 focus:border-white focus:placeholder-transparent  line-clamp-1"
+                             text-white text-body2 placeholder:text-grey650 focus:outline-none focus:ring-0 focus:border-white focus:placeholder-transparent line-clamp-1"
                         />
                     <button onClick={handleSearch} className='text-grey150'>
                         <SearchIcon/>

@@ -1,10 +1,15 @@
 import Image from 'next/image';
-import SaveHeart from '@public/svg/home/shop/shop-heart.svg';
 import RightArrow from '@public/svg/home/shop/shop-rightarrow.svg';
 import Link from 'next/link';
 import ShopItem from './shop-item';
+import { Heart } from 'lucide-react';
+import { Shop } from '@/types/shop-type';
 
-export default function ShopDetail() {
+type ShopProps = {
+  shopOne: Shop;
+}
+
+export default function ShopDetail({ shopOne } : ShopProps) {
   const shopItems = [
     { id: 1, name: 'Item 1', image: '/img/storeimg-item1.jpg', description: '상품 설명 1' },
     { id: 2, name: 'Item 2', image: '/img/storeimg-item2.jpg', description: '상품 설명 2' },
@@ -13,7 +18,7 @@ export default function ShopDetail() {
     { id: 5, name: 'Item 5', image: '/img/storeimg-item5.jpg', description: '상품 설명 5' },
   ];
   return (
-    <div className="pl-4 w-full h-auto flex flex-col gap-3">
+    <div className="pl-4 w-full h-auto flex flex-col">
       {/* Store Header */}
       <header className="pr-4 pb-3 w-full flex justify-between items-center">
         <Link href={'/home/shop/description'} className="flex gap-[14px]">
@@ -24,7 +29,7 @@ export default function ShopDetail() {
           </span>
         </Link>
         <span className="text-red">
-          <SaveHeart />
+          <Heart strokeWidth={1.5}/>
         </span>
       </header>
       {/* Store Item List */}

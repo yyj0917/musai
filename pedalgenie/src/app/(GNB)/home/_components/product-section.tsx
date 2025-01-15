@@ -1,12 +1,16 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import ProductItem from './product';
 import FilterSpan from './(filter)/filter-span';
 import { useFilterStore } from '@/lib/zustand/useFilterStore';
 import { useScrollStore } from '@/lib/zustand/useScrollStore';
+import { useModalStore } from '@/lib/zustand/useModalStore';
+import LoginModal from '@/components/login-modal';
+import { useScrollDirection } from '@/hooks/scroll';
+import { before, set, throttle } from 'lodash';
 
 
 export default function ProductSection({ effector }: EffectorProps) {
@@ -14,8 +18,12 @@ export default function ProductSection({ effector }: EffectorProps) {
   const searchParams = useSearchParams();
   const initialCategory = searchParams.get('category') || '전체'; // URL에서 바로 카테고리 가져오기
 
+  const { isLoginOpen } = useModalStore();
+
   const isHeaderVisible = useScrollStore((state) => state.isHeaderVisible);
-//   const setHeaderVisible = useScrollStore((state) => state.setHeaderVisible);
+  const setHeaderVisible = useScrollStore((state) => state.setHeaderVisible);
+  const isCategoryFixed = useScrollStore((state) => state.isCategoryFixed);
+  const setCategoryFixed = useScrollStore((state) => state.setCategoryFixed);
 
   const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory);
 
@@ -27,162 +35,55 @@ export default function ProductSection({ effector }: EffectorProps) {
     resetUsageConditions,
     resetDetailFilters,
   } = useFilterStore();
-
-//   const observerRef = useRef<HTMLDivElement>(null);
-//   const observerInstance = useRef<IntersectionObserver | null>(null);
-//   const lastScrollTop = useRef<number | undefined>(0);
+  const beforeScrollY = useRef(0);
+  const SCROLL_DELTA = 5; // 무시할 최소 스크롤 값
 
 
-  // 의존성 관리 useCallback
-//   const updateQueryParam = useCallback((key: string, value: string | string[] | null) => {
-//     const newParams = new URLSearchParams(searchParams.toString());
+  // 수정해야 할 것  -> 헤더랑 카테고리 fixed될 때 애니메이션 적용 + throllte, useCallback써서 이벤트 리스터 최적화
+  useEffect(() => {
+    const handleScroll = () => {
+      const nav = document.querySelector("#product-nav");
+      const main = document.querySelector("#main");
+
+      if (!nav || !main) return;
+
+      // nav와 main의 상단 간 거리 계산
+      const navTop = nav.getBoundingClientRect().top;
+      const mainTop = main.getBoundingClientRect().top;
+      const currentScrollTop = main.scrollTop;
+
+      if (Math.abs(currentScrollTop - beforeScrollY.current) < SCROLL_DELTA) {
+        // 작은 변동 무시
+        return;
+      }
   
-//     if (!value || (Array.isArray(value) && value.length === 0)) {
-//       newParams.delete(key);
-//     } else {
-//       const valueString = Array.isArray(value) ? value.join(',') : value;
-//       newParams.set(key, valueString);
-//     }
-//     router.replace(`?${newParams.toString()}`);
-//   }, [searchParams, router]);
- // Intersection Observer
-//  const createObserver = () => {
-//     const observerTarget = observerRef.current;
-//     const mainElement = document.getElementById('main');
+      if (navTop <= mainTop) {
+        setHeaderVisible(false); // nav 고정
+        // 0.5초 후에 카테고리 고정 실행
+        // setTimeout(() => {
+        //   setCategoryFixed(true);
+        // }, 300); // 0.5초 (500ms) 후 실행
+      } 
+      if (beforeScrollY.current > currentScrollTop) {
+        setHeaderVisible(true); // 헤더 보이기
+        // setCategoryFixed(false); // 카테고리 고정 해제
 
-//     if (!observerTarget || !mainElement) return;
+      }
+      beforeScrollY.current = currentScrollTop;
 
-//     observerInstance.current = new IntersectionObserver(
-//       ([entry]) => {
-//         if (entry.isIntersecting) {
-//           console.log('intersecting');
-//           setHeaderVisible(false); // 아래 div가 화면에 닿으면 헤더 숨김
-//           observerInstance.current?.unobserve(observerTarget); // 관찰 중단
-//         }
-//       },
-//       {
-//         root: mainElement,
-//         rootMargin: `0px 0px -98% 0px`, // 헤더 아래 2px
-//         threshold: 0.1,
-//       }
-//     );
+    };
 
-//     observerInstance.current.observe(observerTarget);
-//   };
-//  useEffect(() => {
-//     const observerTarget = observerRef.current;
-//     const mainElement = document.getElementById('main');
+    const mainElement = document.querySelector("#main");
+    if (mainElement) {
+      mainElement.addEventListener("scroll", handleScroll);
+    }
 
-//     console.log(mainElement)
-//     const observer = new IntersectionObserver(
-//       ([entry]) => {
-//         if (entry.isIntersecting) {
-//             console.log('intersecting');
-//             setHeaderVisible(false); // 아래 div가 화면에 닿으면 헤더 숨김
-//         } else {
-//             setHeaderVisible(true); // 화면에서 벗어나면 헤더 표시
-//         }
-//         console.log(isHeaderVisible);
-//       },
-//       {
-//         root: mainElement,
-//         rootMargin: `0px 0px -98% 0px`, // 헤더 아래 2px
-//         threshold: 0.1, // 조금만 교차되어도 감지
-//     }
-//     );
-
-//     if (observerTarget) {
-//         console.log('observing');
-//         observer.observe(observerTarget);
-//     }
-
-//     return () => {
-//       if (observerTarget) {
-//         observer.unobserve(observerTarget);
-//       }
-//     };
-//   }, [setHeaderVisible]);
-//   // Scroll Direction Detection
-//   useEffect(() => {
-//     const handleScroll = () => {
-//       const scrollTop = window.scrollY || document.documentElement.scrollTop;
-
-//       if (scrollTop > lastScrollTop.current) {
-//         // 스크롤 다운
-//         setHeaderVisible(false);
-//       } else {
-//         // 스크롤 업
-//         setHeaderVisible(true);
-//       }
-
-//       lastScrollTop.current = scrollTop <= 0 ? 0 : scrollTop; // scrollTop이 음수로 가지 않도록
-//     };
-
-//     window.addEventListener('scroll', handleScroll, { passive: true });
-
-//     return () => {
-//       window.removeEventListener('scroll', handleScroll);
-//     };
-//   }, [setHeaderVisible]);
-// 스크롤 방향 감지
-// useEffect(() => {
-//     const mainElement = document.getElementById('main');
-//     // let hasScrolledDown = false;
-//     // let hasScrolledUp = false;
-//     // const handleScroll = () => {
-//     //     let scrollLength = mainElement?.scrollTop;     // 현재 스크롤 위치
-//     //     let mainCHeight = mainElement?.clientHeight;  // 보여지는 div 높이
-//     //     let mainSHeight = mainElement?.scrollHeight;  // 콘텐츠 전체 높이
-    
-//     //     // 아래로 스크롤했을 때
-//     //     if (scrollLength && mainCHeight && mainSHeight && scrollLength + mainCHeight >= mainSHeight && !hasScrolledDown) {
-            
-//     //         console.log('up');
-//     //         setHeaderVisible(true);
-//     //         hasScrolledUp = false; // 위로 스크롤 완료 상태
-//     //         hasScrolledDown = true; // 아래로 스크롤 완료 상태 초기화
-//     //     }
-//     //     // 위로 스크롤했을 때
-//     //     if (scrollLength && mainCHeight && scrollLength < mainCHeight && !hasScrolledUp) {
-//     //         // setHeaderVisible(false);
-//     //         console.log('down');
-
-//     //         hasScrolledDown = false; // 아래로 스크롤 완료 상태
-//     //         hasScrolledUp = true; // 위로 스크롤 완료 상태 초기화
-//     //     }
-//     //     }
-//     const handleScroll = () => {
-//         const currentScrollTop = mainElement?.scrollTop; // 컨테이너의 스크롤 위치 가져오기
-
-//         // delta 값보다 더 스크롤되었는지를 확인
-//         // if (Math.abs(lastScrollTop.current - st) <= delta) return;
-//         // 스크롤 업 -> 헤더 표시
-//         console.log(currentScrollTop, lastScrollTop.current);
-//         if (currentScrollTop && lastScrollTop.current && currentScrollTop < lastScrollTop.current) {
-//             setHeaderVisible(true);
-//             return () => {
-//                 mainElement?.removeEventListener('scroll', handleScroll);
-//             };
-//           }
-//         if (currentScrollTop) {
-//             lastScrollTop.current = currentScrollTop <= 0 ? 0 : currentScrollTop; // 음수 방지
-//         }
-
-//         };
-
-//         mainElement?.addEventListener('scroll', handleScroll, { passive: true });
-
-    
-//   }, [isHeaderVisible]);
-
-  // 초기 Observer 생성
-//   useEffect(() => {
-//     createObserver();
-
-//     return () => {
-//       observerInstance.current?.disconnect(); // 컴포넌트 언마운트 시 Observer 해제
-//     };
-//   }, [isHeaderVisible]);
+    return () => {
+      if (mainElement) {
+        mainElement.removeEventListener("scroll", handleScroll);
+      }
+    };
+  }, [setHeaderVisible]);
   
   // 카테고리 변경
   useEffect(() => {
@@ -241,17 +142,20 @@ export default function ProductSection({ effector }: EffectorProps) {
     const mainContainer = document.getElementById('main');
     if (targetSection && mainContainer) {
       const scrollPosition = targetSection.offsetTop;
-      mainContainer.scrollTo({ top: scrollPosition, behavior: 'smooth' });
+      mainContainer.scrollTo({ top: scrollPosition-100, behavior: 'smooth' });
     }
   };
   return (
-    <section className="mt-9">
-      <div id="product-section" className="w-full flex flex-col">
-        <div className={`bg-grey1000
-            ${
-                isHeaderVisible ? 'sticky top-0' : 'fixed top-0'
-            } z-40 transition-all duration-300`}>
-            <nav className='px-4 pt-2 w-full flex justify-between items-center'>
+    <section className={`${
+      isHeaderVisible ? 'mt-11' : 'mt-8'
+    }`}>
+      <div  className="w-full flex flex-col">
+        <div id='scroll-event' className={`
+          bg-grey1000
+          ${isHeaderVisible ? 'sticky top-0 z-40' : 'pt-3 w-full absolute top-0 z-40'}
+          transition-transform duration-300
+        `}>
+          <nav id="product-nav" className={`px-4 w-full flex justify-between items-center`}>
             {category.map((item, index) => (
                 <Button
                 key={index}
@@ -262,10 +166,15 @@ export default function ProductSection({ effector }: EffectorProps) {
                 </Button>
             ))}
             </nav>
+            <FilterSpan className='py-5' />
+        </div>
+        {/* <div className={`
+            ${
+                isHeaderVisible ? '' : 'fixed top-0'
+            } z-40 transition-all duration-300`}>
 
             {/* filter span */}
-            <FilterSpan />
-        </div>
+        {/* </div> */} 
 
         <main className="w-full grid grid-cols-2 gap-[2px]">
           {effector.map((effectorItem : Effector, index: number) => (
@@ -273,6 +182,8 @@ export default function ProductSection({ effector }: EffectorProps) {
           ))}
         </main>
       </div>
+      {/* 로그인 유저가 아닐 시 로그인 모달 */}
+      {isLoginOpen && <LoginModal />}
     </section>
   );
 }

@@ -3,7 +3,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
 import clsx from 'clsx';
-import Check from '@public/svg/home/check.svg';
+import Check from '@public/svg/filter-check.svg';
 import { useFilterStore } from '@/lib/zustand/useFilterStore';
 
 import '../../../../globals.css';
@@ -62,7 +62,7 @@ export default function FilterCondition({ isOpen, onClose }: FilterProps) {
   
   
   // ==================== 이용 조건 ====================
-  const conditionOptions = ['시연가능', '대여가능', '구매가능'];
+  const conditionOptions = ['시연 가능', '대여 가능', '구매 가능'];
   
   const handleToggleCondition = (condition: string) => {
       toggleUsageCondition(condition);
@@ -75,12 +75,17 @@ export default function FilterCondition({ isOpen, onClose }: FilterProps) {
     const handleResetCondition = () => {
         resetUsageConditions();
         setIsActiveCondition([]);
+        onClose();
         updateQueryParam('usageConditions', null);
     };
     // 확인 시 필터 적용
     const handleClose = () => {
       onClose();
-      updateQueryParam('usageConditions', isActiveCondition);
+      // 쿼리 파라미터에 전달하기 전 공백 제거
+    const trimmedConditions = isActiveCondition.map((condition) =>
+      condition.replace(/\s+/g, '') // 모든 공백 제거
+    );
+      updateQueryParam('usageConditions', trimmedConditions);
   
     };
 
@@ -97,17 +102,16 @@ export default function FilterCondition({ isOpen, onClose }: FilterProps) {
               {conditionOptions.map((cond) => {
                 const isActive = isActiveCondition.includes(cond);
                 return (
-                  <div key={cond} className="flex items-center gap-2">
-                    <button
+                  <button key={cond} onClick={() => handleToggleCondition(cond)} className="flex items-center gap-1">
+                    <span
                       className={clsx({
                         'text-red': isActive,
                         'text-grey650': !isActive,
-                      })}
-                      onClick={() => handleToggleCondition(cond)}>
+                      })}>
                       <Check />
-                    </button>
+                    </span>
                     <span className="text-grey150 text-body2">{cond}</span>
-                  </div>
+                  </button>
                 );
               })}
             </div>

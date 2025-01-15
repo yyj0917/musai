@@ -13,7 +13,7 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
   }
 
   return (
-    <div className="w-full h-[calc(100dvh-50px-87px)] flex flex-col overflow-y-auto scrollbar-hide">
+    <div className="w-full h-[calc(100dvh-50px)] flex flex-col overflow-y-auto scrollbar-hide">
       {/* Article Header */}
       <article className="relative w-full h-full" >
         <div className='relative w-full h-auto ' style={{ aspectRatio: '1 / 1' }}>

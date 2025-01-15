@@ -4,7 +4,7 @@ import { forwardRef } from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { cva, type VariantProps } from 'class-variance-authority';
 
-import { cn } from '@/utils/style';
+import { cn } from '@/lib/utils/utils';
 import { usePathname } from 'next/navigation';
 
 const buttonVariants = cva('transition inline-flex items-center justify-center whitespace-nowrap', {
@@ -17,6 +17,7 @@ const buttonVariants = cva('transition inline-flex items-center justify-center w
       ghost: 'text-grey650',
       link: '!text-grey750 text-head1 px-1 py-[3px]',
       custom: '!text-grey250 text-label2 rounded py-[18px] w-auto h-[50px]',
+      copy: 'texy-body2 text-red',
     },
     size: {
       sm: 'h-9 px-3 text-xs',

@@ -30,7 +30,7 @@ export default function LoginModal() {
           </div>
           <div className="w-full flex flex-col justify-center items-center gap-2">
             <Link
-              href={'https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=4f97631922bbf2a7c3eda830dd68f0bf&redirect_uri=http://localhost:8080/auth/kakao/callback'}
+              href={`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}`}
               >
               <KakaoLogin />
             </Link>

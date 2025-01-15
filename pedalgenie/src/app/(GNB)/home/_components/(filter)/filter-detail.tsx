@@ -96,7 +96,7 @@ export default function FilterDetail({ isOpen, onClose }: FilterProps) {
         {/* ================ 필터 타입: 세부종류 (detail) ================ */}
         <div className="w-full flex flex-col items-start gap-6">
             <h2 className="text-title1 !text-white">카테고리</h2>
-            <div className="w-full flex flex-wrap items-start gap-2">
+            <div className="w-full flex flex-wrap items-start gap-x-2 gap-y-[10px]">
               {subCategories?.map((detail) => {
                 const isActive = isActiveDetail.includes(detail);
                 return (

@@ -22,10 +22,11 @@ module.exports = {
         black: '#0C0D11',
         ivory: '#E9E7E1',
         red: '#F1404C',
-        darkRed: '#5A2529',
+        darkRed: '#4B2024',
 
         // secondary
         white: '#FFFFFF',
+        green: '#51C879',
         grey1000: '#1A1A1A',
         grey950: '#262626',
         grey850: '#3A3A3A',
@@ -130,7 +131,7 @@ module.exports = {
         '.text-title1': {
           fontSize: '18px',
           lineHeight: '27px',
-          letterSpacing: '-0.045em',
+          letterSpacing: '-0.015em',
           fontWeight: '600',
         },
         '.text-title2': {
@@ -155,11 +156,11 @@ module.exports = {
           fontSize: '14px',
           lineHeight: '21px',
           letterSpacing: '-0.015em',
-          fontWeight: '500',
+          fontWeight: '600',
         },
         '.text-body2': {
           fontSize: '14px',
-          lineHeight: '18px',
+          lineHeight: '21px',
           letterSpacing: '-0.015em',
           fontWeight: '400',
         },

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import clsx from 'clsx';
-import Check from '@public/svg/home/check.svg';
+import Check from '@public/svg/filter-check.svg';
 import { useFilterStore } from '@/lib/zustand/useFilterStore';
 
 import '../../../../globals.css';
@@ -12,7 +12,7 @@ export default function FilterName({ isOpen, onClose }: FilterProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isBrowser, setIsBrowser] = useState(false);
-
+  // const [isAnimating, setIsAnimating] = useState(false);
 
   const {
     isCategoryActiveName,
@@ -72,6 +72,21 @@ export default function FilterName({ isOpen, onClose }: FilterProps) {
     // fetchFilteredData({ nameFilter: filter, ... })
   };
 
+  // useEffect(() => {
+  //   if (!isOpen) {
+  //     // isOpen이 false일 때 닫히는 애니메이션 실행
+  //     setIsAnimating(true);
+
+  //     // 애니메이션 지속 시간 후 DOM에서 완전히 제거
+  //     const timer = setTimeout(() => {
+  //       setIsAnimating(false);
+  //     }, 300); // 애니메이션 지속 시간과 일치
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, [isOpen]);
+
+  // if (!isOpen && !isAnimating) return null;
+
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center bg-black bg-opacity-50" onClick={handleClose}>
       <div
@@ -85,17 +100,16 @@ export default function FilterName({ isOpen, onClose }: FilterProps) {
               {nameFilters.map((filter) => {
                 const isActive = isCategoryActiveName === filter;
                 return (
-                  <div key={filter} className="flex items-center gap-2">
-                    <button
+                  <button key={filter} onClick={() => handleSelectName(filter)} className="flex items-center gap-1">
+                    <span
                       className={clsx({
                         'text-red': isActive,
                         'text-grey650': !isActive,
-                      })}
-                      onClick={() => handleSelectName(filter)}>
+                      })}>
                       <Check />
-                    </button>
+                    </span>
                     <span className="text-grey150 text-body2">{filter}</span>
-                  </div>
+                  </button>
                 );
               })}
             </div>

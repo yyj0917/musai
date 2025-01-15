@@ -8,7 +8,6 @@ import Search from '@public/svg/search.svg';
 import MainLogo from '@public/svg/main-logo.svg';
 import LeftArrow from '@public/svg/home/shop/shop-leftarrow.svg';
 import { useScrollStore } from '@/lib/zustand/useScrollStore';
-import { useEffect } from 'react';
 
 export default function Header() {
   const link = [

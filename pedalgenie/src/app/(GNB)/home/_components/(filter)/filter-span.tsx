@@ -10,7 +10,13 @@ import FilterName from './filter-name';
 import FilterCondition from './filter-condition';
 import FilterDetail from './filter-detail';
 
-export default function FilterSpan() {
+import './../../../../globals.css';
+
+interface FilterSpanProps {
+  className?: string; // className을 선택적으로 받을 수 있도록 설정
+}
+
+export default function FilterSpan({className} : FilterSpanProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -26,7 +32,10 @@ export default function FilterSpan() {
     setIsModalOpen(true);
   };
   const handleCloseModal = () => {
-    setIsModalOpen(false);
+    const timer = setTimeout(() => {
+      setIsModalOpen(false);
+    }, 300); // 애니메이션 지속 시간과 일치
+    return () => clearTimeout(timer);
   };
 
   const nameFilter = searchParams.get('nameFilter') || '최신순'; // URL에서 바로 카테고리 가져오기
@@ -46,7 +55,7 @@ export default function FilterSpan() {
       searchParams
         .get('detailFilters')
         ?.split(',')
-        .filter((detail) => detail) || ['세부조건']
+        .filter((detail) => detail) || ['카테고리']
     );
   }, [searchParams]);
 
@@ -55,7 +64,7 @@ export default function FilterSpan() {
     // 필터가 하나라도 선택되어 있으면 새로고침 버튼 표시
     if (
       (usageConditions.length > 0 && usageConditions[0] != '이용범위') ||
-      (detailFilters.length > 0 && detailFilters[0] != '세부조건')
+      (detailFilters.length > 0 && detailFilters[0] != '카테고리')
     ) {
       setShowResetButton(true);
     } else {
@@ -77,7 +86,7 @@ export default function FilterSpan() {
     // 선택된 세부 종류 배열
     if (detailFilters.length === 0) {
       // 디폴트 문구
-      return '세부조건';
+      return '카테고리';
     } else if (detailFilters.length === 1) {
       // 단일 항목
       return detailFilters[0];
@@ -99,43 +108,46 @@ export default function FilterSpan() {
 
   return (
     <>
-      <span className="pl-4 py-3 w-full flex gap-2">
+      <span className={`pl-4 py-3 w-full flex gap-2 transform transition-all duration-300 overflow-x-auto scrollbar-hide ${className ? className  : 'py-3'}`}>
         {/* Reset Button */}
         {showResetButton && (
           <button
-            className="w-[30px] h-[30px] flex justify-center items-center border-grey750 bg-grey750 text-grey150 rounded-full"
+            className="min-w-[30px] min-h-[30px] flex justify-center items-center border-grey750 bg-grey750 text-grey150 rounded-full fade-in-up transition-all duration-300"
             onClick={handleResetAllFilters}>
             <Initiate />
           </button>
         )}
-        <Button variant="filter" className="gap-[2px] border-red bg-darkRed" onClick={() => handleOpenModal('name')}>
-          <div className="flex items-center gap-[2px]">
-            <span>{nameFilter}</span>
-            <DownArrow />
-          </div>
-        </Button>
-        {category !== '전체' && (
-          <Button
-            variant="filter"
-            className={`gap-[2px]
-                        ${detailFilters.length >= 1 && detailFilters[0] != '세부조건' ? 'border-red bg-darkRed' : ''}`}
-            onClick={() => handleOpenModal('detail')}>
+        <div className='flex gap-2 transition-all duration-300'>
+          <Button variant="filter" 
+            className="transition-all duration-300 gap-[2px] border-red bg-darkRed" onClick={() => handleOpenModal('name')}>
             <div className="flex items-center gap-[2px]">
-              <span>{detailLabel()}</span>
+              <span>{nameFilter}</span>
               <DownArrow />
             </div>
           </Button>
-        )}
-        <Button
-          variant="filter"
-          className={`gap-[2px]
-                    ${usageConditions.length >= 1 && usageConditions[0] != '이용범위' ? 'border-red bg-darkRed' : ''}`}
-          onClick={() => handleOpenModal('condition')}>
-          <div className="flex items-center gap-[2px]">
-            <span>{usageLabel()}</span>
-            <DownArrow />
-          </div>
-        </Button>
+          {category !== '전체' && (
+            <Button
+              variant="filter"
+              className={`gap-[2px] transition-all duration-300
+                          ${detailFilters.length >= 1 && detailFilters[0] != '카테고리' ? 'border-red bg-darkRed' : ''}`}
+              onClick={() => handleOpenModal('detail')}>
+              <div className="flex items-center gap-[2px]">
+                <span>{detailLabel()}</span>
+                <DownArrow />
+              </div>
+            </Button>
+          )}
+          <Button
+            variant="filter"
+            className={`gap-[2px] transition-all duration-300
+                      ${usageConditions.length >= 1 && usageConditions[0] != '이용범위' ? 'border-red bg-darkRed' : ''}`}
+            onClick={() => handleOpenModal('condition')}>
+            <div className="flex items-center gap-[2px]">
+              <span>{usageLabel()}</span>
+              <DownArrow />
+            </div>
+          </Button>
+        </div>
       </span>
         {/* Type에 따른 FilterModal */}
         {filterType === 'name' && (
@@ -146,8 +158,6 @@ export default function FilterSpan() {
         
         {filterType === 'detail' && (
             <FilterDetail isOpen={isModalOpen} onClose={handleCloseModal}/>)}
-
-        {/* <FilterModal isOpen={isModalOpen} onClose={handleCloseModal} filterType={filterType} /> */}
     </>
   );
 }
