@@ -9,6 +9,7 @@ import { fetchProductGenre } from '@/lib/api/(product)/genre-product';
 export default async function Home() {
   const { article, product, effector } = dataset;
 
+
   // // 아티클 목록 조회
   const articleList = await fetchArticles();
   console.log(articleList);

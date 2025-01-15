@@ -10,6 +10,10 @@ module.exports = {
   ],
   theme: {
     extend: {
+      borderWidth: {
+        '0.5': '0.5px',
+        '1.5': '1.5px',
+      },
       colors: {
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
@@ -24,6 +28,7 @@ module.exports = {
         white: '#FFFFFF',
         green: '#51C879',
         grey1000: '#1A1A1A',
+        grey950: '#262626',
         grey850: '#3A3A3A',
         grey750: '#545454',
         grey650: '#6E6E6E',

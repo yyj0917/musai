@@ -1,6 +1,5 @@
 import LeftArrow from '@public/svg/product/left-arrow.svg';
 
-
 export default function TopBar({  }) {
     return (
         <div className="flex w-full items-center justify-between py-3 pl-4 border-b-[1px] border-grey850">

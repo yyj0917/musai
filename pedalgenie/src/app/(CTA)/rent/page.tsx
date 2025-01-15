@@ -1,19 +1,23 @@
 import Calendar from "./_components/calendar";
-import PeriodDisplayer from "./_components/periodDisplayer";
 import TimePicker from "./_components/timePicker";
 import TopBar from "./_components/topBar";
+import PaymentSummary from './_components/paymentSummary'
+import AlertCircle from '@public/svg/rent/alert-circle.svg';
 
 export default function Rent() {
-    return (
-        <div className="w-full flex flex-col text-grey250 font-pretendard">
-            <TopBar/>
-            <section className="p-4">
-                <div className="text-white font-medium text-lg pb-6">대여 시작일과 종료일을 선택해주세요</div>
-                <Calendar/>
-                <PeriodDisplayer/>
-                <div className="text-white font-medium text-lg pb-5 border-t-[1px] border-grey850 pt-5">픽업 시간을 선택해주세요</div>
-                <TimePicker/>
-            </section>
-        </div>
-    );
+  return (
+    <div className="w-full flex flex-col text-grey250 font-pretendard">
+      <TopBar />
+      <section className="p-4">
+        <div className="text-title2 pb-3">대여 기간</div>
+        <Calendar />
+        <p className="flex w-full pt-5 text-body2 text-red gap-1.5 pb-">
+        <AlertCircle />대여 기간은 최소 3일 이상부터 가능합니다</p>
+        <PaymentSummary/>
+      </section>
+      <section className="w-full p-4 border-t-0.5 border-grey850">
+        <TimePicker />
+      </section> 
+    </div>
+  );
 }
