@@ -4,14 +4,13 @@ import axiosInstance from './config/axiosConfig';
 
 /**
  * 첫 홈화면 아티클 목록 조회 - token 필요 x - tanstackquery 캐싱
- * @returns Array of articles or an error message
+//  * @returns Array of articles or an error message
  */
 export async function fetchArticles(): Promise<ArticleList> {
   try {
-    const response = await axiosInstance.get('/articles');
-    return response.data;
+    const response = await axiosInstance.get('/api/articles');
+    return response.data.data; // data.data로 받아옴 - type 일치 때문에
   } catch (error) {
-    console.error('Error fetching articles:', error);
     throw new Error('Unable to fetch articles. Please try again later.');
   }
 }
@@ -23,7 +22,7 @@ export async function fetchArticles(): Promise<ArticleList> {
  */
 export async function fetchArticleDetail(articleId: string): Promise<ArticleDetail> {
   try {
-    const response = await axiosInstance.get(`/articles/${articleId}`);
+    const response = await axiosInstance.get(`/api/articles/${articleId}`);
     return response.data;
   } catch (error) {
     console.error(`Error fetching article with ID ${articleId}:`, error);

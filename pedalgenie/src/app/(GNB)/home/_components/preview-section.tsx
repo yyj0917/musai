@@ -1,7 +1,25 @@
+'use client';
+
 import { Suspense } from 'react';
 import PreviewItem from './preview';
+import { useQuery } from '@tanstack/react-query';
+import { ProductList } from '@/types/product-type';
+import { fetchProductGenre } from '@/lib/api/(product)/genre-product';
 
 export default function PreviewSection({ product }: ProductProps) {
+
+  // const {
+  //   data: genreProducts,
+  //   isLoading,
+  //   isError
+  // } = useQuery<ProductList, Error> (
+  //   {
+  //     queryKey: ['productGenre', product],
+  //     queryFn: () => fetchProductGenre('guitar'),
+  //     initialData: product
+  //   }
+  // )
+
   return (
     <section id='preview-section' className="mt-11 pl-4 overflow-auto">
       <div className="pr-4 w-full flex justify-between items-center">

@@ -4,7 +4,7 @@ import {create} from 'zustand';
 interface AuthState {
   isLoggedIn: boolean;
   accessToken: string | null;
-  setAccessToken: (token: string | null) => void;
+  setAccessToken: (token: string | undefined) => void;
   setLoggedIn: (status: boolean) => void;
 }
 

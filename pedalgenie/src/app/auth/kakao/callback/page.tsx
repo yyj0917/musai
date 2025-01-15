@@ -4,11 +4,14 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { useAuthStore } from '@/lib/zustand/useAuthStore';
+import { useQueryClient } from '@tanstack/react-query';
 
 export default function KakaoCallbackPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+  const queryClient = useQueryClient(); // QueryClient 가져오기
+
 
 
   useEffect(() => {
@@ -18,22 +21,26 @@ export default function KakaoCallbackPage() {
 
     if (code) {
       // 백엔드로 인가 코드 전달
+      let isRequestSent = false; // 중복 요청 방지 플래그
+
+      if (!isRequestSent) {
+        isRequestSent = true;
+      }
       axios
         .get(`${process.env.NEXT_PUBLIC_API_URL}/auth/kakao/callback`, { params: { code }, withCredentials: true,})
         .then((response) => {
           console.log('로그인 성공:', response.data);
           console.log('토큰:', response.data.data.accessToken);
+          const accessToken = response.data.data.accessToken;
           // JWT 토큰을 AuthStore에 저장
-          useAuthStore.getState().setAccessToken(response.data.data.accessToken);
-          console.log('토큰:', useAuthStore.getState().accessToken);
+          queryClient.setQueryData(['authToken'], accessToken);
           setLoading(false);
 
-          // 이전 페이지로 이동
-          // if (window.history.length > 1) {
-          //   router.back(); // 이전 페이지로 이동
-          // } else {
-          //   router.push('/'); // 이전 페이지가 없는 경우 홈으로 이동
-          // }
+          if (window.history.length > 1) {
+            router.push('/mypage'); // 이전 페이지로 이동
+          } else {
+            router.push('/'); // 이전 페이지가 없는 경우 홈으로 이동
+          }
         })
         .catch((error) => {
           setError('로그인에 실패했습니다.');

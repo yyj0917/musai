@@ -1,13 +1,9 @@
+import { ArticleData } from '@/types/article-type';
 import Image from 'next/image';
 import Link from 'next/link';
 
 type ArticleItemProps = {
-  article?: {
-    id: number;
-    image: string;
-    title: string;
-    category: string[];
-  };
+  article: ArticleData
   currentIdx: number;
   articleLength: number;
 };
@@ -21,10 +17,10 @@ export default function Article({ article, currentIdx, articleLength }: ArticleI
   //   }
   // Article UI
   return (
-    <Link href={`/home/article/${article?.id}`}>
+    <Link href={`/home/article/${article?.articleId}`}>
       <article className="relative min-w-80 min-h-80 rounded-sm overflow-hidden" style={{aspectRatio: '1/1'}}>
         <Image
-          src={`${article?.image}`}
+          src={`${article?.thumbnailUrl}`}
           alt={`${article?.title}`}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" // 화면 크기에 맞춰 이미지의 사이즈 지정
@@ -38,9 +34,9 @@ export default function Article({ article, currentIdx, articleLength }: ArticleI
           <h3 className="text-grey250 text-head1">{article?.title}</h3>
           <div className="w-72 flex justify-between items-center text-grey450 text-body1">
             <div>
-              {article?.category.map((cat, index) => (
+              {article?.hashTag.map((cat, index) => (
                 <span key={index} className="mr-2">
-                  #{cat}
+                  {cat}
                 </span>
               ))}
             </div>

@@ -15,6 +15,8 @@ import LoginModal from '../../../components/login-modal';
 import LogoutModal from '@/components/logout-modal';
 import WithdrawModal from '@/components/withdraw-modal';
 import { fetchUserInfo } from '@/lib/api/auth';
+import { useAuthStore } from '@/lib/zustand/useAuthStore';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 export default function MyPage() {
 
@@ -26,19 +28,52 @@ export default function MyPage() {
   const { openLoginModal } = useModalStore();
   const { openLogoutModal } = useModalStore();
   const { openWithdrawModal } = useModalStore();
+  const queryClient = useQueryClient();
 
   const { showMessenger } = useChannelIOApi();
 
-  useEffect(() => {
-    const fetchMembers = async () => {
-      const response = await fetchUserInfo();
-      console.log(response);
-      if (response) {
-        setIsUser(true);
-      }
+  const fetchMembers = async () => {
+    const accessToken = queryClient.getQueryData<string>(['authToken']);
+    if (!accessToken) {
+      throw new Error('로그인 정보가 없습니다.');
     }
-    fetchMembers();
-  }, []);
+    useAuthStore.getState().setAccessToken(accessToken);
+    try {
+
+      const response = await fetchUserInfo(); // API 호출
+      setIsUser(true);
+      return response;
+    } catch (error) {
+      console.error('회원 정보 가져오기 실패:', error);
+      return
+    }
+  }
+
+  // React Query로 fetchUserInfo 데이터 캐싱
+  const { data: memberData, isLoading, isError } = useQuery({
+    queryKey: ['memberInfo'], // 캐싱 키
+    queryFn: fetchMembers, // fetchMembers 함수
+    staleTime: 1000 * 60 * 5, // 데이터가 5분 동안 신선하다고 간주
+    gcTime: 1000 * 60 * 10, // 10분 동안 캐싱 유지
+    enabled: true, // 활성화
+  });
+  
+  
+  
+  // 초기 데이터를 설정하는 useEffect
+  useEffect(() => {
+    const fetchInitialData = async () => {
+      try {
+        const initialData = await fetchMembers(); // 데이터를 서버에서 가져옴
+        console.log('초기 데이터:', initialData);
+        queryClient.setQueryData(['memberInfo'], initialData); // 초기 데이터를 캐싱
+      } catch (error) {
+        console.error('초기 데이터 가져오기 실패:', error);
+      }
+    };
+
+    fetchInitialData();
+  }, [queryClient]);
 
   const etc = [
     {
@@ -72,8 +107,8 @@ export default function MyPage() {
         ) : (
           // 로그인 상태
           <div className="absolute left-4 top-[10.5px] flex flex-col gap-1">
-            <p className="text-head1">{tmpUser.name} 님</p>
-            <p className="text-body1 text-grey650">{tmpUser.email}</p>
+            <p className="text-head1">{memberData?.nickname} 님</p>
+            <p className="text-body1 text-grey650">{memberData?.email}</p>
           </div>
         )}
       </div>
@@ -115,7 +150,7 @@ export default function MyPage() {
         <h1 className="text-body1 text-grey650">약관</h1>
         <div className="flex flex-col gap-2">
           {etc.map((item, index) => (
-            <Link key={index} href={item.link} className="flex items-center">
+            <Link key={index} href={item.link} className="max-w-auto flex items-center">
               <p className="text-body1 text-grey150">{item.text}</p>
             </Link>
           ))}

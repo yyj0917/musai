@@ -7,12 +7,35 @@ import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '@/com
 
 import './../../../globals.css';
 import ArticleSkeleton from '@/skeleton/article-skeleton';
+import { useQuery } from '@tanstack/react-query';
+import { fetchArticles } from '@/lib/api/article';
+import { ArticleData, ArticleList } from '@/types/article-type';
 
-export default function ArticleSection({ article }: ArticleProps) {
+type ArticleProps = {
+  articleList: ArticleList;
+};
+
+export default function ArticleSection({ articleList }: ArticleProps) {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false); // 콘텐츠 로딩 상태
+
+  const {
+    data: articleData, // fetch해서 props로 받아온 article 데이터 
+    isLoading,
+    isError,
+    error,
+    refetch
+  } = useQuery<ArticleList, Error>(
+    {
+      queryKey: ['articles'],
+      queryFn: fetchArticles, // 타입 생각해서 잘 맞춰야 함.
+      initialData: articleList,
+      staleTime: 1000 * 60 * 60 * 24, // 24시간
+      gcTime: 1000 * 60 * 60 * 24 * 7, // 7일
+    }
+  )
 
 
   useEffect(() => {
@@ -58,11 +81,11 @@ export default function ArticleSection({ article }: ArticleProps) {
             >
             {/* 마지막 아티클 오른쪽 마진 추가하는 거 + 다른 아티클 겹쳐보이는 거 확실히 하기 */}
             <CarouselContent className=''>
-              {article.map((item: Article, index: number) => (
+              {articleData.map((article: ArticleData, index: number) => (
                 <CarouselItem
                   key={index}
-                  className={`flex-shrink-0 min-w-80 h-80 ${index === article.length - 1 ? 'mr-[10px]' : ''}`}>
-                  <Article currentIdx={index + 1} articleLength={count} article={item} />
+                  className={`flex-shrink-0 min-w-80 h-80 ${index === articleData.length - 1 ? 'mr-[10px]' : ''}`}>
+                  <Article currentIdx={index + 1} articleLength={count} article={article} />
                 </CarouselItem>
               ))}
               {/* <Suspense fallback={<Article />}>
@@ -72,9 +95,9 @@ export default function ArticleSection({ article }: ArticleProps) {
 
           {/* 하단의 페이지네이션 표시 (슬라이드 개수만큼 점 생성) */}
           <div className="flex justify-center items-center gap-2 mt-4">
-            {article.map((_, idx: number) => (
+            {articleData.map((article: ArticleData, idx: number) => (
               <div
-                key={idx}
+                key={article.articleId}
                 className={` w-2 h-2 rounded-full transition-all duration-500 ease-in-out
                   ${idx === current - 1 ? 'w-4 bg-red animate-bubble' : 'bg-grey550'}`}
               />
@@ -86,9 +109,9 @@ export default function ArticleSection({ article }: ArticleProps) {
           <ArticleSkeleton/>
           {/* 하단의 페이지네이션 표시 (슬라이드 개수만큼 점 생성) */}
           <div className="flex justify-center items-center gap-2 mt-4">
-            {article.map((_, idx: number) => (
+            {articleData.map((article: ArticleData, idx: number) => (
               <div
-                key={idx}
+                key={article.articleId}
                 className={` w-2 h-2 rounded-full transition-all duration-500 ease-in-out
                   ${idx === current - 1 ? 'w-4 bg-red animate-bubble' : 'bg-grey550'}`}
               />

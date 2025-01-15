@@ -39,18 +39,7 @@ export default function ProductSection({ effector }: EffectorProps) {
   const SCROLL_DELTA = 5; // 무시할 최소 스크롤 값
 
 
-  // 스크롤 이벤트 - 헤더 + 플로팅 버튼
-  // useScrollDirection(
-  //   'main', 'main',
-  //   () => {
-  //     setHeaderVisible(false);
-  //     console.log('up');
-  //   },
-  //   () => {
-  //     setHeaderVisible(true);
-  //     console.log('down');
-  //   }
-  // );
+  // 수정해야 할 것  -> 헤더랑 카테고리 fixed될 때 애니메이션 적용 + throllte, useCallback써서 이벤트 리스터 최적화
   useEffect(() => {
     const handleScroll = () => {
       const nav = document.querySelector("#product-nav");
@@ -67,22 +56,17 @@ export default function ProductSection({ effector }: EffectorProps) {
         // 작은 변동 무시
         return;
       }
-      console.log(
-        "currentScrollTop:", currentScrollTop,
-        "beforeScrollY.current:", beforeScrollY.current
-    );
-      console.log("navTop:", navTop, "mainTop:", mainTop);
   
       if (navTop <= mainTop) {
         setHeaderVisible(false); // nav 고정
         // 0.5초 후에 카테고리 고정 실행
-        setTimeout(() => {
-          setCategoryFixed(true);
-        }, 300); // 0.5초 (500ms) 후 실행
+        // setTimeout(() => {
+        //   setCategoryFixed(true);
+        // }, 300); // 0.5초 (500ms) 후 실행
       } 
       if (beforeScrollY.current > currentScrollTop) {
         setHeaderVisible(true); // 헤더 보이기
-        setCategoryFixed(false); // 카테고리 고정 해제
+        // setCategoryFixed(false); // 카테고리 고정 해제
 
       }
       beforeScrollY.current = currentScrollTop;
@@ -168,7 +152,7 @@ export default function ProductSection({ effector }: EffectorProps) {
       <div  className="w-full flex flex-col">
         <div id='scroll-event' className={`
           bg-grey1000
-          ${!isCategoryFixed ? 'sticky top-0 z-40' : 'pt-3 w-full absolute top-0 z-40'}
+          ${isHeaderVisible ? 'sticky top-0 z-40' : 'pt-3 w-full absolute top-0 z-40'}
           transition-transform duration-300
         `}>
           <nav id="product-nav" className={`px-4 w-full flex justify-between items-center`}>
