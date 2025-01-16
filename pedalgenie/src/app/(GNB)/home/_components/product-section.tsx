@@ -69,6 +69,9 @@ export default function ProductSection({ effector }: EffectorProps) {
       if (beforeScrollY.current > currentScrollTop) {
         setHeaderVisible(true); // 헤더 보이기
         // setCategoryFixed(false); // 카테고리 고정 해제
+        setFloatingButton(false);
+
+      } else {
         setFloatingButton(true);
 
       }
@@ -188,7 +191,7 @@ export default function ProductSection({ effector }: EffectorProps) {
       {/* 로그인 유저가 아닐 시 로그인 모달 */}
       {isLoginOpen && <LoginModal />}
       {/* 플로팅 버튼 */}
-      {isFloatingButton && <FloatingButton targetSection={'product-section'} mainContainer={'main'} />}
+      <FloatingButton targetSection={'product-section'} mainContainer={'main'} />
     </section>
   );
 }
