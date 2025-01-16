@@ -11,6 +11,7 @@ import { useModalStore } from '@/lib/zustand/useModalStore';
 import LoginModal from '@/components/login-modal';
 import { useScrollDirection } from '@/hooks/scroll';
 import { before, set, throttle } from 'lodash';
+import FloatingButton from '@/components/floating-button';
 
 
 export default function ProductSection({ effector }: EffectorProps) {
@@ -18,12 +19,13 @@ export default function ProductSection({ effector }: EffectorProps) {
   const searchParams = useSearchParams();
   const initialCategory = searchParams.get('category') || '전체'; // URL에서 바로 카테고리 가져오기
 
-  const { isLoginOpen } = useModalStore();
+  const { isLoginOpen,  isFloatingButton, setFloatingButton } = useModalStore();
 
   const isHeaderVisible = useScrollStore((state) => state.isHeaderVisible);
   const setHeaderVisible = useScrollStore((state) => state.setHeaderVisible);
   const isCategoryFixed = useScrollStore((state) => state.isCategoryFixed);
   const setCategoryFixed = useScrollStore((state) => state.setCategoryFixed);
+
 
   const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory);
 
@@ -67,6 +69,7 @@ export default function ProductSection({ effector }: EffectorProps) {
       if (beforeScrollY.current > currentScrollTop) {
         setHeaderVisible(true); // 헤더 보이기
         // setCategoryFixed(false); // 카테고리 고정 해제
+        setFloatingButton(true);
 
       }
       beforeScrollY.current = currentScrollTop;
@@ -146,10 +149,10 @@ export default function ProductSection({ effector }: EffectorProps) {
     }
   };
   return (
-    <section className={`${
+    <section className={` ${
       isHeaderVisible ? 'mt-11' : 'mt-8'
     }`}>
-      <div  className="w-full flex flex-col">
+      <div id='product-section'  className="w-full flex flex-col">
         <div id='scroll-event' className={`
           bg-grey1000
           ${isHeaderVisible ? 'sticky top-0 z-40' : 'pt-3 w-full  top-0 z-100'}
@@ -184,6 +187,8 @@ export default function ProductSection({ effector }: EffectorProps) {
       </div>
       {/* 로그인 유저가 아닐 시 로그인 모달 */}
       {isLoginOpen && <LoginModal />}
+      {/* 플로팅 버튼 */}
+      {isFloatingButton && <FloatingButton targetSection={'product-section'} mainContainer={'main'} />}
     </section>
   );
 }

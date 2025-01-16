@@ -6,7 +6,7 @@ interface ModalStoreState {
   isLogoutOpen: boolean;
   isWithdrawOpen: boolean;
   isCancelOpen: boolean;
-
+  isFloatingButton: boolean;
   openLoginModal: () => void;
   closeLoginModal: () => void;
   openLogoutModal: () => void;
@@ -15,6 +15,7 @@ interface ModalStoreState {
   closeWithdrawModal: () => void;
   openCancelModal: () => void;
   closeCancelModal: () => void;
+  setFloatingButton: (isFloatingButton: boolean) => void;
 }
 
 export const useModalStore = create<ModalStoreState>((set) => ({
@@ -22,6 +23,7 @@ export const useModalStore = create<ModalStoreState>((set) => ({
   isLogoutOpen: false,
   isWithdrawOpen: false,
   isCancelOpen: false,
+  isFloatingButton: false,
   openLoginModal: () => set({ isLoginOpen: true }),
   closeLoginModal: () => set({ isLoginOpen: false }),
   openLogoutModal: () => set({ isLogoutOpen: true }),
@@ -30,4 +32,5 @@ export const useModalStore = create<ModalStoreState>((set) => ({
   closeWithdrawModal: () => set({ isWithdrawOpen: false }),
   openCancelModal: () => set({ isCancelOpen: true }),
   closeCancelModal: () => set({ isCancelOpen: false }),
+  setFloatingButton: (isFloatingButton) => set({ isFloatingButton }),
 }));

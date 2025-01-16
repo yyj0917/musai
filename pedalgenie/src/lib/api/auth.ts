@@ -31,3 +31,13 @@ export async function fetchUserInfo(): Promise<UserInfo> {
       throw new Error('Unable to fetch articles. Please try again later.');
     }
 }
+
+// 쿠키게 있는 리프레시 토큰으로 엑세스 토큰 재발급 - tanstack query 캐싱
+export async function refetchAccessToken(): Promise<string> {
+    try {
+        const response = await axiosInstance.get('/api/reissue');
+        return response.data.data;
+    } catch (error) {
+        throw new Error('Unable to refetch access token. Please try again later.');
+    }
+}
