@@ -1,11 +1,12 @@
-import { Suspense } from 'react';
-import FilterSpan from '../../_components/(filter)/filter-span';
 import dataset from '@/data/dataset.json';
 import ProductItem from '../../_components/product';
+import { Product, ProductList } from '@/types/product-type';
 
+type SearchedProductProps = {
+  searchedProducts: ProductList;
+}
 
-export default function SearchedProduct() {
-  const { effector } = dataset;
+export default function SearchedProduct({ searchedProducts }: SearchedProductProps) {
 
   return (
     <div className="w-full h-auto flex flex-col">
@@ -13,13 +14,11 @@ export default function SearchedProduct() {
         <p className="text-grey150">제품</p>
         <p className="text-grey650">568</p>
       </header>
-      <Suspense fallback={<div>Loading...</div>}>
-        <FilterSpan />
-      </Suspense>
       <main className="pt-2 w-full grid grid-cols-2 gap-[2px]">
-        {effector.map((effector: Effector, index: number) => (
-          <ProductItem key={index} effector={effector} />
-        ))}
+        {/* {searchedProducts.map((product: Product, index: number) => (
+          // 나중에 데이터 들어오면 바꿔야 할 것. 
+          // <ProductItem key={index} effector={effector} />
+        ))} */}
       </main>
     </div>
   );

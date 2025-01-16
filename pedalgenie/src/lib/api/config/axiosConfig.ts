@@ -30,6 +30,7 @@ axiosInstance.interceptors.response.use(
   (response) => {
     // 응답 헤더에 Authorization이 있는지 확인
     const newAccessToken = response.headers['authorization']?.split(' ')[1]; // 'Bearer <token>' 형식에서 토큰만 추출
+    console.log('newAccessToken', newAccessToken);
     if (newAccessToken) {
       // Access Token을 상태에 저장
       useAuthStore.getState().setAccessToken(newAccessToken);

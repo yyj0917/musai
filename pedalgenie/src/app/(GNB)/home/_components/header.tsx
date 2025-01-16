@@ -5,7 +5,7 @@ import { usePathname, useRouter } from 'next/navigation';
 
 import Link from 'next/link';
 import Search from '@public/svg/search.svg';
-import MainLogo from '@public/svg/main-logo.svg';
+import MainLogo from '@public/svg/main-union.svg';
 import LeftArrow from '@public/svg/home/shop/shop-leftarrow.svg';
 import { useScrollStore } from '@/lib/zustand/useScrollStore';
 
