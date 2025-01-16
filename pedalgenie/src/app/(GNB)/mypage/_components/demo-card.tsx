@@ -4,7 +4,7 @@ import { useModalStore } from "@/lib/zustand/useModalStore";
 import Image from "next/image";
 import { useState } from "react";
 
-export default function PreviewCard({preivewStatus} : {preivewStatus: string}) {
+export default function DemoCard({preivewStatus} : {preivewStatus: string}) {
     const { openCancelModal } = useModalStore();
 
     return (

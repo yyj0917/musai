@@ -36,7 +36,7 @@ export async function fetchUserInfo(): Promise<UserInfo> {
 export async function refetchAccessToken(): Promise<string> {
     try {
         const response = await axiosInstance.get('/api/reissue');
-        return response.data.data;
+        return response.data.data.accessToken;
     } catch (error) {
         throw new Error('Unable to refetch access token. Please try again later.');
     }

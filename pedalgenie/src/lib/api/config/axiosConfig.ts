@@ -31,7 +31,6 @@ axiosInstance.interceptors.response.use(
   (response) => {
     // 응답 헤더에 Authorization이 있는지 확인
     const newAccessToken = response.headers['authorization']?.split(' ')[1]; // 'Bearer <token>' 형식에서 토큰만 추출
-    console.log('newAccessToken', newAccessToken);
     if (newAccessToken) {
       // Access Token을 상태에 저장
       useAuthStore.getState().setAccessToken(newAccessToken);
@@ -40,17 +39,19 @@ axiosInstance.interceptors.response.use(
   },
   async (error) => {
     // 에러 처리 로직 - 401 -> 쿠키에 리프레시 토큰이 없어서 그냥 아예 로그아웃 상태.
-    const { response } = error;
+    const { response, config } = error;
 
-    if (response?.status === 401) {
+    if (response?.status === 401 && !config.__isRetryRequest) {
+      config.__isRetryRequest = true; // 재요청 여부 플래그
+
       try {
         // 리프레시 토큰으로 AccessToken 재발급
-        const refreshToken = await refetchAccessToken(); // 토큰 재발급 함수 호출
-        useAuthStore.getState().setAccessToken(refreshToken);
+        const refetchToken = await refetchAccessToken(); // 토큰 재발급 함수 호출
+        useAuthStore.getState().setAccessToken(refetchToken);
 
         // 새로 받은 AccessToken으로 재요청
-        error.config.headers['Authorization'] = `Bearer ${refreshToken}`;
-        return axiosInstance.request(error.config);
+        config.headers['Authorization'] = `Bearer ${refetchToken}`;
+        return axiosInstance.request(config);
 
       } catch (refreshError) {
         // 재발급도 실패한 경우 로그아웃 처리

@@ -43,7 +43,6 @@ export default function MyPage() {
     try {
 
       const response = await fetchUserInfo(); // API 호출
-      console.log('회원 정보:', response);
       setIsUser(true);
       return response;
     } catch (error) {
@@ -68,7 +67,6 @@ export default function MyPage() {
     const fetchInitialData = async () => {
       try {
         const initialData = await fetchMembers(); // 데이터를 서버에서 가져옴
-        console.log('초기 데이터:', initialData);
         queryClient.setQueryData(['memberInfo'], initialData); // 초기 데이터를 캐싱
       } catch (error) {
         console.error('초기 데이터 가져오기 실패:', error);
