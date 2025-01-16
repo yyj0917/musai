@@ -36,9 +36,6 @@ export default function MyPage() {
 
   const fetchMembers = async () => {
     const accessToken = queryClient.getQueryData<string>(['authToken']);
-    // if (!accessToken) {
-    //   throw new Error('로그인 정보가 없습니다.');
-    // }
     useAuthStore.getState().setAccessToken(accessToken);
     try {
 
@@ -46,7 +43,7 @@ export default function MyPage() {
       setIsUser(true);
       return response;
     } catch (error) {
-      console.error('회원 정보 가져오기 실패:', error);
+      // error handling 필요
       return
     }
   }
@@ -67,9 +64,11 @@ export default function MyPage() {
     const fetchInitialData = async () => {
       try {
         const initialData = await fetchMembers(); // 데이터를 서버에서 가져옴
-        queryClient.setQueryData(['memberInfo'], initialData); // 초기 데이터를 캐싱
+        if (initialData) queryClient.setQueryData(['memberInfo'], initialData); // 초기 데이터를 캐싱
+        
       } catch (error) {
-        console.error('초기 데이터 가져오기 실패:', error);
+        // console.error('초기 데이터 가져오기 실패:', error);
+        // error handling 필요
       }
     };
 

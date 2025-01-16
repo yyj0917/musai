@@ -1,9 +1,23 @@
+'use client';
+
 import { useModalStore } from '@/lib/zustand/useModalStore';
 import CloseX from '@public/svg/close-x.svg';
 import { Button } from './ui/button';
+import { logout } from '@/lib/api/auth';
+import { useAuthStore } from '@/lib/zustand/useAuthStore';
 
 export default function LogoutModal() {
   const { isLogoutOpen, closeLogoutModal } = useModalStore();
+
+  const handleLogout = async () => {
+    await logout();
+    useAuthStore.getState().setAccessToken('');
+    closeLogoutModal();
+
+    // 로그아웃 후 페이지 새로고침 - 인데 다른 로직있는지 찾아보기.
+    window.location.reload();
+
+  } 
 
   if (!isLogoutOpen) return null; // 모달이 열리지 않으면 렌더링하지 않음
 
@@ -25,7 +39,7 @@ export default function LogoutModal() {
             <Button variant={'secondary'} className="w-full bg-inherit" onClick={closeLogoutModal}>
               아니요
             </Button>
-            <Button variant={'secondary'} className="w-full">
+            <Button variant={'secondary'} className="w-full" onClick={handleLogout}>
               네
             </Button>
           </div>

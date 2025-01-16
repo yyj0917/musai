@@ -25,6 +25,7 @@ axiosInstance.interceptors.request.use(
   },
   (error) => Promise.reject(error)
 );
+let isRefreshing = false; // 재발급 상태를 관리하는 플래그
 
 // 응답 인터셉터
 axiosInstance.interceptors.response.use(
@@ -41,22 +42,24 @@ axiosInstance.interceptors.response.use(
     // 에러 처리 로직 - 401 -> 쿠키에 리프레시 토큰이 없어서 그냥 아예 로그아웃 상태.
     const { response, config } = error;
 
-    if (response?.status === 401 && !config.__isRetryRequest) {
-      config.__isRetryRequest = true; // 재요청 여부 플래그
+    if (response?.status === 401 && !config.__isRetryRequest && !isRefreshing) {
+      config.__isRetryRequest = true; // 재요청 여부 플래그 + 요구되는 api 호출의 재요청
+      isRefreshing = true; // 재발급 요청 상태 설정
 
       try {
-        // 리프레시 토큰으로 AccessToken 재발급
-        const refetchToken = await refetchAccessToken(); // 토큰 재발급 함수 호출
+        // 리프레시 토큰으로 AccessToken 재발급 + 첫 재요청
+        const refetchToken = await refetchAccessToken(); // 토큰 재발급 함수 호출 - reissue api 재요청을 제어해야 함
         useAuthStore.getState().setAccessToken(refetchToken);
-
+        
         // 새로 받은 AccessToken으로 재요청
         config.headers['Authorization'] = `Bearer ${refetchToken}`;
         return axiosInstance.request(config);
 
       } catch (refreshError) {
         // 재발급도 실패한 경우 로그아웃 처리
-        // useAuthStore.getState().setLoggedIn(false); // Zustand 상태 변경
-        // window.location.href = '/' // 로그인 페이지로 리다이렉트
+        useAuthStore.getState().setLoggedIn(false); // Zustand 상태 변경
+      } finally {
+        isRefreshing = false; // 재발급 상태 초기화
       }
     }
     return Promise.reject(error);
