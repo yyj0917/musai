@@ -25,7 +25,8 @@ export default function ProductItem({ product } : ProductItem) {
   const [ isUILike, setIsUILike] = useState<boolean>(false);
 
 
-  const toggleLikeProduct = async (productId: number) => {
+  const toggleLikeProduct = async (e : React.MouseEvent<HTMLButtonElement>, productId: number) => {
+    e.preventDefault();
     // await handleLikeProduct(productId, isLoggedIn, openLoginModal);
     
     // 애니메이션 클래스 추가 - 하트 애니메이션
@@ -43,7 +44,7 @@ export default function ProductItem({ product } : ProductItem) {
 
 
   return (
-    <div className="pb-5 w-full flex flex-col">
+    <Link href={`/product/${product.id}`} className="pb-5 w-full flex flex-col">
       <div className="relative w-full aspect-square overflow-hidden">
         <Image
           src={`${product?.imageUrl}`}
@@ -53,7 +54,7 @@ export default function ProductItem({ product } : ProductItem) {
           className="object-cover"
         />
         <button
-          onClick={() => toggleLikeProduct(product?.id)}
+          onClick={(e) => toggleLikeProduct(e, product?.id)}
           className="absolute bottom-4 right-4 text-red ">
           <Heart 
             strokeWidth={1.5}
@@ -96,6 +97,6 @@ export default function ProductItem({ product } : ProductItem) {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
