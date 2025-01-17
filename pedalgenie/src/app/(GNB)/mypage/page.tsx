@@ -27,6 +27,7 @@ export default function MyPage() {
   const queryClient = useQueryClient();
 
   const { showMessenger } = useChannelIOApi();
+  const isLoggedin = useAuthStore((state) => state.isLoggedIn);
 
   const fetchMembers = async () => {
     const accessToken = queryClient.getQueryData<string>(['authToken']);
@@ -90,12 +91,15 @@ export default function MyPage() {
     speed: 1,
     thickness: 4,
   }
-  if (isLoading || !isUser) {
-    return (
-      <div className="w-full h-full flex justify-center items-center">
-        <Spinner option={option} />
-      </div>
-    );
+
+  if (isLoggedin || isLoading) {
+    if (!isUser) {
+      return (
+        <div className="w-full h-full flex justify-center items-center">
+          <Spinner option={option} />
+        </div>
+      );
+    }
   }
 
   return (

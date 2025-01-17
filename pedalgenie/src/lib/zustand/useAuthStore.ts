@@ -10,7 +10,7 @@ interface AuthState {
 
 export const useAuthStore = create<AuthState>((set) => ({
     // false로 고쳐야 함. 지금은 개발용 임시 true
-    isLoggedIn: true,
+    isLoggedIn: false,
     accessToken: null,
 
     // Access Token 저장

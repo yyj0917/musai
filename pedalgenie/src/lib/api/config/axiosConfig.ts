@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useAuthStore } from '@/lib/zustand/useAuthStore';
 import { refetchAccessToken } from '../auth';
+import { use } from 'react';
 
 
 const axiosInstance = axios.create({
@@ -50,6 +51,7 @@ axiosInstance.interceptors.response.use(
         // 리프레시 토큰으로 AccessToken 재발급 + 첫 재요청
         const refetchToken = await refetchAccessToken(); // 토큰 재발급 함수 호출 - reissue api 재요청을 제어해야 함
         useAuthStore.getState().setAccessToken(refetchToken);
+        useAuthStore.getState().setLoggedIn(true); 
         
         // 새로 받은 AccessToken으로 재요청
         config.headers['Authorization'] = `Bearer ${refetchToken}`;
