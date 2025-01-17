@@ -49,13 +49,19 @@ export default function Navigation() {
     || pathname.startsWith('/home/shop/description')
     || pathname.startsWith('/mypage/reservation')) return null;
 
-  const handleNavigation = (route: string, requiresAuth?: boolean) => {
+  // const handleNavigation = (route: string, requiresAuth?: boolean) => {
+  //   if (requiresAuth && !isLoggedIn) {
+  //     // 로그인 상태가 아니고 인증이 필요한 경우
+  //     openLoginModal();
+  //   } else {
+  //     // 로그인 상태이거나 인증이 필요하지 않은 경우
+  //     window.location.href = route;
+  //   }
+  // };
+  const handleNavigation = (e: React.MouseEvent<HTMLAnchorElement>, requiresAuth?: boolean) => {
     if (requiresAuth && !isLoggedIn) {
-      // 로그인 상태가 아니고 인증이 필요한 경우
-      openLoginModal();
-    } else {
-      // 로그인 상태이거나 인증이 필요하지 않은 경우
-      window.location.href = route;
+      e.preventDefault(); // Prevent navigation
+      openLoginModal(); // Open login modal
     }
   };
   return (
@@ -64,15 +70,17 @@ export default function Navigation() {
         const Icon = item.icon;
 
         return (
-          <button
+          <Link
             key={item.id}
-            onClick={() => handleNavigation(item.route, item.requiresAuth)}
+            href={item.route}
+            onClick={(e) => handleNavigation(e, item.requiresAuth)}
             className={`h-[50px] flex flex-1 flex-col items-center gap-1 ${
               activeIndex === item.id ? 'text-white' : 'text-grey250 opacity-[0.5]'
-            }`}>
+            }`}
+          >
             <Icon />
             <p className="w-15 text-caption1">{item.text}</p>
-          </button>
+          </Link>
         );
       })}
       {isLoginOpen && <LoginModal />}

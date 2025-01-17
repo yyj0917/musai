@@ -13,7 +13,6 @@ export default async function Home() {
 
   // // 아티클 목록 조회
   const articleList = await fetchArticles();
-  console.log(articleList);
   // // 시연해볼 수 있는 장르별 악기 조회
   // const productGenre = await fetchProductGenre('guitar');
   // // 초기 상품 조회 - 10개만 (SEO용)

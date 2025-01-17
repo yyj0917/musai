@@ -43,7 +43,7 @@ export default function MyPage() {
   }
 
   // React Query로 fetchUserInfo 데이터 캐싱
-  const { data: memberData, isLoading, isError } = useQuery({
+  const { data: memberData, isLoading } = useQuery({
     queryKey: ['memberInfo'], // 캐싱 키
     queryFn: fetchMembers, // fetchMembers 함수
     staleTime: 1000 * 60 * 5, // 데이터가 5분 동안 신선하다고 간주
@@ -90,7 +90,7 @@ export default function MyPage() {
     speed: 1,
     thickness: 4,
   }
-  if (isLoading) {
+  if (isLoading || !isUser) {
     return (
       <div className="w-full h-full flex justify-center items-center">
         <Spinner option={option} />
