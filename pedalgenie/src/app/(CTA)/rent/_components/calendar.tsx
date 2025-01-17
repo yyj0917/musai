@@ -20,7 +20,7 @@ export default function Calendar() {
     setCurrentMonth(addMonths(currentMonth, 1)); // 다음 달로 이동
   };
 
-  const handleDateClick = (selectedDate) => {
+  const handleDateClick = (selectedDate : any) => {
     if (!startDate) {
       setStartDate(selectedDate);
       setEndDate(null); // 새 시작일 선택 시 종료일 초기화

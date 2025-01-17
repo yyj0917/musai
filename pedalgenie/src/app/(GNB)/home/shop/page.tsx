@@ -9,7 +9,7 @@ export default async function Shop() {
   return (
     <div className="py-5 w-full h-[calc(100dvh-88.5px-87px)] flex flex-col gap-6 overflow-y-auto scrollbar-hide">
       {shopList.map((shop) => (
-        <ShopDetail key={shop.id} shopOne={shop} />
+        <ShopDetail key={shop.shopId} shopOne={shop} />
       ))}
     </div>
   );

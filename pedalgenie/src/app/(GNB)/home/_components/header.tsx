@@ -5,7 +5,7 @@ import { usePathname, useRouter } from 'next/navigation';
 
 import Link from 'next/link';
 import Search from '@public/svg/search.svg';
-import MainLogo from '@public/svg/main-logo.svg';
+import MainLogo from '@public/svg/main-union.svg';
 import LeftArrow from '@public/svg/home/shop/shop-leftarrow.svg';
 import { useScrollStore } from '@/lib/zustand/useScrollStore';
 
@@ -54,9 +54,11 @@ export default function Header() {
           </div>
           <div className="pl-4 flex gap-4 text-head1 border-b-[0.5px] border-grey750">
             {link.map((link) => (
-              <Button key={link.href} variant="link" asChild href={link.href}>
-                <Link href={link.href}>{link.name}</Link>
-              </Button>
+              <Link key={link.href} href={link.href}>
+                <Button variant="link" href={link.href}>
+                    {link.name}
+                </Button>
+              </Link>
             ))}
           </div>
         </>

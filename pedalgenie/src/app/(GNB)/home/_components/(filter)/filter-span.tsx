@@ -109,6 +109,7 @@ export default function FilterSpan({className} : FilterSpanProps) {
   return (
     <>
       <span className={`pl-4 py-3 w-full flex gap-2 transform transition-all duration-300 overflow-x-auto scrollbar-hide ${className ? className  : 'py-3'}`}>
+        
         {/* Reset Button */}
         {showResetButton && (
           <button
@@ -117,36 +118,44 @@ export default function FilterSpan({className} : FilterSpanProps) {
             <Initiate />
           </button>
         )}
+
         <div className='flex gap-2 transition-all duration-300'>
+
+          {/* 정렬 기준 필터 */}
           <Button variant="filter" 
             className="transition-all duration-300 gap-[2px] border-red bg-darkRed" onClick={() => handleOpenModal('name')}>
-            <div className="flex items-center gap-[2px]">
+            <div className="fade-in flex items-center gap-[2px]">
               <span>{nameFilter}</span>
               <DownArrow />
             </div>
           </Button>
+
+          {/* 세부 종류 필터 */}
           {category !== '전체' && (
             <Button
               variant="filter"
-              className={`gap-[2px] transition-all duration-300
+              className={`fade-in gap-[2px] transition-all duration-300
                           ${detailFilters.length >= 1 && detailFilters[0] != '카테고리' ? 'border-red bg-darkRed' : ''}`}
               onClick={() => handleOpenModal('detail')}>
-              <div className="flex items-center gap-[2px]">
+              <div className="fade-in flex items-center gap-[2px]">
                 <span>{detailLabel()}</span>
                 <DownArrow />
               </div>
             </Button>
           )}
+
+          {/* 이용범위 필터 */}
           <Button
             variant="filter"
-            className={`gap-[2px] transition-all duration-300
+            className={`fade-in gap-[2px] transition-all duration-300
                       ${usageConditions.length >= 1 && usageConditions[0] != '이용범위' ? 'border-red bg-darkRed' : ''}`}
             onClick={() => handleOpenModal('condition')}>
-            <div className="flex items-center gap-[2px]">
+            <div className="fade-in flex items-center gap-[2px]">
               <span>{usageLabel()}</span>
               <DownArrow />
             </div>
           </Button>
+
         </div>
       </span>
         {/* Type에 따른 FilterModal */}

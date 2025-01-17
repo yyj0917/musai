@@ -10,9 +10,9 @@ export type LikeShopList = LikeShop[];
 
 // 모든 매장 정보 타입
 export interface Shop {
-    id: number;
+    shopId: number;
     shopname: string;
-    thumbnailImageUrl: string;
+    // thumbnailImageUrl: string;
     isLiked?: boolean;
     products: ShopProductList;
 }
@@ -20,11 +20,12 @@ export type ShopList = Shop[];
 
 // 매장 상세 정보 타입
 export interface ShopDetail {
-    id: number;
+    shopId: number;
     shopname: string;
     address: string;
     contactNumber: string;
     businessHours: string;
+    instrumentCount: number;
     imageUrl: string;
     isLiked?: boolean;
     products: ProductList;

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import Logo from '@public/svg/main-logo.svg';
+import Logo from '@public/svg/main-union.svg';
 
 export default function LogoHeader() {
   return (

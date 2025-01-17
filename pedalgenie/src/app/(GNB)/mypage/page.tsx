@@ -11,19 +11,15 @@ import ReserveInfo from '@public/svg/mypage/reserve-info.svg';
 import ChannelTalk from '@public/svg/mypage/channel-talk.svg';
 
 import LogoHeader from '@/components/logo-header';
-import LoginModal from '../../../components/login-modal';
-import LogoutModal from '@/components/logout-modal';
-import WithdrawModal from '@/components/withdraw-modal';
+import LoginModal from '../../../components/modal/login-modal';
+import LogoutModal from '@/components/modal/logout-modal';
+import WithdrawModal from '@/components/modal/withdraw-modal';
 import { fetchUserInfo } from '@/lib/api/auth';
 import { useAuthStore } from '@/lib/zustand/useAuthStore';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { Spinner } from 'basic-loading';
 
 export default function MyPage() {
-
-  const tmpUser = {
-    name: '윤영준',
-    email: 'yyj0917@yonsei.ac.kr',
-  };
   const [isUser, setIsUser] = useState<boolean>(false);
   const { openLoginModal } = useModalStore();
   const { openLogoutModal } = useModalStore();
@@ -31,12 +27,10 @@ export default function MyPage() {
   const queryClient = useQueryClient();
 
   const { showMessenger } = useChannelIOApi();
+  const isLoggedin = useAuthStore((state) => state.isLoggedIn);
 
   const fetchMembers = async () => {
     const accessToken = queryClient.getQueryData<string>(['authToken']);
-    if (!accessToken) {
-      throw new Error('로그인 정보가 없습니다.');
-    }
     useAuthStore.getState().setAccessToken(accessToken);
     try {
 
@@ -44,13 +38,13 @@ export default function MyPage() {
       setIsUser(true);
       return response;
     } catch (error) {
-      console.error('회원 정보 가져오기 실패:', error);
+      // error handling 필요
       return
     }
   }
 
   // React Query로 fetchUserInfo 데이터 캐싱
-  const { data: memberData, isLoading, isError } = useQuery({
+  const { data: memberData, isLoading } = useQuery({
     queryKey: ['memberInfo'], // 캐싱 키
     queryFn: fetchMembers, // fetchMembers 함수
     staleTime: 1000 * 60 * 5, // 데이터가 5분 동안 신선하다고 간주
@@ -65,10 +59,11 @@ export default function MyPage() {
     const fetchInitialData = async () => {
       try {
         const initialData = await fetchMembers(); // 데이터를 서버에서 가져옴
-        console.log('초기 데이터:', initialData);
-        queryClient.setQueryData(['memberInfo'], initialData); // 초기 데이터를 캐싱
+        if (initialData) queryClient.setQueryData(['memberInfo'], initialData); // 초기 데이터를 캐싱
+        
       } catch (error) {
-        console.error('초기 데이터 가져오기 실패:', error);
+        // console.error('초기 데이터 가져오기 실패:', error);
+        // error handling 필요
       }
     };
 
@@ -89,6 +84,23 @@ export default function MyPage() {
       text: '개인정보처리방침',
     },
   ];
+  const option = {
+    bgColor: '#6E6E6E',
+    barColor: '#FFFFFF',
+    size: 50,
+    speed: 1,
+    thickness: 4,
+  }
+
+  if (isLoggedin || isLoading) {
+    if (!isUser) {
+      return (
+        <div className="w-full h-full flex justify-center items-center">
+          <Spinner option={option} />
+        </div>
+      );
+    }
+  }
 
   return (
     <div className="w-full h-auto flex flex-col ">
@@ -116,7 +128,7 @@ export default function MyPage() {
       {/* 예약내역 && 채널톡 region */}
       <div className="w-full h-[106px] flex">
         <Link
-          href="/mypage/reservation/preview"
+          href="/mypage/reservation/demo"
           className="flex flex-col items-center justify-center w-1/2 gap-1 text-grey150 border-r-[0.5px] border-grey850">
           <ReserveInfo />
           <p className="text-body1 ">예약 내역</p>
@@ -136,10 +148,10 @@ export default function MyPage() {
         <div className="mt-10 ml-5 flex flex-col gap-5">
           <h1 className="text-body1 text-grey650">내 계정</h1>
           <div className="flex flex-col gap-2">
-            <button className="flex items-center" onClick={() => openLogoutModal()}>
+            <button className="w-20 flex items-center" onClick={() => openLogoutModal()}>
               <p className="text-body1 text-grey150">로그아웃</p>
             </button>
-            <button className="flex items-center" onClick={() => openWithdrawModal()}>
+            <button className="w-20 flex items-center" onClick={() => openWithdrawModal()}>
               <p className="text-body1 text-grey150">회원탈퇴</p>
             </button>
           </div>
@@ -150,7 +162,7 @@ export default function MyPage() {
         <h1 className="text-body1 text-grey650">약관</h1>
         <div className="flex flex-col gap-2">
           {etc.map((item, index) => (
-            <Link key={index} href={item.link} className="max-w-auto flex items-center">
+            <Link key={index} href={item.link} className="max-w-28 flex items-center">
               <p className="text-body1 text-grey150">{item.text}</p>
             </Link>
           ))}
