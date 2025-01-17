@@ -20,11 +20,12 @@ export type ShopList = Shop[];
 
 // 매장 상세 정보 타입
 export interface ShopDetail {
-    id: number;
+    shopId: number;
     shopname: string;
     address: string;
     contactNumber: string;
     businessHours: string;
+    instrumentCount: number;
     imageUrl: string;
     isLiked?: boolean;
     products: ProductList;

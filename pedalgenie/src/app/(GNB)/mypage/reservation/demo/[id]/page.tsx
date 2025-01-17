@@ -30,7 +30,7 @@ export default function DemoDetailPage({ params }: { params: { demoId: number } 
     if (demoId !== 1) null;
 
     // 가상 state
-    const [demoStatus, setDemoStatus] = useState<DemoStatus>('시연완료'); // 초기 상태 설정
+    const [demoStatus, setDemoStatus] = useState<DemoStatus>('시연예정'); // 초기 상태 설정
 
     const { openEmployCheckModal } = useModalStore();
 
@@ -44,7 +44,7 @@ export default function DemoDetailPage({ params }: { params: { demoId: number } 
 
 
     return (
-        <div className="px-4 w-full flex flex-col">
+        <div className="relative px-4 w-full flex flex-col">
             {/* 예약 상태 확인 nav 파트 */}
             <nav className="-mx-4 py-3 flex justify-between items-center border-b-[0.5px] border-grey850">
                 {/* <p className="text-body1 text-grey150">{demoDetail.demoStatus}</p> */}
@@ -109,16 +109,16 @@ export default function DemoDetailPage({ params }: { params: { demoId: number } 
                         취소는 1시간 이전에 취소하기 버튼을 통해 진행해주세요
                     </p>
                 </div>
-                {demoStatus === '시연예정' && (
-                <div className="pt-3 pb-[30px] ">
-                    <button 
-                        className="py-4 w-full flex justify-center items-center bg-red text-grey150 text-label1 rounded"
-                        onClick={()=>openEmployCheckModal()}>
-                        시연 확인 (직원용)
-                    </button>
-                </div>
-                )}
             </footer>
+            {demoStatus === '시연예정' && (
+            <div className="sticky bottom-0 pt-3 pb-[30px] bg-grey1000">
+                <button 
+                    className="py-4 w-full flex justify-center items-center bg-red text-grey150 text-label1 rounded"
+                    onClick={()=>openEmployCheckModal()}>
+                    시연 확인 (직원용)
+                </button>
+            </div>
+            )}
             <EmplyCheckModal status={'시연 예약'}/>
             
         </div>

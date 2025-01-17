@@ -49,7 +49,7 @@ export default function RentDetailPage({ params }: { params: { rentId: number } 
     if (rentId !== 1) null;
 
     // 가상 state
-    const [rentStatus, setRentStatus] = useState<RentStatus>('반납완료'); // 초기 상태 설정
+    const [rentStatus, setRentStatus] = useState<RentStatus>('사용중'); // 초기 상태 설정
 
     const { openEmployCheckModal } = useModalStore();
 
@@ -63,7 +63,7 @@ export default function RentDetailPage({ params }: { params: { rentId: number } 
 
 
     return (
-        <div className="px-4 w-full flex flex-col">
+        <div className="relative px-4 w-full flex flex-col">
             {/* 예약 상태 확인 nav 파트 */}
             <nav className="-mx-4 py-3 flex justify-between items-center border-b-[0.5px] border-grey850">
                 {/* <p className="text-body1 text-grey150">{demoDetail.demoStatus}</p> */}
@@ -152,16 +152,16 @@ export default function RentDetailPage({ params }: { params: { rentId: number } 
                         ))}
                     </ul>
                 </div>
-                {(rentStatus === '픽업예정' || rentStatus === '사용중') && (
-                <div className="pt-3 pb-[30px] ">
-                    <button 
-                        className="py-4 w-full flex justify-center items-center bg-red text-grey150 text-label1 rounded"
-                        onClick={()=>openEmployCheckModal()}>
-                        {rentStatus === '픽업예정' ? '픽업 확인 (직원용)' : '반납 확인 (직원용)'}
-                    </button>
-                </div>
-                )}
             </footer>
+            {(rentStatus === '픽업예정' || rentStatus === '사용중') && (
+            <div className="sticky bottom-0 pt-3 pb-[30px] bg-grey1000">
+                <button 
+                    className="py-4 w-full flex justify-center items-center bg-red text-grey150 text-label1 rounded"
+                    onClick={()=>openEmployCheckModal()}>
+                    {rentStatus === '픽업예정' ? '픽업 확인 (직원용)' : '반납 확인 (직원용)'}
+                </button>
+            </div>
+            )}
             <EmplyCheckModal status={`${rentStatus === '픽업예정' ? '픽업' : '반납'}`}/>
             
         </div>

@@ -16,11 +16,11 @@ export default function ShopProductSection() {
         <span className="text-title1 text-grey150">전체</span>
         <span className="text-title1 text-grey550">{productCount}</span>
       </div>
-      <main className="pt-2 w-full grid grid-cols-2 gap-[2px]">
+      {/* <main className="pt-2 w-full grid grid-cols-2 gap-[2px]">
         {effector.map((effector: Effector, index: number) => (
           <ProductItem key={index} effector={effector} />
         ))}
-      </main>
+      </main> */}
     </section>
   );
 }

@@ -11,13 +11,6 @@ type ShopProps = {
 }
 
 export default function ShopDetail({ shopOne } : ShopProps) {
-  const shopItems = [
-    { id: 1, name: 'Item 1', image: '/img/storeimg-item1.jpg', description: '상품 설명 1' },
-    { id: 2, name: 'Item 2', image: '/img/storeimg-item2.jpg', description: '상품 설명 2' },
-    { id: 3, name: 'Item 3', image: '/img/storeimg-item3.jpg', description: '상품 설명 3' },
-    { id: 4, name: 'Item 4', image: '/img/storeimg-item4.jpg', description: '상품 설명 4' },
-    { id: 5, name: 'Item 5', image: '/img/storeimg-item5.jpg', description: '상품 설명 5' },
-  ];
   return (
     <div className="pl-4 w-full h-auto flex flex-col">
       {/* Store Header */}

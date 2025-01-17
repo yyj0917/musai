@@ -8,6 +8,7 @@ import { Heart } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast"
 import { Button } from '@/components/ui/button';
 import { fetchShopDetail } from '@/lib/api/shop';
+import { useEffect } from 'react';
 
 
 const shopInfo = [
@@ -29,12 +30,18 @@ const shopInfo = [
 ];
 
 
-export default async function ShopDescriptionPage({ params }: { params: { shopId: number } }) {
-    const { shopId } = params;
+export default function ShopDescriptionPage({ params }: { params: { id: number } }) {
+    const { id } = params;
     const { toast } = useToast();
 
     // fetchShopDetail 함수 - {shoId} 매장 상세정보
-    const shopDetail = await fetchShopDetail(shopId);
+    useEffect(() => {
+        const fetchDetail = async () => {
+            const shopDetail = await fetchShopDetail(id);
+            console.log(shopDetail);
+        }
+        fetchDetail();
+    }, []);
 
     const handleCopyToast = (text: string) => {
         navigator.clipboard.writeText(text);
