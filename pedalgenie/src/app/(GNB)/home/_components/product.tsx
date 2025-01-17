@@ -9,12 +9,14 @@ import { useModalStore } from '@/lib/zustand/useModalStore';
 import { handleLikeProduct } from '@/lib/utils/like-util';
 import { useState } from 'react';
 import './../../../globals.css';
+import { Product } from '@/types/product-type';
+import Link from 'next/link';
 
-type EffectorItem = {
-    effector: Effector;
+type ProductItem = {
+    product: Product;
 }
 
-export default function ProductItem({ effector } : EffectorItem) {
+export default function ProductItem({ product } : ProductItem) {
   const { isLoggedIn } = useAuthStore();
   const { openLoginModal } = useModalStore();
   const [isAnimating, setIsAnimating] = useState(false);
@@ -35,24 +37,27 @@ export default function ProductItem({ effector } : EffectorItem) {
       setIsAnimating(false);
     }, 500); // 애니메이션 지속 시간과 동일
   }
+  if (!product) {
+    return null;
+  }
 
 
   return (
     <div className="pb-5 w-full flex flex-col">
       <div className="relative w-full aspect-square overflow-hidden">
         <Image
-          src={`${effector?.image}`}
-          alt={`${effector?.name}`}
+          src={`${product?.imageUrl}`}
+          alt={`${product?.name}`}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" // 화면 크기에 맞춰 이미지의 사이즈 지정
           className="object-cover"
         />
         <button
-          onClick={() => toggleLikeProduct(effector?.id)}
+          onClick={() => toggleLikeProduct(product?.id)}
           className="absolute bottom-4 right-4 text-red ">
           <Heart 
             strokeWidth={1.5}
-            className={`like-animation ${effector?.isLiked || isAnimating ? 'scale fill-red' : ''} ${
+            className={`like-animation ${product?.isLiked || isAnimating ? 'scale fill-red' : ''} ${
               isUILike ? 'fill-red' : ''
             }`} />
         </button>
@@ -60,27 +65,34 @@ export default function ProductItem({ effector } : EffectorItem) {
       <div className="px-4 py-3 w-full">
         <div className="w-full flex flex-col gap-1">
           {/* Shop Name */}
-          <div className="text-body1 text-grey250 flex items-center gap-2">
-            <p className='w-auto max-w-[122px] truncate'>{effector?.name}</p>
+          <Link
+            href={`/home/shop/description/${product?.shopId}`} 
+            className="text-body1 text-grey250 flex items-center gap-2"
+            >
+            <p className='w-auto max-w-[122px] truncate'>{product?.shopName}</p>
             <RightArrow />
-          </div>
+          </Link>
           {/* Product Name */}
-          <p className="text-ellipsis text-grey450 text-body2 line-clamp-1">{effector?.name}</p>
+          <p className="text-ellipsis text-grey450 text-body2 line-clamp-1">{product?.name}</p>
           {/* Rental Price */}
           <p className="text-body1 flex item-center gap-1">
             <span className="text-grey550 flex mb-1">
               <span>일</span>
               <span>ㅣ</span>
             </span>
-            <span className="text-grey250">32,000원</span>
+            <span className="text-grey250">{product?.rentPricePerDay} 원</span>
           </p>
           {/* 시연, 대여, 구매 여부 chip */}
           <div className="flex gap-1">
-            {effector?.chip.map((chip: string, index: number) => (
-              <Button key={index} variant="chip">
-                {chip}
-              </Button>
-            ))}
+            {product?.isDemoable && (
+              <Button variant="chip">시연</Button>
+            )}
+            {product?.isRentable && (
+              <Button variant="chip">대여</Button>
+            )}
+            {product?.isPurchasable && (
+              <Button variant="chip">구매</Button>
+            )}
           </div>
         </div>
       </div>

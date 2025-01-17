@@ -19,16 +19,18 @@ export interface Product {
     isRentable: boolean;
     isPurchasable: boolean;
     isDemoable: boolean;
-    thumbnailImageUrl: string;
+    imageUrl: string;
     isLiked?: boolean;
 }
 export type ProductList = Product[];
 
 // 매장 목록 조회에 사용될 products 타입
 export interface ShopProduct {
+    id: number;
     name: string;
     rentPricePerDay: number;
     thumbnailImage: string;
+    isLiked?: boolean;
 }
 export type ShopProductList = ShopProduct[];
 
