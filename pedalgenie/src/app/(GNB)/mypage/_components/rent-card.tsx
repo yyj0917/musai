@@ -4,7 +4,7 @@ import { useModalStore } from "@/lib/zustand/useModalStore";
 import Image from "next/image";
 import { useState } from "react";
 
-export default function DemoCard({preivewStatus} : {preivewStatus: string}) {
+export default function RentCard({preivewStatus} : {preivewStatus: string}) {
     const { openCancelModal } = useModalStore();
 
     return (
@@ -13,16 +13,16 @@ export default function DemoCard({preivewStatus} : {preivewStatus: string}) {
             <nav className="w-full flex justify-between items-center">
                 <p
                     className={`text-body1 ${
-                        preivewStatus === '시연예정'
+                        preivewStatus === '픽업예정' || preivewStatus === '사용중'
                         ? 'text-green'
-                        : preivewStatus === '시연완료'
+                        : preivewStatus === '주문확인중' || preivewStatus === '반납완료'
                         ? 'text-grey150'
                         : 'text-red'
                     }`}
                 >
                     {preivewStatus}
                 </p>
-                {preivewStatus === '시연예정' && (
+                {preivewStatus === '주문확인중' && (
                     <button
                     onClick={() => openCancelModal()}
                     className="text-body2 text-grey550"
@@ -46,19 +46,13 @@ export default function DemoCard({preivewStatus} : {preivewStatus: string}) {
                             <span>서울뮤즈악기</span>
                         </p>
                     </div>
-                    {/* <div className="w-auto flex flex-col gap-1">
+                    <div className="w-auto flex flex-col gap-1">
                         <span className="w-full flex justify-start gap-2">
                             <span className="px-[6px] py-[3px] rounded bg-darkRed text-red text-caption2">대여기간</span>
                             <p className="text-body2 text-grey150">2024.09.17 - 2024.09.24</p>
                         </span>
                         <span className="w-full flex justify-start gap-2">
                             <span className="px-[6px] py-[3px] rounded bg-darkRed text-red text-caption2">픽업일정</span>
-                            <p className="text-body2 text-grey150">2024.09.17 오후 1:00</p>
-                        </span>
-                    </div> */}
-                    <div className="w-auto flex items-center">
-                        <span className="w-full flex justify-start items-center gap-2">
-                            <span className="px-[6px] py-[3px] rounded bg-darkRed text-red text-caption2">시연일정</span>
                             <p className="text-body2 text-grey150">2024.09.17 오후 1:00</p>
                         </span>
                     </div>

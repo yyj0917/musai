@@ -2,7 +2,7 @@
 
 import { useModalStore } from '@/lib/zustand/useModalStore';
 import CloseX from '@public/svg/close-x.svg';
-import { Button } from './ui/button';
+import { Button } from '../ui/button';
 import { logout } from '@/lib/api/auth';
 import { useAuthStore } from '@/lib/zustand/useAuthStore';
 

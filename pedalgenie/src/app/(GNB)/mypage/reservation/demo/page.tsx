@@ -1,7 +1,7 @@
 
 import DemoCard from "../../_components/demo-card";
 import PreviewCard from "../../_components/demo-card";
-import CancelModal from "@/components/cancel-modal";
+import CancelModal from "@/components/modal/cancel-modal";
 
 
 export default function Demo() {

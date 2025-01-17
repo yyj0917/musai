@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useAuthStore } from '@/lib/zustand/useAuthStore';
 import { useModalStore } from '@/lib/zustand/useModalStore';
-import LoginModal from './login-modal';
+import LoginModal from './modal/login-modal';
 
 type NavItem = {
   id: number;
@@ -45,7 +45,9 @@ export default function Navigation() {
   }, [pathname]);
 
   // GNB 없는 곳에서는 null 반환
-  if (pathname.startsWith('/home/article') || pathname.startsWith('/home/shop/description')) return null;
+  if (pathname.startsWith('/home/article') 
+    || pathname.startsWith('/home/shop/description')
+    || pathname.startsWith('/mypage/reservation')) return null;
 
   const handleNavigation = (route: string, requiresAuth?: boolean) => {
     if (requiresAuth && !isLoggedIn) {

@@ -11,21 +11,15 @@ import ReserveInfo from '@public/svg/mypage/reserve-info.svg';
 import ChannelTalk from '@public/svg/mypage/channel-talk.svg';
 
 import LogoHeader from '@/components/logo-header';
-import LoginModal from '../../../components/login-modal';
-import LogoutModal from '@/components/logout-modal';
-import WithdrawModal from '@/components/withdraw-modal';
+import LoginModal from '../../../components/modal/login-modal';
+import LogoutModal from '@/components/modal/logout-modal';
+import WithdrawModal from '@/components/modal/withdraw-modal';
 import { fetchUserInfo } from '@/lib/api/auth';
 import { useAuthStore } from '@/lib/zustand/useAuthStore';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Spinner } from 'basic-loading';
-import { size } from 'lodash';
 
 export default function MyPage() {
-
-  const tmpUser = {
-    name: '윤영준',
-    email: 'yyj0917@yonsei.ac.kr',
-  };
   const [isUser, setIsUser] = useState<boolean>(false);
   const { openLoginModal } = useModalStore();
   const { openLogoutModal } = useModalStore();
@@ -130,7 +124,7 @@ export default function MyPage() {
       {/* 예약내역 && 채널톡 region */}
       <div className="w-full h-[106px] flex">
         <Link
-          href="/mypage/reservation/preview"
+          href="/mypage/reservation/demo"
           className="flex flex-col items-center justify-center w-1/2 gap-1 text-grey150 border-r-[0.5px] border-grey850">
           <ReserveInfo />
           <p className="text-body1 ">예약 내역</p>

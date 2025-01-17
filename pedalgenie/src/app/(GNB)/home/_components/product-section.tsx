@@ -8,7 +8,7 @@ import FilterSpan from './(filter)/filter-span';
 import { useFilterStore } from '@/lib/zustand/useFilterStore';
 import { useScrollStore } from '@/lib/zustand/useScrollStore';
 import { useModalStore } from '@/lib/zustand/useModalStore';
-import LoginModal from '@/components/login-modal';
+import LoginModal from '@/components/modal/login-modal';
 import { useScrollDirection } from '@/hooks/scroll';
 import { before, set, throttle } from 'lodash';
 import FloatingButton from '@/components/floating-button';
