@@ -15,7 +15,6 @@ export default async function Home() {
   const articleList = await fetchArticles();
   // // 시연해볼 수 있는 장르별 악기 조회
   const genreProduct = await fetchProductGenre('클래식');
-  console.log(genreProduct);
   // // 초기 상품 조회 - 10개만 (SEO용)
   const params = {
     page: 0,

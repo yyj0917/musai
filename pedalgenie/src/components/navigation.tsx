@@ -1,9 +1,9 @@
 'use client';
 
-import Home from '@public/svg/home.svg';
-import Calendar from '@public/svg/calendar.svg';
-import Heart from '@public/svg/heart.svg';
-import Profile from '@public/svg/profile.svg';
+import Home from '@public/svg/GNB/home.svg';
+import Reserve from '@public/svg/GNB/reserve.svg';
+import Heart from '@public/svg/GNB/heart.svg';
+import Profile from '@public/svg/GNB/profile.svg';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -22,7 +22,7 @@ type NavItem = {
 
 const navItems: NavItem[] = [
   { id: 0, icon: Home, text: '홈', route: '/home' },
-  { id: 1, icon: Calendar, text: '예약현황', route: '/rent', requiresAuth: true },
+  { id: 1, icon: Reserve, text: '예약현황', route: '/rent', requiresAuth: true },
   { id: 2, icon: Heart, text: '좋아요', route: '/saveList/product', requiresAuth: true },
   { id: 3, icon: Profile, text: '마이페이지', route: '/mypage' },
 ];
@@ -75,7 +75,7 @@ export default function Navigation() {
             href={item.route}
             onClick={(e) => handleNavigation(e, item.requiresAuth)}
             className={`h-[50px] flex flex-1 flex-col items-center gap-1 ${
-              activeIndex === item.id ? 'text-white' : 'text-grey250 opacity-[0.5]'
+              activeIndex === item.id ? 'text-red' : 'text-grey250 opacity-[0.5]'
             }`}
           >
             <Icon />
