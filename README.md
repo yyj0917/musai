@@ -1,4 +1,4 @@
-# 🎸 MUSAI : 악기 대여부터 구매까지, One Stop Commerce 서비스
+# 🎸 MUSAI : 악기 대여부터 구매까지 ONE STOP
 
 <img width="1920" alt="KakaoTalk_20250118_120517793" src="https://github.com/user-attachments/assets/13dfea09-43ef-4f05-ac9b-763ec8beea1c" />
 
