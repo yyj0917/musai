@@ -30,9 +30,9 @@ export default function Article({ article, currentIdx, articleLength }: ArticleI
         {/* 그라데이션 효과 */}
         <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
 
-        <div className="absolute left-[22px] bottom-[22px] flex flex-col">
-          <h3 className="text-grey250 text-head1">{article?.title}</h3>
-          <div className="w-72 flex justify-between items-center text-grey450 text-body1">
+        <div className="absolute left-[22px] bottom-[22px] flex flex-col gap-1">
+          <h3 className="text-grey150 text-head0">{article?.title}</h3>
+          <div className="w-72 flex justify-between items-center text-grey450 text-body2">
             <div>
               {article?.hashTag.map((cat, index) => (
                 <span key={index} className="mr-2">

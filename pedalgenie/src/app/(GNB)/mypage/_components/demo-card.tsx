@@ -40,22 +40,12 @@ export default function DemoCard({preivewStatus} : {preivewStatus: string}) {
                     className="rounded-[2px]" />
                 <div className="w-auto flex flex-col gap-2">
                     <div className="w-auto flex flex-col justify-start">
-                        <h2 className="max-w-[227px] max-h-[54px] text-body1 text-grey150 line-clamp-2">제품 이름은 MAX W227, MAX H54입니다.</h2>
+                        <h2 className="max-w-[227px] max-h-[54px] text-body1 text-grey150 line-clamp-1">제품 이름은 MAX W227, MAX H54입니다.</h2>
                         <p className="flex justify-start text-caption2 text-grey550">
                             <span>매장명 ㅣ </span>
                             <span>서울뮤즈악기</span>
                         </p>
                     </div>
-                    {/* <div className="w-auto flex flex-col gap-1">
-                        <span className="w-full flex justify-start gap-2">
-                            <span className="px-[6px] py-[3px] rounded bg-darkRed text-red text-caption2">대여기간</span>
-                            <p className="text-body2 text-grey150">2024.09.17 - 2024.09.24</p>
-                        </span>
-                        <span className="w-full flex justify-start gap-2">
-                            <span className="px-[6px] py-[3px] rounded bg-darkRed text-red text-caption2">픽업일정</span>
-                            <p className="text-body2 text-grey150">2024.09.17 오후 1:00</p>
-                        </span>
-                    </div> */}
                     <div className="w-auto flex items-center">
                         <span className="w-full flex justify-start items-center gap-2">
                             <span className="px-[6px] py-[3px] rounded bg-darkRed text-red text-caption2">시연일정</span>

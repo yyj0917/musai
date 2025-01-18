@@ -31,7 +31,7 @@ export default function FloatingButton({ targetSection, mainContainer } : Floati
         }
       }, [isFloatingButton]);
     return shouldRender ? (
-        <div className='sticky bottom-10 w-full flex justify-end pr-5'>
+        <div className='sticky bottom-5 w-full flex justify-end pr-5'>
             <button
                 type="button"
                 className={`sticky bottom-10 z-50 w-11 h-11 bg-darkRed text-red rounded-full shadow-md flex items-center justify-center

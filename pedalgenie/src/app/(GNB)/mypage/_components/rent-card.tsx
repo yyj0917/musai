@@ -40,7 +40,7 @@ export default function RentCard({preivewStatus} : {preivewStatus: string}) {
                     className="rounded-[2px]" />
                 <div className="w-auto flex flex-col gap-2">
                     <div className="w-auto flex flex-col justify-start">
-                        <h2 className="max-w-[227px] max-h-[54px] text-body1 text-grey150 line-clamp-2">제품 이름은 MAX W227, MAX H54입니다.</h2>
+                        <h2 className="max-w-[227px] max-h-[54px] text-body1 text-grey150 line-clamp-1">제품 이름은 MAX W227, MAX H54입니다.</h2>
                         <p className="flex justify-start text-caption2 text-grey550">
                             <span>매장명 ㅣ </span>
                             <span>서울뮤즈악기</span>
