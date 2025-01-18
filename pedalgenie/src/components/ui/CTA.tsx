@@ -15,12 +15,12 @@ export default function CTA() {
   //     }
   // }, [pathname]);
   return (
-    <nav className="absolute bottom-0 w-full flex justify-between items-center pt-3 pb-6 px-[18px] border-t-[1px] border-grey750">
+    <nav className="absolute bottom-0 w-full flex justify-between items-center pt-3 pb-[50px] px-[20px] border-t-[1px] border-grey750 font-pretendard">
       <CTAHeart/>
-      <div className="h-[50px] flex justify-center items-center gap-[26px] text-label1 text-white">
-        <Link href={''}>대여하기</Link>
+      <div className="flex justify-center items-center gap-[26px] text-label1 text-grey250">
+        <Link href={'/rent'}>대여 예약하기</Link>
         <CTAvector/>
-        <Link href={''}>시연하기</Link>
+        <Link href={''}>시연 예약하기</Link>
       </div>
     </nav>
   );
