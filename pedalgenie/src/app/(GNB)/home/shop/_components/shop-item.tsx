@@ -1,12 +1,12 @@
 'use client';
 
-import { ShopProduct } from '@/types/product-type';
+import { Product } from '@/types/product-type';
 import { Heart } from 'lucide-react';
 import Image from 'next/image';
 import { useState } from 'react';
 
 type ShopItemProps = {
-  shopProductItem: ShopProduct;
+  shopProductItem: Product;
 };
 
 export default function ShopItem({ shopProductItem } : ShopItemProps) {
@@ -32,7 +32,7 @@ export default function ShopItem({ shopProductItem } : ShopItemProps) {
   return (
     <div className="min-w-[140px] h-[195px] flex flex-col gap-3">
       <div className='relative'>
-        <Image src={shopProductItem.thumbnailImage} alt="shop logo" width={140} height={140} className='max-w-[140px] max-h-[140px]' />
+        <Image src={shopProductItem.imageUrl} alt="shop logo" width={140} height={140} className='max-w-[140px] max-h-[140px]' />
         <button
           onClick={() => toggleLikeProduct(shopProductItem?.id)}
           className="absolute bottom-[9px] right-[10px] text-red ">

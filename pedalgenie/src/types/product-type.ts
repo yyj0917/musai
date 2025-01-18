@@ -25,29 +25,12 @@ export interface Product {
 export type ProductList = Product[];
 
 // 임시 장르별 악기 목록 타입
-export interface GenreProduct {
-    id: number;
-    shopName: string;
-    shopId: number;
-    name: string;
-    rentPricePerDay: number;
-    isRentable: boolean;
-    isPurchasable: boolean;
-    isDemoable: boolean;
-    thumbnailImage: string;
-    isLiked?: boolean;
-}
-export type GenreProductList = GenreProduct[];
+
+export type GenreProductList = Product[];
 
 // 매장 목록 조회에 사용될 products 타입
-export interface ShopProduct {
-    id: number;
-    name: string;
-    rentPricePerDay: number;
-    thumbnailImage: string;
-    isLiked?: boolean;
-}
-export type ShopProductList = ShopProduct[];
+
+export type ShopProductList = Product[];
 
 // 시연 상품 목록 조회 api - token 필요 - tanstackquery 캐싱
 export interface DemoProduct {

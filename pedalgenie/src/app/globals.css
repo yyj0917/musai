@@ -56,6 +56,12 @@
     --chart-5: 340 75% 55%;
   }
 }
+/* @layer utilities {
+  .border-border {
+    border-color: var(--border);
+  }
+}
+
 @layer base {
   * {
     @apply border-border;
@@ -63,7 +69,8 @@
   body {
     @apply bg-background text-foreground;
   }
-}
+} */
+
 /* 캐러셀 페이지네이션 애니메이션 */
 @keyframes bubble {
   0%,

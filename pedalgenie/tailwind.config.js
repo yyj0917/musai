@@ -38,6 +38,7 @@ module.exports = {
         grey250: '#E8E8E8',
         grey150: '#F3F3F3',
         grey50: '#FAFAFA',
+      },
 
         // shadcn-ui
         card: {
@@ -78,34 +79,36 @@ module.exports = {
           4: 'hsl(var(--chart-4))',
           5: 'hsl(var(--chart-5))',
         },
-      },
-      screens: {
-        sm: '375px',
-        lg: '420px',
-      },
-      fontFamily: {
-        pretendard: ['Pretendard', 'sans-serif'],
-        outfit: ['Outfit', 'sans-serif'],
-      },
-      keyframes: {
-        loading: {
-          '0%': {
-            transform: 'translateX(0)',
-          },
-          '50%, 100%': {
-            transform: 'translateX(460px)',
+        screens: {
+          sm: '375px',
+          lg: '420px',
+        },
+        fontFamily: {
+          pretendard: ['Pretendard', 'sans-serif'],
+          outfit: ['Outfit', 'sans-serif'],
+        },
+        keyframes: {
+          loading: {
+            '0%': {
+              transform: 'translateX(0)',
+            },
+            '50%, 100%': {
+              transform: 'translateX(460px)',
+            },
           },
         },
+        animation: {
+          loading: 'loading 2s infinite linear',
+        },
+        borderRadius: {
+          lg: 'var(--radius)',
+          md: 'calc(var(--radius) - 2px)',
+          sm: 'calc(var(--radius) - 4px)',
+        },
+        backgroundImage: {
+          'dimmed-image': `var(--Grey-image-dim, linear-gradient(0deg, rgba(26, 26, 26, 0.80) 0%, rgba(26, 26, 26, 0.80) 100%), lightgray 50% / cover no-repeat)`,
+        },
       },
-      animation: {
-        loading: 'loading 2s infinite linear',
-      },
-      borderRadius: {
-        lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)',
-      },
-    },
   },
   plugins: [
     function ({ addUtilities }) {

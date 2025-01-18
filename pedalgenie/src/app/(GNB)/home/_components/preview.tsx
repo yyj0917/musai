@@ -9,10 +9,10 @@ import { useModalStore } from '@/lib/zustand/useModalStore';
 import { handleLikeProduct } from '@/lib/utils/like-util';
 import { useState } from 'react';
 import Link from 'next/link';
-import { GenreProduct, Product } from '@/types/product-type';
+import { Product } from '@/types/product-type';
 
 type ProductItemProps = {
-  genreProductItem: GenreProduct;
+  genreProductItem: Product;
 };
 
 export default function PreviewItem({ genreProductItem }: ProductItemProps) {
@@ -47,7 +47,7 @@ export default function PreviewItem({ genreProductItem }: ProductItemProps) {
     <div className="relative min-w-[138px] h-[252px] flex flex-col gap-3">
       <div className="relative w-full min-h-[138px] bg-grey750 rounded-sm">
         <Image
-          src={`${genreProductItem?.thumbnailImage}`}
+          src={`${genreProductItem?.imageUrl}`}
           alt={`${genreProductItem?.name}`}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" // 화면 크기에 맞춰 이미지의 사이즈 지정
