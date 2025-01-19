@@ -65,7 +65,6 @@ export default function FilterCondition({ isOpen, onClose }: FilterProps) {
   const conditionOptions = ['시연 가능', '대여 가능', '구매 가능'];
   
   const handleToggleCondition = (condition: string) => {
-      toggleUsageCondition(condition);
       const updatedConditions = isActiveCondition.includes(condition)
       ? isActiveCondition.filter((c) => c !== condition)
       : [...isActiveCondition, condition];
@@ -82,10 +81,11 @@ export default function FilterCondition({ isOpen, onClose }: FilterProps) {
     const handleClose = () => {
       onClose();
       // 쿼리 파라미터에 전달하기 전 공백 제거
-    const trimmedConditions = isActiveCondition.map((condition) =>
-      condition.replace(/\s+/g, '') // 모든 공백 제거
-    );
-      updateQueryParam('usageConditions', trimmedConditions);
+    // const trimmedConditions = isActiveCondition.map((condition) =>
+    //   condition.replace(/\s+/g, '') // 모든 공백 제거
+    // );
+      updateQueryParam('usageConditions', isActiveCondition);
+      isActiveCondition.forEach((condition) => toggleUsageCondition(condition)); // 최종 적용
   
     };
 

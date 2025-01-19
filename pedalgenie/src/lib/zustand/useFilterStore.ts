@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import qs from 'query-string';
 
 interface FilterStore {
   // 정렬 기준 (단일)
@@ -26,10 +27,31 @@ interface FilterStore {
   setIsActiveDetail: (details: string[]) => void;
 }
 
+// 상태 초기화: URL 쿼리에서 가져오기
+const initialState = (() => {
+  if (typeof window === 'undefined') {
+    return {
+      selectedCategory: undefined,
+      nameFilter: 'RECENT',
+      usageConditions: [],
+      detailFilters: [],
+    };
+  }
+  const queryParams = qs.parse(window.location.search, {
+    parseBooleans: true,
+    parseNumbers: true,
+  });  return {
+    selectedCategory: queryParams.category as string | undefined,
+    nameFilter: (queryParams.nameFilter as string) || 'RECENT',
+    usageConditions: (queryParams.usageConditions as string)?.split(',') || [],
+    detailFilters: (queryParams.detailFilters as string)?.split(',') || [],
+  };
+})();
+
 export const useFilterStore = create<FilterStore>((set, get) => ({
-  nameFilter: '최신순',
-  usageConditions: [],
-  detailFilters: [],
+  nameFilter: initialState.nameFilter,
+  usageConditions: initialState.usageConditions,
+  detailFilters: initialState.detailFilters,
   isActiveCondition: [],
   isCategoryActiveName: null,
   isActiveDetail: [],

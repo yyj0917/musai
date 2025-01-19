@@ -20,7 +20,7 @@ export default async function Home() {
     page: 0,
     size: 10,
   }
-  const initialProduct = await fetchProductList(params);
+  // const initialProduct = await fetchProductList(params);
 
   return (
     <main id="main" className="w-full h-[calc(100dvh-88.5px-87px)] overflow-y-auto scrollbar-hide">
@@ -29,9 +29,9 @@ export default async function Home() {
       {/* 시연가능한 제품(기준미정) section */}
       <PreviewSection genreProduct={genreProduct} genre={'클래식'}/>
       {/* 전체 제품들 카테고리, 앵커링할 section - Client Comp.*/}
-      <ProductSection product={initialProduct} />
-      {/* <Suspense fallback={<div>Loading...</div>}>
-      </Suspense> */}
+      <Suspense fallback={<div>Loading...</div>}>
+        <ProductSection />
+      </Suspense>
     </main>
   );
 }

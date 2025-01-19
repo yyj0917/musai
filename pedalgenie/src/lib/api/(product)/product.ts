@@ -9,7 +9,7 @@ export interface FetchProductListParams {
     isDemoable?: boolean;
     sortBy?: string;
     subCategoryIds?: string[]; // Assuming subCategoryIds are sent as a comma-separated list
-    page?: number;
+    page?: number | unknown;
     size?: number;
   }
   
