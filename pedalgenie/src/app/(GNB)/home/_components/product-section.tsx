@@ -293,49 +293,51 @@ export default function ProductSection() {
 
 
   return (
-    <section
-      ref={sectionRef}
-      className={`relative ${
-      isHeaderVisible ? 'mt-11' : 'mt-8'
-    }`}>
-      <div id='product-section'  className="w-full flex flex-col">
-        <div id='scroll-event' className={`
-          bg-grey1000
-          ${isHeaderVisible ? 'sticky top-0 z-40' : 'pt-3 w-full  top-0 z-100'}
-          transition-transform duration-300
-        `}>
-          <nav id="product-nav" className={`px-4 w-full flex justify-between items-center`}>
-            {category.map((item, index) => (
-                <Button
-                key={index}
-                variant="primary"
-                className={`${selectedCategory === item ? 'bg-red text-grey150 !text-body1' : ''}`}
-                onClick={() => handleCategoryPick('product-section', item)}>
-                {item}
-                </Button>
-            ))}
-            </nav>
-            <FilterSpan className='py-5' />
-        </div>
-
-        <main className="w-full grid grid-cols-2 gap-[2px]">
-          {product?.pages.map((page, pageIndex) => (
-            <React.Fragment key={pageIndex}>
-              {page.items.map((productItem: Product) => (
-                <ProductItem key={productItem.id} product={productItem} />
+    <>
+      <section
+        ref={sectionRef}
+        className={`relative ${
+        isHeaderVisible ? 'mt-11' : 'mt-8'
+      }`}>
+        <div id='product-section'  className="w-full flex flex-col">
+          <div id='scroll-event' className={`
+            bg-grey1000
+            ${isHeaderVisible ? 'sticky top-0 z-40' : 'pt-3 w-full  top-0 z-100'}
+            transition-transform duration-300
+          `}>
+            <nav id="product-nav" className={`px-4 w-full flex justify-between items-center`}>
+              {category.map((item, index) => (
+                  <Button
+                  key={index}
+                  variant="primary"
+                  className={`${selectedCategory === item ? 'bg-red text-grey150 !text-body1' : ''}`}
+                  onClick={() => handleCategoryPick('product-section', item)}>
+                  {item}
+                  </Button>
               ))}
-            </React.Fragment>
-          ))}
-          {/* 마지막 sentinel */}
-          {hasNextPage && <div ref={sentinelRef} className="bg-transparent"></div>}
-        </main>
-      </div>
-      {/* 로그인 유저가 아닐 시 로그인 모달 */}
-      {isLoginOpen && <LoginModal />}
+              </nav>
+              <FilterSpan className='py-5' />
+          </div>
+
+          <main className="w-full grid grid-cols-2 gap-[2px]">
+            {product?.pages.map((page, pageIndex) => (
+              <React.Fragment key={pageIndex}>
+                {page.items.map((productItem: Product) => (
+                  <ProductItem key={productItem.id} product={productItem} />
+                ))}
+              </React.Fragment>
+            ))}
+            {/* 마지막 sentinel */}
+            {hasNextPage && <div ref={sentinelRef} className="bg-transparent"></div>}
+          </main>
+        </div>
+        {/* 로그인 유저가 아닐 시 로그인 모달 */}
+        {isLoginOpen && <LoginModal />}
+        {/* 로딩 중 */}
+        {isLoading || !isDelay && <Loading/>}
+      </section>
       {/* 플로팅 버튼 */}
       <FloatingButton targetSection={'product-section'} mainContainer={'main'} />
-      {/* 로딩 중 */}
-      {isLoading || !isDelay && <Loading/>}
-    </section>
+    </>
   );
 }

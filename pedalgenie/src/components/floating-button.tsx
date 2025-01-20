@@ -18,7 +18,8 @@ export default function FloatingButton({ targetSection, mainContainer } : Floati
         const scrollTopElement = document.getElementById(mainContainer);
         if (scrollTopElement && goTopElement) {
             const scrollPosition = goTopElement.offsetTop;
-            scrollTopElement.scrollTo({top: scrollPosition-100, behavior: 'smooth'});
+            // 이거 상댓값으로 수정 필요함
+            scrollTopElement.scrollTo({top: 800, behavior: 'smooth'});
         }
     };
     useEffect(() => {

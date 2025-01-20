@@ -1,7 +1,7 @@
 'use client';
 
 import Loading from "@/components/loading";
-import EmplyCheckModal from "@/components/modal/employ-check-modal";
+import EmployCheckModal from "@/components/modal/employ-check-modal";
 import { fetchDemoProductDetail } from "@/lib/api/(product)/demo-product";
 import { useModalStore } from "@/lib/zustand/useModalStore";
 import { useQuery } from "@tanstack/react-query";
@@ -26,7 +26,7 @@ export default function DemoDetailPage({ params }: { params: { demoId: number } 
 
     // 시연 상품 상세 조회 query caching
     const { data: demoProductDetail, isLoading, isError } = useQuery({
-        queryKey: ["demoProductDetail"], // 캐싱 키
+        queryKey: ['demoProductDetail', demoId], // 캐싱 키
         queryFn: async () => {
           const response = await fetchDemoProductDetail(demoId);
           return response;
@@ -121,7 +121,7 @@ export default function DemoDetailPage({ params }: { params: { demoId: number } 
                 </button>
             </div>
             )}
-            <EmplyCheckModal status={'시연 예약'}/>
+            <EmployCheckModal status={'시연 예약'} id={demoId}/>
             {/* 로딩 중일 때 로딩 컴포넌트 렌더링 */}
             {isLoading && <Loading/>}
         </div>

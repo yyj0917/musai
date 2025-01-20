@@ -163,7 +163,7 @@ export default function RentDetailPage({ params }: { params: { rentId: number } 
                 </button>
             </div>
             )}
-            <EmplyCheckModal status={`${rentProductDetail?.rentStatus === '픽업예정' ? '픽업' : '반납'}`}/>
+            <EmplyCheckModal status={`${rentProductDetail?.rentStatus === '픽업예정' ? '픽업' : '반납'}`} id={rentId}/>
             {/* 로딩 중일 때 로딩 컴포넌트 렌더링 */}
             {isLoading && <Loading/>}
         </div>

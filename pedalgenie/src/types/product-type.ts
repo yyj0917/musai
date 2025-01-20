@@ -56,6 +56,14 @@ export interface DemoProductDetail {
     shopAddress: string;
     memberNickName: string;
 }
+// 시연 상태 변경 patch api response type
+export interface PatchDemoProductStatus {
+    demoId: number;
+    demoStatus: string;
+    demoDate: string;
+    editedDate: string;
+}
+
 
 // 대여 상품 목록 조회 api - token 필요 - tanstackquery 캐싱
 export interface RentProduct {
