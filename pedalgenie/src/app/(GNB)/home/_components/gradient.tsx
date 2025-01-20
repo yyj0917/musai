@@ -33,7 +33,7 @@ export default function Gradient() {
 
   return (
     <div
-          className={`absolute w-[684px] h-[684px] right-[-292px] top-[-291px] rounded-full transition-opacity duration-500 ease-in-out
+          className={`-z-10 absolute w-[684px] h-[684px] right-[-292px] top-[-291px] rounded-full transition-opacity duration-500 ease-in-out
           ${isGradientVisible ? 'fade-in' : 'fade-out'}`}
           style={{
             background: 'radial-gradient(46.63% 46.63% at 50% 50%, rgba(139, 37, 44, 0.20) 2.48%, rgba(206, 55, 138, 0.01) 74.11%, rgba(241, 64, 76, 0.00) 100%)',

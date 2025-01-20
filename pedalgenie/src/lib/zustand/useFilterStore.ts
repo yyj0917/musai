@@ -8,12 +8,12 @@ interface FilterStore {
 
   // 이용 범위 (복수 선택)
   usageConditions: string[];
-  toggleUsageCondition: (condition: string) => void;
+  toggleUsageCondition: (condition: string[]) => void;
   resetUsageConditions: () => void;
 
   // 세부 종류 (복수 선택)
   detailFilters: string[];
-  toggleDetailFilter: (detail: string) => void;
+  toggleDetailFilter: (detail: string[]) => void;
   resetDetailFilters: () => void;
 
   // 현재 Active된 필터들 state
@@ -32,7 +32,7 @@ const initialState = (() => {
   if (typeof window === 'undefined') {
     return {
       selectedCategory: undefined,
-      nameFilter: 'RECENT',
+      nameFilter: '최신순',
       usageConditions: [],
       detailFilters: [],
     };
@@ -42,7 +42,7 @@ const initialState = (() => {
     parseNumbers: true,
   });  return {
     selectedCategory: queryParams.category as string | undefined,
-    nameFilter: (queryParams.nameFilter as string) || 'RECENT',
+    nameFilter: (queryParams.nameFilter as string) || '최신순',
     usageConditions: (queryParams.usageConditions as string)?.split(',') || [],
     detailFilters: (queryParams.detailFilters as string)?.split(',') || [],
   };
@@ -60,35 +60,51 @@ export const useFilterStore = create<FilterStore>((set, get) => ({
     set({ nameFilter: filter });
   },
 
-  toggleUsageCondition: (condition) => {
-    const { usageConditions } = get();
-    if (usageConditions.includes(condition)) {
-      // 이미 있으면 제거
-      set({
-        usageConditions: usageConditions.filter((c) => c !== condition),
-      });
-    } else {
-      // 없으면 추가
-      set({
-        usageConditions: [...usageConditions, condition],
-      });
-    }
+  toggleUsageCondition: (condition: string[]) => {
+    // const { usageConditions } = get();
+
+    // const updatedConditions = [...usageConditions];
+    // condition.forEach((condition) => {
+    //   if (updatedConditions.includes(condition)) {
+    //     // 이미 있는 detail이면 제거
+    //     const index = updatedConditions.indexOf(condition);
+    //     updatedConditions.splice(index, 1);
+    //   } else {
+    //     // 없는 detail이면 추가
+    //     updatedConditions.push(condition);
+    //   }
+    // });
+    set({
+      usageConditions: condition,
+    });
   },
   resetUsageConditions: () => {
     set({ usageConditions: [] });
   },
+  
+  // query Key 변경 때 배열로 한번에 넘겨주기 위해
+  toggleDetailFilter: (details: string[]) => {
+    // const { detailFilters } = get();
+  
+    // // 중복되지 않도록 새 배열 생성
+    // const updatedFilters = [...detailFilters];
 
-  toggleDetailFilter: (detail) => {
-    const { detailFilters } = get();
-    if (detailFilters.includes(detail)) {
-      set({
-        detailFilters: detailFilters.filter((d) => d !== detail),
-      });
-    } else {
-      set({
-        detailFilters: [...detailFilters, detail],
-      });
-    }
+    // console.log('details', details);
+  
+    // details.forEach((detail) => {
+    //   if (updatedFilters.includes(detail)) {
+    //     // 이미 있는 detail이면 제거
+
+    //   } else {
+    //     // 없는 detail이면 추가
+    //     updatedFilters.push(detail);
+    //   }
+    // });
+  
+    // 상태 업데이트
+    set({
+      detailFilters: details,
+    });
   },
   resetDetailFilters: () => {
     set({ detailFilters: [] });

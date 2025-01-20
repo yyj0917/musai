@@ -42,6 +42,7 @@ export default function ProductSection() {
   const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory);
 
   const {
+    setNameFilter,
     setIsActiveCondition,
     setIsActiveDetail,
     resetUsageConditions,
@@ -121,7 +122,7 @@ export default function ProductSection() {
         isPurchasable: mappedUsage.isPurchasable,
         isDemoable: mappedUsage.isDemoable,
         // detailFilters → subCategoryIds
-        subCategoryIds: detailFilters.length > 0 ? detailFilters : undefined,
+        subCategoryNames: detailFilters.length > 0 ? detailFilters.join(',') : undefined,
       };
       const result = await fetchProductList(params);
 
@@ -239,6 +240,7 @@ export default function ProductSection() {
         newParams.set('nameFilter', '최신순');
         newParams.delete('usageCondition');
         newParams.delete('detailFilter');
+        setNameFilter('최신순');
         resetUsageConditions();
         resetDetailFilters();
         setIsActiveCondition([]);
@@ -280,12 +282,12 @@ export default function ProductSection() {
   const handleCategoryPick = (targetId: string, item: string) => {
     setSelectedCategory(item);
 
-    const targetSection = document.getElementById(targetId);
-    const mainContainer = document.getElementById('main');
-    if (targetSection && mainContainer) {
-      const scrollPosition = targetSection.offsetTop;
-      mainContainer.scrollTo({ top: scrollPosition-100, behavior: 'smooth' });
-    }
+    // const targetSection = document.getElementById(targetId);
+    // const mainContainer = document.getElementById('main');
+    // if (targetSection && mainContainer) {
+    //   const scrollPosition = targetSection.offsetTop;
+    //   mainContainer.scrollTo({ top: scrollPosition-100, behavior: 'smooth' });
+    // }
   };
 
 

@@ -11,6 +11,7 @@ import FilterCondition from './filter-condition';
 import FilterDetail from './filter-detail';
 
 import './../../../../globals.css';
+import { useFilterStore } from '@/lib/zustand/useFilterStore';
 
 interface FilterSpanProps {
   className?: string; // className을 선택적으로 받을 수 있도록 설정
@@ -37,6 +38,12 @@ export default function FilterSpan({className} : FilterSpanProps) {
     }, 300); // 애니메이션 지속 시간과 일치
     return () => clearTimeout(timer);
   };
+
+  const {
+    setNameFilter,
+    resetUsageConditions,
+    resetDetailFilters,
+   } = useFilterStore();
 
   const nameFilter = searchParams.get('nameFilter') || '최신순'; // URL에서 바로 카테고리 가져오기
   
@@ -78,6 +85,9 @@ export default function FilterSpan({className} : FilterSpanProps) {
     newParams.delete('nameFilter');
     newParams.delete('usageConditions');
     newParams.delete('detailFilters');
+    setNameFilter('최신순'); // 정렬 기준 초기화
+    resetUsageConditions(); // 이용범위 초기화
+    resetDetailFilters(); // 세부 종류 초기
     router.replace(`?${newParams.toString()}`); // URL 갱신
     setShowResetButton(false); // 새로고침 버튼 숨김
   };

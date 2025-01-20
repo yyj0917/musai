@@ -18,7 +18,7 @@ export default function ShopCard({ shop } : ShopCardProps) {
                 <Image src={shop.imageUrl} alt="shop" width={44} height={44} className="object-fill rounded-[4px]" />
                 <div className="flex flex-col justify-center items-start gap-[2px]">
                     <p className="text-label1 text-grey150">{shop.shopname}</p>
-                    <p className="text-caption1 text-grey450">{shop.description}</p>
+                    <p className="text-caption1 text-grey450 line-clamp-1">{shop.description}</p>
                 </div>
             </div>
             <Heart 

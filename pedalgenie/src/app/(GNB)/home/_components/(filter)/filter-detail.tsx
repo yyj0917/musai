@@ -83,8 +83,8 @@ export default function FilterDetail({ isOpen, onClose }: FilterProps) {
   const handleClose = () => {
     onClose();
     updateQueryParam('detailFilters', isActiveDetail);
-    isActiveDetail.forEach((details) => toggleDetailFilter(details)); // 최종 적용
-
+    console.log('활성화된 세부 종류:', isActiveDetail);
+    toggleDetailFilter(isActiveDetail);
 
   };
 

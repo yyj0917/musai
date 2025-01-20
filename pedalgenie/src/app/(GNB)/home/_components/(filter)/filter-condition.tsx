@@ -85,8 +85,7 @@ export default function FilterCondition({ isOpen, onClose }: FilterProps) {
     //   condition.replace(/\s+/g, '') // 모든 공백 제거
     // );
       updateQueryParam('usageConditions', isActiveCondition);
-      isActiveCondition.forEach((condition) => toggleUsageCondition(condition)); // 최종 적용
-  
+      toggleUsageCondition(isActiveCondition);
     };
 
   return (

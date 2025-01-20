@@ -46,13 +46,17 @@ export default function PreviewItem({ genreProductItem }: ProductItemProps) {
   return (
     <div className="relative min-w-[138px] h-[252px] flex flex-col gap-3">
       <div className="relative w-full min-h-[138px] bg-grey750 rounded-sm">
-        <Image
-          src={`${genreProductItem?.imageUrl}`}
-          alt={`${genreProductItem?.name}`}
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" // 화면 크기에 맞춰 이미지의 사이즈 지정
-          className="object-fit"
-        />
+        {genreProductItem?.imageUrl ? (
+          <Image
+            src={`${genreProductItem.imageUrl}`}
+            alt={`${genreProductItem?.name}`}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-fit"
+          />
+        ) : (
+          <div className="w-full h-full bg-grey750" /> // 기본 배경 표시
+        )}
         <button
           onClick={() => toggleLikeProduct(genreProductItem?.id)}
           className="absolute bottom-2 right-2 text-red ">

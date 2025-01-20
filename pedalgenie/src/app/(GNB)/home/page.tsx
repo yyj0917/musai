@@ -16,10 +16,6 @@ export default async function Home() {
   // // 시연해볼 수 있는 장르별 악기 조회
   const genreProduct = await fetchProductGenre('클래식');
   // // 초기 상품 조회 - 10개만 (SEO용)
-  const params = {
-    page: 0,
-    size: 10,
-  }
   // const initialProduct = await fetchProductList(params);
 
   return (

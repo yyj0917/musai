@@ -11,7 +11,7 @@ export function cn(...inputs: ClassValue[]) {
 export function mapCategoryToParam(category: string | undefined): string | undefined {
   switch (category) {
     case '기타':
-      return 'GUITA'; // 또는 'GUITAR' (API 스펙에 맞춰 수정)
+      return 'GUITAR'; // 또는 'GUITAR' (API 스펙에 맞춰 수정)
     case '베이스':
       return 'BASE';
     case '키보드':
@@ -49,7 +49,6 @@ export function mapUsageConditions(usageConditions: string[]): {
   // 타입 고치기
   const result: any = {};
 
-  console.log('usageConditions:', usageConditions);
   if (usageConditions.includes('대여 가능')) {
     result.isRentable = true;
   }

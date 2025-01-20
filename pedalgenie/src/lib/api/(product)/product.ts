@@ -8,7 +8,7 @@ export interface FetchProductListParams {
     isPurchasable?: boolean;
     isDemoable?: boolean;
     sortBy?: string;
-    subCategoryIds?: string[]; // Assuming subCategoryIds are sent as a comma-separated list
+    subCategoryNames?: string; // Assuming subCategoryIds are sent as a comma-separated list
     page?: number | unknown;
     size?: number;
   }
