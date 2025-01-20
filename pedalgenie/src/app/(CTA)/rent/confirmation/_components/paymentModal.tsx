@@ -1,14 +1,23 @@
+'use client'
+
 import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/router';
 import CopyButton from './copyButton';
 
 interface PaymentModalProps {
   isOpen: boolean;
-  onClose: () => void;
 }
 
-export default function PaymentModal({ isOpen, onClose }: PaymentModalProps) {
-    if (!isOpen) return null; // 모달이 닫혀 있으면 렌더링하지 않음
-    
+export default function PaymentModal({ isOpen }: PaymentModalProps) {
+  const router = useRouter();
+
+  const handleCloseRentPage = () => {
+    router.push('/product'); // 다음 페이지로 이동
+    // id 추가?
+  };
+
+  if (!isOpen) return null; // 모달이 닫혀 있으면 렌더링하지 않음
+
   const accountInfo = '신한 110203923432'; // 임시 계좌 정보
 
   return (
@@ -31,9 +40,9 @@ export default function PaymentModal({ isOpen, onClose }: PaymentModalProps) {
         
         {/* 닫기 버튼 */}
             <Button
-          variant={'custom'}
+              variant={'custom'}
                   className={'mt-6 bg-red text-ivory px-4 rounded w-full text-body2'}
-              onClick={onClose}>
+              onClick={handleCloseRentPage}>
           300,000원 입금 완료했어요
         </Button>
       </div>
