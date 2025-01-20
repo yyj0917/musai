@@ -4,7 +4,7 @@ import Image from 'next/image';
 import RightArrow from '@public/svg/home/right-arrow.svg';
 import { Button } from '@/components/ui/button';
 import { Heart } from 'lucide-react';
-import { useAuthStore } from '@/lib/zustand/useAuthStore';
+import { useAuthStore, useLoginStore } from '@/lib/zustand/useAuthStore';
 import { useModalStore } from '@/lib/zustand/useModalStore';
 import { handleLikeProduct } from '@/lib/utils/like-util';
 import { useState } from 'react';
@@ -19,7 +19,7 @@ type ProductItem = {
 
 export default function ProductItem({ product } : ProductItem) {
   const router = useRouter();
-  const { isLoggedIn } = useAuthStore();
+  const { isLoggedIn } = useLoginStore();
   const { openLoginModal } = useModalStore();
   const [isAnimating, setIsAnimating] = useState(false);
 

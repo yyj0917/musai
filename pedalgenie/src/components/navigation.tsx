@@ -7,7 +7,7 @@ import Profile from '@public/svg/GNB/profile.svg';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { useAuthStore } from '@/lib/zustand/useAuthStore';
+import { useLoginStore } from '@/lib/zustand/useAuthStore';
 import { useModalStore } from '@/lib/zustand/useModalStore';
 import LoginModal from './modal/login-modal';
 
@@ -29,7 +29,7 @@ const navItems: NavItem[] = [
 
 export default function Navigation() {
     const pathname = usePathname(); // 현재 경로 가져오기
-    const { isLoggedIn } = useAuthStore(); // 로그인 상태 가져오기
+    const { isLoggedIn } = useLoginStore(); // 로그인 상태 가져오기
     const { isLoginOpen, openLoginModal } = useModalStore(); // 로그인 모달 상태 가져오기
     // 초기 상태 계산
     const initialIndex = navItems.findIndex((item) => 

@@ -1,14 +1,30 @@
-import LikeShop from '../_components/like-shop';
-import dataset from '@/data/dataset.json';
+'use client';
+
+import { useQuery } from '@tanstack/react-query';
+import { fetchLikedShopList } from '@/lib/api/(product)/like-product';
+import { LikeShop } from '@/types/shop-type';
+import Loading from '@/components/loading';
+import LikeShopItem from '../_components/like-shop';
 
 export default function SaveListShopPage() {
-    const { likeShop } = dataset;
 
-    return (
+  const { data: likeShops, isLoading, isError } = useQuery({
+    queryKey: ["likeShops"], // 캐싱 키
+    queryFn: async () => {
+      const response = await fetchLikedShopList();
+      return response;
+    },
+    retry: true, // 실패 시 재시도 여부 설정
+  });
+
+  return (
+      <>
         <main className="w-full flex flex-col">
-            {likeShop.map((likeShopItem : LikeShop, index: number) => (
-            <LikeShop key={index} likeShop={likeShopItem} />
-          ))}
+          {likeShops?.map((likeShopItem : LikeShop, index: number) => (
+          <LikeShopItem key={index} likeShop={likeShopItem} />
+        ))}
         </main>
-        );
+        {isLoading && <Loading />}
+      </>
+  );
 }

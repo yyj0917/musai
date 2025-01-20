@@ -28,6 +28,7 @@ export default function Demo() {
                     <DemoCard key={index} demoProduct={demoProduct} />
                 ))}
             </div>
+            {/* Statue에 따라 취소하기 버튼을 띄워주는 Modal */}
             <CancelModal/>
             {isLoading && <Loading/>}
         </>

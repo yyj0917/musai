@@ -5,6 +5,7 @@ export interface LikeShop {
     shopId: number;
     shopName: string;
     thumbnailImageUrl: string;
+    isLiked?: boolean;
 }
 export type LikeShopList = LikeShop[];
 
