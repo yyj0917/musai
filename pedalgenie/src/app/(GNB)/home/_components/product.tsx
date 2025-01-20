@@ -46,7 +46,7 @@ export default function ProductItem({ product } : ProductItem) {
 
 
   return (
-    <Link href={`/product/${product.id}`} className="pb-5 w-full flex flex-col">
+    <Link href={`/product/${product.id}`} className="fadeIn pb-5 w-full flex flex-col">
       <div className="relative w-full aspect-square overflow-hidden">
         <Image
           src={`${product?.imageUrl}`}

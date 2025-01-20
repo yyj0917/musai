@@ -192,5 +192,6 @@ module.exports = {
     },
     require('tailwind-scrollbar-hide'),
     require('tailwindcss-animate'),
+    require('tailwindcss-filters'), // 필터 플러그인 추가
   ],
 };

@@ -18,6 +18,7 @@ import { fetchUserInfo } from '@/lib/api/auth';
 import { useAuthStore } from '@/lib/zustand/useAuthStore';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Spinner } from 'basic-loading';
+import Loading from '@/components/loading';
 
 export default function MyPage() {
   const [isUser, setIsUser] = useState<boolean>(false);
@@ -94,11 +95,8 @@ export default function MyPage() {
 
   if (isLoggedin || isLoading) {
     if (!isUser) {
-      return (
-        <div className="w-full h-full flex justify-center items-center">
-          <Spinner option={option} />
-        </div>
-      );
+      <Loading/>
+      
     }
   }
 
@@ -174,6 +172,13 @@ export default function MyPage() {
       <LogoutModal />
       {/* WithdrawModal 컴포넌트 */}
       <WithdrawModal />
+      {
+        isLoggedin || isLoading ? (
+          !isUser ? (
+            <Loading/>
+          ) : null
+        ) : null
+      }
     </div>
   );
 }

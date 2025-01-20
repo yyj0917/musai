@@ -16,6 +16,8 @@ import { Product, ProductList } from '@/types/product-type';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { FetchProductListParams, fetchProductList } from '@/lib/api/(product)/product';
 import { mapCategoryToParam, mapFilterToSortBy, mapUsageConditions } from '@/lib/utils/utils';
+import Loading from '@/components/loading';
+import useDelay from '@/hooks/use-delay';
 
 type ProductProps = {
   product: ProductList
@@ -29,14 +31,13 @@ interface FetchProductListResponse {
 export default function ProductSection() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const isDelay = useDelay(1000);
   const initialCategory = searchParams.get('category') || '전체'; // URL에서 바로 카테고리 가져오기
 
   const { isLoginOpen, setFloatingButton } = useModalStore();
 
   const isHeaderVisible = useScrollStore((state) => state.isHeaderVisible);
   const setHeaderVisible = useScrollStore((state) => state.setHeaderVisible);
-  // const isCategoryFixed = useScrollStore((state) => state.isCategoryFixed);
-  // const setCategoryFixed = useScrollStore((state) => state.setCategoryFixed);
 
 
   const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory);
@@ -333,6 +334,8 @@ export default function ProductSection() {
       {isLoginOpen && <LoginModal />}
       {/* 플로팅 버튼 */}
       <FloatingButton targetSection={'product-section'} mainContainer={'main'} />
+      {/* 로딩 중 */}
+      {isLoading || !isDelay && <Loading/>}
     </section>
   );
 }
