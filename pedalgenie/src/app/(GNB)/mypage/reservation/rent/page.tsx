@@ -1,22 +1,33 @@
+'use client';
 
-import DemoCard from "../../_components/demo-card";
-import PreviewCard from "../../_components/demo-card";
 import CancelModal from "@/components/modal/cancel-modal";
 import RentCard from "../../_components/rent-card";
+import { useQuery } from "@tanstack/react-query";
+import { fetchRentProductList } from "@/lib/api/(product)/rent-product";
+import { RentProduct } from "@/types/product-type";
+import Loading from "@/components/loading";
 
 
 export default function Rent() {
+
+    // 시연 상품 목록 query caching
+    const { data: rentProducts, isLoading, isError } = useQuery({
+        queryKey: ["rentProducts"], // 캐싱 키
+        queryFn: async () => {
+          const response = await fetchRentProductList();
+          return response;
+        },
+        retry: true, // 실패 시 재시도 여부 설정
+      });
     return (
         <>
             <div className="w-full h-[100dvh-98.5px] flex flex-col overflow-y-auto scrollbar-hide">
-                <RentCard preivewStatus={'주문확인중'}/>
-                <RentCard preivewStatus={'픽업예정'}/>
-                <RentCard preivewStatus={'사용중'}/>
-                <RentCard preivewStatus={'반납완료'}/>
-                <RentCard preivewStatus={'취소접수'}/>
-                <RentCard preivewStatus={'취소완료'}/>
+                {rentProducts?.map((rentProduct: RentProduct, index) => (
+                    <RentCard key={index} rentProduct={rentProduct} />
+                ))}
             </div>
             <CancelModal/>
+            {isLoading && <Loading/>}
         </>
 
     )

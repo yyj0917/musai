@@ -56,3 +56,35 @@ export interface DemoProductDetail {
     shopAddress: string;
     memberNickName: string;
 }
+
+// 대여 상품 목록 조회 api - token 필요 - tanstackquery 캐싱
+export interface RentProduct {
+    rentId: number;
+    rentStatus: string;
+    rentStartTime: string;
+    rentEndTime: string;
+    pickUpTime: string;
+    productId: number;
+    productName: string;
+    productImageUrl: string;
+    shopName: string;
+    shopDetailAddress: string;
+}
+export type RentProductList = RentProduct[];
+
+// 대여 상품 상세 조회 api - token 필요 - tanstackquery 캐싱
+export interface RentProductDetail {
+    rentId: number;
+    rentStatus: string;
+    productName: string;
+    productImage: string;
+    shopName: string;
+    shopDetailAddress: string;
+    rentStartDate: string;
+    rentEndDate: string;
+    rentDuration: number;
+    price: number;
+    rentStartDateTime: string;
+    memberNickName: string;
+    paymentDate: string;
+}

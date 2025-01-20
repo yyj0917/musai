@@ -1,28 +1,13 @@
 'use client';
 
 import EmplyCheckModal from "@/components/modal/employ-check-modal";
-import { fetchDemoProductDetail } from "@/lib/api/(product)/demo-product";
 import { useModalStore } from "@/lib/zustand/useModalStore";
 import Image from "next/image";
-import { useEffect, useState } from "react";
 import AlertCircle from '@public/svg/alert-circle.svg';
+import { useQuery } from "@tanstack/react-query";
+import { fetchRentProductDetail } from "@/lib/api/(product)/rent-product";
+import Loading from "@/components/loading";
 
-// 예약 정보 박스 데이터
-const rentInfoBox = [
-    { label: '대여일정', value: '2024.09.17 ~ 2024.09.26' },
-    { label: '대여기간', value: '총 10일' },
-    { label: '대여금액', value: '300,000원' },
-    { label: '픽업일정', value: '2024.09.17 • 오후 1:00' },
-    { label: '반납일정', value: '2024.09.26' },
-  ];
-  
-  // 결제 정보 박스 데이터
-  const paymentInfoBox = [
-    { label: '결제금액', value: '300,000원' },
-    { label: '결제방법', value: '무통장 입금' },
-    { label: '입금자명', value: '뮤뮤' },
-    { label: '결제날짜', value: '2024.09.15' },
-  ];
   
   // 대여 안내 데이터
   const rentGuide = [
@@ -38,28 +23,44 @@ const rentInfoBox = [
     '환불을 원할 때 취소하기 버튼을 통해 취소를 접수하고, 채널톡으로 대여료 환불을 도와드릴게요.',
   ];
   
-// demoDate, demoPrice, memberNickName, reservedDate
 
-type RentStatus = '주문확인중' | '픽업예정' | '사용중' | '반납완료' | '취소접수' | '취소완료';
 
 export default function RentDetailPage({ params }: { params: { rentId: number } }) {
 
     const { rentId } = params;
 
-    if (rentId !== 1) null;
-
-    // 가상 state
-    const [rentStatus, setRentStatus] = useState<RentStatus>('사용중'); // 초기 상태 설정
 
     const { openEmployCheckModal } = useModalStore();
 
-    // useEffect(() => {
-    //     const fetchDemoInfo = async () => {
-    //         const demoDetail = await fetchDemoProductDetail(demoId);
-    //     }
-    //     fetchDemoInfo();
-    // }, [demoId]);
+    // 시연 상품 상세 조회 query caching
+    const { data: rentProductDetail, isLoading, isError } = useQuery({
+        queryKey: ["rentProductDetail"], // 캐싱 키
+        queryFn: async () => {
+          const response = await fetchRentProductDetail(rentId);
+          return response;
+        },
+        retry: true, // 실패 시 재시도 여부 설정
+      });
 
+    // 예약 정보 박스 데이터
+    const rentInfoBox = [
+        { label: '대여일정', value: rentProductDetail?.rentStartDate + ' ~ ' + rentProductDetail?.rentEndDate },
+        { label: '대여기간', value: '총 ' + rentProductDetail?.rentDuration + '일' },
+        { label: '대여금액', value: rentProductDetail?.price + '원' },
+        { 
+            label: '픽업일정', 
+            value: `${rentProductDetail?.rentStartDateTime?.split('T')[0]} • 오후 ${rentProductDetail?.rentStartDateTime?.split('T')[1] || ''}` 
+          },
+        { label: '반납일정', value: rentProductDetail?.rentEndDate },
+    ];
+    
+    // 결제 정보 박스 데이터
+    const paymentInfoBox = [
+        { label: '결제금액', value: rentProductDetail?.price + '원' },
+        { label: '결제방법', value: '무통장 입금' },
+        { label: '입금자명', value: rentProductDetail?.memberNickName },
+        { label: '결제날짜', value: rentProductDetail?.paymentDate },
+    ];
 
 
     return (
@@ -69,27 +70,27 @@ export default function RentDetailPage({ params }: { params: { rentId: number } 
                 {/* <p className="text-body1 text-grey150">{demoDetail.demoStatus}</p> */}
                 <p className={`pl-4 text-body1
                 ${
-                    rentStatus === '픽업예정' || rentStatus === '사용중' ? 'text-green' :
-                    rentStatus === '주문확인중' || rentStatus === '반납완료' ? 'text-grey150' :
-                    rentStatus === '취소완료' ? 'text-red' : ''
-                }`}>{rentStatus}</p>
-                {(rentStatus === '주문확인중' || rentStatus === '픽업예정') && (
+                    rentProductDetail?.rentStatus === '픽업예정' || rentProductDetail?.rentStatus === '사용중' ? 'text-green' :
+                    rentProductDetail?.rentStatus === '주문확인중' || rentProductDetail?.rentStatus === '반납완료' ? 'text-grey150' :
+                    rentProductDetail?.rentStatus === '취소완료' ? 'text-red' : ''
+                }`}>{rentProductDetail?.rentStatus}</p>
+                {(rentProductDetail?.rentStatus === '주문확인중' || rentProductDetail?.rentStatus === '픽업예정') && (
                     <button className="pr-4 text-grey550 text-body2">취소하기</button>
                 )}
             </nav>
             {/* 상품 정보 카드 */}
             <div className="py-5 w-full flex justify-between items-center">
                 <Image
-                    src={'/img/preview-card.jpg'}
+                    src={`${rentProductDetail?.productImage}`}
                     alt="preview card"
                     width={100}
                     height={100}
                     className="rounded-[2px]" />
                 <div className="w-auto h-[100px] flex flex-col justify-start gap-1">
-                    <h2 className="max-w-[227px] max-h-[54px] text-body1 text-grey150 line-clamp-2">제품 이름은 MAX W227, MAX H54입니다.</h2>
+                    <h2 className="max-w-[227px] max-h-[54px] text-body1 text-grey150 line-clamp-2">{rentProductDetail?.productName}</h2>
                     <p className="flex justify-start text-caption2 text-grey550">
-                        <span>매장명 ㅣ </span>
-                        <span>서울뮤즈악기</span>
+                        <span>{rentProductDetail?.shopName} ㅣ </span>
+                        <span>{rentProductDetail?.shopDetailAddress}</span>
                     </p>
                 </div>
             </div>
@@ -104,10 +105,10 @@ export default function RentDetailPage({ params }: { params: { rentId: number } 
                             <p className="text-body2 text-grey550 flex-shrink-0">{info.label}</p>
                             <div className="w-full flex justify-between">
                                 <p className="text-body2 text-grey150">{info.value}</p>
-                                {(rentStatus === '사용중' || rentStatus === '반납완료') && index === 3 && (
+                                {(rentProductDetail?.rentStatus === '사용중' || rentProductDetail?.rentStatus === '반납완료') && index === 3 && (
                                     <p className="text-body2 text-red">픽업완료</p>
                                 )}
-                                {rentStatus === '반납완료' && index === 4 && (
+                                {rentProductDetail?.rentStatus === '반납완료' && index === 4 && (
                                     <p className="text-body2 text-red">반납완료</p>
                                 )}
                             </div>
@@ -153,17 +154,18 @@ export default function RentDetailPage({ params }: { params: { rentId: number } 
                     </ul>
                 </div>
             </footer>
-            {(rentStatus === '픽업예정' || rentStatus === '사용중') && (
+            {(rentProductDetail?.rentStatus === '픽업예정' || rentProductDetail?.rentStatus === '사용중') && (
             <div className="sticky bottom-0 pt-3 pb-[30px] bg-grey1000">
                 <button 
                     className="py-4 w-full flex justify-center items-center bg-red text-grey150 text-label1 rounded"
                     onClick={()=>openEmployCheckModal()}>
-                    {rentStatus === '픽업예정' ? '픽업 확인 (직원용)' : '반납 확인 (직원용)'}
+                    {rentProductDetail?.rentStatus === '픽업예정' ? '픽업 확인 (직원용)' : '반납 확인 (직원용)'}
                 </button>
             </div>
             )}
-            <EmplyCheckModal status={`${rentStatus === '픽업예정' ? '픽업' : '반납'}`}/>
-            
+            <EmplyCheckModal status={`${rentProductDetail?.rentStatus === '픽업예정' ? '픽업' : '반납'}`}/>
+            {/* 로딩 중일 때 로딩 컴포넌트 렌더링 */}
+            {isLoading && <Loading/>}
         </div>
     )
 
