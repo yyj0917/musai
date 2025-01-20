@@ -4,20 +4,22 @@ import Image from 'next/image';
 import RightArrow from '@public/svg/home/right-arrow.svg';
 import { Button } from '@/components/ui/button';
 import { Heart } from 'lucide-react';
-import { useAuthStore } from '@/lib/zustand/useAuthStore';
+import { useAuthStore, useLoginStore } from '@/lib/zustand/useAuthStore';
 import { useModalStore } from '@/lib/zustand/useModalStore';
 import { handleLikeProduct } from '@/lib/utils/like-util';
 import { useState } from 'react';
 import './../../../globals.css';
 import { Product } from '@/types/product-type';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 type ProductItem = {
     product: Product;
 }
 
 export default function ProductItem({ product } : ProductItem) {
-  const { isLoggedIn } = useAuthStore();
+  const router = useRouter();
+  const { isLoggedIn } = useLoginStore();
   const { openLoginModal } = useModalStore();
   const [isAnimating, setIsAnimating] = useState(false);
 
@@ -44,7 +46,7 @@ export default function ProductItem({ product } : ProductItem) {
 
 
   return (
-    <Link href={`/product/${product.id}`} className="pb-5 w-full flex flex-col">
+    <Link href={`/product/${product.id}`} className="fadeIn pb-5 w-full flex flex-col">
       <div className="relative w-full aspect-square overflow-hidden">
         <Image
           src={`${product?.imageUrl}`}
@@ -65,14 +67,16 @@ export default function ProductItem({ product } : ProductItem) {
       </div>
       <div className="px-4 py-3 w-full">
         <div className="w-full flex flex-col gap-1">
-          {/* Shop Name */}
-          <Link
-            href={`/home/shop/description/${product?.shopId}`} 
+          {/* Shop Name  && 해당 상점으로 이동 + product Link routing prevent*/}
+          <button
             className="text-body1 text-grey250 flex items-center gap-2"
+            onClick={(e) => {
+              e.preventDefault();
+              router.push(`/home/shop/description/${product?.shopId}`)}}
             >
             <p className='w-auto max-w-[122px] truncate'>{product?.shopName}</p>
             <RightArrow />
-          </Link>
+          </button>
           {/* Product Name */}
           <p className="text-ellipsis text-grey450 text-body2 line-clamp-1">{product?.name}</p>
           {/* Rental Price */}

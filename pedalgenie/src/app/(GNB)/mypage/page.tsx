@@ -15,9 +15,10 @@ import LoginModal from '../../../components/modal/login-modal';
 import LogoutModal from '@/components/modal/logout-modal';
 import WithdrawModal from '@/components/modal/withdraw-modal';
 import { fetchUserInfo } from '@/lib/api/auth';
-import { useAuthStore } from '@/lib/zustand/useAuthStore';
+import { useAuthStore, useLoginStore } from '@/lib/zustand/useAuthStore';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Spinner } from 'basic-loading';
+import Loading from '@/components/loading';
 
 export default function MyPage() {
   const [isUser, setIsUser] = useState<boolean>(false);
@@ -27,7 +28,7 @@ export default function MyPage() {
   const queryClient = useQueryClient();
 
   const { showMessenger } = useChannelIOApi();
-  const isLoggedin = useAuthStore((state) => state.isLoggedIn);
+  const isLoggedin = useLoginStore((state) => state.isLoggedIn);
 
   const fetchMembers = async () => {
     const accessToken = queryClient.getQueryData<string>(['authToken']);
@@ -60,7 +61,6 @@ export default function MyPage() {
       try {
         const initialData = await fetchMembers(); // 데이터를 서버에서 가져옴
         if (initialData) queryClient.setQueryData(['memberInfo'], initialData); // 초기 데이터를 캐싱
-        
       } catch (error) {
         // console.error('초기 데이터 가져오기 실패:', error);
         // error handling 필요
@@ -94,11 +94,8 @@ export default function MyPage() {
 
   if (isLoggedin || isLoading) {
     if (!isUser) {
-      return (
-        <div className="w-full h-full flex justify-center items-center">
-          <Spinner option={option} />
-        </div>
-      );
+      <Loading/>
+      
     }
   }
 
@@ -174,6 +171,13 @@ export default function MyPage() {
       <LogoutModal />
       {/* WithdrawModal 컴포넌트 */}
       <WithdrawModal />
+      {
+        isLoggedin || isLoading ? (
+          !isUser ? (
+            <Loading/>
+          ) : null
+        ) : null
+      }
     </div>
   );
 }

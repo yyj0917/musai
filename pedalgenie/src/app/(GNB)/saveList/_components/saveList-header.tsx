@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import MainLogo from '@public/svg/main-logo.svg';
+import MainLogo from '@public/svg/main-union.svg';
 
 export default function SaveListHeader() {
   const link = [

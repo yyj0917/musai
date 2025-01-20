@@ -68,7 +68,6 @@ export default function FilterDetail({ isOpen, onClose }: FilterProps) {
   const subCategories = category?.subcategories || [];
 
   const handleToggleDetail = (details: string) => {
-    toggleDetailFilter(details);
     const updatedDetails = isActiveDetail.includes(details)
       ? isActiveDetail.filter((c) => c !== details)
       : [...isActiveDetail, details];
@@ -84,6 +83,8 @@ export default function FilterDetail({ isOpen, onClose }: FilterProps) {
   const handleClose = () => {
     onClose();
     updateQueryParam('detailFilters', isActiveDetail);
+    console.log('활성화된 세부 종류:', isActiveDetail);
+    toggleDetailFilter(isActiveDetail);
 
   };
 

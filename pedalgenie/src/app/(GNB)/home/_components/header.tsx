@@ -31,7 +31,7 @@ export default function Header() {
   return (
     <header
       id='main-header'
-      className={`w-full flex flex-col transition-transform duration-300 ease-in-out ${
+      className={`w-full flex flex-col transition-transform duration-300 ease-in-out  ${
         isHeaderVisible ? 'transform translate-y-0' : 'transform -translate-y-full'
       }`}>
       {isStoreDetailPage || isArticleDetailPage ? (

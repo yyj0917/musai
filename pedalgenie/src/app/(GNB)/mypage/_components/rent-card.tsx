@@ -1,10 +1,10 @@
 'use client';
 
 import { useModalStore } from "@/lib/zustand/useModalStore";
+import { RentProduct } from "@/types/product-type";
 import Image from "next/image";
-import { useState } from "react";
 
-export default function RentCard({preivewStatus} : {preivewStatus: string}) {
+export default function RentCard({ rentProduct} : {rentProduct: RentProduct}) {
     const { openCancelModal } = useModalStore();
 
     return (
@@ -13,16 +13,16 @@ export default function RentCard({preivewStatus} : {preivewStatus: string}) {
             <nav className="w-full flex justify-between items-center">
                 <p
                     className={`text-body1 ${
-                        preivewStatus === '픽업예정' || preivewStatus === '사용중'
+                        rentProduct.rentStatus === '픽업예정' || rentProduct.rentStatus === '사용중'
                         ? 'text-green'
-                        : preivewStatus === '주문확인중' || preivewStatus === '반납완료'
+                        : rentProduct.rentStatus === '주문확인중' || rentProduct.rentStatus === '반납완료'
                         ? 'text-grey150'
                         : 'text-red'
                     }`}
                 >
-                    {preivewStatus}
+                    {rentProduct.rentStatus}
                 </p>
-                {preivewStatus === '주문확인중' && (
+                {rentProduct.rentStatus === '주문확인중' && (
                     <button
                     onClick={() => openCancelModal()}
                     className="text-body2 text-grey550"
@@ -40,20 +40,22 @@ export default function RentCard({preivewStatus} : {preivewStatus: string}) {
                     className="rounded-[2px]" />
                 <div className="w-auto flex flex-col gap-2">
                     <div className="w-auto flex flex-col justify-start">
-                        <h2 className="max-w-[227px] max-h-[54px] text-body1 text-grey150 line-clamp-2">제품 이름은 MAX W227, MAX H54입니다.</h2>
+                        <h2 className="max-w-[227px] max-h-[54px] text-body1 text-grey150 line-clamp-1">
+                            {rentProduct.productName}
+                        </h2>
                         <p className="flex justify-start text-caption2 text-grey550">
-                            <span>매장명 ㅣ </span>
-                            <span>서울뮤즈악기</span>
+                            <span>{rentProduct.shopName} ㅣ </span>
+                            <span>{rentProduct.shopDetailAddress}</span>
                         </p>
                     </div>
                     <div className="w-auto flex flex-col gap-1">
                         <span className="w-full flex justify-start gap-2">
                             <span className="px-[6px] py-[3px] rounded bg-darkRed text-red text-caption2">대여기간</span>
-                            <p className="text-body2 text-grey150">2024.09.17 - 2024.09.24</p>
+                            <p className="text-body2 text-grey150">{rentProduct.rentStartTime} ~ {rentProduct.rentEndTime}</p>
                         </span>
                         <span className="w-full flex justify-start gap-2">
                             <span className="px-[6px] py-[3px] rounded bg-darkRed text-red text-caption2">픽업일정</span>
-                            <p className="text-body2 text-grey150">2024.09.17 오후 1:00</p>
+                            <p className="text-body2 text-grey150">{rentProduct.pickUpTime}</p>
                         </span>
                     </div>
                 </div>

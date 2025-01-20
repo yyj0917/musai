@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
-import { useAuthStore } from '@/lib/zustand/useAuthStore';
+import { useAuthStore, useLoginStore } from '@/lib/zustand/useAuthStore';
 import { useQueryClient } from '@tanstack/react-query';
 
 export default function KakaoCallbackPage() {
@@ -29,11 +29,10 @@ export default function KakaoCallbackPage() {
       axios
         .get(`${process.env.NEXT_PUBLIC_API_URL}/auth/kakao/callback`, { params: { code }, withCredentials: true,})
         .then((response) => {
-          console.log('로그인 성공:', response.data);
-          console.log('토큰:', response.data.data.accessToken);
           const accessToken = response.data.data.accessToken;
           // JWT 토큰을 AuthStore에 저장
           queryClient.setQueryData(['authToken'], accessToken);
+          useLoginStore.getState().setLoggedIn(); // 로그인 상태 변경
           setLoading(false);
 
           if (window.history.length > 1) {
@@ -49,15 +48,7 @@ export default function KakaoCallbackPage() {
     }
   }, []);
 
-  if (loading) {
-    return <div>로그인 처리 중...</div>;
-  }
-
-  if (error) {
-    return <div>{error}</div>;
-  }
-
-  return <div>로그인 성공! 리다이렉트 중...</div>;
+  return null;
 }
 // export default function KakaoCallbackPage() {
 //   const searchParams = useSearchParams();

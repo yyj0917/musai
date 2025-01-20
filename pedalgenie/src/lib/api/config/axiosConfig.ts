@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useAuthStore } from '@/lib/zustand/useAuthStore';
+import { useAuthStore, useLoginStore } from '@/lib/zustand/useAuthStore';
 import { refetchAccessToken } from '../auth';
 import { use } from 'react';
 
@@ -15,10 +15,8 @@ const axiosInstance = axios.create({
 // 요청 인터셉터 - zustand에 있는 토큰 가져와서 헤더에 담아서 보내는 instance
 axiosInstance.interceptors.request.use(
   (config) => {
-    // const accessToken = queryClient.getQueryData<string>(['authToken']);
 
     const accessToken = useAuthStore.getState().accessToken;
-    // const accessToken = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwicm9sZSI6IkNVU1RPTUVSIiwiaWF0IjoxNzM2OTU2NjU3LCJleHAiOjE3MzcwNDMwNTd9.PU3wycESDwk_2sDS6KGld-WrJCDcn2_yiLTEAF69Mkk';
     if (accessToken) {
       config.headers['Authorization'] = `Bearer ${accessToken}`;
     }
@@ -49,9 +47,10 @@ axiosInstance.interceptors.response.use(
 
       try {
         // 리프레시 토큰으로 AccessToken 재발급 + 첫 재요청
+        console.log('refreshing token');
         const refetchToken = await refetchAccessToken(); // 토큰 재발급 함수 호출 - reissue api 재요청을 제어해야 함
         useAuthStore.getState().setAccessToken(refetchToken);
-        useAuthStore.getState().setLoggedIn(true); 
+        useLoginStore.getState().setLoggedIn(); // 세션 스토리지에 상태 반영 -> 로그인
         
         // 새로 받은 AccessToken으로 재요청
         config.headers['Authorization'] = `Bearer ${refetchToken}`;
@@ -59,7 +58,7 @@ axiosInstance.interceptors.response.use(
 
       } catch (refreshError) {
         // 재발급도 실패한 경우 로그아웃 처리
-        useAuthStore.getState().setLoggedIn(false); // Zustand 상태 변경
+        useLoginStore.getState().setLoggedOut(); // Zustand 상태 변경 및 스토리지에서 삭제 -> 로그아웃
       } finally {
         isRefreshing = false; // 재발급 상태 초기화
       }

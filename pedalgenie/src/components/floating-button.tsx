@@ -18,7 +18,8 @@ export default function FloatingButton({ targetSection, mainContainer } : Floati
         const scrollTopElement = document.getElementById(mainContainer);
         if (scrollTopElement && goTopElement) {
             const scrollPosition = goTopElement.offsetTop;
-            scrollTopElement.scrollTo({top: scrollPosition-100, behavior: 'smooth'});
+            // 이거 상댓값으로 수정 필요함
+            scrollTopElement.scrollTo({top: 800, behavior: 'smooth'});
         }
     };
     useEffect(() => {
@@ -31,7 +32,7 @@ export default function FloatingButton({ targetSection, mainContainer } : Floati
         }
       }, [isFloatingButton]);
     return shouldRender ? (
-        <div className='sticky bottom-10 w-full flex justify-end pr-5'>
+        <div className='absolute bottom-5 w-full flex justify-end pr-5'>
             <button
                 type="button"
                 className={`sticky bottom-10 z-50 w-11 h-11 bg-darkRed text-red rounded-full shadow-md flex items-center justify-center

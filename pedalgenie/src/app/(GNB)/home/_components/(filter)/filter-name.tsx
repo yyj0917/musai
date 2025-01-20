@@ -65,9 +65,9 @@ export default function FilterName({ isOpen, onClose }: FilterProps) {
   const nameFilters = ['최신순', '이름순', '좋아요순'] as const;
 
   const handleSelectName = (filter: (typeof nameFilters)[number]) => {
-    setNameFilter(filter);
-    updateQueryParam('nameFilter', filter); // 쿼리 파라미터 업데이트
     handleClose();
+    updateQueryParam('nameFilter', filter); // 쿼리 파라미터 업데이트
+    setNameFilter(filter);
     // 필요하면 여기서 API 호출
     // fetchFilteredData({ nameFilter: filter, ... })
   };
