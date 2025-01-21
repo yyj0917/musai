@@ -24,29 +24,27 @@ const formatTimeString = (time: string) => {
   return time.split(':').slice(0, 2).join(':');
 };
 
-// 매장 운영 시간 포맷 함수
-const formatTime = (
-  dayType: string, // dayType을 매개변수로 추가
-  openTime: string,
-  closeTime: string,
-  breakStartTime?: string | null,
-  breakEndTime?: string | null
-) => {
-  const formattedOpenTime = formatTimeString(openTime);
-  const formattedCloseTime = formatTimeString(closeTime);
+// 휴식 시간을 포맷하는 함수 (null 고려)
+const formatBreakTime = (breakStartTime?: string | null, breakEndTime?: string | null) => {
+  if (breakStartTime && breakEndTime) {
+    return `\n(휴식: ${formatTimeString(breakStartTime)} ~ ${formatTimeString(breakEndTime)})`;
+  }
+  return '';
+};
 
-  // null 고려하여 휴식 시간 포맷
-  const breakTime = (breakStartTime && breakEndTime)
-    ? `(휴식: ${formatTimeString(breakStartTime)} ~ ${formatTimeString(breakEndTime)})`
-    : '';
+// 매장 운영 시간 포맷 함수 (ShopHour 객체 전체를 받아서 처리)
+const formatTime = (hour: ShopHour) => {
+  const formattedOpenTime = formatTimeString(hour.openTime);
+  const formattedCloseTime = formatTimeString(hour.closeTime);
+  const breakTime = formatBreakTime(hour.breakStartTime, hour.breakEndTime);
 
   // dayType 구분하여 (평일/주말) 포맷
-  const formattedDayType = dayType === 'WEEKDAY' ? '평일' : '주말';
+  const formattedDayType = hour.dayType === 'WEEKDAY' ? '평일' : '주말';
 
   return `${formattedDayType} ${formattedOpenTime} ~ ${formattedCloseTime} ${breakTime}`;
 };
 
-// 매장 번호, 매장 주소 랜더링용
+// [매장 운영 시간, 번호, 주소]를 위한 [이미지,텍스트] 랜더링 컴포넌트
 const ShopDetailInfo = (Img: React.ComponentType<React.SVGProps<SVGSVGElement>>, text: string) => (
   <div className="flex w-full">
     <Img />
@@ -73,10 +71,7 @@ export default function ShopInfo({ shopName, shopHours, contactNumber, address }
         {/* 매장 운영 시간 */}
         {shopHours.map((hour) => (
           <div key={hour.shopHoursId} className="flex w-full">
-            <Time />
-            <p className="text-sm text-grey250 pl-1">
-              {formatTime(hour.dayType, hour.openTime, hour.closeTime, hour.breakStartTime, hour.breakEndTime)}
-            </p>
+            {ShopDetailInfo(Time, formatTime(hour))}
           </div>
         ))}
 
