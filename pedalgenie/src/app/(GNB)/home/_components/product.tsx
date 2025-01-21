@@ -12,33 +12,44 @@ import './../../../globals.css';
 import { Product } from '@/types/product-type';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useLikeProductMutation } from '@/hooks/useLikeMutation';
 
 type ProductItem = {
     product: Product;
+    // 무한 스크롤의 queryKey(예: ['products', category, ...])
+    queryKey?: (string | string[])[];
+
 }
 
-export default function ProductItem({ product } : ProductItem) {
+export default function ProductItem({ product, queryKey } : ProductItem) {
   const router = useRouter();
   const { isLoggedIn } = useLoginStore();
   const { openLoginModal } = useModalStore();
   const [isAnimating, setIsAnimating] = useState(false);
 
 
-  const [ isUILike, setIsUILike] = useState<boolean>(false);
 
+  // 좋아요 Mutation
+  // - product.isLiked를 보고 "true→취소 / false→등록" 구분
+  const likeMutation = useLikeProductMutation(product.id, queryKey);
 
-  const toggleLikeProduct = async (e : React.MouseEvent<HTMLButtonElement>, productId: number) => {
+  const toggleLikeProduct = async (e : React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     // await handleLikeProduct(productId, isLoggedIn, openLoginModal);
     
-    // 애니메이션 클래스 추가 - 하트 애니메이션
+    // 로그인 체크
+    if (!isLoggedIn) {
+      openLoginModal();
+      return;
+    }
+    // 1) 하트 애니메이션 실행
     setIsAnimating(true);
-    setIsUILike(!isUILike);
-
-    // 애니메이션이 끝난 후 클래스 제거
     setTimeout(() => {
       setIsAnimating(false);
-    }, 500); // 애니메이션 지속 시간과 동일
+    }, 500); // 0.5초 애니메이션
+
+    // 2) 서버에 좋아요 or 취소 요청 (Optimistic Update)
+    likeMutation.mutate(!product.isLiked);
   }
   if (!product) {
     return null;
@@ -56,13 +67,11 @@ export default function ProductItem({ product } : ProductItem) {
           className="object-cover"
         />
         <button
-          onClick={(e) => toggleLikeProduct(e, product?.id)}
+          onClick={(e) => toggleLikeProduct(e)}
           className="absolute bottom-4 right-4 text-red ">
           <Heart 
             strokeWidth={1.5}
-            className={`like-animation ${product?.isLiked || isAnimating ? 'scale fill-red' : ''} ${
-              isUILike ? 'fill-red' : ''
-            }`} />
+            className={`like-animation ${product?.isLiked || isAnimating ? 'scale fill-red' : ''} `} />
         </button>
       </div>
       <div className="px-4 py-3 w-full">

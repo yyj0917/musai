@@ -22,11 +22,22 @@ let refreshQueue: Array<() => void> = [];
 axiosInstance.interceptors.request.use(
   async (config) => {
 
-    // 재발급 요청은 스킵
+    // 재발급 요청 + /api로 시작하는 api 요청은 토큰이 필요없는 호출. 따로 처리 
+    // isLoggedIn 확인으로 로그인되어있으면 토큰 넣어서 요청
+    // 토큰이 없으면 재발급 요청
+    const { accessToken, setAccessToken } = useAuthStore.getState();
     if (config.url?.includes('/api')) {
+      if (useLoginStore.getState().isLoggedIn) {
+        if (accessToken) {
+          config.headers!['Authorization'] = `Bearer ${accessToken}`;
+        } else {
+          const newToken = await refetchAccessToken();
+          setAccessToken(newToken);
+          config.headers!['Authorization'] = `Bearer ${newToken}`;
+        }
+      }
       return config;
     }
-    const { accessToken, setAccessToken } = useAuthStore.getState();
 
     // 토큰이 없거나 이미 만료되었으면 -> 선(先) 재발급
     if (!accessToken) {
@@ -80,27 +91,8 @@ axiosInstance.interceptors.response.use(
     const { response } = error;
 
     if (response?.status === 401 ) {
-      // config.__isRetryRequest = true; // 재요청 여부 플래그 + 요구되는 api 호출의 재요청
-      // isRefreshing = true; // 재발급 요청 상태 설정
-
-      // try {
-      //   // 리프레시 토큰으로 AccessToken 재발급 + 첫 재요청
-      //   console.log('refreshing token');
-      //   const refetchToken = await refetchAccessToken(); // 토큰 재발급 함수 호출 - reissue api 재요청을 제어해야 함
-      //   useAuthStore.getState().setAccessToken(refetchToken);
-      //   useLoginStore.getState().setLoggedIn(); // 세션 스토리지에 상태 반영 -> 로그인
-        
-      //   // 새로 받은 AccessToken으로 재요청
-      //   config.headers['Authorization'] = `Bearer ${refetchToken}`;
-      //   return axiosInstance.request(config);
-
-      // } catch (refreshError) {
-      //   // 재발급도 실패한 경우 로그아웃 처리
-      //   useLoginStore.getState().setLoggedOut(); // Zustand 상태 변경 및 스토리지에서 삭제 -> 로그아웃
-      // } finally {
-      //   isRefreshing = false; // 재발급 상태 초기화
-      // }
-      console.error('401 응답', error.message);
+      // 로그아웃 처리
+      useLoginStore.getState().setLoggedOut();
     }
     return Promise.reject(error);
   }
