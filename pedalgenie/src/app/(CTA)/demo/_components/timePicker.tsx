@@ -45,7 +45,7 @@ export default function TimePicker() {
 
   return (
     <div className="pt-1">
-      <p className="text-title2 text-grey150">픽업 시간</p>
+      <p className="text-title2 text-grey150">시연 시간</p>
 
       {/* 오전 */}
       <section className="py-[10px] pb-10">
@@ -80,7 +80,7 @@ export default function TimePicker() {
       {/* 다음으로 버튼 */}
       <Button
         variant={'custom'}
-        className={`w-full  ${selectedTime ? 'bg-red text-grey150' : 'bg-grey750 text-grey150 opacity-30 cursor-not-allowed'}`}
+        className={`w-full ${selectedTime ? 'bg-red text-grey150' : 'bg-grey750 text-grey150 opacity-30 cursor-not-allowed'}`}
         onClick={handleNextStep}
         disabled={!selectedTime} // 선택된 시간이 없으면 비활성화
       >

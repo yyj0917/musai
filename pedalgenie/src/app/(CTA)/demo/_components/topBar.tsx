@@ -6,7 +6,7 @@ export default function TopBar({  }) {
             <button>
                 <LeftArrow/>
             </button>
-            <p className='flex-grow text-center font-semibold text-white'>대여 예약하기</p>
+            <p className='flex-grow text-center font-semibold text-white'>시연 예약하기</p>
             <div className='w-10'></div> {/* 텍스트 가운데 정렬을 위한 오른쪽 빈 공간*/}
         </div>
     );
