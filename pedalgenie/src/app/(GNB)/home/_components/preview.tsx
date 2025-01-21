@@ -4,25 +4,22 @@ import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import RightArrow from '@public/svg/home/right-arrow.svg';
 import { Heart} from 'lucide-react';
-import { useAuthStore } from '@/lib/zustand/useAuthStore';
+import { useAuthStore, useLoginStore } from '@/lib/zustand/useAuthStore';
 import { useModalStore } from '@/lib/zustand/useModalStore';
 import { handleLikeProduct } from '@/lib/utils/like-util';
 import { useState } from 'react';
 import Link from 'next/link';
 import { Product } from '@/types/product-type';
+import { useRouter } from 'next/navigation';
 
 type ProductItemProps = {
   genreProductItem: Product;
 };
 
 export default function PreviewItem({ genreProductItem }: ProductItemProps) {
-  // if (!item) {
-  //     // Skeleton Code
-  //     return (
-  //       <ItemSkeleton/>
-  //     );
-  //   }
-  const { isLoggedIn } = useAuthStore();
+  const router = useRouter();
+
+  const { isLoggedIn } = useLoginStore();
   const { openLoginModal } = useModalStore();
   const [isAnimating, setIsAnimating] = useState(false);
 
@@ -30,7 +27,9 @@ export default function PreviewItem({ genreProductItem }: ProductItemProps) {
   const [ isUILike, setIsUILike] = useState<boolean>(false);
 
 
-  const toggleLikeProduct = async (productId: number) => {
+  const toggleLikeProduct = async (e : React.MouseEvent<HTMLButtonElement>, productId: number) => {
+    e.preventDefault();
+
     // await handleLikeProduct(productId, isLoggedIn, openLoginModal);
     
     // 애니메이션 클래스 추가 - 하트 애니메이션
@@ -44,11 +43,11 @@ export default function PreviewItem({ genreProductItem }: ProductItemProps) {
   }
 
   return (
-    <div className="relative min-w-[138px] h-[252px] flex flex-col gap-3">
+    <Link href={`/product/${genreProductItem?.id}`} className="relative min-w-[138px] h-[252px] flex flex-col gap-3">
       <div className="relative w-full min-h-[138px] bg-grey750 rounded-sm">
         {genreProductItem?.imageUrl ? (
           <Image
-            src={`${genreProductItem.imageUrl}`}
+            src={`${genreProductItem?.imageUrl}`}
             alt={`${genreProductItem?.name}`}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -58,7 +57,7 @@ export default function PreviewItem({ genreProductItem }: ProductItemProps) {
           <div className="w-full h-full bg-grey750" /> // 기본 배경 표시
         )}
         <button
-          onClick={() => toggleLikeProduct(genreProductItem?.id)}
+          onClick={(e) => toggleLikeProduct(e, genreProductItem?.id)}
           className="absolute bottom-2 right-2 text-red ">
           <Heart 
             strokeWidth={1.5}
@@ -69,12 +68,19 @@ export default function PreviewItem({ genreProductItem }: ProductItemProps) {
       </div>
       <div className="w-full">
         <div className="w-full flex flex-col gap-1">
-          {/* 매장 상세 페이지 이동 - 해당 shopId */}
-          <Link href={`/home/shop/description/${genreProductItem?.shopId}`} className="text-body1 text-grey250 flex items-center gap-3">
-            <span>{genreProductItem?.shopName}</span>
+          {/* Shop Name  && 해당 상점으로 이동 + product Link routing prevent*/}
+          <button
+            className="text-body1 text-grey250 flex items-center gap-2"
+            onClick={(e) => {
+              e.preventDefault();
+              router.push(`/home/shop/description/${genreProductItem?.shopId}`)}}
+            >
+            <p className='w-auto max-w-[122px] truncate'>{genreProductItem?.shopName}</p>
             <RightArrow />
-          </Link>
+          </button>
+          {/* Product Name */}
           <p className="text-ellipsis text-grey450 text-body1 line-clamp-1">{genreProductItem?.name}</p>
+          {/* Rental Price */}
           <p className="text-body1 flex item-center gap-1">
             <span className="text-grey250">{genreProductItem?.rentPricePerDay}원</span>
           </p>
@@ -91,6 +97,6 @@ export default function PreviewItem({ genreProductItem }: ProductItemProps) {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

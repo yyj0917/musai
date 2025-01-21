@@ -50,7 +50,7 @@ export default function MyPage() {
     queryFn: fetchMembers, // fetchMembers 함수
     staleTime: 1000 * 60 * 5, // 데이터가 5분 동안 신선하다고 간주
     gcTime: 1000 * 60 * 10, // 10분 동안 캐싱 유지
-    enabled: true, // 활성화
+    enabled: false, // 활성화
   });
   
   
@@ -66,7 +66,8 @@ export default function MyPage() {
         // error handling 필요
       }
     };
-
+    // 로그인 상태일 때만 초기 데이터를 가져옴
+    if (!isLoggedin) return;
     fetchInitialData();
   }, [queryClient]);
 
@@ -84,13 +85,16 @@ export default function MyPage() {
       text: '개인정보처리방침',
     },
   ];
-  const option = {
-    bgColor: '#6E6E6E',
-    barColor: '#FFFFFF',
-    size: 50,
-    speed: 1,
-    thickness: 4,
-  }
+
+  // 로그인 상태가 아닐 때 로그인 모달 열기 - 예약 내역 확인 시.
+  const handleNavigation = (
+    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+  ) => {
+    if (!isLoggedin) {
+      e.preventDefault(); // 기본 라우팅 동작 방지
+      openLoginModal(); // 로그인 모달 열기
+    }
+  };
 
   if (isLoggedin || isLoading) {
     if (!isUser) {
@@ -126,6 +130,7 @@ export default function MyPage() {
       <div className="w-full h-[106px] flex">
         <Link
           href="/mypage/reservation/demo"
+          onClick={handleNavigation}
           className="flex flex-col items-center justify-center w-1/2 gap-1 text-grey150 border-r-[0.5px] border-grey850">
           <ReserveInfo />
           <p className="text-body1 ">예약 내역</p>
