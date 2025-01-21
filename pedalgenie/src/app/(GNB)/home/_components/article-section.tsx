@@ -64,11 +64,10 @@ export default function ArticleSection({ articleList }: ArticleProps) {
     <section className="mt-5 ">
       <p className="pl-4 text-title1 text-grey250">오늘의 영감</p>
 
-      {isLoaded ? (
         <>
           {/* shadcn-ui Carousel 사용 */}
           <Carousel
-            className="fade-in mt-3 w-full h-80 transition-all duration-500 ease-in-out"
+            className="fade-in mt-3 w-full h-auto transition-all duration-500 ease-in-out"
             opts={{
               loop: true,
             }}
@@ -80,21 +79,33 @@ export default function ArticleSection({ articleList }: ArticleProps) {
             ]}
             >
             {/* 마지막 아티클 오른쪽 마진 추가하는 거 + 다른 아티클 겹쳐보이는 거 확실히 하기 */}
-            <CarouselContent className=''>
-              {articleData.map((article: ArticleData, index: number) => (
-                <CarouselItem
-                  key={index}
-                  className={`flex-shrink-0 min-w-80 h-80 ${index === articleData.length - 1 ? 'mr-[10px]' : ''}`}>
-                  <Article currentIdx={index + 1} articleLength={count} article={article} />
-                </CarouselItem>
-              ))}
-              {/* <Suspense fallback={<Article />}>
-              </Suspense> */}
+            <CarouselContent>
+            {isLoaded
+              ? articleData.map((article: ArticleData, index: number) => (
+                  <CarouselItem
+                    key={index}
+                    className={`flex-shrink-0 min-w-80 min-h-80 ${
+                      index === articleData.length - 1 ? 'mr-[10px]' : ''
+                    }`}
+                  >
+                    <Article currentIdx={index + 1} articleLength={count} article={article} />
+                  </CarouselItem>
+                ))
+              : Array.from({ length: articleData.length-1 }).map((_, index) => (
+                  <CarouselItem
+                    key={index}
+                    className={`flex-shrink-0 min-w-80 min-h-80 ${
+                      index === articleData.length - 1 ? 'mr-[10px]' : ''
+                    }`}
+                  >
+                    <ArticleSkeleton />
+                  </CarouselItem>
+                ))}
             </CarouselContent>
           </Carousel>
 
           {/* 하단의 페이지네이션 표시 (슬라이드 개수만큼 점 생성) */}
-          <div className="flex justify-center items-center gap-2 mt-4">
+          <div className="flex justify-center items-center gap-[5px] mt-4">
             {articleData.map((article: ArticleData, idx: number) => (
               <div
                 key={article.articleId}
@@ -104,21 +115,6 @@ export default function ArticleSection({ articleList }: ArticleProps) {
             ))}
           </div>
         </>
-      ) : (
-        <>
-          <ArticleSkeleton/>
-          {/* 하단의 페이지네이션 표시 (슬라이드 개수만큼 점 생성) */}
-          <div className="flex justify-center items-center gap-2 mt-4">
-            {articleData.map((article: ArticleData, idx: number) => (
-              <div
-                key={article.articleId}
-                className={` w-2 h-2 rounded-full transition-all duration-500 ease-in-out
-                  ${idx === current - 1 ? 'w-4 bg-red animate-bubble' : 'bg-grey550'}`}
-              />
-            ))}
-          </div>
-        </>
-      )}
     </section>
   );
 }

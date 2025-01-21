@@ -7,6 +7,7 @@ export default async function ArticlePage({ params }: { params: { id: string } }
   const { id } = params;
 
   const article = await fetchArticleDetail(id);
+
   console.log(article);
 
   if (!article) {

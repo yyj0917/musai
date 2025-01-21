@@ -1,17 +1,14 @@
 'use client';
 
-import EmplyCheckModal from "@/components/modal/employ-check-modal";
+import Loading from "@/components/loading";
+import EmployCheckModal from "@/components/modal/employ-check-modal";
 import { fetchDemoProductDetail } from "@/lib/api/(product)/demo-product";
 import { useModalStore } from "@/lib/zustand/useModalStore";
+import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-const demoInfoBox = [
-    { label: '시연일정', value: '2024.09.17 오후 1:00' },
-    { label: '시연금액', value: '무료' },
-    { label: '예약자명', value: '뮤뮤' },
-    { label: '예약날짜', value: '2024.09.15' },
-];
+
 const demoGuide = [
     '시연 예약을 신청하면 관리자가 해당 시간대의 가능 여부를 확인하고, 예약 상태를 변경해요',
     '시연 예약 신청은 시연하고자 하는 시간 기준 24시간 전까지 가능해요',
@@ -19,27 +16,30 @@ const demoGuide = [
     '시연 방문 시 금속제 악세사리나 지퍼 등 악기에 상처가 생길 수 있는 의류는 지양해주세요',
     '안내 사항을 숙지하고 악기점에 방문하면 사장님의 안내를 따라주세요',
 ]
-// demoDate, demoPrice, memberNickName, reservedDate
 
-type DemoStatus = '시연예정' | '시연완료' | '취소완료';
 
 export default function DemoDetailPage({ params }: { params: { demoId: number } }) {
 
     const { demoId } = params;
 
-    if (demoId !== 1) null;
-
-    // 가상 state
-    const [demoStatus, setDemoStatus] = useState<DemoStatus>('시연예정'); // 초기 상태 설정
-
     const { openEmployCheckModal } = useModalStore();
 
-    // useEffect(() => {
-    //     const fetchDemoInfo = async () => {
-    //         const demoDetail = await fetchDemoProductDetail(demoId);
-    //     }
-    //     fetchDemoInfo();
-    // }, [demoId]);
+    // 시연 상품 상세 조회 query caching
+    const { data: demoProductDetail, isLoading, isError } = useQuery({
+        queryKey: ['demoProductDetail', demoId], // 캐싱 키
+        queryFn: async () => {
+          const response = await fetchDemoProductDetail(demoId);
+          return response;
+        },
+        retry: true, // 실패 시 재시도 여부 설정
+      });
+    
+    const demoInfoBox = [
+        { label: '시연일정', value: demoProductDetail?.demoDate },
+        { label: '시연금액', value: '무료' },
+        { label: '예약자명', value: demoProductDetail?.memberNickName },
+        { label: '예약날짜', value: demoProductDetail?.reservedDate },
+    ];
 
 
 
@@ -50,27 +50,29 @@ export default function DemoDetailPage({ params }: { params: { demoId: number } 
                 {/* <p className="text-body1 text-grey150">{demoDetail.demoStatus}</p> */}
                 <p className={`pl-4 text-body1
                 ${
-                    demoStatus === '시연예정' ? 'text-green' :
-                        demoStatus === '시연완료' ? 'text-grey150' :
-                            demoStatus === '취소완료' ? 'text-red' : ''
-                }`}>{demoStatus}</p>
-                {demoStatus !== '시연완료' && demoStatus !== '취소완료' && (
+                    demoProductDetail?.demoStatus === '시연예정' ? 'text-green' :
+                    demoProductDetail?.demoStatus === '시연완료' ? 'text-grey150' :
+                    demoProductDetail?.demoStatus === '취소완료' ? 'text-red' : ''
+                }`}>{demoProductDetail?.demoStatus}</p>
+                {demoProductDetail?.demoStatus !== '시연완료' && demoProductDetail?.demoStatus !== '취소완료' && (
                     <button className="pr-4 text-grey550 text-body2">취소하기</button>
                 )}
             </nav>
             {/* 상품 정보 카드 */}
             <div className="py-5 w-full flex justify-between items-center">
                 <Image
-                    src={'/img/preview-card.jpg'}
+                    src={`${demoProductDetail?.productThumbnailImageUrl}`}
                     alt="preview card"
                     width={100}
                     height={100}
                     className="rounded-[2px]" />
                 <div className="w-auto h-[100px] flex flex-col justify-start gap-1">
-                    <h2 className="max-w-[227px] max-h-[54px] text-body1 text-grey150 line-clamp-2">제품 이름은 MAX W227, MAX H54입니다.</h2>
+                    <h2 className="max-w-[227px] max-h-[54px] text-body1 text-grey150 line-clamp-2">
+                        {demoProductDetail?.productName}
+                    </h2>
                     <p className="flex justify-start text-caption2 text-grey550">
-                        <span>매장명 ㅣ </span>
-                        <span>서울뮤즈악기</span>
+                        <span>{demoProductDetail?.shopName} ㅣ </span>
+                        <span>{demoProductDetail?.shopAddress}</span>
                     </p>
                 </div>
             </div>
@@ -85,7 +87,7 @@ export default function DemoDetailPage({ params }: { params: { demoId: number } 
                             <p className="text-body2 text-grey550 flex-shrink-0">{info.label}</p>
                             <div className="w-full flex justify-between">
                                 <p className="text-body2 text-grey150">{info.value}</p>
-                                {demoStatus === '시연완료' && index === 0 && (
+                                {demoProductDetail?.demoStatus === '시연완료' && index === 0 && (
                                     <p className="text-body2 text-red">시연완료</p>
                                 )}
                             </div>
@@ -110,7 +112,7 @@ export default function DemoDetailPage({ params }: { params: { demoId: number } 
                     </p>
                 </div>
             </footer>
-            {demoStatus === '시연예정' && (
+            {demoProductDetail?.demoStatus === '시연예정' && (
             <div className="sticky bottom-0 pt-3 pb-[30px] bg-grey1000">
                 <button 
                     className="py-4 w-full flex justify-center items-center bg-red text-grey150 text-label1 rounded"
@@ -119,8 +121,9 @@ export default function DemoDetailPage({ params }: { params: { demoId: number } 
                 </button>
             </div>
             )}
-            <EmplyCheckModal status={'시연 예약'}/>
-            
+            <EmployCheckModal status={'시연 예약'} id={demoId}/>
+            {/* 로딩 중일 때 로딩 컴포넌트 렌더링 */}
+            {isLoading && <Loading/>}
         </div>
     )
 

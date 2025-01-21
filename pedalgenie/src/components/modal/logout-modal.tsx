@@ -4,7 +4,7 @@ import { useModalStore } from '@/lib/zustand/useModalStore';
 import CloseX from '@public/svg/close-x.svg';
 import { Button } from '../ui/button';
 import { logout } from '@/lib/api/auth';
-import { useAuthStore } from '@/lib/zustand/useAuthStore';
+import { useAuthStore, useLoginStore } from '@/lib/zustand/useAuthStore';
 
 export default function LogoutModal() {
   const { isLogoutOpen, closeLogoutModal } = useModalStore();
@@ -12,6 +12,7 @@ export default function LogoutModal() {
   const handleLogout = async () => {
     await logout();
     useAuthStore.getState().setAccessToken('');
+    useLoginStore.getState().setLoggedOut();
     closeLogoutModal();
 
     // 로그아웃 후 페이지 새로고침 - 인데 다른 로직있는지 찾아보기.

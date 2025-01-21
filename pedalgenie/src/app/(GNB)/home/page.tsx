@@ -14,24 +14,20 @@ export default async function Home() {
   // // 아티클 목록 조회
   const articleList = await fetchArticles();
   // // 시연해볼 수 있는 장르별 악기 조회
-  // const productGenre = await fetchProductGenre('guitar');
+  const genreProduct = await fetchProductGenre('클래식');
   // // 초기 상품 조회 - 10개만 (SEO용)
-  const params = {
-    page: 0,
-    size: 10,
-  }
-  const initialProduct = await fetchProductList(params);
+  // const initialProduct = await fetchProductList(params);
 
   return (
     <main id="main" className="w-full h-[calc(100dvh-88.5px-87px)] overflow-y-auto scrollbar-hide">
       {/* article이 들어갈 section */}
       <ArticleSection articleList={articleList} />
       {/* 시연가능한 제품(기준미정) section */}
-      <PreviewSection product={product} />
+      <PreviewSection genreProduct={genreProduct} genre={'클래식'}/>
       {/* 전체 제품들 카테고리, 앵커링할 section - Client Comp.*/}
-      <ProductSection product={initialProduct} />
-      {/* <Suspense fallback={<div>Loading...</div>}>
-      </Suspense> */}
+      <Suspense fallback={<div>Loading...</div>}>
+        <ProductSection />
+      </Suspense>
     </main>
   );
 }

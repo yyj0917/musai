@@ -1,11 +1,15 @@
 // src/stores/authStore.ts
 import {create} from 'zustand';
+import { createJSONStorage, persist} from 'zustand/middleware';
 
 interface AuthState {
-  isLoggedIn: boolean;
   accessToken: string | null;
   setAccessToken: (token: string | undefined) => void;
-  setLoggedIn: (status: boolean) => void;
+}
+interface LoginState {
+    isLoggedIn: boolean;
+    setLoggedIn: () => void;
+    setLoggedOut: () => void;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
@@ -17,5 +21,28 @@ export const useAuthStore = create<AuthState>((set) => ({
     setAccessToken: (token) => set({ accessToken: token }),
 
     // 로그인 상태 설정
-    setLoggedIn: (status) => set({ isLoggedIn: status }),
 }));
+
+// 로그인 상태 세션 스토리지에 저장 - isLoggedIn
+export const useLoginStore = create<LoginState>()(
+    persist(
+        (set, get) => ({
+            isLoggedIn: false,
+            // numberA 증가 함수
+            setLoggedIn: () =>
+                set((state) => ({
+                    isLoggedIn: state.isLoggedIn = true,
+                })),
+            setLoggedOut: () =>
+                set((state) => ({
+                    isLoggedIn: state.isLoggedIn = false,
+                })),
+            
+        }),
+        {
+            name: 'login-storage', // 저장소 key값
+            storage: createJSONStorage(() => sessionStorage), // 저장소
+            version: 1.0, // version 정보
+        },
+    ),
+);

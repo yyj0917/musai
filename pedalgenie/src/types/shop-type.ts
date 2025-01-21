@@ -5,6 +5,7 @@ export interface LikeShop {
     shopId: number;
     shopName: string;
     thumbnailImageUrl: string;
+    isLiked?: boolean;
 }
 export type LikeShopList = LikeShop[];
 
@@ -12,7 +13,7 @@ export type LikeShopList = LikeShop[];
 export interface Shop {
     shopId: number;
     shopname: string;
-    // thumbnailImageUrl: string;
+    shopImageUrl: string;
     isLiked?: boolean;
     products: ShopProductList;
 }
@@ -22,11 +23,12 @@ export type ShopList = Shop[];
 export interface ShopDetail {
     shopId: number;
     shopname: string;
+    description: string;
     address: string;
     contactNumber: string;
-    businessHours: string;
+    shopHours: string[];
     instrumentCount: number;
-    imageUrl: string;
+    shopImageUrl: string;
     isLiked?: boolean;
     products: ProductList;
 }

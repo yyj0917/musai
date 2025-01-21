@@ -9,12 +9,13 @@ import { useModalStore } from '@/lib/zustand/useModalStore';
 import { handleLikeProduct } from '@/lib/utils/like-util';
 import { useState } from 'react';
 import Link from 'next/link';
+import { Product } from '@/types/product-type';
 
 type ProductItemProps = {
-  product: Product;
+  genreProductItem: Product;
 };
 
-export default function PreviewItem({ product }: ProductItemProps) {
+export default function PreviewItem({ genreProductItem }: ProductItemProps) {
   // if (!item) {
   //     // Skeleton Code
   //     return (
@@ -45,15 +46,19 @@ export default function PreviewItem({ product }: ProductItemProps) {
   return (
     <div className="relative min-w-[138px] h-[252px] flex flex-col gap-3">
       <div className="relative w-full min-h-[138px] bg-grey750 rounded-sm">
-        <Image
-          src={`${product?.image}`}
-          alt={`${product?.name}`}
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" // 화면 크기에 맞춰 이미지의 사이즈 지정
-          className="object-fit"
-        />
+        {genreProductItem?.imageUrl ? (
+          <Image
+            src={`${genreProductItem.imageUrl}`}
+            alt={`${genreProductItem?.name}`}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-fit"
+          />
+        ) : (
+          <div className="w-full h-full bg-grey750" /> // 기본 배경 표시
+        )}
         <button
-          onClick={() => toggleLikeProduct(product?.id)}
+          onClick={() => toggleLikeProduct(genreProductItem?.id)}
           className="absolute bottom-2 right-2 text-red ">
           <Heart 
             strokeWidth={1.5}
@@ -64,23 +69,25 @@ export default function PreviewItem({ product }: ProductItemProps) {
       </div>
       <div className="w-full">
         <div className="w-full flex flex-col gap-1">
-          <p className="text-body1 text-grey250 flex items-center gap-3">
-            <span>{product?.shop}</span>
-            {/* 매장 상세 페이지 이동 - 해당 shopId */}
-            <Link href='/home/shop/description'>
-              <RightArrow />
-            </Link>
-          </p>
-          <p className="text-ellipsis text-grey450 text-body1 line-clamp-1">{product?.name}</p>
+          {/* 매장 상세 페이지 이동 - 해당 shopId */}
+          <Link href={`/home/shop/description/${genreProductItem?.shopId}`} className="text-body1 text-grey250 flex items-center gap-3">
+            <span>{genreProductItem?.shopName}</span>
+            <RightArrow />
+          </Link>
+          <p className="text-ellipsis text-grey450 text-body1 line-clamp-1">{genreProductItem?.name}</p>
           <p className="text-body1 flex item-center gap-1">
-            <span className="text-grey250">{product?.price}원</span>
+            <span className="text-grey250">{genreProductItem?.rentPricePerDay}원</span>
           </p>
           <div className="flex gap-1">
-            {product?.chip.map((chip, index) => (
-              <Button key={index} variant="chip">
-                {chip}
-              </Button>
-            ))}
+            {genreProductItem?.isDemoable && (
+              <Button variant="chip">시연</Button>
+            )}
+            {genreProductItem?.isRentable && (
+              <Button variant="chip">대여</Button>
+            )}
+            {genreProductItem?.isPurchasable && (
+              <Button variant="chip">구매</Button>
+            )}
           </div>
         </div>
       </div>
