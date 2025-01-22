@@ -74,9 +74,6 @@ axiosInstance.interceptors.request.use(
         if (finalToken) {
           config.headers!['Authorization'] = `Bearer ${finalToken}`;
         }
-        // 이 요청은 Promise 대기로 안 가고 즉시 return
-        // (이미 현재 스레드에서 재발급을 끝냈기 때문)
-        console.log(config)
 
         return config;
       }

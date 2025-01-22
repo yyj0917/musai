@@ -23,7 +23,7 @@ export default function ShopDetail({ shopOne } : ShopProps) {
 
   // 좋아요 Mutation
   // - product.isLiked를 보고 "true→취소 / false→등록" 구분
-  const likeMutation = useLikeShopMutation(shopOne.shopId);
+  const likeMutation = useLikeShopMutation(shopOne.shopId, ['shopList']);
 
   const toggleLikeShop = async (e : React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
