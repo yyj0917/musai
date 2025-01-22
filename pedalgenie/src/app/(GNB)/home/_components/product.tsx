@@ -12,7 +12,7 @@ import './../../../globals.css';
 import { Product } from '@/types/product-type';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useLikeProductMutation } from '@/hooks/useLikeMutation';
+import { useLikeProductMutation } from '@/hooks/useLikeProductMutation';
 
 type ProductItem = {
     product: Product;

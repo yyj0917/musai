@@ -14,10 +14,11 @@ export default function LikeShopItem({ likeShop } : LikeShopItem) {
             className="px-4 py-5 w-full h-auto flex justify-between items-center">
             <div className="flex items-center gap-[14px]">
                 <Image
-                    src={likeShop?.thumbnailImageUrl}
+                    src={likeShop?.thumbNailUrl}
                     alt="shopImg"
                     width={40}
-                    height={40}/>
+                    height={40}
+                    className='rounded-full'/>
                 <p className="text-label1 text-white">
                     {likeShop?.shopName}
                 </p>

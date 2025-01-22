@@ -1,4 +1,4 @@
-import { likeProduct } from "../api/(product)/like-product";
+import { likeProduct } from "../api/like";
 
 // 상품 좋아요 util handle 함수
 // 로그인 안 되었을 시에 로그인 모달 띄우기

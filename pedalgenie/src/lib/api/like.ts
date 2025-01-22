@@ -1,5 +1,5 @@
 import { LikeShopList } from "@/types/shop-type";
-import axiosInstance from "../config/axiosConfig";
+import axiosInstance from "./config/axiosConfig";
 import { ProductList } from "@/types/product-type";
 
 // 악기 좋아요 post 요청 - header bearer type access token 필요

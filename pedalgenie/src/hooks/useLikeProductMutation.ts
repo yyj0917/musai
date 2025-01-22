@@ -1,7 +1,7 @@
 // hooks/useLikeMutation.ts
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Product, ProductList } from '@/types/product-type';
-import { likeProduct, unlikeProduct } from '@/lib/api/(product)/like-product';
+import { likeProduct, unlikeProduct } from '@/lib/api/like';
 
 type LikeMutationContext = {
     prevData: { pages: FetchProductListResponse[] } | ProductList | null;
@@ -44,30 +44,6 @@ export function useLikeProductMutation(
         // B. 좋아요 목록 구조(예: Product[] )
         // 를 분기 처리
         // ─────────────────────────────────────────────
-
-
-        // 2) 이전 상태(스냅샷) 가져오기
-        // const prevData = queryClient.getQueryData<{
-        //     pages: FetchProductListResponse[];
-        // }>(queryKey);
-
-        // if (!prevData) return { prevData: null };
-
-        // // 3) 낙관적으로 특정 productId의 isLiked만 변경 - 페이지 전부 찾아서 해당 id만 변경 - 수정 생각해봐야 함.
-        // const newPages = prevData.pages.map((page) => {
-        //     const newItems = page.items.map((p) => {
-        //       if (p.id === productId) {
-        //         return { ...p, isLiked: newIsLiked };
-        //       }
-        //       return p;
-        //     });
-        //     return { ...page, items: newItems };
-        //   });
-        //   // 4) 캐시에 세팅
-        // queryClient.setQueryData(queryKey, {
-        //     ...prevData,
-        //     pages: newPages,
-        //   });
         // 1) 무한 스크롤 타입 캐시 가져오기
         const infiniteData = queryClient.getQueryData<{
           pages: FetchProductListResponse[];

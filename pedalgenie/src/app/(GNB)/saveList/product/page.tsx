@@ -3,7 +3,7 @@
 import dataset from '@/data/dataset.json';
 import LikeProductItem from '../_components/like-product';
 import { useQuery } from '@tanstack/react-query';
-import { fetchLikedProductList } from '@/lib/api/(product)/like-product';
+import { fetchLikedProductList } from '@/lib/api/like';
 import Loading from '@/components/loading';
 import { Product } from '@/types/product-type';
 import ProductItem from '../../home/_components/product';

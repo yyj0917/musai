@@ -4,7 +4,7 @@ import { ProductList, ShopProductList } from "./product-type";
 export interface LikeShop {
     shopId: number;
     shopName: string;
-    thumbnailImageUrl: string;
+    thumbNailUrl: string;
     isLiked?: boolean;
 }
 export type LikeShopList = LikeShop[];

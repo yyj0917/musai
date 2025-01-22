@@ -1,7 +1,7 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { fetchLikedShopList } from '@/lib/api/(product)/like-product';
+import { fetchLikedShopList } from '@/lib/api/like';
 import { LikeShop } from '@/types/shop-type';
 import Loading from '@/components/loading';
 import LikeShopItem from '../_components/like-shop';

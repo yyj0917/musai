@@ -1,5 +1,8 @@
 'use client';
 
+import { useLikeProductMutation } from '@/hooks/useLikeProductMutation';
+import { useLoginStore } from '@/lib/zustand/useAuthStore';
+import { useModalStore } from '@/lib/zustand/useModalStore';
 import { Product } from '@/types/product-type';
 import { Heart } from 'lucide-react';
 import Image from 'next/image';
@@ -16,31 +19,40 @@ export default function ShopItem({ shopProductItem } : ShopItemProps) {
 
   const [ isUILike, setIsUILike] = useState<boolean>(false);
 
+  const { isLoggedIn } = useLoginStore();
+  const { openLoginModal } = useModalStore();
 
-  const toggleLikeProduct = async (productId: number) => {
+
+  const likeMutation = useLikeProductMutation(shopProductItem.id);
+
+  const toggleLikeProduct = async (e : React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     // await handleLikeProduct(productId, isLoggedIn, openLoginModal);
     
-    // 애니메이션 클래스 추가 - 하트 애니메이션
+    // 로그인 체크
+    if (!isLoggedIn) {
+      openLoginModal();
+      return;
+    }
+    // 1) 하트 애니메이션 실행
     setIsAnimating(true);
-    setIsUILike(!isUILike);
-
-    // 애니메이션이 끝난 후 클래스 제거
     setTimeout(() => {
       setIsAnimating(false);
-    }, 500); // 애니메이션 지속 시간과 동일
+    }, 500); // 0.5초 애니메이션
+
+    // 2) 서버에 좋아요 or 취소 요청 (Optimistic Update)
+    likeMutation?.mutate(!shopProductItem.isLiked);
   }
   return (
     <div className="min-w-[140px] h-[195px] flex flex-col gap-3">
       <div className='relative'>
         <Image src={shopProductItem.imageUrl} alt="shop logo" width={140} height={140} className='max-w-[140px] max-h-[140px]' />
         <button
-          onClick={() => toggleLikeProduct(shopProductItem?.id)}
+          onClick={(e) => toggleLikeProduct(e)}
           className="absolute bottom-[9px] right-[10px] text-red ">
           <Heart 
             strokeWidth={1.5}
-            className={`like-animation ${shopProductItem?.isLiked || isAnimating ? 'scale fill-red' : ''} ${
-              isUILike ? 'fill-red' : ''
-            }`} />
+            className={`like-animation ${shopProductItem?.isLiked || isAnimating ? 'unscale fill-red' : 'scale'} `} />
         </button>
       </div>
       <span className="w-full flex flex-col">
