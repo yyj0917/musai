@@ -12,7 +12,7 @@ export default function ShopCard({ shop } : ShopCardProps) {
     // 좋아요 로직 넣어야 함.
 
     return (
-        <Link href="/shop">
+        <Link href={`/home/shop/description/${shop.shopId}`}>
             <article className="px-3 py-4 min-w-[316px] w-full flex justify-between items-center gap-3 border-[1px] border-grey650 rounded-[8px]">
             <div className="w-full flex justify-start items-center gap-3">
                 <Image src={shop.imageUrl} alt="shop" width={44} height={44} className="object-fill rounded-[4px]" />
