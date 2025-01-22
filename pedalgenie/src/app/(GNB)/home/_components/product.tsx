@@ -49,7 +49,7 @@ export default function ProductItem({ product, queryKey } : ProductItem) {
     }, 500); // 0.5초 애니메이션
 
     // 2) 서버에 좋아요 or 취소 요청 (Optimistic Update)
-    likeMutation.mutate(!product.isLiked);
+    likeMutation?.mutate(!product.isLiked);
   }
   if (!product) {
     return null;

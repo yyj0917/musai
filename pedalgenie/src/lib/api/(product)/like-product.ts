@@ -1,5 +1,6 @@
 import { LikeShopList } from "@/types/shop-type";
 import axiosInstance from "../config/axiosConfig";
+import { ProductList } from "@/types/product-type";
 
 // 악기 좋아요 post 요청 - header bearer type access token 필요
 export async function likeProduct(productId: number): Promise<void> {
@@ -20,9 +21,10 @@ export async function unlikeProduct(productId: number): Promise<void> {
 }
 
 // 좋아요한 악기 목록 조회 - header bearer type access token 필요 - tanstackquery 캐싱
-export async function fetchLikedProductList(): Promise<ProductProps> {
+export async function fetchLikedProductList(): Promise<ProductList> {
     try {
         const response = await axiosInstance.get('/likes/products');
+        console.log(response.data.data);
         return response.data.data;
     } catch (error) {
         throw new Error('Unable to fetch liked products. Please try again later');

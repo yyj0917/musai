@@ -21,7 +21,6 @@ import { Spinner } from 'basic-loading';
 import Loading from '@/components/loading';
 
 export default function MyPage() {
-  const [isUser, setIsUser] = useState<boolean>(false);
   const { openLoginModal } = useModalStore();
   const { openLogoutModal } = useModalStore();
   const { openWithdrawModal } = useModalStore();
@@ -36,7 +35,6 @@ export default function MyPage() {
     try {
 
       const response = await fetchUserInfo(); // API 호출
-      setIsUser(true);
       return response;
     } catch (error) {
       // error handling 필요
@@ -50,7 +48,7 @@ export default function MyPage() {
     queryFn: fetchMembers, // fetchMembers 함수
     staleTime: 1000 * 60 * 5, // 데이터가 5분 동안 신선하다고 간주
     gcTime: 1000 * 60 * 10, // 10분 동안 캐싱 유지
-    enabled: false, // 활성화
+    enabled: true, // 활성화
   });
   
   
@@ -96,19 +94,13 @@ export default function MyPage() {
     }
   };
 
-  if (isLoggedin || isLoading) {
-    if (!isUser) {
-      <Loading/>
-      
-    }
-  }
 
   return (
     <div className="w-full h-auto flex flex-col ">
       <LogoHeader />
       {/* 로그인 및 회원가입 region */}
       <div className="relative w-full h-[82px] text-grey450">
-        {!isUser ? (
+        {!isLoggedin ? (
           // 비로그인 상태
           <div className="absolute left-4 top-[10.5px] flex flex-col gap-1">
             <div className="flex items-center gap-5 cursor-pointer" onClick={() => openLoginModal()}>
@@ -134,19 +126,19 @@ export default function MyPage() {
           className="flex flex-col items-center justify-center w-1/2 gap-1 text-grey150 border-r-[0.5px] border-grey850">
           <ReserveInfo />
           <p className="text-body1 ">예약 내역</p>
-          {isUser && <p className="text-body1 text-grey550">보기</p>}
+          {isLoggedin && <p className="text-body1 text-grey550">보기</p>}
         </Link>
         <button
           className="custom-channeltalk flex flex-col items-center justify-center w-1/2 gap-1 text-grey150"
           onClick={showMessenger}>
           <ChannelTalk />
           <p className="text-body1">1:1 채널톡</p>
-          {isUser && <p className="text-body1 text-grey550">문의하기</p>}
+          {isLoggedin && <p className="text-body1 text-grey550">문의하기</p>}
         </button>
       </div>
 
       {/* 내 계정 (로그인 상태에서만 표시) */}
-      {isUser && (
+      {isLoggedin && (
         <div className="mt-10 ml-5 flex flex-col gap-5">
           <h1 className="text-body1 text-grey650">내 계정</h1>
           <div className="flex flex-col gap-2">
@@ -177,11 +169,9 @@ export default function MyPage() {
       {/* WithdrawModal 컴포넌트 */}
       <WithdrawModal />
       {
-        isLoggedin || isLoading ? (
-          !isUser ? (
-            <Loading/>
-          ) : null
-        ) : null
+        isLoading ? (
+          <Loading/>)
+           : null
       }
     </div>
   );

@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchLikedProductList } from '@/lib/api/(product)/like-product';
 import Loading from '@/components/loading';
 import { Product } from '@/types/product-type';
+import ProductItem from '../../home/_components/product';
 
 export default function SaveListProductPage() {
 
@@ -19,13 +20,13 @@ export default function SaveListProductPage() {
       },
       retry: true, // 실패 시 재시도 여부 설정
     });
-
+    const filteredProducts = likeProducts?.filter((product: Product) => product.isLiked);
 
     return (
       <>
         <main className="w-full grid grid-cols-2 gap-[2px]">
-          {likeProducts?.map((likeProductItem : Product, index: number) => (
-            <LikeProductItem key={index} likeProduct={likeProductItem} />
+          {filteredProducts?.map((likeProductItem : Product, index: number) => (
+            <ProductItem key={index} product={likeProductItem} />
           ))}
         </main>
         {isLoading && <Loading />}
