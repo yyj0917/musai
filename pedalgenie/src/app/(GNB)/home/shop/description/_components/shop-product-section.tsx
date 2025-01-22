@@ -8,8 +8,8 @@ import { Product, ProductList } from '@/types/product-type';
 // 여기 수정해야 함 Product image data name 통일해야 해서.
 
 type ShopProductSectionProps = {
-  shopProduct: ProductList;
-  instrumentCount: number;
+  shopProduct?: ProductList;
+  instrumentCount?: number;
 };
 
 export default function ShopProductSection({ shopProduct, instrumentCount} : ShopProductSectionProps) {
@@ -23,7 +23,7 @@ export default function ShopProductSection({ shopProduct, instrumentCount} : Sho
         <span className="text-title1 text-grey550">{instrumentCount}</span>
       </div>
       <main className="pt-2 w-full grid grid-cols-2 gap-[2px]">
-        {shopProduct.map((shopProductItem: Product, index: number) => (
+        {shopProduct?.map((shopProductItem: Product, index: number) => (
           <ProductItem key={index} product={shopProductItem} />
         ))}
       </main>

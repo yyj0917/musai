@@ -1,6 +1,6 @@
 import { ProductList } from "./product-type";
 
-export type SearchShop = {
+export interface SearchShop {
     shopId: number;
     shopname: string;
     imageUrl: string;

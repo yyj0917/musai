@@ -62,7 +62,7 @@ export default function DemoDetailPage({ params }: { params: { demoId: number } 
             <div className="py-5 w-full flex justify-between items-center">
                 <Image
                     src={`${demoProductDetail?.productThumbnailImageUrl}`}
-                    alt="preview card"
+                    alt="demo card"
                     width={100}
                     height={100}
                     className="rounded-[2px]" />

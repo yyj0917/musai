@@ -91,7 +91,7 @@ export default function ArticleSection({ articleList }: ArticleProps) {
                     <Article currentIdx={index + 1} articleLength={count} article={article} />
                   </CarouselItem>
                 ))
-              : Array.from({ length: articleData.length-1 }).map((_, index) => (
+              : Array.from({ length: articleData.length }).map((_, index) => (
                   <CarouselItem
                     key={index}
                     className={`flex-shrink-0 min-w-80 min-h-80 ${

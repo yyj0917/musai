@@ -88,7 +88,13 @@ export default function ProductSection() {
       }
     };
   }, []);
-  
+  const queryKey = [
+    'products',
+    selectedCategory,
+    nameFilter,
+    usageConditions,
+    detailFilters,
+  ];
 
 
   // useInfiniteQuery로 데이터 페칭
@@ -101,13 +107,7 @@ export default function ProductSection() {
     hasNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery<FetchProductListResponse>({
-    queryKey: [
-      'products',
-      selectedCategory,
-      nameFilter,
-      usageConditions,
-      detailFilters,
-    ], // Query Key
+    queryKey, // Query Key
     queryFn: async ({ pageParam = 0 }): Promise<FetchProductListResponse> => {
       // 전역 값(카테고리,필터) → API 파라미터로 매핑
       const mappedCategory = mapCategoryToParam(selectedCategory);
@@ -323,7 +323,7 @@ export default function ProductSection() {
             {product?.pages.map((page, pageIndex) => (
               <React.Fragment key={pageIndex}>
                 {page.items.map((productItem: Product) => (
-                  <ProductItem key={productItem.id} product={productItem} />
+                  <ProductItem key={productItem.id} product={productItem} queryKey={queryKey} />
                 ))}
               </React.Fragment>
             ))}
