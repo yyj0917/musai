@@ -10,10 +10,10 @@ import ProductItem from '../../home/_components/product';
 
 export default function SaveListProductPage() {
 
-
+    const queryKey = ['likeProducts'];
 
     const { data: likeProducts, isLoading, isError } = useQuery({
-      queryKey: ["likeProducts"], // 캐싱 키
+      queryKey, // 캐싱 키
       queryFn: async () => {
         const response = await fetchLikedProductList();
         return response;
@@ -26,7 +26,7 @@ export default function SaveListProductPage() {
       <>
         <main className="w-full grid grid-cols-2 gap-[2px]">
           {filteredProducts?.map((likeProductItem : Product, index: number) => (
-            <ProductItem key={index} product={likeProductItem} />
+            <ProductItem key={index} product={likeProductItem} queryKey={queryKey}/>
           ))}
         </main>
         {isLoading && <Loading />}

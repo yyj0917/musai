@@ -1,10 +1,10 @@
 // hooks/useLikeMutation.ts
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Product } from '@/types/product-type';
+import { Product, ProductList } from '@/types/product-type';
 import { likeProduct, unlikeProduct } from '@/lib/api/(product)/like-product';
 
 type LikeMutationContext = {
-    prevData: { pages: FetchProductListResponse[] } | null;
+    prevData: { pages: FetchProductListResponse[] } | ProductList | null;
   };
   
 // 무한 쿼리 구조: pages: { items: Product[] }[]
@@ -39,30 +39,86 @@ export function useLikeProductMutation(
       onMutate: async (newIsLiked: boolean) => {
         // 1) 요청 보낼 때 현재 캐시를 스냅샷
         await queryClient.cancelQueries({ queryKey });
+        // ─────────────────────────────────────────────
+        // A. 무한 스크롤 구조(예: { pages: Array<{ items: Product[] }>} )
+        // B. 좋아요 목록 구조(예: Product[] )
+        // 를 분기 처리
+        // ─────────────────────────────────────────────
+
+
         // 2) 이전 상태(스냅샷) 가져오기
-        const prevData = queryClient.getQueryData<{
-            pages: FetchProductListResponse[];
+        // const prevData = queryClient.getQueryData<{
+        //     pages: FetchProductListResponse[];
+        // }>(queryKey);
+
+        // if (!prevData) return { prevData: null };
+
+        // // 3) 낙관적으로 특정 productId의 isLiked만 변경 - 페이지 전부 찾아서 해당 id만 변경 - 수정 생각해봐야 함.
+        // const newPages = prevData.pages.map((page) => {
+        //     const newItems = page.items.map((p) => {
+        //       if (p.id === productId) {
+        //         return { ...p, isLiked: newIsLiked };
+        //       }
+        //       return p;
+        //     });
+        //     return { ...page, items: newItems };
+        //   });
+        //   // 4) 캐시에 세팅
+        // queryClient.setQueryData(queryKey, {
+        //     ...prevData,
+        //     pages: newPages,
+        //   });
+        // 1) 무한 스크롤 타입 캐시 가져오기
+        const infiniteData = queryClient.getQueryData<{
+          pages: FetchProductListResponse[];
         }>(queryKey);
 
-        if (!prevData) return { prevData: null };
+        // 2) 만약 무한 스크롤 데이터가 없다면 → 좋아요 목록 형식인지 확인
+        if (!infiniteData) {
+          // 좋아요 목록 (단일 배열) 형태라 가정
+          const likeProducts = queryClient.getQueryData<ProductList>(queryKey);
+          if (!likeProducts) {
+            return { prevData: null };
+          }
 
-        // 3) 낙관적으로 특정 productId의 isLiked만 변경 - 페이지 전부 찾아서 해당 id만 변경 - 수정 생각해봐야 함.
-        const newPages = prevData.pages.map((page) => {
-            const newItems = page.items.map((p) => {
-              if (p.id === productId) {
-                return { ...p, isLiked: newIsLiked };
-              }
-              return p;
-            });
-            return { ...page, items: newItems };
+          // 좋아요 목록 배열 낙관적 업데이트
+          const newLikeProducts = likeProducts.map((p) => {
+            if (p.id === productId) {
+              return { ...p, isLiked: newIsLiked };
+            }
+            return p;
           });
-          // 4) 캐시에 세팅
+
+          // 캐시에 세팅
+          queryClient.setQueryData(queryKey, newLikeProducts);
+          return { prevData: likeProducts };
+        }
+
+        // ─────────────────────────────────────────────
+        // 여기로 왔다면: 무한 스크롤 구조
+        // ─────────────────────────────────────────────
+        if (!infiniteData.pages) {
+          // pages가 없는 경우 → 안전장치
+          return { prevData: null };
+        }
+
+        // 무한 스크롤 낙관적 업데이트
+        const newPages = infiniteData.pages.map((page) => {
+          const newItems = page.items.map((product) => {
+            if (product.id === productId) {
+              return { ...product, isLiked: newIsLiked };
+            }
+            return product;
+          });
+          return { ...page, items: newItems };
+        });
+
         queryClient.setQueryData(queryKey, {
-            ...prevData,
-            pages: newPages,
-          });
+          ...infiniteData,
+          pages: newPages,
+        });
 
-        return { prevData };
+        return { prevData: infiniteData }; // onError 복구용
       },
       onError: (err: Error, newIsLiked: boolean, context?: LikeMutationContext) => {
         // 복구
@@ -70,8 +126,13 @@ export function useLikeProductMutation(
           queryClient.setQueryData(queryKey, context.prevData);
         }
       },
+      onSuccess: () => {
+        // 성공 시 좋아요 목록 재요청
+      },
       onSettled: () => {
         // 성공/실패와 관계없이 최종적으로 서버 데이터를 동기화
+        queryClient.invalidateQueries({ queryKey: ['likeProducts'] });
+
         // queryClient.invalidateQueries(['product', productId]);
       },
     }

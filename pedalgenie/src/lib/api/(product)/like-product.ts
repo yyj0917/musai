@@ -24,7 +24,6 @@ export async function unlikeProduct(productId: number): Promise<void> {
 export async function fetchLikedProductList(): Promise<ProductList> {
     try {
         const response = await axiosInstance.get('/likes/products');
-        console.log(response.data.data);
         return response.data.data;
     } catch (error) {
         throw new Error('Unable to fetch liked products. Please try again later');

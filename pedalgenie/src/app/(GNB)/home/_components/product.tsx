@@ -71,7 +71,7 @@ export default function ProductItem({ product, queryKey } : ProductItem) {
           className="absolute bottom-4 right-4 text-red ">
           <Heart 
             strokeWidth={1.5}
-            className={`like-animation ${product?.isLiked || isAnimating ? 'scale fill-red' : ''} `} />
+            className={`like-animation ${product?.isLiked || isAnimating ? 'unscale fill-red' : 'scale'} `} />
         </button>
       </div>
       <div className="px-4 py-3 w-full">
