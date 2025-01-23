@@ -1,10 +1,10 @@
 import Image from 'next/image';
 
-interface ProductInfoProps {
+interface DescriptionImgProps {
   descriptionImg?: string; // 추후 배열로 수정
 }
 
-export default function ProductInfo({ descriptionImg }: ProductInfoProps) {
+export default function DescriptionImg({ descriptionImg }: DescriptionImgProps) {
   if (!descriptionImg) {
     return (
       <div className="flex w-full px-4 py-10">
@@ -21,6 +21,7 @@ export default function ProductInfo({ descriptionImg }: ProductInfoProps) {
         layout="responsive" // 반응형 레이아웃
         width={100} // 기본 비율을 위한 너비
         height={100} // 기본 비율을 위한 높이
+        priority={true}
       />
     </div>
   );

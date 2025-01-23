@@ -7,7 +7,7 @@ import ProductImg from './_components/productImg';
 import ShopNameBar from './_components/shopNameBar';
 import ProductActionMenus from './_components/ProductActionMenus';
 import ProductFeeCard from './_components/productFeeInfo';
-import ProductInfo from './_components/productInfo';
+import DescriptionImg from './_components/descriptionImg';
 import ShopInfo from './_components/shopInfo';
 import InfoSwitcher from './_components/infoSwitcher';
 // 하트 버튼 컴포넌트로 따로 뺴기
@@ -43,7 +43,7 @@ export default function Product({ params }: { params: { id: number } }) {
           <ProductFeeCard price={productDetail?.price} rentPricePerDay={productDetail?.rentPricePerDay} />
           <InfoSwitcher />
         </div>
-        <ProductInfo descriptionImg={productDetail?.descriptionUrl} />
+        <DescriptionImg descriptionImg={productDetail?.descriptionUrl} />
         <ShopInfo
           shopName={productDetail?.shopName}
           shopHours={productDetail?.shopHours}
