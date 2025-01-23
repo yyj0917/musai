@@ -108,8 +108,10 @@ export function useLikeProductMutation(
       onSettled: () => {
         // 성공/실패와 관계없이 최종적으로 서버 데이터를 동기화
         queryClient.invalidateQueries({ queryKey: ['likeProducts'] });
-
-        // queryClient.invalidateQueries(['product', productId]);
+        // shopDetail 캐시도 동기화
+        if (queryKey && queryKey[0] === 'shopDetail') {
+          queryClient.invalidateQueries({ queryKey: ['shopDetail', queryKey[1]] });
+        }
       },
     }
   );

@@ -22,7 +22,7 @@ type NavItem = {
 
 const navItems: NavItem[] = [
   { id: 0, icon: Home, text: '홈', route: '/home' },
-  { id: 1, icon: Reserve, text: '예약현황', route: '/rent', requiresAuth: true },
+  { id: 1, icon: Reserve, text: '내 예약', route: '/rent', requiresAuth: true },
   { id: 2, icon: Heart, text: '좋아요', route: '/saveList/product', requiresAuth: true },
   { id: 3, icon: Profile, text: '마이페이지', route: '/mypage' },
 ];

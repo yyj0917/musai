@@ -3,6 +3,7 @@
 import { useModalStore } from "@/lib/zustand/useModalStore";
 import { RentProduct } from "@/types/product-type";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function RentCard({ rentProduct} : {rentProduct: RentProduct}) {
     const { openCancelModal } = useModalStore();
@@ -31,13 +32,15 @@ export default function RentCard({ rentProduct} : {rentProduct: RentProduct}) {
                     </button>
                 )}
             </nav>
-            <div className="w-full flex justify-between items-center">
-                <Image 
-                    src={'/img/preview-card.jpg'}
-                    alt="preview card"
-                    width={100}
-                    height={100}
-                    className="rounded-[2px]" />
+            <Link href={`/mypage/reservation/rent/${rentProduct.rentId}`} className="w-full flex justify-between items-center">
+                <div className="relative w-[100px] h-[100px]" style={{ aspectRatio: '1 : 1'}}>
+                    <Image 
+                        src={`${rentProduct.productImageUrl}`}
+                        alt="preview card"
+                        layout="fill"
+                        className="rounded-[2px] object-fit"
+                        priority />
+                </div>
                 <div className="w-auto flex flex-col gap-2">
                     <div className="w-auto flex flex-col justify-start">
                         <h2 className="max-w-[227px] max-h-[54px] text-body1 text-grey150 line-clamp-1">
@@ -50,17 +53,17 @@ export default function RentCard({ rentProduct} : {rentProduct: RentProduct}) {
                     </div>
                     <div className="w-auto flex flex-col gap-1">
                         <span className="w-full flex justify-start gap-2">
-                            <span className="px-[6px] py-[3px] rounded bg-darkRed text-red text-caption2">대여기간</span>
-                            <p className="text-body2 text-grey150">{rentProduct.rentStartTime} ~ {rentProduct.rentEndTime}</p>
+                            <span className="px-[6px] py-[3px] flex-shrink-0 rounded bg-darkRed text-red text-caption2">대여기간</span>
+                            <p className="text-body2 text-grey150">{rentProduct.rentStartTime.split('T')[0]} - {rentProduct.rentEndTime.split('T')[0]}</p>
                         </span>
                         <span className="w-full flex justify-start gap-2">
                             <span className="px-[6px] py-[3px] rounded bg-darkRed text-red text-caption2">픽업일정</span>
-                            <p className="text-body2 text-grey150">{rentProduct.pickUpTime}</p>
+                            <p className="text-body2 text-grey150">{rentProduct.rentStartTime.split('T')[0]} 오후 {rentProduct.pickUpTime.split(':')[0]}:{rentProduct.pickUpTime.split(':')[1]}</p>
                         </span>
                     </div>
                 </div>
 
-            </div>
+            </Link>
         </section>
     );
 }

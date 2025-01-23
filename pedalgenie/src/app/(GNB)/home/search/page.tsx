@@ -2,26 +2,40 @@
 
 import LeftArrow from '@public/svg/home/shop/shop-leftarrow.svg';
 import SearchIcon from '@public/svg/search.svg';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import SymbolLogo from "@public/svg/symbol-logo.svg";
+
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import SearchedProduct from './_components/searched-product';
 import SearchedShop from './_components/searched-shop';
 import { fetchSearchItem } from '@/lib/api/(product)/product';
 import { useQuery } from '@tanstack/react-query';
+import Loading from '@/components/loading';
+import FloatingButton from '@/components/floating-button';
+import { useScrollToggle } from '@/hooks/use-scroll';
+import { set } from 'lodash';
 
 export default function Search() {
     const router = useRouter();
-    const [searchQuery, setSearchQuery] = useState('');
-
+    const searchParams = useSearchParams();
+    const [searchQuery, setSearchQuery] = useState(searchParams.get('keyword') || '');
+    const [searching, setSearching] = useState(false);
     const { data: searchData, isLoading, isError, refetch } = useQuery({
         queryKey: ['searchResults', searchQuery],
         queryFn: () => fetchSearchItem(searchQuery),
-        enabled: false, // 초기에는 API 호출하지 않음
+        staleTime: 0,
+        gcTime: 0,
+        enabled: false,
       });
 
-      const handleSearch = () => {
-        if (searchQuery) {
-          refetch(); // 검색어 변경 시 API 호출
+    const handleSearch = () => {
+        if (searchQuery.trim()) {
+            // 쿼리 파라미터를 업데이트
+            setSearching(true);
+            const params = new URLSearchParams(searchParams.toString());
+            params.set('keyword', searchQuery);
+            router.replace(`?${params.toString()}`);
+            refetch();
         }
       };
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -29,6 +43,18 @@ export default function Search() {
             handleSearch(); // 엔터 키를 누르면 handleSearch 호출
         }
     };
+    // 새로고침 시 keyword 파라미터로 데이터 refetch
+    useEffect(() => {
+        const currentKeyword = searchParams.get('keyword');
+        if (currentKeyword) {
+            setSearchQuery(currentKeyword);
+            setSearching(true);
+            refetch();
+        }
+    }, []);
+
+
+    useScrollToggle({ containerId: 'searchResult' });
 
     return (
         <div className="w-full h-full">
@@ -41,7 +67,18 @@ export default function Search() {
                         type="text"
                         placeholder="검색어를 입력하세요"
                         value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
+                        onChange={(e) => {
+                            const newQuery = e.target.value;
+                            setSearchQuery(newQuery);
+                            // Input이 빈 값일 경우 searchParams 초기화
+                            if (!newQuery.trim()) {
+                                setSearchQuery('');
+                                const params = new URLSearchParams();
+                                params.delete('keyword'); // 'keyword' 파라미터 제거
+                                router.replace(`?${params.toString()}`);
+                                setSearching(false);
+                            }
+                          }}                        
                         onKeyDown={handleKeyDown} // 엔터 키 이벤트 추가
                         className="max-w-64 w-full flex justify-start bg-inherit 
                              text-white text-body2 placeholder:text-grey650 focus:outline-none focus:ring-0 focus:border-white focus:placeholder-transparent line-clamp-1"
@@ -52,19 +89,24 @@ export default function Search() {
                 </div>
             </div>
             {/* 검색 결과 렌더링 */}
-            <div className="w-full h-[calc(100dvh-60px-87px)] flex flex-col overflow-y-auto scrollbar-hide">
-                {isLoading && <p>검색 중입니다...</p>}
-                {isError && <p>검색 결과를 불러오는 데 실패했습니다. 다시 시도해주세요.</p>}
-                {!isLoading && !isError && searchData && (
-                <>
-                    {searchData.shops.length > 0 && <SearchedShop searchedShops={searchData.shops} />}
-                    {searchData.products.length > 0 && <SearchedProduct searchedProducts={searchData.products} />}
-                    {searchData.shops.length === 0 && searchData.products.length === 0 && (
-                    <p className="text-center text-grey450">검색 결과가 없습니다.</p>
+            {searchQuery && searching && (
+                <div id='searchResult' className="w-full h-[calc(100dvh-60px-87px)] flex flex-col overflow-y-auto scrollbar-hide">
+                    {isError && (
+                        <div className="my-auto flex flex-col items-center gap-[14px] text-grey650 text-body1">
+                            <SymbolLogo/>
+                            <p>검색 결과가 존재하지 않습니다</p>
+                        </div>
                     )}
-                </>
-                )}
-            </div>
+                    {isLoading && <Loading/>}
+                    {!isLoading && !isError && searchData && (
+                    <>
+                        {searchData.shops.length > 0 && <SearchedShop searchedShops={searchData.shops} />}
+                        {searchData.products.length > 0 && <SearchedProduct searchedProducts={searchData.products} />}
+                        <FloatingButton scrollContainer={'searchResult'}/>
+                    </>
+                    )}
+                </div>
+            )}
         </div>
     );
 }

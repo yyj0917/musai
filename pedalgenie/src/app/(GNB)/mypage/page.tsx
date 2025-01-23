@@ -156,7 +156,7 @@ export default function MyPage() {
         <h1 className="text-body1 text-grey650">약관</h1>
         <div className="flex flex-col gap-2">
           {etc.map((item, index) => (
-            <Link key={index} href={item.link} className="max-w-28 flex items-center">
+            <Link key={index} href={item.link} className="max-w-40 flex items-center">
               <p className="text-body1 text-grey150">{item.text}</p>
             </Link>
           ))}

@@ -1,13 +1,14 @@
 'use client';
 
-import dataset from '@/data/dataset.json';
-import LikeProductItem from '../_components/like-product';
+
 import { useQuery } from '@tanstack/react-query';
 import { fetchLikedProductList } from '@/lib/api/like';
 import Loading from '@/components/loading';
 import { Product } from '@/types/product-type';
 import ProductItem from '../../home/_components/product';
 import useDelay from '@/hooks/use-delay';
+import { useScrollToggle } from '@/hooks/use-scroll';
+import FloatingButton from '@/components/floating-button';
 
 export default function SaveListProductPage() {
 
@@ -22,6 +23,8 @@ export default function SaveListProductPage() {
     const filteredProducts = likeProducts?.filter((product: Product) => product.isLiked);
 
     const isDelay = useDelay(500);
+
+    useScrollToggle({ containerId: 'likeSection' });
     return (
       <>
         <main className="w-full grid grid-cols-2 gap-[2px]">
