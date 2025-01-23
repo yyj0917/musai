@@ -1,21 +1,21 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { fetchLikedShopList } from '@/lib/api/(product)/like-product';
+import { fetchLikedShopList } from '@/lib/api/like';
 import { LikeShop } from '@/types/shop-type';
 import Loading from '@/components/loading';
 import LikeShopItem from '../_components/like-shop';
+import useDelay from '@/hooks/use-delay';
 
 export default function SaveListShopPage() {
 
   const { data: likeShops, isLoading, isError } = useQuery({
     queryKey: ["likeShops"], // 캐싱 키
-    queryFn: async () => {
-      const response = await fetchLikedShopList();
-      return response;
-    },
-    retry: true, // 실패 시 재시도 여부 설정
+    queryFn: fetchLikedShopList,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 30,
   });
+  const isDelay = useDelay(500);
 
   return (
       <>
@@ -24,7 +24,7 @@ export default function SaveListShopPage() {
           <LikeShopItem key={index} likeShop={likeShopItem} />
         ))}
         </main>
-        {isLoading && <Loading />}
+        {(isLoading || !isDelay) && <Loading />}
       </>
   );
 }

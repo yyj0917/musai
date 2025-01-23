@@ -21,7 +21,6 @@ import { Spinner } from 'basic-loading';
 import Loading from '@/components/loading';
 
 export default function MyPage() {
-  const [isUser, setIsUser] = useState<boolean>(false);
   const { openLoginModal } = useModalStore();
   const { openLogoutModal } = useModalStore();
   const { openWithdrawModal } = useModalStore();
@@ -36,7 +35,6 @@ export default function MyPage() {
     try {
 
       const response = await fetchUserInfo(); // API 호출
-      setIsUser(true);
       return response;
     } catch (error) {
       // error handling 필요
@@ -66,7 +64,8 @@ export default function MyPage() {
         // error handling 필요
       }
     };
-
+    // 로그인 상태일 때만 초기 데이터를 가져옴
+    if (!isLoggedin) return;
     fetchInitialData();
   }, [queryClient]);
 
@@ -84,27 +83,24 @@ export default function MyPage() {
       text: '개인정보처리방침',
     },
   ];
-  const option = {
-    bgColor: '#6E6E6E',
-    barColor: '#FFFFFF',
-    size: 50,
-    speed: 1,
-    thickness: 4,
-  }
 
-  if (isLoggedin || isLoading) {
-    if (!isUser) {
-      <Loading/>
-      
+  // 로그인 상태가 아닐 때 로그인 모달 열기 - 예약 내역 확인 시.
+  const handleNavigation = (
+    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+  ) => {
+    if (!isLoggedin) {
+      e.preventDefault(); // 기본 라우팅 동작 방지
+      openLoginModal(); // 로그인 모달 열기
     }
-  }
+  };
+
 
   return (
     <div className="w-full h-auto flex flex-col ">
       <LogoHeader />
       {/* 로그인 및 회원가입 region */}
       <div className="relative w-full h-[82px] text-grey450">
-        {!isUser ? (
+        {!isLoggedin ? (
           // 비로그인 상태
           <div className="absolute left-4 top-[10.5px] flex flex-col gap-1">
             <div className="flex items-center gap-5 cursor-pointer" onClick={() => openLoginModal()}>
@@ -126,22 +122,23 @@ export default function MyPage() {
       <div className="w-full h-[106px] flex">
         <Link
           href="/mypage/reservation/demo"
+          onClick={handleNavigation}
           className="flex flex-col items-center justify-center w-1/2 gap-1 text-grey150 border-r-[0.5px] border-grey850">
           <ReserveInfo />
           <p className="text-body1 ">예약 내역</p>
-          {isUser && <p className="text-body1 text-grey550">보기</p>}
+          {isLoggedin && <p className="text-body1 text-grey550">보기</p>}
         </Link>
         <button
           className="custom-channeltalk flex flex-col items-center justify-center w-1/2 gap-1 text-grey150"
           onClick={showMessenger}>
           <ChannelTalk />
           <p className="text-body1">1:1 채널톡</p>
-          {isUser && <p className="text-body1 text-grey550">문의하기</p>}
+          {isLoggedin && <p className="text-body1 text-grey550">문의하기</p>}
         </button>
       </div>
 
       {/* 내 계정 (로그인 상태에서만 표시) */}
-      {isUser && (
+      {isLoggedin && (
         <div className="mt-10 ml-5 flex flex-col gap-5">
           <h1 className="text-body1 text-grey650">내 계정</h1>
           <div className="flex flex-col gap-2">
@@ -172,11 +169,9 @@ export default function MyPage() {
       {/* WithdrawModal 컴포넌트 */}
       <WithdrawModal />
       {
-        isLoggedin || isLoading ? (
-          !isUser ? (
-            <Loading/>
-          ) : null
-        ) : null
+        isLoading ? (
+          <Loading/>)
+           : null
       }
     </div>
   );

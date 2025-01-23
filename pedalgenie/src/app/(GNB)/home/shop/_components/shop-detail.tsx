@@ -5,12 +5,47 @@ import ShopItem from './shop-item';
 import { Heart } from 'lucide-react';
 import { Shop } from '@/types/shop-type';
 import { Product } from '@/types/product-type';
+import { useLoginStore } from '@/lib/zustand/useAuthStore';
+import { useModalStore } from '@/lib/zustand/useModalStore';
+import { useState } from 'react';
+import { useLikeShopMutation } from '@/hooks/useLikeShopMutation';
 
 type ShopProps = {
   shopOne: Shop;
 }
 
 export default function ShopDetail({ shopOne } : ShopProps) {
+  const { isLoggedIn } = useLoginStore();
+  const { openLoginModal } = useModalStore();
+  const [isAnimating, setIsAnimating] = useState(false);
+
+
+
+  // 좋아요 Mutation
+  // - product.isLiked를 보고 "true→취소 / false→등록" 구분
+  const likeMutation = useLikeShopMutation(shopOne.shopId, ['shopList']);
+
+  const toggleLikeShop = async (e : React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    
+    // 로그인 체크
+    if (!isLoggedIn) {
+      openLoginModal();
+      return;
+    }
+    // 1) 하트 애니메이션 실행
+    setIsAnimating(true);
+    setTimeout(() => {
+      setIsAnimating(false);
+    }, 500); // 0.5초 애니메이션
+
+    // 2) 서버에 좋아요 or 취소 요청 (Optimistic Update)
+    likeMutation?.mutate(!shopOne.isLiked);
+  }
+  if (!shopOne) {
+    return null;
+  }
+
   return (
     <div className="pl-4 w-full h-auto flex flex-col">
       {/* Store Header */}
@@ -24,9 +59,13 @@ export default function ShopDetail({ shopOne } : ShopProps) {
             <RightArrow />
           </span>
         </Link>
-        <span className="text-red">
-          <Heart strokeWidth={1.5}/>
-        </span>
+        <button
+          onClick={(e) => toggleLikeShop(e)}
+          className="text-red ">
+          <Heart 
+            strokeWidth={1.5}
+            className={`like-animation ${shopOne?.isLiked || isAnimating ? 'unscale fill-red' : 'scale'} `} />
+        </button>
       </header>
       {/* Store Item List */}
       <section className="w-full flex gap-2 overflow-x-auto scroll-smooth scrollbar-hide">

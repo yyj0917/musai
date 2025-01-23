@@ -134,6 +134,14 @@
   70% {transform: scale(0.9);}
   100% {transform: scale(1);}
 }
+/* 좋아요 취소 애니메이션 */
+@keyframes shrinking {
+  0% { transform: scale(1); }
+  40% { transform: scale(0.9); }
+  70% { transform: scale(1.25); }
+  100% { transform: scale(1); }
+}
+
 @keyframes fadein {
   from {
       opacity: 0;
@@ -159,6 +167,10 @@
 .like-animation.scale {
   animation: beating 0.5s 1 alternate; /* 좋아요 애니메이션 */
 }
+.like-animation.unscale {
+  animation: shrinking 0.5s 1 alternate; /* 좋아요 취소 애니메이션 */
+}
+
 .fade-in {
   animation: fadein 0.5s ease-in-out;
 }
