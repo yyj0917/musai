@@ -33,7 +33,6 @@ export default function ProductItem({ product, queryKey } : ProductItem) {
 
   const toggleLikeProduct = async (e : React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    // await handleLikeProduct(productId, isLoggedIn, openLoginModal);
     
     // 로그인 체크
     if (!isLoggedIn) {

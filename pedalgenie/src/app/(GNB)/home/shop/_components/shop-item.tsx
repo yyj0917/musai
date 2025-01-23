@@ -8,6 +8,7 @@ import { ShopList } from '@/types/shop-type';
 import { useQueryClient } from '@tanstack/react-query';
 import { Heart } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useState } from 'react';
 
 type ShopItemProps = {
@@ -15,7 +16,6 @@ type ShopItemProps = {
 };
 
 export default function ShopItem({ shopProductItem } : ShopItemProps) {
-  console.log(shopProductItem);
 
   const [isAnimating, setIsAnimating] = useState(false);
 
@@ -29,7 +29,7 @@ export default function ShopItem({ shopProductItem } : ShopItemProps) {
 
   const toggleLikeProduct = async (e : React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    
+
     // 로그인 체크
     if (!isLoggedIn) {
       openLoginModal();
@@ -66,9 +66,9 @@ export default function ShopItem({ shopProductItem } : ShopItemProps) {
     likeMutation?.mutate(!shopProductItem.isLiked);
   }
   return (
-    <div className="min-w-[140px] h-[195px] flex flex-col gap-3">
+    <Link href={`/product/${shopProductItem.id}`}  className="min-w-[140px] h-[195px] flex flex-col gap-3">
       <div className='relative'>
-        <Image src={shopProductItem.imageUrl} alt="shop logo" width={140} height={140} className='max-w-[140px] max-h-[140px]' />
+        <Image src={shopProductItem.imageUrl} alt="shop logo" width={140} height={140} className='w-[140px] h-[140px]' />
         <button
           onClick={(e) => toggleLikeProduct(e)}
           className="absolute bottom-[9px] right-[10px] text-red ">
@@ -81,6 +81,6 @@ export default function ShopItem({ shopProductItem } : ShopItemProps) {
         <p className="text-ellipsis text-body2 text-grey450 line-clamp-1">{shopProductItem.name}</p>
         <p className="text-ellipsis text-body1 text-grey150">{shopProductItem.rentPricePerDay}원</p>
       </span>
-    </div>
+    </Link>
   );
 }
