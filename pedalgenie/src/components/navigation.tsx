@@ -2,6 +2,7 @@
 
 import Home from '@public/svg/GNB/home.svg';
 import Reserve from '@public/svg/GNB/reserve.svg';
+import ReserveClicked from '@public/svg/GNB/reserve-clicked.svg';
 import Heart from '@public/svg/GNB/heart.svg';
 import Profile from '@public/svg/GNB/profile.svg';
 import { usePathname } from 'next/navigation';
@@ -28,14 +29,12 @@ const navItems: NavItem[] = [
 ];
 
 export default function Navigation() {
-    const pathname = usePathname(); // 현재 경로 가져오기
-    const { isLoggedIn } = useLoginStore(); // 로그인 상태 가져오기
-    const { isLoginOpen, openLoginModal } = useModalStore(); // 로그인 모달 상태 가져오기
-    // 초기 상태 계산
-    const initialIndex = navItems.findIndex((item) => 
-        pathname === item.route || pathname.startsWith(item.route)
-    );
-    const [activeIndex, setActiveIndex] = useState<number>(initialIndex);
+  const pathname = usePathname(); // 현재 경로 가져오기
+  const { isLoggedIn } = useLoginStore(); // 로그인 상태 가져오기
+  const { isLoginOpen, openLoginModal } = useModalStore(); // 로그인 모달 상태 가져오기
+  // 초기 상태 계산
+  const initialIndex = navItems.findIndex((item) => pathname === item.route || pathname.startsWith(item.route));
+  const [activeIndex, setActiveIndex] = useState<number>(initialIndex);
 
   useEffect(() => {
     const currentIndex = navItems.findIndex((item) => item.route === pathname);
@@ -45,9 +44,12 @@ export default function Navigation() {
   }, [pathname]);
 
   // GNB 없는 곳에서는 null 반환
-  if (pathname.startsWith('/home/article') 
-    || pathname.startsWith('/home/shop/description')
-    || pathname.startsWith('/mypage/reservation')) return null;
+  if (
+    pathname.startsWith('/home/article') ||
+    pathname.startsWith('/home/shop/description') ||
+    pathname.startsWith('/mypage/reservation')
+  )
+    return null;
 
   // const handleNavigation = (route: string, requiresAuth?: boolean) => {
   //   if (requiresAuth && !isLoggedIn) {
@@ -76,8 +78,7 @@ export default function Navigation() {
             onClick={(e) => handleNavigation(e, item.requiresAuth)}
             className={`h-[50px] flex flex-1 flex-col items-center gap-1 ${
               activeIndex === item.id ? 'text-red' : 'text-grey250 opacity-[0.5]'
-            }`}
-          >
+            }`}>
             <Icon />
             <p className="w-15 text-caption1">{item.text}</p>
           </Link>

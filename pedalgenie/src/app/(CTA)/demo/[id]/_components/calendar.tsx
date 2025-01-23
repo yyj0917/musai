@@ -71,12 +71,18 @@ export default function Calendar() {
             <button
               key={formattedDate}
               onClick={() => handleDateClick(date)}
-              className={`w-[34px] h-[34px] rounded-full text-sm ${
-                isBeforeToday ? 'text-grey750' : 'text-grey250'
-              } ${isStart ? 'border-1.5 border-red  bg-darkRed' : isEnd ? 'border-1.5 border-red bg-darkRed' : isInRange ? 'bg-red bg-opacity-10 rounded-none w-full' : 'hover:bg-gray-700'}`}
+              className={`w-[34px] h-[34px] rounded-full text-sm relative flex items-center justify-center
+                ${isBeforeToday ? 'text-grey750' : 'text-grey250'} 
+                ${isInRange || isStart || isEnd ? 'bg-red bg-opacity-10 rounded-none w-full' : 'hover:bg-grey900'}
+                ${isStart ? 'rounded-l-full' :''}
+                ${isEnd ? 'rounded-r-full' : ''}`}
               disabled={isBeforeToday}>
-              {format(date, 'd')}
-              {/* isToday 오늘 날짜부분, hover 부분 수정하기 */}
+              {/* ✅ 배경 요소 (z-0) */}
+              {isStart || isEnd ? (
+                <span className="absolute inset-0 rounded-full w-[34px] border-1.5 border-red bg-darkRed z-0 ml-[5px]"></span>
+              ) : null}
+              {/* ✅ 숫자 요소 (z-10) */}
+              <span className="relative z-10">{format(date, 'd')}</span>
             </button>
           );
         })}
