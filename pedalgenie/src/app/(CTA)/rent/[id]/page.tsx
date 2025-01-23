@@ -36,7 +36,7 @@ export default function Rent({ params }: { params: { id: number } }) {
           <PaymentSummary />
         </div>
         <section className="w-full p-4 border-t-0.5 border-grey850">
-          <TimePicker />
+          <TimePicker id={id} />
         </section>
       </div>
     </div>
