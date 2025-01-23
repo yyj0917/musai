@@ -96,9 +96,3 @@ export interface RentProductDetail {
     memberNickName: string;
     paymentDate: string;
 }
-
-// 대여 가능 날짜 목록 조회 api
-
-// 대여 가능 시간 조회 api
-
-// 

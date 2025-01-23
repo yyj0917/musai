@@ -7,24 +7,20 @@ import PaymentSummary from './_components/paymentSummary';
 import AlertCircle from '@public/svg/rent/alert-circle.svg';
 import { useQuery } from '@tanstack/react-query';
 
+import { fetchRentableDate, fetchRentableTime } from '@/lib/api/(product)/reservation';
+
 export default function Rent({ params }: { params: { id: number } }) {
   const { id } = params; // 파라미터로 받아온 ProductId 값
 
-  //
-
-  {
-    /*
   const {
-    data: productDetail,
+    data: RentableDate,
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ['productDetail', id], // 캐싱 키
-    queryFn: () => fetchProductDetail(id), // fetchShopDetail 함수 호출
+    queryKey: ['RentableDate', id], // 캐싱 키
+    queryFn: () => fetchRentableDate(id), // fetchShopDetail 함수 호출
     staleTime: 1000 * 60 * 5, // 5분 동안 데이터 신선 상태 유지
   });
-     */
-  }
 
   return (
     <div className="w-full h-full flex flex-col bg-grey1000 text-grey250 font-pretendard">
