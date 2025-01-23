@@ -25,8 +25,9 @@ export default function ProductImg({ productImg }: ProductImgProps) {
               <Image
                 src={url}
                 alt={`상품 이미지 ${index + 1}`}
-                layout="fill" // 이미지가 부모 컨테이너를 채우도록 설정
-                objectFit="cover" // 이미지가 부모 크기에 맞게 잘리거나 확장되도록 설정
+                fill
+                sizes='w-full h-full'// 이미지가 부모 컨테이너를 채우도록 설정
+                style={{ objectFit: 'cover' }} // 이미지가 부모 크기에 맞게 잘리거나 확장되도록 설정
                 priority={index === 0} // 첫 번째 이미지를 우선 로드
               />
             </div>
