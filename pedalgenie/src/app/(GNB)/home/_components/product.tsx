@@ -4,9 +4,8 @@ import Image from 'next/image';
 import RightArrow from '@public/svg/home/right-arrow.svg';
 import { Button } from '@/components/ui/button';
 import { Heart } from 'lucide-react';
-import { useAuthStore, useLoginStore } from '@/lib/zustand/useAuthStore';
+import { useLoginStore } from '@/lib/zustand/useAuthStore';
 import { useModalStore } from '@/lib/zustand/useModalStore';
-import { handleLikeProduct } from '@/lib/utils/like-util';
 import { useState } from 'react';
 import './../../../globals.css';
 import { Product } from '@/types/product-type';
@@ -18,7 +17,6 @@ type ProductItem = {
     product: Product;
     // 무한 스크롤의 queryKey(예: ['products', category, ...])
     queryKey?: (string | string[])[];
-
 }
 
 export default function ProductItem({ product, queryKey } : ProductItem) {
@@ -47,6 +45,7 @@ export default function ProductItem({ product, queryKey } : ProductItem) {
     setTimeout(() => {
       setIsAnimating(false);
     }, 500); // 0.5초 애니메이션
+    console.log(product.shopId);
 
     // 2) 서버에 좋아요 or 취소 요청 (Optimistic Update)
     likeMutation?.mutate(!product.isLiked);

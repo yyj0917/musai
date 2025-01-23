@@ -6,20 +6,17 @@ import { useModalStore } from '@/lib/zustand/useModalStore';
 import { useEffect, useState } from 'react';
 
 type FloatingButtonProps = {
-    targetSection: string;
-    mainContainer: string;
+    scrollContainer: string;
 };
-export default function FloatingButton({ targetSection, mainContainer } : FloatingButtonProps) {
+export default function FloatingButton({ scrollContainer } : FloatingButtonProps) {
     const { isFloatingButton } = useModalStore();
     const [shouldRender, setShouldRender] = useState(true); // 렌더링 여부
 
     const scrollToTop = () => {
-        const goTopElement = document.getElementById(targetSection);
-        const scrollTopElement = document.getElementById(mainContainer);
-        if (scrollTopElement && goTopElement) {
-            const scrollPosition = goTopElement.offsetTop;
+        const scrollTopElement = document.getElementById(scrollContainer);
+        if (scrollTopElement) {
             // 이거 상댓값으로 수정 필요함
-            scrollTopElement.scrollTo({top: 800, behavior: 'smooth'});
+            scrollTopElement.scrollTo({top: 0, behavior: 'smooth'});
         }
     };
     useEffect(() => {
@@ -31,6 +28,7 @@ export default function FloatingButton({ targetSection, mainContainer } : Floati
           setShouldRender(true); // fade-in 즉시 렌더링
         }
       }, [isFloatingButton]);
+
     return shouldRender ? (
         <div className='absolute bottom-5 w-full flex justify-end pr-5'>
             <button

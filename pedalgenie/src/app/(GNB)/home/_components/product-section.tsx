@@ -337,7 +337,7 @@ export default function ProductSection() {
         {isLoading || !isDelay && <Loading/>}
       </section>
       {/* 플로팅 버튼 */}
-      <FloatingButton targetSection={'product-section'} mainContainer={'main'} />
+      <FloatingButton scrollContainer={'main'} />
     </>
   );
 }
