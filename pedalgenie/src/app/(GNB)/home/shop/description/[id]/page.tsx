@@ -11,11 +11,12 @@ import { fetchShopDetail } from '@/lib/api/shop';
 import { useQuery } from '@tanstack/react-query';
 import { useLoginStore } from '@/lib/zustand/useAuthStore';
 import { useModalStore } from '@/lib/zustand/useModalStore';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Loading from '@/components/loading';
 import { useLikeShopMutation } from '@/hooks/useLikeShopMutation';
 import FloatingButton from '@/components/floating-button';
 import { throttle } from 'lodash';
+import { useScrollToggle } from '@/hooks/use-scroll';
 
 
 
@@ -25,11 +26,8 @@ export default function ShopDescriptionPage({ params }: { params: { id: number }
     const { id } = params;
     const { toast } = useToast();
     const { isLoggedIn } = useLoginStore();
-    const { openLoginModal, setFloatingButton } = useModalStore();
+    const { openLoginModal } = useModalStore();
     const [isAnimating, setIsAnimating] = useState(false);
-    const scrollYRef = useRef(0); // 이전 스크롤 위치 저장
-
-    const SCROLL_DELTA = 50; // 최소 변화량
     // React Query를 사용하여 데이터 가져오기
     const { data: shopDetail, isLoading, isError } = useQuery({
         queryKey: ['shopDetail', id], // 캐싱 키
@@ -67,39 +65,9 @@ export default function ShopDescriptionPage({ params }: { params: { id: number }
         // 2) 서버에 좋아요 or 취소 요청 (Optimistic Update)
         likeMutation?.mutate(!shopDetail?.isLiked);
     }
-    const handleScroll = useCallback(
-        throttle(() => {
-          const main = document.querySelector("#shopDescription");
-          if (!main) return;
     
-          const currentScrollTop = main.scrollTop;
-    
-          // 스크롤 내릴 때 플로팅 버튼 표시
-          if (currentScrollTop > scrollYRef.current + SCROLL_DELTA) {
-            setFloatingButton(true);
-          }
-          // 스크롤 올릴 때 플로팅 버튼 숨기기
-          if (currentScrollTop < scrollYRef.current - SCROLL_DELTA) {
-            setFloatingButton(false);
-          }
-    
-          scrollYRef.current = currentScrollTop; // 현재 스크롤 위치 업데이트
-        }, 200), // 200ms 간격으로 스로틀링
-        []
-      );
-    
-      // 이벤트 등록
-      useEffect(() => {
-        const mainElement = document.querySelector("#shopDescription");
-        if (mainElement) {
-          mainElement.addEventListener("scroll", handleScroll);
-        }
-        return () => {
-          if (mainElement) {
-            mainElement.removeEventListener("scroll", handleScroll);
-          }
-        };
-      }, [handleScroll]);
+    // Floating Button Toggle Hook
+    useScrollToggle({ containerId: 'shopDescription', throttleTime: 200 });
 
     return (
         <div id='shopDescription' className="w-full h-[calc(100dvh-50px)] flex flex-col overflow-y-auto scrollbar-hide">

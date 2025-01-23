@@ -6,6 +6,7 @@ import { LikeShop } from '@/types/shop-type';
 import Loading from '@/components/loading';
 import LikeShopItem from '../_components/like-shop';
 import useDelay from '@/hooks/use-delay';
+import { useScrollToggle } from '@/hooks/use-scroll';
 
 export default function SaveListShopPage() {
 
@@ -16,6 +17,8 @@ export default function SaveListShopPage() {
     gcTime: 1000 * 60 * 30,
   });
   const isDelay = useDelay(500);
+
+  useScrollToggle({ containerId: 'likeSection' });
 
   return (
       <>

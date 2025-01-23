@@ -9,7 +9,7 @@ type FloatingButtonProps = {
     scrollContainer: string;
 };
 export default function FloatingButton({ scrollContainer } : FloatingButtonProps) {
-    const { isFloatingButton } = useModalStore();
+    const { isFloatingButton, setFloatingButton } = useModalStore();
     const [shouldRender, setShouldRender] = useState(true); // 렌더링 여부
 
     const scrollToTop = () => {
@@ -19,6 +19,13 @@ export default function FloatingButton({ scrollContainer } : FloatingButtonProps
             scrollTopElement.scrollTo({top: 0, behavior: 'smooth'});
         }
     };
+    // Floating Button을 사용하는 각 컴포넌트에서 Floating Button state를
+    // 독립적으로 관리하기 위한 초기화 로직
+    useEffect(() => {
+        // 컴포넌트가 마운트될 때 상태 초기화
+        setFloatingButton(false);
+    }, [setFloatingButton]);
+
     useEffect(() => {
         if (!isFloatingButton) {
           // fade-out 완료 후 렌더링 중지

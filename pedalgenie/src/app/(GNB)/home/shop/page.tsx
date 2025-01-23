@@ -9,7 +9,7 @@ export default async function Shop() {
   // 매장 목록 조회 - shop[]
 
   return (
-    <div className="py-5 w-full h-[calc(100dvh-88.5px-87px)] flex flex-col gap-6 overflow-y-auto scrollbar-hide">
+    <div id='shopList' className="py-5 w-full h-[calc(100dvh-88.5px-87px)] flex flex-col gap-6 overflow-y-auto scrollbar-hide">
       <ShopSection/>
     </div>
   );
