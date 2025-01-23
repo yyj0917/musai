@@ -22,3 +22,17 @@ export interface RentableTime {
         availableDateTimedId: number;
     }
 }
+
+// 시연 가능 날짜 목록 조회 api
+export interface DemoableDate {
+    date: string;
+    available: true;
+}
+export type DemoableDateList = DemoableDate[];
+
+// 시연 가능 시간 조회 api
+export interface DemoableTime {
+    slotTime: string;
+    available: true;
+}
+export type DemoableTimeList = DemoableTime[];
