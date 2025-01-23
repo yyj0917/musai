@@ -26,7 +26,7 @@ export default function ProductImg({ productImg }: ProductImgProps) {
                 src={url}
                 alt={`상품 이미지 ${index + 1}`}
                 fill
-                sizes='w-full h-full'// 이미지가 부모 컨테이너를 채우도록 설정
+                sizes="w-full h-full" // 이미지가 부모 컨테이너를 채우도록 설정
                 style={{ objectFit: 'cover' }} // 이미지가 부모 크기에 맞게 잘리거나 확장되도록 설정
                 priority={index === 0} // 첫 번째 이미지를 우선 로드
               />
@@ -34,7 +34,7 @@ export default function ProductImg({ productImg }: ProductImgProps) {
           ))
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-gray-200">
-            <p className="text-grey450 text-sm">유효한 이미지가 없습니다.</p>
+            <p className="text-grey450 text-sm">유효한 이미지가 없습니다.</p> {/* 이미지 없을 경우 텍스트 대체 */}
           </div>
         )}
       </div>

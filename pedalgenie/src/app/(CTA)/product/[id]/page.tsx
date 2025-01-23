@@ -43,7 +43,7 @@ export default function Product({ params }: { params: { id: number } }) {
           <ProductFeeCard price={productDetail?.price} rentPricePerDay={productDetail?.rentPricePerDay} />
           <InfoSwitcher />
         </div>
-        <ProductInfo />
+        <ProductInfo descriptionImg={productDetail?.descriptionUrl} />
         <ShopInfo
           shopName={productDetail?.shopName}
           shopHours={productDetail?.shopHours}

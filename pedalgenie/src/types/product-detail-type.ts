@@ -8,6 +8,7 @@ export interface ProductDetail {
   isRentable: boolean;
   isPurchasable: boolean;
   isDemoable: boolean;
+  descriptionUrl?: string;
   productImage: { imageUrl: string }[];
   isLiked?: boolean | null; // 로그인 여부에 따라 존재
   shopHours: {
