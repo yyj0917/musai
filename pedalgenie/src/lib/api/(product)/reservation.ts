@@ -29,7 +29,7 @@ export async function fetchRentableTime(productId: number, targetDate: string): 
 // 대여 생성 api => header에 토큰
 export async function CreateRentReservation(productId: number, availableDateTimeId: number, rentStartDateTime: string, rentEndDateTime: string): Promise<RentReservationData> {
     try {
-    const response = await axiosInstance.get(`/api/rents`);
+    const response = await axiosInstance.post(`/api/rents`);
     return response.data.data;
     } catch (error) {
         console.log(error);
@@ -65,7 +65,7 @@ export async function fetchDemoableTime(productId: number, date: string): Promis
 // 시연 생성 api => header에 토큰
 export async function CreateDemoReservation(demoDate:string, productId: number): Promise<RentReservationData> {
     try {
-    const response = await axiosInstance.get(`/api/demos`);
+    const response = await axiosInstance.post(`/api/demos`);
     return response.data.data;
     } catch (error) {
         console.log(error);
