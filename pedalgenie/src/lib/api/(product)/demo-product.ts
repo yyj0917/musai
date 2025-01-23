@@ -1,5 +1,5 @@
-import { DemoProductDetail, DemoProductList, PatchDemoProductStatus } from "@/types/product-type";
-import axiosInstance from "../config/axiosConfig";
+import { DemoProductDetail, DemoProductList, PatchDemoProductStatus } from '@/types/product-type';
+import axiosInstance from '../config/axiosConfig';
 
 
 // 시연 상품 목록 조회 api - token 필요 - tanstackquery 캐싱

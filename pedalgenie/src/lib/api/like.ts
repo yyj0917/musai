@@ -1,6 +1,6 @@
-import { LikeShopList } from "@/types/shop-type";
+import { LikeShopList } from '@/types/shop-type';
 import axiosInstance from "./config/axiosConfig";
-import { ProductList } from "@/types/product-type";
+import { ProductList } from '@/types/product-type';
 
 // 악기 좋아요 post 요청 - header bearer type access token 필요
 export async function likeProduct(productId: number): Promise<void> {

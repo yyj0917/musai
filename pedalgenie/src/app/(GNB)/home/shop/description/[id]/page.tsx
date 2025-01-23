@@ -17,6 +17,7 @@ import { useLikeShopMutation } from '@/hooks/useLikeShopMutation';
 import FloatingButton from '@/components/floating-button';
 import { throttle } from 'lodash';
 import { useScrollToggle } from '@/hooks/use-scroll';
+import LoginModal from '@/components/modal/login-modal';
 
 
 
@@ -50,11 +51,11 @@ export default function ShopDescriptionPage({ params }: { params: { id: number }
 
     const toggleLikeShop = async (e : React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        
+        console.log(isLoggedIn);
         // 로그인 체크
         if (!isLoggedIn) {
-        openLoginModal();
-        return;
+            openLoginModal();
+            return;
         }
         // 1) 하트 애니메이션 실행
         setIsAnimating(true);
@@ -132,6 +133,7 @@ export default function ShopDescriptionPage({ params }: { params: { id: number }
             { isLoading || !shopDetail ? <Loading/> : null }
             {/* 플로팅 버튼 */}
             <FloatingButton scrollContainer={'shopDescription'} />
+            <LoginModal/>
         </div>
     );
 }

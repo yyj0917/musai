@@ -8,8 +8,6 @@ export default async function ArticlePage({ params }: { params: { id: string } }
 
   const article = await fetchArticleDetail(id);
 
-  console.log(article);
-
   if (!article) {
     return <div>아티클을 찾을 수 없습니다.</div>;
   }

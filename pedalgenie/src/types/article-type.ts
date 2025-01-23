@@ -1,4 +1,4 @@
-import { ArticleProductList } from "./product-type";
+import { ArticleProductList } from './product-type';
 
 // 아티클 목록 조회 타입
 export interface ArticleData {

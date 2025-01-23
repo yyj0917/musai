@@ -9,7 +9,6 @@ import { useFilterStore } from '@/lib/zustand/useFilterStore';
 import { useScrollStore } from '@/lib/zustand/useScrollStore';
 import { useModalStore } from '@/lib/zustand/useModalStore';
 import LoginModal from '@/components/modal/login-modal';
-import { useScrollDirection } from '@/hooks/scroll';
 import { before, set, throttle } from 'lodash';
 import FloatingButton from '@/components/floating-button';
 import { Product, ProductList } from '@/types/product-type';
@@ -332,7 +331,7 @@ export default function ProductSection() {
           </main>
         </div>
         {/* 로그인 유저가 아닐 시 로그인 모달 */}
-        {isLoginOpen && <LoginModal />}
+        <LoginModal/>
         {/* 로딩 중 */}
         {isLoading || !isDelay && <Loading/>}
       </section>

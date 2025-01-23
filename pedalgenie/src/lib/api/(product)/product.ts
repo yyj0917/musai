@@ -1,6 +1,6 @@
-import { ProductList } from "@/types/product-type";
-import axiosInstance from "../config/axiosConfig";
-import { SearchItem } from "@/types/search-type";
+import { ProductList } from '@/types/product-type';
+import axiosInstance from '../config/axiosConfig';
+import { SearchItem } from '@/types/search-type';
 
 export interface FetchProductListParams {
     category?: string;
@@ -17,7 +17,7 @@ export interface FetchProductListParams {
 export async function fetchProductList(params: FetchProductListParams): Promise<ProductList> {
     try {
   
-      const response = await axiosInstance.get(`/api/products/search`, {
+      const response = await axiosInstance.get('/api/products/search', {
         params: params,
       });
       return response.data.data;
@@ -29,7 +29,7 @@ export async function fetchProductList(params: FetchProductListParams): Promise<
 // 상품, 매장 검색 api - 로그인했으면 토큰 o - tanstackquery 캐싱
 export async function fetchSearchItem(keyword: string): Promise<SearchItem> {
     try {
-      const response = await axiosInstance.get(`/api/search`, {
+      const response = await axiosInstance.get('/api/search', {
         params: {
           keyword,
         },

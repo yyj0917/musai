@@ -9,8 +9,8 @@ import { addMonths, format, startOfMonth, endOfMonth, eachDayOfInterval, isBefor
 export default function Calendar() {
   const today = new Date(); // 현재 날짜
   const [currentMonth, setCurrentMonth] = useState(startOfMonth(today)); // 현재 월의 시작일
-  const [startDate, setStartDate] = useState(null); // 대여 시작일
-  const [endDate, setEndDate] = useState(null); // 대여 종료일
+  const [startDate, setStartDate] = useState<Date | null>(null); // 대여 시작일
+  const [endDate, setEndDate] = useState<Date | null>(null); // 대여 종료일
 
   const handlePrevMonth = () => {
     setCurrentMonth(addMonths(currentMonth, -1)); // 이전 달로 이동
@@ -20,11 +20,14 @@ export default function Calendar() {
     setCurrentMonth(addMonths(currentMonth, 1)); // 다음 달로 이동
   };
 
-  const handleDateClick = (selectedDate : any) => {
+  const handleDateClick = (selectedDate : Date) => {
     if (!startDate) {
       setStartDate(selectedDate);
       setEndDate(null); // 새 시작일 선택 시 종료일 초기화
-    } else if (selectedDate > startDate && selectedDate - startDate >= 3 * 24 * 60 * 60 * 1000) {
+    } else if (
+      selectedDate.getTime() > startDate.getTime() &&
+      selectedDate.getTime() - startDate.getTime() >= 3 * 24 * 60 * 60 * 1000
+    ) {
       setEndDate(selectedDate);
     } else {
       alert('대여 종료일은 대여 시작일로부터 최소 3일 이후여야 합니다!');

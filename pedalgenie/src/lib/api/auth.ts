@@ -1,5 +1,5 @@
-import { UserInfo } from "@/types/auth-type";
-import axiosInstance from "./config/axiosConfig";
+import { UserInfo } from '@/types/auth-type';
+import axiosInstance from './config/axiosConfig';
 
 // 로그아웃 - header bearer type access token 필요
 export async function logout(): Promise<void> {
