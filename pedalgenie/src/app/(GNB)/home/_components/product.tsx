@@ -44,7 +44,6 @@ export default function ProductItem({ product, queryKey } : ProductItem) {
     setTimeout(() => {
       setIsAnimating(false);
     }, 500); // 0.5초 애니메이션
-    console.log(product.shopId);
 
     // 2) 서버에 좋아요 or 취소 요청 (Optimistic Update)
     likeMutation?.mutate(!product.isLiked);

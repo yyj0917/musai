@@ -115,10 +115,10 @@ export default function ShopDescriptionPage({ params }: { params: { id: number }
                 {/* Address */}
                 <div className="px-1 w-full flex justify-start items-center gap-1">
                     <span className='text-grey450 mr-1'><Location/></span>
-                    <div className="w-full flex gap-2 items-center">
+                    <div className="w-full flex gap-2 items-start">
                         <span className='text-body2 text-grey150'>{shopDetail?.address}</span>
                         <Button
-                            variant='copy' 
+                            variant='copy'
                             onClick={() => handleCopyToast(shopDetail?.address)} 
                             className='text-center text-body2 text-red' >복사</Button>
                     </div>

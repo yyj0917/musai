@@ -2,6 +2,7 @@
 
 import ProductItem from '../../../_components/product';
 import { Product, ProductList } from '@/types/product-type';
+import SymbolLogo from "@public/svg/symbol-logo.svg";
 
 type ShopProductSectionProps = {
   shopProduct?: ProductList;
@@ -9,6 +10,15 @@ type ShopProductSectionProps = {
 };
 
 export default function ShopProductSection({ shopProduct, instrumentCount} : ShopProductSectionProps) {
+  
+  if (!shopProduct || shopProduct?.length <= 0) {
+    return (
+      <div className="my-auto flex flex-col items-center gap-[14px] text-grey650 text-body1">
+          <SymbolLogo/>
+          <p>매장 상품이 존재하지 않습니다</p>
+      </div>
+    )
+  }
   return (
     <section
       className="
