@@ -12,13 +12,13 @@ export type ArticleProductList = ArticleProduct[];
 // 첫 홈화면 시연해볼 수 있는 장르별 악기 목록 조회 타입
 export interface Product {
     id: number;
-    shopName: string;
-    shopId: number;
+    shopName?: string;
+    shopId?: number;
     name: string;
     rentPricePerDay: number;
-    isRentable: boolean;
-    isPurchasable: boolean;
-    isDemoable: boolean;
+    isRentable?: boolean;
+    isPurchasable?: boolean;
+    isDemoable?: boolean;
     imageUrl: string;
     isLiked?: boolean;
 }

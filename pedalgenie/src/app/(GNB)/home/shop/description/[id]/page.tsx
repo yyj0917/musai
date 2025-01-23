@@ -11,9 +11,12 @@ import { fetchShopDetail } from '@/lib/api/shop';
 import { useQuery } from '@tanstack/react-query';
 import { useLoginStore } from '@/lib/zustand/useAuthStore';
 import { useModalStore } from '@/lib/zustand/useModalStore';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Loading from '@/components/loading';
 import { useLikeShopMutation } from '@/hooks/useLikeShopMutation';
+import FloatingButton from '@/components/floating-button';
+import { throttle } from 'lodash';
+import { useScrollToggle } from '@/hooks/use-scroll';
 
 
 
@@ -25,7 +28,6 @@ export default function ShopDescriptionPage({ params }: { params: { id: number }
     const { isLoggedIn } = useLoginStore();
     const { openLoginModal } = useModalStore();
     const [isAnimating, setIsAnimating] = useState(false);
-
     // React Query를 사용하여 데이터 가져오기
     const { data: shopDetail, isLoading, isError } = useQuery({
         queryKey: ['shopDetail', id], // 캐싱 키
@@ -63,9 +65,12 @@ export default function ShopDescriptionPage({ params }: { params: { id: number }
         // 2) 서버에 좋아요 or 취소 요청 (Optimistic Update)
         likeMutation?.mutate(!shopDetail?.isLiked);
     }
+    
+    // Floating Button Toggle Hook
+    useScrollToggle({ containerId: 'shopDescription', throttleTime: 200 });
 
     return (
-        <div className="w-full h-[calc(100dvh-50px)] flex flex-col overflow-y-auto scrollbar-hide">
+        <div id='shopDescription' className="w-full h-[calc(100dvh-50px)] flex flex-col overflow-y-auto scrollbar-hide">
             {/* Shop Banner */}
             <div 
                 className="px-4 py-7 w-full min-h-[220px] bg-dimmed-image bg-cover bg-center flex justify-between items-start"
@@ -110,10 +115,10 @@ export default function ShopDescriptionPage({ params }: { params: { id: number }
                 {/* Address */}
                 <div className="px-1 w-full flex justify-start items-center gap-1">
                     <span className='text-grey450 mr-1'><Location/></span>
-                    <div className="w-full flex gap-2 items-center">
+                    <div className="w-full flex gap-2 items-start">
                         <span className='text-body2 text-grey150'>{shopDetail?.address}</span>
                         <Button
-                            variant='copy' 
+                            variant='copy'
                             onClick={() => handleCopyToast(shopDetail?.address)} 
                             className='text-center text-body2 text-red' >복사</Button>
                     </div>
@@ -125,6 +130,8 @@ export default function ShopDescriptionPage({ params }: { params: { id: number }
             {/* Shop에서 판매하는 모든 상품 진열 section */}
             <ShopProductSection shopProduct={shopDetail?.products} instrumentCount={shopDetail?.instrumentCount} />
             { isLoading || !shopDetail ? <Loading/> : null }
+            {/* 플로팅 버튼 */}
+            <FloatingButton scrollContainer={'shopDescription'} />
         </div>
     );
 }

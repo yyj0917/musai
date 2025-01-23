@@ -22,7 +22,6 @@ export async function fetchProductList(params: FetchProductListParams): Promise<
       });
       return response.data.data;
     } catch (error) {
-      console.error('Error fetching product list:', error);
       throw new Error('Unable to fetch product list. Please try again later.');
     }
 }
@@ -37,7 +36,6 @@ export async function fetchSearchItem(keyword: string): Promise<SearchItem> {
       });
       return response.data.data;
     } catch (error) {
-      console.error('Error fetching product search:', error);
       throw new Error('Unable to fetch product search. Please try again later.');
     }
 }

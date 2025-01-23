@@ -30,5 +30,5 @@ export interface ShopDetail {
     instrumentCount: number;
     shopImageUrl: string;
     isLiked?: boolean;
-    products: ProductList;
+    products: ShopProductList;
 }

@@ -61,7 +61,7 @@ export default function RentDetailPage({ params }: { params: { rentId: number } 
         { label: '입금자명', value: rentProductDetail?.memberNickName },
         { label: '결제날짜', value: rentProductDetail?.paymentDate },
     ];
-
+    if (!rentProductDetail) return null;
 
     return (
         <div className="relative px-4 w-full flex flex-col">
@@ -80,12 +80,14 @@ export default function RentDetailPage({ params }: { params: { rentId: number } 
             </nav>
             {/* 상품 정보 카드 */}
             <div className="py-5 w-full flex justify-between items-center">
-                <Image
-                    src={`${rentProductDetail?.productImage}`}
-                    alt="preview card"
-                    width={100}
-                    height={100}
-                    className="rounded-[2px]" />
+                <div className="relative w-[100px] h-[100px]" style={{ aspectRatio: '1 : 1'}}>
+                    <Image 
+                        src={`${rentProductDetail?.productImage}` || '/img/preview-card.jpg'}
+                        alt="preview card"
+                        layout="fill"
+                        className="rounded-[2px] object-fit"
+                        priority />
+                </div>
                 <div className="w-auto h-[100px] flex flex-col justify-start gap-1">
                     <h2 className="max-w-[227px] max-h-[54px] text-body1 text-grey150 line-clamp-2">{rentProductDetail?.productName}</h2>
                     <p className="flex justify-start text-caption2 text-grey550">

@@ -1,11 +1,8 @@
 'use client';
 
-import { useState } from 'react';
 import ProductItem from '../../../_components/product';
-import dataset from '@/data/dataset.json';
 import { Product, ProductList } from '@/types/product-type';
-
-// 여기 수정해야 함 Product image data name 통일해야 해서.
+import SymbolLogo from "@public/svg/symbol-logo.svg";
 
 type ShopProductSectionProps = {
   shopProduct?: ProductList;
@@ -13,6 +10,15 @@ type ShopProductSectionProps = {
 };
 
 export default function ShopProductSection({ shopProduct, instrumentCount} : ShopProductSectionProps) {
+  
+  if (!shopProduct || shopProduct?.length <= 0) {
+    return (
+      <div className="my-auto flex flex-col items-center gap-[14px] text-grey650 text-body1">
+          <SymbolLogo/>
+          <p>매장 상품이 존재하지 않습니다</p>
+      </div>
+    )
+  }
   return (
     <section
       className="
@@ -24,7 +30,7 @@ export default function ShopProductSection({ shopProduct, instrumentCount} : Sho
       </div>
       <main className="pt-2 w-full grid grid-cols-2 gap-[2px]">
         {shopProduct?.map((shopProductItem: Product, index: number) => (
-          <ProductItem key={index} product={shopProductItem} />
+          <ProductItem key={index} product={shopProductItem} queryKey={['shopDetail', String(shopProductItem.shopId)]}/>
         ))}
       </main>
     </section>
