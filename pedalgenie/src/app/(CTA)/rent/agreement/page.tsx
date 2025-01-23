@@ -1,21 +1,21 @@
-import TopBar from './../_components/topBar';
+import TopBar from '../[id]/_components/topBar';
 import ReservationInfo from './_components/reservationInfo';
 import NoticeSection from './_components/noticeSection';
 import AgreementSection from './_components/agreementSection';
-import PriceSummary from '../_components/paymentSummary';
+import PaymentSummary from '../[id]/_components/paymentSummary';
 
 export default function Agreement() {
   return (
     <div className="w-full flex flex-col text-grey250 font-pretendard ">
       <TopBar />
-      <div className='w-full h-[calc(100vh-50px)] overflow-y-auto scroll-smooth scrollbar-hide '>
-        <div className='p-4 border-b-0.5 border-grey850'>
+      <div className="w-full h-[calc(100vh-50px)] overflow-y-auto scroll-smooth scrollbar-hide ">
+        <div className="p-4 border-b-0.5 border-grey850">
           <ReservationInfo />
-          <PriceSummary />
+          <PaymentSummary />
         </div>
-        <div className='p-4'>
+        <div className="p-4">
           <NoticeSection />
-          <AgreementSection/>
+          <AgreementSection />
         </div>
       </div>
     </div>

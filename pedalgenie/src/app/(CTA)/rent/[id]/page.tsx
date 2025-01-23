@@ -10,6 +10,8 @@ import { useQuery } from '@tanstack/react-query';
 export default function Rent({ params }: { params: { id: number } }) {
   const { id } = params; // 파라미터로 받아온 ProductId 값
 
+  //
+
   {
     /*
   const {

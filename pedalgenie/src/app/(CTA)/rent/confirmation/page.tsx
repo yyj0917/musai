@@ -1,4 +1,4 @@
-import TopBar from './../_components/topBar';
+import TopBar from '../[id]/_components/topBar';
 import RentFeeSummary from './_components/rentFeeSummary';
 import RentFeeInfo from './_components/rentFeeInfo';
 import SubmitButton from './_components/submitButton';
