@@ -23,14 +23,13 @@ interface PickUpTimeButtonProps {
 export default function TimePicker({ id }: TimePickerProps) {
   const router = useRouter();
 
-  const productId = id;
   const {
     data: RentableTime,
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ['RentableTime', productId], // 캐싱 키
-    queryFn: () => fetchRentableTime(productId, '2025-01-26'), // fetchShopDetail 함수 호출
+    queryKey: ['RentableTime', id], // 캐싱 키
+    queryFn: () => fetchRentableTime(id, '2025-02-03'), // 날짜 첫번째 날짜로
     staleTime: 1000 * 60 * 5, // 5분 동안 데이터 신선 상태 유지
   });
 

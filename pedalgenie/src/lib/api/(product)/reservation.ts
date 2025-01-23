@@ -29,7 +29,7 @@ export async function fetchRentableTime(productId: number, targetDate: string): 
 // 시연 가능 날짜 목록 조회 api
 export async function fetchDemoableDate(productId: number): Promise<DemoableDateList> {
     try {
-    const response = await axiosInstance.get(`/api/demos/${productId}`);
+    const response = await axiosInstance.get(`/api/demos/dates/${productId}`);
     return response.data.data;
     } catch (error) {
         console.log(error);
@@ -41,7 +41,7 @@ export async function fetchDemoableDate(productId: number): Promise<DemoableDate
 // 시연 가능 시간 조회 api
 export async function fetchDemoableTime(productId: number, date: string): Promise<DemoableTimeList> {
     try {
-    const response = await axiosInstance.get(`/api/demos/${productId}?date=${date}`);
+    const response = await axiosInstance.get(`/api/demos/times/${productId}?date=${date}`);
     return response.data.data;
     } catch (error) {
         console.log(error);
