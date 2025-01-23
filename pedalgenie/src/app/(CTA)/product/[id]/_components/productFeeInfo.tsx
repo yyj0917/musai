@@ -1,6 +1,6 @@
 interface ProductFeeCardProps {
-  price: number;
-  rentPricePerDay: number;
+  price?: number;
+  rentPricePerDay?: number;
 }
 
 export default function ProductFeeCard({ price, rentPricePerDay }: ProductFeeCardProps) {

@@ -4,8 +4,8 @@ import RightArrow from '@public/svg/product/right-arrow-sm-white.svg';
 import { useRouter } from 'next/navigation';
 
 interface ShopNameBarProps {
-  shopName: string;
-  shopId: number;
+  shopName?: string;
+  shopId?: number;
 }
 
 export default function ShopNameBar({ shopName, shopId }: ShopNameBarProps) {

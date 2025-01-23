@@ -13,10 +13,10 @@ interface ShopHour {
 }
 
 interface ShopInfoProps {
-  shopName: string;
-  shopHours: ShopHour[];
-  contactNumber: string;
-  address: string;
+  shopName?: string;
+  shopHours?: ShopHour[];
+  contactNumber?: string;
+  address?: string;
 }
 
 // 시간을 HH:MM 형식으로 포맷하는 함수
@@ -44,12 +44,14 @@ const formatTime = (hour: ShopHour) => {
   return `${formattedDayType} ${formattedOpenTime} ~ ${formattedCloseTime} ${breakTime}`;
 };
 
-// [매장 운영 시간, 번호, 주소]를 위한 [이미지,텍스트] 랜더링 컴포넌트
-const ShopDetailInfo = (Img: React.ComponentType<React.SVGProps<SVGSVGElement>>, text: string) => (
-  <div className="flex w-full">
-    <Img />
-    <p className="text-sm text-grey250 pl-1">{text}</p>
-  </div>
+// [매장 운영 시간, 번호, 주소]를 위한 [이미지, 텍스트] 렌더링 컴포넌트
+const ShopDetailInfo = (Img: React.ComponentType<React.SVGProps<SVGSVGElement>>, text?: string) => (
+  text ? (
+    <div className="flex w-full items-center">
+      <Img />
+      <p className="text-sm text-grey250 pl-1">{text}</p>
+    </div>
+  ) : null // text가 없을 경우 렌더링 생략
 );
 
 export default function ShopInfo({ shopName, shopHours, contactNumber, address }: ShopInfoProps) {
@@ -69,11 +71,15 @@ export default function ShopInfo({ shopName, shopHours, contactNumber, address }
       {/* 상점 상세 정보 섹션 */}
       <section className="w-full flex flex-col gap-2 py-5 px-4">
         {/* 매장 운영 시간 */}
-        {shopHours.map((hour) => (
-          <div key={hour.shopHoursId} className="flex w-full">
-            {ShopDetailInfo(Time, formatTime(hour))}
-          </div>
-        ))}
+        {shopHours && shopHours.length > 0 ? (
+          shopHours.map((hour) => (
+            <div key={hour.shopHoursId} className="flex w-full">
+              {ShopDetailInfo(Time, formatTime(hour))}
+            </div>
+          ))
+        ) : (
+          <p className="text-sm text-grey250">운영 시간이 없습니다.</p>
+        )}
 
         {/* 매장 번호 */}
         {ShopDetailInfo(Call, contactNumber)}

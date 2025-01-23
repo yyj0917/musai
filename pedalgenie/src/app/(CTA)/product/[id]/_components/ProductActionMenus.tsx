@@ -1,7 +1,7 @@
 interface ProductActionMenusProps {
-  isRentable: boolean;
-  isPurchasable: boolean;
-  isDemoable: boolean;
+  isRentable?: boolean;
+  isPurchasable?: boolean;
+  isDemoable?: boolean;
 }
 
 const ProductActionMenus = ({ isRentable, isPurchasable, isDemoable }: ProductActionMenusProps) => {
