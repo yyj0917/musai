@@ -41,7 +41,7 @@ export default function DemoDetailPage({ params }: { params: { demoId: number } 
         { label: '예약날짜', value: demoProductDetail?.reservedDate },
     ];
 
-
+    if (!demoProductDetail) return null;
 
     return (
         <div className="relative px-4 w-full flex flex-col">
@@ -60,12 +60,14 @@ export default function DemoDetailPage({ params }: { params: { demoId: number } 
             </nav>
             {/* 상품 정보 카드 */}
             <div className="py-5 w-full flex justify-between items-center">
-                <Image
-                    src={`${demoProductDetail?.productThumbnailImageUrl}`}
-                    alt="demo card"
-                    width={100}
-                    height={100}
-                    className="rounded-[2px]" />
+                <div className="relative w-[100px] h-[100px]" style={{ aspectRatio: '1 : 1'}}>
+                        <Image 
+                            src={`${demoProductDetail?.productThumbnailImageUrl}`}
+                            alt="preview card"
+                            layout="fill"
+                            className="rounded-[2px] object-fit"
+                            priority />
+                </div>
                 <div className="w-auto h-[100px] flex flex-col justify-start gap-1">
                     <h2 className="max-w-[227px] max-h-[54px] text-body1 text-grey150 line-clamp-2">
                         {demoProductDetail?.productName}
