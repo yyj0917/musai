@@ -22,7 +22,11 @@ interface CheckButtonProps {
   onClick: () => void;
 }
 
-export default function AgreementSection() {
+interface AgreementSectionProps {
+  id : number;
+}
+
+export default function AgreementSection({id}: AgreementSectionProps) {
   const router = useRouter();
 
   // 개별 동의 상태 관리
@@ -52,7 +56,7 @@ export default function AgreementSection() {
   // 다음으로 버튼 클릭 핸들러
   const handleNextStep = () => {
     if (isAllChecked) {
-      router.push('/rent/confirmation'); // 다음 페이지로 이동
+      router.push(`/rent/${id}/confirmation`); // 다음 페이지로 이동
     }
   };
 
