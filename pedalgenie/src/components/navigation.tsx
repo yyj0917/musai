@@ -51,15 +51,6 @@ export default function Navigation() {
   )
     return null;
 
-  // const handleNavigation = (route: string, requiresAuth?: boolean) => {
-  //   if (requiresAuth && !isLoggedIn) {
-  //     // 로그인 상태가 아니고 인증이 필요한 경우
-  //     openLoginModal();
-  //   } else {
-  //     // 로그인 상태이거나 인증이 필요하지 않은 경우
-  //     window.location.href = route;
-  //   }
-  // };
   const handleNavigation = (e: React.MouseEvent<HTMLAnchorElement>, requiresAuth?: boolean) => {
     if (requiresAuth && !isLoggedIn) {
       e.preventDefault(); // Prevent navigation

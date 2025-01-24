@@ -2,9 +2,10 @@
 export interface ArticleProduct {
   id: number;
   name: string;
+  shopId: number;
   shopName: string;
   rentPricePerDay: number;
-  thumbnailImageUrl: string;
+  imageUrl: string;
 }
 export type ArticleProductList = ArticleProduct[];
 

@@ -115,7 +115,7 @@ export default function FilterSpan({ className }: FilterSpanProps) {
   return (
     <>
       <span
-        className={`pl-4 py-3 w-full flex gap-2 transform transition-all duration-300 overflow-x-auto scrollbar-hide ${className ? className : 'py-3'}`}>
+        className={`pl-4 py-3 w-full flex gap-2 transform transition-all duration-300 overflow-x-auto scrollbar-hide ${className ? className : ''}`}>
         {/* Reset Button */}
         {showResetButton && (
           <button

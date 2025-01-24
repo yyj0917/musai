@@ -271,17 +271,18 @@ export default function ProductSection() {
     //   mainContainer.scrollTo({ top: scrollPosition-100, behavior: 'smooth' });
     // }
   };
+  // ${isHeaderVisible ? 'sticky top-0 z-10' : 'fixed pt-3 min-w-[360px] max-w-[415px] lg:max-w-[375px] mx-auto  top-0 z-100'}
 
   return (
     <>
-      <section ref={sectionRef} className={`relative ${isHeaderVisible ? 'mt-11' : 'mt-8'}`}>
+      <section ref={sectionRef} className={` ${isHeaderVisible ? 'mt-8' : 'mt-8'}`}>
         <div id="product-section" className="w-full flex flex-col">
           <div
             id="scroll-event"
             className={`
             bg-grey1000
-            ${isHeaderVisible ? 'sticky top-0 z-40' : 'pt-3 w-full  top-0 z-100'}
             transition-transform duration-300
+            sticky top-0 z-10 pt-3 
           `}>
             <nav id="product-nav" className='px-4 w-full flex justify-between items-center'>
               {category.map((item, index) => (

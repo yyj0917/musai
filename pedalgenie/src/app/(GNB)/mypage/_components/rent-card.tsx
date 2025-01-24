@@ -55,13 +55,13 @@ export default function RentCard({ rentProduct }: { rentProduct: RentProduct }) 
               <span className="px-[6px] py-[3px] flex-shrink-0 rounded bg-darkRed text-red text-caption2">
                 대여기간
               </span>
-              <p className="text-body2 text-grey150">
+              <p className="text-body2 text-grey450">
                 {rentProduct.rentStartTime.split('T')[0]} - {rentProduct.rentEndTime.split('T')[0]}
               </p>
             </span>
             <span className="w-full flex justify-start gap-2">
               <span className="px-[6px] py-[3px] rounded bg-darkRed text-red text-caption2">픽업일정</span>
-              <p className="text-body2 text-grey150">
+              <p className="text-body2 text-grey450">
                 {rentProduct.rentStartTime.split('T')[0]} 오후 {rentProduct.pickUpTime.split(':')[0]}:
                 {rentProduct.pickUpTime.split(':')[1]}
               </p>

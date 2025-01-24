@@ -107,7 +107,7 @@ export default function MyPage() {
           // 로그인 상태
           <div className="absolute left-4 top-[10.5px] flex flex-col gap-1">
             <p className="text-head1">{memberData?.nickname} 님</p>
-            <p className="text-body1 text-grey650">{memberData?.email}</p>
+            <p className="text-caption1 text-grey650">{memberData?.email}</p>
           </div>
         )}
       </div>

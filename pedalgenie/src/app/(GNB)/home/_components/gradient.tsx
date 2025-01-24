@@ -3,10 +3,11 @@
 import { useEffect } from 'react';
 import { useScrollStore } from '@/lib/zustand/useScrollStore';
 import './../../../globals.css';
+import { usePathname } from 'next/navigation';
 
 export default function Gradient() {
   const { isGradientVisible, setGradientVisible } = useScrollStore();
-
+  const pathname = usePathname();
   // 제일 상단에서만 그라데이션 보이게 하기
   useEffect(() => {
     const mainElement = document.getElementById('main');
@@ -29,6 +30,14 @@ export default function Gradient() {
     };
   }, [setGradientVisible]);
 
+  // 현재 경로 확인
+
+  // /home 경로가 아닌 경우 그라데이션을 렌더링하지 않음
+  if (pathname !== '/home') {
+    return null;
+  }
+
+  // 그라데이션 fade-out 효과 줘야 함.
   if (!isGradientVisible) return null;
 
   return (

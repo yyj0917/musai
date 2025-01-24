@@ -1,4 +1,3 @@
-import dataset from '@/data/dataset.json'; // JSON 파일 경로 수정
 import Image from 'next/image';
 import ArticleProducts from '../_components/article-products';
 import { fetchArticleDetail } from '@/lib/api/article';
@@ -12,8 +11,9 @@ export default async function ArticlePage({ params }: { params: { id: string } }
     return <div>아티클을 찾을 수 없습니다.</div>;
   }
 
+
   return (
-    <div className="w-full h-[calc(100dvh-50px)] flex flex-col overflow-y-auto scrollbar-hide">
+    <div id='articleSection' className="w-full h-[calc(100dvh-50px)] flex flex-col overflow-y-auto scrollbar-hide">
       {/* Article Header */}
       <article className="relative w-full h-full">
         <div className="relative w-full h-auto " style={{ aspectRatio: '1 / 1' }}>
@@ -59,7 +59,7 @@ export default async function ArticlePage({ params }: { params: { id: string } }
       </section>
 
       {/* Article Products */}
-      <ArticleProducts />
+      <ArticleProducts articleProducts={article?.products} />
     </div>
   );
 }

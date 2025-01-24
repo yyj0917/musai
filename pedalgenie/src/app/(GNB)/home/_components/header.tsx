@@ -22,6 +22,7 @@ export default function Header() {
   const isStoreDetailPage = pathname.startsWith('/home/shop/description');
   const isArticleDetailPage = pathname.startsWith('/home/article');
   const isSearchedPage = pathname.startsWith('/home/search');
+  // ${isHeaderVisible ? 'transform translate-y-0' : 'transform -translate-y-full'}
 
   // 검색 페이지라면 헤더를 렌더링하지 않음
   if (isSearchedPage) {
@@ -30,9 +31,9 @@ export default function Header() {
   return (
     <header
       id="main-header"
-      className={`w-full flex flex-col transition-transform duration-300 ease-in-out  ${
-        isHeaderVisible ? 'transform translate-y-0' : 'transform -translate-y-full'
-      }`}>
+      className={`w-full flex flex-col transition-transform duration-300 ease-in-out  
+      
+        `}>
       {isStoreDetailPage || isArticleDetailPage ? (
         <div className="px-4 py-[18px] w-full flex justify-start">
           <button onClick={() => router.back()} className="text-grey150">
