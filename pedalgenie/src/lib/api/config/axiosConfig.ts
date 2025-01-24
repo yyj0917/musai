@@ -15,16 +15,14 @@ const axiosInstance = axios.create({
   withCredentials: true,
 });
 
-
 let isRefetchLock = false; // 중복 재발급 방지를 위한 플래그 -> Spin Lock 형태로 동시성 제어.
-let refreshQueue: Array<() => void> = []; 
+let refreshQueue: Array<() => void> = [];
 // 토큰 재발급 대기중인 요청들을 순차적으로 처리하기 위한 큐 -> spinLock처럼 하나의 재발급 요청만 처리하도록 함
 // 요청 인터셉터 - zustand에 있는 토큰 가져와서 헤더에 담아서 보내는 instance
 // request interceptor에서 accessToken이 없을 때 Cookie에 있는 refreshToken으로 재발급 요청 로직 구현
 axiosInstance.interceptors.request.use(
   async (config) => {
-
-    // 재발급 요청 + /api로 시작하는 api 요청은 토큰이 필요없는 호출. 따로 처리 
+    // 재발급 요청 + /api로 시작하는 api 요청은 토큰이 필요없는 호출. 따로 처리
     // isLoggedIn 확인으로 로그인되어있으면 토큰 넣어서 요청
     // 토큰이 없으면 재발급 요청
     const { accessToken } = useAuthStore.getState();
@@ -34,7 +32,6 @@ axiosInstance.interceptors.request.use(
     if (config.url?.includes('/api/reissue')) {
       return config;
     }
-
 
     // 3) "로그인 상태인데 accessToken이 없다" → 재발급 필요
     if (isLoggedIn && !accessToken) {
@@ -48,7 +45,7 @@ axiosInstance.interceptors.request.use(
             if (finalToken) {
               config.headers!['Authorization'] = `Bearer ${finalToken}`;
             }
-            resolve(config); 
+            resolve(config);
           });
         });
       } else {
@@ -85,7 +82,7 @@ axiosInstance.interceptors.request.use(
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 );
 
 // 응답 인터셉터
@@ -103,14 +100,12 @@ axiosInstance.interceptors.response.use(
     // 에러 처리 로직 - 401 -> 쿠키에 리프레시 토큰이 없어서 그냥 아예 로그아웃 상태.
     const { response } = error;
 
-    if (response?.status === 401 ) {
+    if (response?.status === 401) {
       // 로그아웃 처리
       useLoginStore.getState().setLoggedOut();
     }
     return Promise.reject(error);
-  }
+  },
 );
-
-
 
 export default axiosInstance;

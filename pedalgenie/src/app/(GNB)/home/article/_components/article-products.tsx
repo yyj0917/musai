@@ -17,12 +17,8 @@ export default function ArticleProducts() {
         {product.map((product, index) => (
           <div key={index} className="px-4 flex justify-between items-center">
             <div className="flex gap-3">
-              <div className='relative w-[68px] h-[68px]' style={{aspectRatio: '1/1'}}>
-                <Image 
-                  src={product.image} 
-                  alt={product.name} 
-                  layout='fill' 
-                  className="rounded-[2px]" />
+              <div className="relative w-[68px] h-[68px]" style={{ aspectRatio: '1/1' }}>
+                <Image src={product.image} alt={product.name} layout="fill" className="rounded-[2px]" />
               </div>
               <span className="flex flex-col items-start gap-1">
                 <p className="flex items-center gap-3 text-grey250 text-body1 ">

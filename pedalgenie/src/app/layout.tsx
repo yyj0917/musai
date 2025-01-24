@@ -15,7 +15,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   return (
     <html lang="en">
       <head>
@@ -36,7 +35,7 @@ export default function RootLayout({
       <body className="h-[100dvh] min-w-[360px] max-w-[415px] lg:max-w-[375px] mx-auto bg-white scroll-smooth">
         <QueryProvider>
           <ChannelProvider>{children}</ChannelProvider>
-          <Toaster/>
+          <Toaster />
         </QueryProvider>
       </body>
     </html>

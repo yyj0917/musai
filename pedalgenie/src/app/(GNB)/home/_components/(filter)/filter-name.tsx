@@ -7,6 +7,10 @@ import { useFilterStore } from '@/lib/zustand/useFilterStore';
 
 import '../../../../globals.css';
 
+type FilterProps = {
+  isOpen: boolean;
+  onClose: () => void;
+};
 
 export default function FilterName({ isOpen, onClose }: FilterProps) {
   const router = useRouter();
@@ -14,11 +18,7 @@ export default function FilterName({ isOpen, onClose }: FilterProps) {
   const [isBrowser, setIsBrowser] = useState(false);
   // const [isAnimating, setIsAnimating] = useState(false);
 
-  const {
-    isCategoryActiveName,
-    setIsCategoryActiveName,
-    setNameFilter,
-  } = useFilterStore();
+  const { isCategoryActiveName, setIsCategoryActiveName, setNameFilter } = useFilterStore();
 
   // === URL 쿼리 파라미터 추가/삭제 함수 ===
   const updateQueryParam = (key: string, value: string | string[] | null) => {
@@ -94,26 +94,26 @@ export default function FilterName({ isOpen, onClose }: FilterProps) {
         onClick={(e) => e.stopPropagation()} // 모달 안쪽 클릭 시 닫히지 않도록
         style={{ animation: `${isOpen ? 'slideUp' : 'slideDown'} 0.3s ease-in-out` }}>
         {/* ================ 필터 타입: 정렬기준 (name) ================ */}
-          <div className="w-full flex flex-col items-start gap-6">
-            <h2 className="!text-title1 text-white">정렬</h2>
-            <div className="w-full flex flex-col items-start gap-4">
-              {nameFilters.map((filter) => {
-                const isActive = isCategoryActiveName === filter;
-                return (
-                  <button key={filter} onClick={() => handleSelectName(filter)} className="flex items-center gap-1">
-                    <span
-                      className={clsx({
-                        'text-red': isActive,
-                        'text-grey650': !isActive,
-                      })}>
-                      <Check />
-                    </span>
-                    <span className="text-grey150 text-body2">{filter}</span>
-                  </button>
-                );
-              })}
-            </div>
+        <div className="w-full flex flex-col items-start gap-6">
+          <h2 className="!text-title1 text-white">정렬</h2>
+          <div className="w-full flex flex-col items-start gap-4">
+            {nameFilters.map((filter) => {
+              const isActive = isCategoryActiveName === filter;
+              return (
+                <button key={filter} onClick={() => handleSelectName(filter)} className="flex items-center gap-1">
+                  <span
+                    className={clsx({
+                      'text-red': isActive,
+                      'text-grey650': !isActive,
+                    })}>
+                    <Check />
+                  </span>
+                  <span className="text-grey150 text-body2">{filter}</span>
+                </button>
+              );
+            })}
           </div>
+        </div>
       </div>
     </div>
   );

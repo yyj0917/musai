@@ -1,6 +1,5 @@
 /** @type {import('next').NextConfig} */
 
-
 const nextConfig = {
   reactStrictMode: false, // Strict Mode 비활성화
   // image 호스트 추가

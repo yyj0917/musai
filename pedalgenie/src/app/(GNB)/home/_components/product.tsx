@@ -15,26 +15,24 @@ import { useLikeProductMutation } from '@/hooks/useLikeProductMutation';
 import LoginModal from '@/components/modal/login-modal';
 
 type ProductItem = {
-    product: Product;
-    // 무한 스크롤의 queryKey(예: ['products', category, ...])
-    queryKey?: (string | string[])[];
-}
+  product: Product;
+  // 무한 스크롤의 queryKey(예: ['products', category, ...])
+  queryKey: (string | string[])[];
+};
 
-export default function ProductItem({ product, queryKey } : ProductItem) {
+export default function ProductItem({ product, queryKey }: ProductItem) {
   const router = useRouter();
   const { isLoggedIn } = useLoginStore();
   const { openLoginModal } = useModalStore();
   const [isAnimating, setIsAnimating] = useState(false);
 
-
-
   // 좋아요 Mutation
   // - product.isLiked를 보고 "true→취소 / false→등록" 구분
   const likeMutation = useLikeProductMutation(product.id, queryKey);
 
-  const toggleLikeProduct = async (e : React.MouseEvent<HTMLButtonElement>) => {
+  const toggleLikeProduct = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    
+
     // 로그인 체크
     if (!isLoggedIn) {
       openLoginModal();
@@ -48,11 +46,10 @@ export default function ProductItem({ product, queryKey } : ProductItem) {
 
     // 2) 서버에 좋아요 or 취소 요청 (Optimistic Update)
     likeMutation?.mutate(!product.isLiked);
-  }
+  };
   if (!product) {
     return null;
   }
-
 
   return (
     <>
@@ -65,12 +62,11 @@ export default function ProductItem({ product, queryKey } : ProductItem) {
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" // 화면 크기에 맞춰 이미지의 사이즈 지정
             className="object-cover"
           />
-          <button
-            onClick={(e) => toggleLikeProduct(e)}
-            className="absolute bottom-4 right-4 text-red ">
-            <Heart 
+          <button onClick={(e) => toggleLikeProduct(e)} className="absolute bottom-4 right-4 text-red ">
+            <Heart
               strokeWidth={1.5}
-              className={`like-animation ${product?.isLiked || isAnimating ? 'unscale fill-red' : 'scale'} `} />
+              className={`like-animation ${product?.isLiked || isAnimating ? 'unscale fill-red' : 'scale'} `}
+            />
           </button>
         </div>
         <div className="px-4 py-3 w-full">
@@ -80,9 +76,9 @@ export default function ProductItem({ product, queryKey } : ProductItem) {
               className="text-body1 text-grey250 flex items-center gap-2"
               onClick={(e) => {
                 e.preventDefault();
-                router.push(`/home/shop/description/${product?.shopId}`)}}
-              >
-              <p className='w-auto max-w-[122px] truncate'>{product?.shopName}</p>
+                router.push(`/home/shop/description/${product?.shopId}`);
+              }}>
+              <p className="w-auto max-w-[122px] truncate">{product?.shopName}</p>
               <RightArrow />
             </button>
             {/* Product Name */}
@@ -97,20 +93,13 @@ export default function ProductItem({ product, queryKey } : ProductItem) {
             </p>
             {/* 시연, 대여, 구매 여부 chip */}
             <div className="flex gap-1">
-              {product?.isDemoable && (
-                <Button variant="chip">시연</Button>
-              )}
-              {product?.isRentable && (
-                <Button variant="chip">대여</Button>
-              )}
-              {product?.isPurchasable && (
-                <Button variant="chip">구매</Button>
-              )}
+              {product?.isDemoable && <Button variant="chip">시연</Button>}
+              {product?.isRentable && <Button variant="chip">대여</Button>}
+              {product?.isPurchasable && <Button variant="chip">구매</Button>}
             </div>
           </div>
         </div>
       </Link>
     </>
-
   );
 }

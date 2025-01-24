@@ -19,7 +19,6 @@ export default function Header() {
 
   const isHeaderVisible = useScrollStore((state) => state.isHeaderVisible);
 
-
   const isStoreDetailPage = pathname.startsWith('/home/shop/description');
   const isArticleDetailPage = pathname.startsWith('/home/article');
   const isSearchedPage = pathname.startsWith('/home/search');
@@ -30,7 +29,7 @@ export default function Header() {
   }
   return (
     <header
-      id='main-header'
+      id="main-header"
       className={`w-full flex flex-col transition-transform duration-300 ease-in-out  ${
         isHeaderVisible ? 'transform translate-y-0' : 'transform -translate-y-full'
       }`}>
@@ -56,7 +55,7 @@ export default function Header() {
             {link.map((link) => (
               <Link key={link.href} href={link.href}>
                 <Button variant="link" href={link.href}>
-                    {link.name}
+                  {link.name}
                 </Button>
               </Link>
             ))}

@@ -1,7 +1,5 @@
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { FetchProductListParams, fetchProductList } from '../api/(product)/product';
-import { ProductList } from '@/types/product-type';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -61,4 +59,3 @@ export function mapUsageConditions(usageConditions: string[]): UsageConditionsRe
   }
   return result;
 }
-

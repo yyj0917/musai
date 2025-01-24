@@ -33,14 +33,13 @@ export default function MyPage() {
     const accessToken = queryClient.getQueryData<string>(['authToken']);
     useAuthStore.getState().setAccessToken(accessToken);
     try {
-
       const response = await fetchUserInfo(); // API 호출
       return response;
     } catch (error) {
       // error handling 필요
-      return
+      return;
     }
-  }
+  };
 
   // React Query로 fetchUserInfo 데이터 캐싱
   const { data: memberData, isLoading } = useQuery({
@@ -48,11 +47,9 @@ export default function MyPage() {
     queryFn: fetchMembers, // fetchMembers 함수
     staleTime: 1000 * 60 * 5, // 데이터가 5분 동안 신선하다고 간주
     gcTime: 1000 * 60 * 10, // 10분 동안 캐싱 유지
-    enabled: true, // 활성화
+    enabled: false, // 활성화
   });
-  
-  
-  
+
   // 초기 데이터를 설정하는 useEffect
   useEffect(() => {
     const fetchInitialData = async () => {
@@ -85,15 +82,12 @@ export default function MyPage() {
   ];
 
   // 로그인 상태가 아닐 때 로그인 모달 열기 - 예약 내역 확인 시.
-  const handleNavigation = (
-    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
-  ) => {
+  const handleNavigation = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     if (!isLoggedin) {
       e.preventDefault(); // 기본 라우팅 동작 방지
       openLoginModal(); // 로그인 모달 열기
     }
   };
-
 
   return (
     <div className="w-full h-auto flex flex-col ">
@@ -168,11 +162,7 @@ export default function MyPage() {
       <LogoutModal />
       {/* WithdrawModal 컴포넌트 */}
       <WithdrawModal />
-      {
-        isLoading ? (
-          <Loading/>)
-           : null
-      }
+      {isLoading ? <Loading /> : null}
     </div>
   );
 }

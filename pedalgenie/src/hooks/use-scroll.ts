@@ -32,7 +32,7 @@ export function useScrollToggle({ containerId, throttleTime = 200 }: UseScrollTo
 
       scrollYRef.current = currentScrollTop; // 현재 스크롤 위치 업데이트
     }, throttleTime),
-    [containerId, throttleTime]
+    [containerId, throttleTime],
   );
 
   useEffect(() => {

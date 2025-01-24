@@ -30,8 +30,7 @@ export default function LoginModal() {
           </div>
           <div className="w-full flex flex-col justify-center items-center gap-2">
             <Link
-              href={`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}`}
-              >
+              href={`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}`}>
               <KakaoLogin />
             </Link>
             <button onClick={() => alert('로그인')} className="w-full h-11 text-white text-body1">

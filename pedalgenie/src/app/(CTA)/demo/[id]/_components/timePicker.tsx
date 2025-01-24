@@ -85,7 +85,7 @@ export default function TimePicker({ id }: TimePickerProps) {
   const disabledTimes = ['10:00', '3:00', '4:00'];
 
   // 선택된 시간 상태
-  const [selectedTime, setSelectedTime] = useState(null);
+  const [selectedTime, setSelectedTime] = useState<string>('');
 
   return (
     <div className="pt-1">

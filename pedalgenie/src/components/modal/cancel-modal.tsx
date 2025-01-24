@@ -27,8 +27,10 @@ export default function CancelModal() {
             </h2>
           </div>
           <div className="w-full flex flex-col justify-center items-center gap-1">
-            <button onClick={closeCancelModal} className='custom-channeltalk w-full h-11 rounded text-center text-body1 text-grey150 bg-red'>
-                채널톡에서 취소 접수하기
+            <button
+              onClick={closeCancelModal}
+              className="custom-channeltalk w-full h-11 rounded text-center text-body1 text-grey150 bg-red">
+              채널톡에서 취소 접수하기
             </button>
             <button onClick={closeCancelModal} className="w-full h-11 text-center text-grey150 text-body1">
               아니요. 잘못 눌렀어요

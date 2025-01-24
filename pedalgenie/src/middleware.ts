@@ -14,8 +14,6 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-
-
   return NextResponse.next(); // 그 외의 경우 계속 진행
 }
 
