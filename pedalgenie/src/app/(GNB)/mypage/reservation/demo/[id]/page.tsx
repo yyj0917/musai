@@ -1,12 +1,12 @@
 'use client';
 
 import Loading from '@/components/loading';
+import CancelModal from '@/components/modal/cancel-modal';
 import EmployCheckModal from '@/components/modal/employ-check-modal';
 import { fetchDemoProductDetail } from '@/lib/api/(product)/demo-product';
 import { useModalStore } from '@/lib/zustand/useModalStore';
 import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
 
 const demoGuide = [
   '시연 예약을 신청하면 관리자가 해당 시간대의 가능 여부를 확인하고, 예약 상태를 변경해요',
@@ -16,10 +16,10 @@ const demoGuide = [
   '안내 사항을 숙지하고 악기점에 방문하면 사장님의 안내를 따라주세요',
 ];
 
-export default function DemoDetailPage({ params }: { params: { demoId: number } }) {
-  const { demoId } = params;
+export default function DemoDetailPage({ params }: { params: { id: number } }) {
+  const { id } = params;
 
-  const { openEmployCheckModal } = useModalStore();
+  const { openEmployCheckModal, openCancelModal } = useModalStore();
 
   // 시연 상품 상세 조회 query caching
   const {
@@ -27,9 +27,9 @@ export default function DemoDetailPage({ params }: { params: { demoId: number } 
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ['demoProductDetail', demoId], // 캐싱 키
+    queryKey: ['demoProductDetail', id], // 캐싱 키
     queryFn: async () => {
-      const response = await fetchDemoProductDetail(demoId);
+      const response = await fetchDemoProductDetail(id);
       return response;
     },
     retry: true, // 실패 시 재시도 여부 설정
@@ -63,12 +63,13 @@ export default function DemoDetailPage({ params }: { params: { demoId: number } 
           {demoProductDetail?.demoStatus}
         </p>
         {demoProductDetail?.demoStatus !== '시연완료' && demoProductDetail?.demoStatus !== '취소완료' && (
-          <button className="pr-4 text-grey550 text-body2">취소하기</button>
-        )}
+            <button
+                onClick={openCancelModal}
+                className="pr-4 text-grey550 text-body2">취소하기</button>)}
       </nav>
       {/* 상품 정보 카드 */}
       <div className="py-5 w-full flex justify-between items-center">
-        <div className="relative w-[100px] h-[100px]" style={{ aspectRatio: '1 : 1' }}>
+        <div className="relative flex-shrink-0 w-[100px] h-[100px]" style={{ aspectRatio: '1 : 1' }}>
           <Image
             src={`${demoProductDetail?.productThumbnailImageUrl}`}
             alt="preview card"
@@ -77,11 +78,11 @@ export default function DemoDetailPage({ params }: { params: { demoId: number } 
             priority
           />
         </div>
-        <div className="w-auto h-[100px] flex flex-col justify-start gap-1">
-          <h2 className="max-w-[227px] max-h-[54px] text-body1 text-grey150 line-clamp-2">
+        <div className="max-w-[227px] w-full h-[100px] flex flex-col justify-start gap-1">
+          <h2 className="max-w-[227px] max-h-[54px] text-title1 text-grey150 line-clamp-2">
             {demoProductDetail?.productName}
           </h2>
-          <p className="flex justify-start text-caption2 text-grey550">
+          <p className="flex justify-start text-body1 text-grey550">
             <span>{demoProductDetail?.shopName} ㅣ </span>
             <span>{demoProductDetail?.shopAddress}</span>
           </p>
@@ -138,7 +139,8 @@ export default function DemoDetailPage({ params }: { params: { demoId: number } 
           </button>
         </div>
       )}
-      <EmployCheckModal status={'시연 예약'} id={demoId} />
+      <EmployCheckModal status={'시연 예약'} id={id} />
+      <CancelModal/>
       {/* 로딩 중일 때 로딩 컴포넌트 렌더링 */}
       {isLoading && <Loading />}
     </div>

@@ -7,6 +7,7 @@ import AlertCircle from '@public/svg/alert-circle.svg';
 import { useQuery } from '@tanstack/react-query';
 import { fetchRentProductDetail } from '@/lib/api/(product)/rent-product';
 import Loading from '@/components/loading';
+import CancelModal from '@/components/modal/cancel-modal';
 
 // 대여 안내 데이터
 const rentGuide = [
@@ -22,10 +23,10 @@ const cancellationGuide = [
   '환불을 원할 때 취소하기 버튼을 통해 취소를 접수하고, 채널톡으로 대여료 환불을 도와드릴게요.',
 ];
 
-export default function RentDetailPage({ params }: { params: { rentId: number } }) {
-  const { rentId } = params;
+export default function RentDetailPage({ params }: { params: { id: number } }) {
+  const { id } = params;
 
-  const { openEmployCheckModal } = useModalStore();
+  const { openEmployCheckModal, openCancelModal } = useModalStore();
 
   // 시연 상품 상세 조회 query caching
   const {
@@ -33,29 +34,30 @@ export default function RentDetailPage({ params }: { params: { rentId: number } 
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ['rentProductDetail'], // 캐싱 키
+    queryKey: ['rentProductDetail', id], // 캐싱 키
     queryFn: async () => {
-      const response = await fetchRentProductDetail(rentId);
+      const response = await fetchRentProductDetail(id);
       return response;
     },
     retry: true, // 실패 시 재시도 여부 설정
   });
-
+  const price = rentProductDetail?.price || 0; // 가격 가져오기
+  const formattedPrice = new Intl.NumberFormat('ko-KR').format(price);
   // 예약 정보 박스 데이터
   const rentInfoBox = [
-    { label: '대여일정', value: rentProductDetail?.rentStartDate + ' ~ ' + rentProductDetail?.rentEndDate },
+    { label: '대여일정', value: rentProductDetail?.rentStartDate + ' - ' + rentProductDetail?.rentEndDate },
     { label: '대여기간', value: '총 ' + rentProductDetail?.rentDuration + '일' },
-    { label: '대여금액', value: rentProductDetail?.price + '원' },
+    { label: '대여금액', value: formattedPrice + '원' },
     {
       label: '픽업일정',
       value: `${rentProductDetail?.rentStartDateTime?.split('T')[0]} • 오후 ${rentProductDetail?.rentStartDateTime?.split('T')[1] || ''}`,
     },
     { label: '반납일정', value: rentProductDetail?.rentEndDate },
   ];
-
+  
   // 결제 정보 박스 데이터
   const paymentInfoBox = [
-    { label: '결제금액', value: rentProductDetail?.price + '원' },
+    { label: '결제금액', value: formattedPrice + '원' },
     { label: '결제방법', value: '무통장 입금' },
     { label: '입금자명', value: rentProductDetail?.memberNickName },
     { label: '결제날짜', value: rentProductDetail?.paymentDate },
@@ -66,9 +68,7 @@ export default function RentDetailPage({ params }: { params: { rentId: number } 
     <div className="relative px-4 w-full flex flex-col">
       {/* 예약 상태 확인 nav 파트 */}
       <nav className="-mx-4 py-3 flex justify-between items-center border-b-[0.5px] border-grey850">
-        {/* <p className="text-body1 text-grey150">{demoDetail.demoStatus}</p> */}
-        <p
-          className={`pl-4 text-body1
+        <p className={`pl-4 text-body1
                 ${
                   rentProductDetail?.rentStatus === '픽업예정' || rentProductDetail?.rentStatus === '사용중'
                     ? 'text-green'
@@ -81,12 +81,14 @@ export default function RentDetailPage({ params }: { params: { rentId: number } 
           {rentProductDetail?.rentStatus}
         </p>
         {(rentProductDetail?.rentStatus === '주문확인중' || rentProductDetail?.rentStatus === '픽업예정') && (
-          <button className="pr-4 text-grey550 text-body2">취소하기</button>
+          <button
+            onClick={openCancelModal}
+            className="pr-4 text-grey550 text-body2">취소하기</button>
         )}
       </nav>
       {/* 상품 정보 카드 */}
       <div className="py-5 w-full flex justify-between items-center">
-        <div className="relative w-[100px] h-[100px]" style={{ aspectRatio: '1 : 1' }}>
+        <div className="relative flex-shrink-0 w-[100px] h-[100px]" style={{ aspectRatio: '1 : 1' }}>
           <Image
             src={`${rentProductDetail?.productImage}` || '/img/preview-card.jpg'}
             alt="preview card"
@@ -95,11 +97,11 @@ export default function RentDetailPage({ params }: { params: { rentId: number } 
             priority
           />
         </div>
-        <div className="w-auto h-[100px] flex flex-col justify-start gap-1">
-          <h2 className="max-w-[227px] max-h-[54px] text-body1 text-grey150 line-clamp-2">
+        <div className="max-w-[227px] w-full h-[100px]  flex flex-col justify-start gap-1">
+          <h2 className="max-w-[227px] max-h-[54px] text-title1 text-grey150 line-clamp-2">
             {rentProductDetail?.productName}
           </h2>
-          <p className="flex justify-start text-caption2 text-grey550">
+          <p className="flex justify-start text-body1 text-grey550">
             <span>{rentProductDetail?.shopName} ㅣ </span>
             <span>{rentProductDetail?.shopDetailAddress}</span>
           </p>
@@ -185,7 +187,8 @@ export default function RentDetailPage({ params }: { params: { rentId: number } 
           </button>
         </div>
       )}
-      <EmplyCheckModal status={`${rentProductDetail?.rentStatus === '픽업예정' ? '픽업' : '반납'}`} id={rentId} />
+      <EmplyCheckModal status={`${rentProductDetail?.rentStatus === '픽업예정' ? '픽업' : '반납'}`} id={id} />
+      <CancelModal/>
       {/* 로딩 중일 때 로딩 컴포넌트 렌더링 */}
       {isLoading && <Loading />}
     </div>
