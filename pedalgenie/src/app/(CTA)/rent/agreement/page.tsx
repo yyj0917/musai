@@ -4,6 +4,9 @@ import NoticeSection from './_components/noticeSection';
 import AgreementSection from './_components/agreementSection';
 import PaymentSummary from '../[id]/_components/paymentSummary';
 
+// ProductDetail의 상품명
+// 대여 기간, 픽업 일정
+
 export default function Agreement() {
   return (
     <div className="w-full flex flex-col text-grey250 font-pretendard ">

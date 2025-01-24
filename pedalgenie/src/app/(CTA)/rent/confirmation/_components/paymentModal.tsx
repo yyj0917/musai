@@ -3,6 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 import CopyButton from './copyButton';
+import { CreateRentReservation } from '@/lib/api/(product)/reservation';
 
 interface PaymentModalProps {
   isOpen: boolean;
@@ -13,7 +14,7 @@ export default function PaymentModal({ isOpen }: PaymentModalProps) {
 
   const handleCloseRentPage = () => {
     router.push('/home'); // product/[id]로 이동?
-    // id 추가?
+    // POST 요청
   };
 
   if (!isOpen) return null; // 모달이 닫혀 있으면 렌더링하지 않음
