@@ -63,8 +63,7 @@ export default function AgreementSection() {
         className={`flex items-center gap-2 px-[14px] py-[10px] border rounded-sm cursor-pointer ${
           isChecked ? 'border-red' : 'border-grey650'
         }`}
-        onClick={onClick}
-      >
+        onClick={onClick}>
         {isChecked ? <Checked /> : <Unchecked />}
         <span className="text-body2">{text}</span>
       </div>
@@ -74,10 +73,7 @@ export default function AgreementSection() {
   // 개별 동의 버튼 컴포넌트
   const CheckButton = ({ text, isChecked, onClick }: CheckButtonProps) => {
     return (
-      <div
-        className="flex items-center gap-2 px-[14px] pt-3 cursor-pointer"
-        onClick={onClick}
-      >
+      <div className="flex items-center gap-2 px-[14px] pt-3 cursor-pointer" onClick={onClick}>
         {isChecked ? <Checked /> : <Unchecked />}
         <span className="text-body2">{text}</span>
       </div>
@@ -89,11 +85,7 @@ export default function AgreementSection() {
       <h2 className="text-title2 pb-3">약관 동의</h2>
 
       {/* 모두 동의 버튼 */}
-      <AllCheckButton
-        text="모두 동의합니다"
-        isChecked={isAllChecked}
-        onClick={handleAllCheck}
-      />
+      <AllCheckButton text="모두 동의합니다" isChecked={isAllChecked} onClick={handleAllCheck} />
 
       {/* 개별 동의 버튼 */}
       <CheckButton
@@ -101,11 +93,7 @@ export default function AgreementSection() {
         isChecked={agreements.personalInfo}
         onClick={() => handleIndividualCheck('personalInfo')}
       />
-      <CheckButton
-        text="이용약관 동의"
-        isChecked={agreements.terms}
-        onClick={() => handleIndividualCheck('terms')}
-      />
+      <CheckButton text="이용약관 동의" isChecked={agreements.terms} onClick={() => handleIndividualCheck('terms')} />
 
       {/* 다음으로 버튼 */}
       <div className="mt-6">

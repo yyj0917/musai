@@ -5,10 +5,10 @@ import { Heart } from 'lucide-react';
 import { Product } from '@/types/product-type';
 
 type LikeProductItem = {
-    likeProduct: Product;
-}
+  likeProduct: Product;
+};
 
-export default function LikeProductItem({ likeProduct } : LikeProductItem) {
+export default function LikeProductItem({ likeProduct }: LikeProductItem) {
   return (
     <div className="pb-5 w-full flex flex-col">
       <div className="relative w-full aspect-square overflow-hidden">
@@ -20,11 +20,7 @@ export default function LikeProductItem({ likeProduct } : LikeProductItem) {
           className="object-cover"
         />
         <span className="absolute bottom-4 right-[14px] text-red ">
-          <Heart 
-            strokeWidth={1.5}
-            className={`${
-                likeProduct?.isLiked ? 'fill-red' : ''
-            }`}/>
+          <Heart strokeWidth={1.5} className={`${likeProduct?.isLiked ? 'fill-red' : ''}`} />
         </span>
       </div>
       <div className="px-4 py-3 w-full">
@@ -43,15 +39,9 @@ export default function LikeProductItem({ likeProduct } : LikeProductItem) {
           </p>
           {/* 시연, 대여, 구매 여부 chip */}
           <div className="flex gap-1">
-            {likeProduct?.isDemoable && (
-              <Button variant="chip">시연</Button>
-            )}
-            {likeProduct?.isRentable && (
-              <Button variant="chip">대여</Button>
-            )}
-            {likeProduct?.isPurchasable && (
-              <Button variant="chip">구매</Button>
-            )}
+            {likeProduct?.isDemoable && <Button variant="chip">시연</Button>}
+            {likeProduct?.isRentable && <Button variant="chip">대여</Button>}
+            {likeProduct?.isPurchasable && <Button variant="chip">구매</Button>}
           </div>
         </div>
       </div>

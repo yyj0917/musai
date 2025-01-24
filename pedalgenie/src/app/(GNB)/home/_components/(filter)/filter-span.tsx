@@ -17,7 +17,7 @@ interface FilterSpanProps {
   className?: string; // className을 선택적으로 받을 수 있도록 설정
 }
 
-export default function FilterSpan({className} : FilterSpanProps) {
+export default function FilterSpan({ className }: FilterSpanProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -39,14 +39,10 @@ export default function FilterSpan({className} : FilterSpanProps) {
     return () => clearTimeout(timer);
   };
 
-  const {
-    setNameFilter,
-    resetUsageConditions,
-    resetDetailFilters,
-   } = useFilterStore();
+  const { setNameFilter, resetUsageConditions, resetDetailFilters } = useFilterStore();
 
   const nameFilter = searchParams.get('nameFilter') || '최신순'; // URL에서 바로 카테고리 가져오기
-  
+
   // 매번 새로운 배열 객체로 생성되기 때문에 React는 의존성 배열이 변했다고 판단 -> useMemo로 값이 변하는 게 아니면 객체 유지.
   const usageConditions = useMemo(() => {
     return (
@@ -56,7 +52,7 @@ export default function FilterSpan({className} : FilterSpanProps) {
         .filter((cond) => cond) || ['이용범위']
     );
   }, [searchParams]);
-  
+
   const detailFilters = useMemo(() => {
     return (
       searchParams
@@ -118,8 +114,8 @@ export default function FilterSpan({className} : FilterSpanProps) {
 
   return (
     <>
-      <span className={`pl-4 py-3 w-full flex gap-2 transform transition-all duration-300 overflow-x-auto scrollbar-hide ${className ? className  : 'py-3'}`}>
-        
+      <span
+        className={`pl-4 py-3 w-full flex gap-2 transform transition-all duration-300 overflow-x-auto scrollbar-hide ${className ? className : ''}`}>
         {/* Reset Button */}
         {showResetButton && (
           <button
@@ -129,11 +125,12 @@ export default function FilterSpan({className} : FilterSpanProps) {
           </button>
         )}
 
-        <div className='flex gap-2 transition-all duration-300'>
-
+        <div className="flex gap-2 transition-all duration-300">
           {/* 정렬 기준 필터 */}
-          <Button variant="filter" 
-            className="transition-all duration-300 gap-[2px] border-red bg-darkRed" onClick={() => handleOpenModal('name')}>
+          <Button
+            variant="filter"
+            className="transition-all duration-300 gap-[2px] border-red bg-darkRed"
+            onClick={() => handleOpenModal('name')}>
             <div className="fade-in flex items-center gap-[2px]">
               <span>{nameFilter}</span>
               <DownArrow />
@@ -165,18 +162,14 @@ export default function FilterSpan({className} : FilterSpanProps) {
               <DownArrow />
             </div>
           </Button>
-
         </div>
       </span>
-        {/* Type에 따른 FilterModal */}
-        {filterType === 'name' && (
-            <FilterName isOpen={isModalOpen} onClose={handleCloseModal}/>)}
-        
-        {filterType === 'condition' && (
-            <FilterCondition isOpen={isModalOpen} onClose={handleCloseModal}/>)}
-        
-        {filterType === 'detail' && (
-            <FilterDetail isOpen={isModalOpen} onClose={handleCloseModal}/>)}
+      {/* Type에 따른 FilterModal */}
+      {filterType === 'name' && <FilterName isOpen={isModalOpen} onClose={handleCloseModal} />}
+
+      {filterType === 'condition' && <FilterCondition isOpen={isModalOpen} onClose={handleCloseModal} />}
+
+      {filterType === 'detail' && <FilterDetail isOpen={isModalOpen} onClose={handleCloseModal} />}
     </>
   );
 }

@@ -1,7 +1,5 @@
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { FetchProductListParams, fetchProductList } from '../api/(product)/product';
-import { ProductList } from '@/types/product-type';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -39,15 +37,16 @@ export function mapFilterToSortBy(nameFilter: string): string {
       return 'RECENT'; // 기본값
   }
 }
-
-// product-section에서 이용조건 필터 api 요구 params로 변환해주는 함수
-export function mapUsageConditions(usageConditions: string[]): {
+type UsageConditionsResult = {
   isRentable?: boolean;
   isPurchasable?: boolean;
   isDemoable?: boolean;
-} {
+};
+
+// product-section에서 이용조건 필터 api 요구 params로 변환해주는 함수
+export function mapUsageConditions(usageConditions: string[]): UsageConditionsResult {
   // 타입 고치기
-  const result: any = {};
+  const result: UsageConditionsResult = {};
 
   if (usageConditions.includes('대여 가능')) {
     result.isRentable = true;
@@ -60,4 +59,3 @@ export function mapUsageConditions(usageConditions: string[]): {
   }
   return result;
 }
-

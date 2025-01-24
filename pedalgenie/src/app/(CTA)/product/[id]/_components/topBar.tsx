@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { useRouter } from 'next/navigation';
 import LeftArrow from '@public/svg/product/left-arrow.svg';

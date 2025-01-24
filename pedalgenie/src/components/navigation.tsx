@@ -23,7 +23,7 @@ type NavItem = {
 
 const navItems: NavItem[] = [
   { id: 0, icon: Home, text: '홈', route: '/home' },
-  { id: 1, icon: Reserve, text: '내 예약', route: '/rent', requiresAuth: true },
+  { id: 1, icon: Reserve, text: '내 예약', route: '/reservation/demo', requiresAuth: true },
   { id: 2, icon: Heart, text: '좋아요', route: '/saveList/product', requiresAuth: true },
   { id: 3, icon: Profile, text: '마이페이지', route: '/mypage' },
 ];
@@ -51,15 +51,6 @@ export default function Navigation() {
   )
     return null;
 
-  // const handleNavigation = (route: string, requiresAuth?: boolean) => {
-  //   if (requiresAuth && !isLoggedIn) {
-  //     // 로그인 상태가 아니고 인증이 필요한 경우
-  //     openLoginModal();
-  //   } else {
-  //     // 로그인 상태이거나 인증이 필요하지 않은 경우
-  //     window.location.href = route;
-  //   }
-  // };
   const handleNavigation = (e: React.MouseEvent<HTMLAnchorElement>, requiresAuth?: boolean) => {
     if (requiresAuth && !isLoggedIn) {
       e.preventDefault(); // Prevent navigation

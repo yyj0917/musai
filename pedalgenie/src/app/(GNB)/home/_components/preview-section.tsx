@@ -9,9 +9,8 @@ import { fetchProductGenre } from '@/lib/api/(product)/genre-product';
 type GenreProductProps = {
   genreProduct: GenreProductList;
   genre: string;
-}
+};
 export default function PreviewSection({ genreProduct, genre }: GenreProductProps) {
-
   // const {
   //   data: genreProducts,
   //   isLoading,
@@ -25,7 +24,7 @@ export default function PreviewSection({ genreProduct, genre }: GenreProductProp
   // )
 
   return (
-    <section id='preview-section' className="mt-11 pl-4 overflow-auto">
+    <section id="preview-section" className="mt-11 pl-4 overflow-auto">
       <div className="pr-4 w-full flex justify-between items-center">
         <p className="text-title1 text-grey250">시연해볼 수 있는 [ {genre} ]</p>
       </div>

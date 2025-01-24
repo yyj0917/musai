@@ -1,4 +1,4 @@
-import CopyButton from "./copyButton";
+import CopyButton from './copyButton';
 
 export default function RentFeeInfo() {
   const accountInfo = '신한 110203923432';

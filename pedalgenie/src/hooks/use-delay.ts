@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
 function useDelay(delayTime: number) {
   const [isDelayComplete, setIsDelayComplete] = useState(false);

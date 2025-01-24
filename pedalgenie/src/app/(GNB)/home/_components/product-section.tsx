@@ -9,7 +9,6 @@ import { useFilterStore } from '@/lib/zustand/useFilterStore';
 import { useScrollStore } from '@/lib/zustand/useScrollStore';
 import { useModalStore } from '@/lib/zustand/useModalStore';
 import LoginModal from '@/components/modal/login-modal';
-import { useScrollDirection } from '@/hooks/scroll';
 import { before, set, throttle } from 'lodash';
 import FloatingButton from '@/components/floating-button';
 import { Product, ProductList } from '@/types/product-type';
@@ -19,12 +18,9 @@ import { mapCategoryToParam, mapFilterToSortBy, mapUsageConditions } from '@/lib
 import Loading from '@/components/loading';
 import useDelay from '@/hooks/use-delay';
 
-type ProductProps = {
-  product: ProductList
-}
 interface FetchProductListResponse {
   items: ProductList; // 반환되는 제품 리스트
-  currentPage: number | unknown; // 현재 페이지
+  currentPage: number; // 현재 페이지
   totalPages: number; // 전체 페이지 수
 }
 
@@ -34,11 +30,10 @@ export default function ProductSection() {
   const isDelay = useDelay(1000);
   const initialCategory = searchParams.get('category') || '전체'; // URL에서 바로 카테고리 가져오기
 
-  const { isLoginOpen, setFloatingButton } = useModalStore();
+  const { setFloatingButton } = useModalStore();
 
   const isHeaderVisible = useScrollStore((state) => state.isHeaderVisible);
   const setHeaderVisible = useScrollStore((state) => state.setHeaderVisible);
-
 
   const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory);
 
@@ -77,7 +72,7 @@ export default function ProductSection() {
       {
         root: document.querySelector('#main'), // 관찰할 스크롤 컨테이너
         threshold: 0.1, // 섹션이 10% 정도 보이면 등장했다고 판단
-      }
+      },
     );
     if (sectionRef.current) {
       observer.observe(sectionRef.current);
@@ -88,18 +83,11 @@ export default function ProductSection() {
       }
     };
   }, []);
-  const queryKey = [
-    'products',
-    selectedCategory,
-    nameFilter,
-    usageConditions,
-    detailFilters,
-  ];
-
+  const queryKey = ['products', selectedCategory, nameFilter, usageConditions, detailFilters];
 
   // useInfiniteQuery로 데이터 페칭
   const {
-    data: product,                // data.pages: 각 페이지 데이터의 배열
+    data: product, // data.pages: 각 페이지 데이터의 배열
     isLoading,
     isError,
     refetch,
@@ -108,16 +96,16 @@ export default function ProductSection() {
     isFetchingNextPage,
   } = useInfiniteQuery<FetchProductListResponse>({
     queryKey, // Query Key
-    queryFn: async ({ pageParam = 0 }): Promise<FetchProductListResponse> => {
+    queryFn: async ({ pageParam = 0 } ): Promise<FetchProductListResponse> => {
       // 전역 값(카테고리,필터) → API 파라미터로 매핑
       const mappedCategory = mapCategoryToParam(selectedCategory);
       const mappedSortBy = mapFilterToSortBy(nameFilter);
       const mappedUsage = mapUsageConditions(usageConditions);
       const params: FetchProductListParams = {
         category: mappedCategory,
-        sortBy: mappedSortBy, 
+        sortBy: mappedSortBy,
         page: pageParam,
-        size: 10, 
+        size: 10,
         // usageCondition → isRentable, isPurchasable, isDemoable
         isRentable: mappedUsage.isRentable,
         isPurchasable: mappedUsage.isPurchasable,
@@ -130,13 +118,14 @@ export default function ProductSection() {
       // 페이지 관련 메타데이터 추가
       return {
         items: result, // 실제 데이터
-        currentPage: pageParam, // 현재 페이지 번호
+        currentPage: Number(pageParam), // 현재 페이지 번호
         totalPages: 10, // 총 페이지 수 (API에서 제공하는 값 사용 가능)
-      };    },
+      };
+    },
     // 모든 필터가 바뀔 때마다 새롭게 fetching
     // (React Query가 queryKey 변화 감지 후 캐시 무효화 → 재요청)
     // any 수정
-    getNextPageParam: (lastPage : any) => {
+    getNextPageParam: (lastPage: FetchProductListResponse) => {
       // 다음 페이지의 조건
       if (!lastPage || lastPage.items.length < 10) {
         return undefined; // 더 이상 페이지가 없을 경우
@@ -144,9 +133,7 @@ export default function ProductSection() {
       return lastPage.currentPage + 1; // 다음 페이지 번호
     },
     initialPageParam: 0, // 초기 페이지 번호
-
-    }
-  );
+  });
   useEffect(() => {
     refetch();
   }, [selectedCategory, nameFilter, usageConditions, detailFilters]);
@@ -166,7 +153,7 @@ export default function ProductSection() {
       {
         root: document.getElementById('main'), // 스크롤 컨테이너
         threshold: 0.1, // 10%만 보여도 '보임'으로 판단
-      }
+      },
     );
 
     observer.observe(sentinelEl);
@@ -177,13 +164,11 @@ export default function ProductSection() {
     };
   }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
-
-
   // 수정해야 할 것  -> 헤더랑 카테고리 fixed될 때 애니메이션 적용 + throllte, useCallback써서 이벤트 리스터 최적화
   useEffect(() => {
     const handleScroll = () => {
-      const nav = document.querySelector("#product-nav");
-      const main = document.querySelector("#main");
+      const nav = document.querySelector('#product-nav');
+      const main = document.querySelector('#main');
 
       if (!nav || !main) return;
 
@@ -196,60 +181,56 @@ export default function ProductSection() {
         // 작은 변동 무시
         return;
       }
-  
+
       if (navTop <= mainTop) {
         setHeaderVisible(false); // nav 고정
         // 0.5초 후에 카테고리 고정 실행
         // setTimeout(() => {
         //   setCategoryFixed(true);
         // }, 300); // 0.5초 (500ms) 후 실행
-      } 
+      }
       if (beforeScrollY.current > currentScrollTop) {
         setHeaderVisible(true); // 헤더 보이기
         // setCategoryFixed(false); // 카테고리 고정 해제
         setFloatingButton(false);
-
       } else {
         setFloatingButton(true);
-
       }
       beforeScrollY.current = currentScrollTop;
-
     };
 
-    const mainElement = document.querySelector("#main");
+    const mainElement = document.querySelector('#main');
     if (mainElement) {
-      mainElement.addEventListener("scroll", handleScroll);
+      mainElement.addEventListener('scroll', handleScroll);
     }
 
     return () => {
       if (mainElement) {
-        mainElement.removeEventListener("scroll", handleScroll);
+        mainElement.removeEventListener('scroll', handleScroll);
       }
     };
   }, [setHeaderVisible]);
-  
+
   // 카테고리 변경
   useEffect(() => {
     const currentCategory = searchParams.get('category') || '전체';
 
     if (currentCategory !== selectedCategory) {
-        const newParams = new URLSearchParams();
+      const newParams = new URLSearchParams();
 
-        // 카테고리와 기본 필터 초기화
-        newParams.set('category', selectedCategory);
-        newParams.set('nameFilter', '최신순');
-        newParams.delete('usageCondition');
-        newParams.delete('detailFilter');
-        setNameFilter('최신순');
-        resetUsageConditions();
-        resetDetailFilters();
-        setIsActiveCondition([]);
-        setIsActiveDetail([]);
-        // URL 업데이트
-        router.replace(`?${newParams.toString()}`);
-        }
-
+      // 카테고리와 기본 필터 초기화
+      newParams.set('category', selectedCategory);
+      newParams.set('nameFilter', '최신순');
+      newParams.delete('usageCondition');
+      newParams.delete('detailFilter');
+      setNameFilter('최신순');
+      resetUsageConditions();
+      resetDetailFilters();
+      setIsActiveCondition([]);
+      setIsActiveDetail([]);
+      // URL 업데이트
+      router.replace(`?${newParams.toString()}`);
+    }
   }, [selectedCategory]);
 
   // 초기 로드 시 URL category, nameFilter 쿼리파라미터 초기값 설정
@@ -290,33 +271,31 @@ export default function ProductSection() {
     //   mainContainer.scrollTo({ top: scrollPosition-100, behavior: 'smooth' });
     // }
   };
-
+  // ${isHeaderVisible ? 'sticky top-0 z-10' : 'fixed pt-3 min-w-[360px] max-w-[415px] lg:max-w-[375px] mx-auto  top-0 z-100'}
 
   return (
     <>
-      <section
-        ref={sectionRef}
-        className={`relative ${
-        isHeaderVisible ? 'mt-11' : 'mt-8'
-      }`}>
-        <div id='product-section'  className="w-full flex flex-col">
-          <div id='scroll-event' className={`
+      <section ref={sectionRef} className={` ${isHeaderVisible ? 'mt-8' : 'mt-8'}`}>
+        <div id="product-section" className="w-full flex flex-col">
+          <div
+            id="scroll-event"
+            className={`
             bg-grey1000
-            ${isHeaderVisible ? 'sticky top-0 z-40' : 'pt-3 w-full  top-0 z-100'}
             transition-transform duration-300
+            sticky top-0 z-10 pt-3 
           `}>
-            <nav id="product-nav" className={`px-4 w-full flex justify-between items-center`}>
+            <nav id="product-nav" className='px-4 w-full flex justify-between items-center'>
               {category.map((item, index) => (
-                  <Button
+                <Button
                   key={index}
                   variant="primary"
                   className={`${selectedCategory === item ? 'bg-red text-grey150 !text-body1' : ''}`}
                   onClick={() => handleCategoryPick('product-section', item)}>
                   {item}
-                  </Button>
+                </Button>
               ))}
-              </nav>
-              <FilterSpan className='py-5' />
+            </nav>
+            <FilterSpan className="py-5" />
           </div>
 
           <main className="w-full grid grid-cols-2 gap-[2px]">
@@ -332,9 +311,9 @@ export default function ProductSection() {
           </main>
         </div>
         {/* 로그인 유저가 아닐 시 로그인 모달 */}
-        {isLoginOpen && <LoginModal />}
+        <LoginModal />
         {/* 로딩 중 */}
-        {isLoading || !isDelay && <Loading/>}
+        {isLoading || (!isDelay && <Loading />)}
       </section>
       {/* 플로팅 버튼 */}
       <FloatingButton scrollContainer={'main'} />

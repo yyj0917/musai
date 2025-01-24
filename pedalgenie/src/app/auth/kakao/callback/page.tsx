@@ -12,8 +12,6 @@ export default function KakaoCallbackPage() {
   const router = useRouter();
   const queryClient = useQueryClient(); // QueryClient 가져오기
 
-
-
   useEffect(() => {
     // URL에서 code 파라미터 추출
     const params = new URLSearchParams(window.location.search);
@@ -27,7 +25,7 @@ export default function KakaoCallbackPage() {
         isRequestSent = true;
       }
       axios
-        .get(`${process.env.NEXT_PUBLIC_API_URL}/auth/kakao/callback`, { params: { code }, withCredentials: true,})
+        .get(`${process.env.NEXT_PUBLIC_API_URL}/auth/kakao/callback`, { params: { code }, withCredentials: true })
         .then((response) => {
           const accessToken = response.data.data.accessToken;
           // JWT 토큰을 AuthStore에 저장
@@ -74,4 +72,3 @@ export default function KakaoCallbackPage() {
 
 //   return <div>카카오 로그인 중...</div>;
 // }
-

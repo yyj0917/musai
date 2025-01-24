@@ -17,8 +17,7 @@ export default function LogoutModal() {
 
     // 로그아웃 후 페이지 새로고침 - 인데 다른 로직있는지 찾아보기.
     window.location.reload();
-
-  } 
+  };
 
   if (!isLogoutOpen) return null; // 모달이 열리지 않으면 렌더링하지 않음
 

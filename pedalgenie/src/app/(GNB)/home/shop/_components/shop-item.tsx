@@ -24,8 +24,9 @@ export default function ShopItem({ shopProductItem } : ShopItemProps) {
   const { openLoginModal } = useModalStore();
   const queryClient = useQueryClient();
 
-
-  const likeMutation = useLikeProductMutation(shopProductItem.id);
+  const queryKey = ['shopList'];
+  
+  const likeMutation = useLikeProductMutation(shopProductItem.id, queryKey);
 
   const toggleLikeProduct = async (e : React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -64,7 +65,7 @@ export default function ShopItem({ shopProductItem } : ShopItemProps) {
   });
     // 2) 서버에 좋아요 or 취소 요청 (Optimistic Update)
     likeMutation?.mutate(!shopProductItem.isLiked);
-  }
+  };
   return (
     <Link href={`/product/${shopProductItem.id}`}  className="min-w-[140px] h-[195px] flex flex-col gap-3">
       <div className='relative'>

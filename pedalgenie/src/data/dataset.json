@@ -362,7 +362,6 @@
       "price": "6,160,000원",
       "chip": ["시연", "대여"],
       "like": true
-
     },
     {
       "id": 3,
@@ -390,7 +389,6 @@
       "price": "6,160,000원",
       "chip": ["시연", "대여"],
       "like": true
-
     },
     {
       "id": 6,
@@ -418,7 +416,6 @@
       "price": "6,160,000원",
       "chip": ["시연", "대여"],
       "like": true
-
     },
     {
       "id": 9,
@@ -430,7 +427,7 @@
       "like": true
     }
   ],
-  "likeShop" :[
+  "likeShop": [
     {
       "id": 1,
       "image": "/img/shop-tmp.jpg",
@@ -468,7 +465,7 @@
       "like": true
     }
   ],
-  "tmpShop" : [
+  "tmpShop": [
     {
       "id": 1,
       "image": "/img/search-shop-tmp.jpg",

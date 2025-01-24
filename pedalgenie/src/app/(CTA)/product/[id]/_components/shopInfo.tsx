@@ -45,14 +45,13 @@ const formatTime = (hour: ShopHour) => {
 };
 
 // [매장 운영 시간, 번호, 주소]를 위한 [이미지, 텍스트] 렌더링 컴포넌트
-const ShopDetailInfo = (Img: React.ComponentType<React.SVGProps<SVGSVGElement>>, text?: string) => (
+const ShopDetailInfo = (Img: React.ComponentType<React.SVGProps<SVGSVGElement>>, text?: string) =>
   text ? (
     <div className="flex w-full items-center">
       <Img />
       <p className="text-sm text-grey250 pl-1">{text}</p>
     </div>
-  ) : null // text가 없을 경우 렌더링 생략
-);
+  ) : null; // text가 없을 경우 렌더링 생략
 
 export default function ShopInfo({ shopName, shopHours, contactNumber, address }: ShopInfoProps) {
   return (
