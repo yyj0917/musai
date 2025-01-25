@@ -18,6 +18,7 @@ const buttonVariants = cva('transition inline-flex items-center justify-center w
       link: '!text-grey750 text-head1 px-1 py-[3px]',
       custom: '!text-grey250 text-label2 rounded py-[18px] w-auto h-[50px]',
       copy: 'texy-body2 text-red',
+      reserve: 'text-grey250 hover:text-grey400',
     },
     size: {
       sm: 'h-9 px-3 text-xs',

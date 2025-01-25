@@ -41,7 +41,7 @@ export default function Product({ params }: { params: { id: number } }) {
 
   return (
     <div className="relative w-full h-full bg-grey1000">
-      <div className="w-full flex flex-col text-grey250 font-pretendard">
+      <main className="w-full flex flex-col text-grey250 font-pretendard">
         <TopBar />
         <div className="w-full h-[calc(100vh-48px-87px)] overflow-y-auto scroll-smooth scrollbar-hide pb-10">
           <ProductImg productImg={productDetail?.productImage} />
@@ -69,8 +69,14 @@ export default function Product({ params }: { params: { id: number } }) {
             address={productDetail?.address}
           />
         </div>
-      </div>
-      <CTA id={id} isRentable={productDetail?.isRentable} isDemoable={productDetail?.isRentable} />
+      </main>
+      <CTA
+        productId={id}
+        isRentable={productDetail?.isRentable}
+        isDemoable={productDetail?.isDemoable}
+        isLiked={productDetail?.isLiked}
+        queryKey={['productDetail', String(productDetail?.shopId)]}
+      />
     </div>
   );
 }
