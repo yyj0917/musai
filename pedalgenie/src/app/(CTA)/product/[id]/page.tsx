@@ -70,7 +70,7 @@ export default function Product({ params }: { params: { id: number } }) {
           />
         </div>
       </div>
-      <CTA id={id} />
+      <CTA id={id} isRentable={productDetail?.isRentable} isDemoable={productDetail?.isRentable} />
     </div>
   );
 }
