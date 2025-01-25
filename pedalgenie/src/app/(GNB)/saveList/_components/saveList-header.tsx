@@ -14,7 +14,7 @@ export default function SaveListHeader() {
           <MainLogo />
         </Link>
       </div>
-      <div className="mb-2 pl-4 flex gap-4 text-head1 border-b-[0.5px] border-grey750">
+      <div className="pl-4 flex gap-4 text-head1 border-b-[0.5px] border-grey750">
         {link.map((link) => (
           <Button key={link.href} variant="link" asChild href={link.href}>
             <Link href={link.href}>{link.name}</Link>

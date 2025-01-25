@@ -42,7 +42,7 @@ export default function Gradient() {
 
   return (
     <div
-      className={`-z-10 absolute w-[684px] h-[684px] right-[-292px] top-[-291px] rounded-full transition-opacity duration-500 ease-in-out
+      className={`pointer-events-none z-10 absolute w-[684px] h-[684px] right-[-292px] top-[-291px] rounded-full transition-opacity duration-500 ease-in-out
           ${isGradientVisible ? 'fade-in' : 'fade-out'}`}
       style={{
         background:

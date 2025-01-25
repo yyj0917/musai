@@ -1,10 +1,14 @@
 'use client';
 
 import Home from '@public/svg/GNB/home.svg';
+import HomeClick from '@public/svg/GNB/home-click.svg';
 import Reserve from '@public/svg/GNB/reserve.svg';
-import ReserveClicked from '@public/svg/GNB/reserve-clicked.svg';
+import ReserveClick from '@public/svg/GNB/reserve-click.svg';
 import Heart from '@public/svg/GNB/heart.svg';
+import HeartClick from '@public/svg/GNB/heart-click.svg';
 import Profile from '@public/svg/GNB/profile.svg';
+import ProfileClick from '@public/svg/GNB/profile-click.svg';
+
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -15,6 +19,7 @@ import LoginModal from './modal/login-modal';
 type NavItem = {
   id: number;
   icon: React.FC<React.SVGProps<SVGSVGElement>>;
+  clickedIcon: React.FC<React.SVGProps<SVGSVGElement>>;
   text: string;
   route: string;
   // 로그인 필요한 페이지
@@ -22,10 +27,10 @@ type NavItem = {
 };
 
 const navItems: NavItem[] = [
-  { id: 0, icon: Home, text: '홈', route: '/home' },
-  { id: 1, icon: Reserve, text: '내 예약', route: '/reservation/demo', requiresAuth: true },
-  { id: 2, icon: Heart, text: '좋아요', route: '/saveList/product', requiresAuth: true },
-  { id: 3, icon: Profile, text: '마이페이지', route: '/mypage' },
+  { id: 0, icon: Home, clickedIcon: HomeClick, text: '홈', route: '/home' },
+  { id: 1, icon: Reserve, clickedIcon: ReserveClick, text: '내 예약', route: '/reservation/demo', requiresAuth: true },
+  { id: 2, icon: Heart, clickedIcon: HeartClick, text: '좋아요', route: '/saveList/product', requiresAuth: true },
+  { id: 3, icon: Profile, clickedIcon: ProfileClick, text: '마이페이지', route: '/mypage' },
 ];
 
 export default function Navigation() {
@@ -67,11 +72,11 @@ export default function Navigation() {
             key={item.id}
             href={item.route}
             onClick={(e) => handleNavigation(e, item.requiresAuth)}
-            className={`h-[50px] flex flex-1 flex-col items-center gap-1 ${
-              activeIndex === item.id ? 'text-red' : 'text-grey250 opacity-[0.5]'
+            className={`h-[50px] flex flex-1 flex-col justify-center items-center gap-1 ${
+              activeIndex === item.id ? 'text-red' : 'text-grey650 '
             }`}>
-            <Icon />
-            <p className="w-15 text-caption1">{item.text}</p>
+            {activeIndex === item.id ? <Icon /> : <Icon/>}
+            <p className="w-15 text-caption1 text-center">{item.text}</p>
           </Link>
         );
       })}

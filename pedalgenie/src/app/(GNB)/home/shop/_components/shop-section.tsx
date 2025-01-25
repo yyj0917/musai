@@ -8,6 +8,7 @@ import useDelay from '@/hooks/use-delay';
 import Loading from '@/components/loading';
 import FloatingButton from '@/components/floating-button';
 import { useScrollToggle } from '@/hooks/use-scroll';
+import NotFoundAll from '@/components/not-found-all';
 
 export default function ShopSection() {
   const { data: shopList, isLoading } = useQuery({
@@ -21,6 +22,8 @@ export default function ShopSection() {
   const isDelay = useDelay(500);
 
   useScrollToggle({ containerId: 'shopList' });
+
+  if (!shopList) return <NotFoundAll alertText='매장이 존재하지 않습니다'/>;
 
   return (
     <>

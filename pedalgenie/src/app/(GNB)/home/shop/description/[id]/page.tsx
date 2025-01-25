@@ -85,7 +85,7 @@ export default function ShopDescriptionPage({ params }: { params: { id: number }
         <button onClick={(e) => toggleLikeShop(e)} className="text-red ">
           <Heart
             strokeWidth={1.5}
-            className={`like-animation ${shopDetail?.isLiked || isAnimating ? 'unscale fill-red' : 'scale'} `}
+            className={`like-animation ${shopDetail?.isLiked || isAnimating ? 'unscale fill-red' : ''} `}
           />
         </button>
       </div>

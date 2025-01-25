@@ -66,6 +66,9 @@ export default function ShopItem({ shopProductItem } : ShopItemProps) {
     // 2) 서버에 좋아요 or 취소 요청 (Optimistic Update)
     likeMutation?.mutate(!shopProductItem.isLiked);
   };
+
+  const price = shopProductItem?.rentPricePerDay || 0; // 가격 가져오기
+  const formattedPrice = new Intl.NumberFormat('ko-KR').format(price);
   return (
     <Link href={`/product/${shopProductItem.id}`}  className="min-w-[140px] h-[195px] flex flex-col gap-3">
       <div className='relative'>
@@ -75,12 +78,12 @@ export default function ShopItem({ shopProductItem } : ShopItemProps) {
           className="absolute bottom-[9px] right-[10px] text-red ">
           <Heart 
             strokeWidth={1.5}
-            className={`like-animation ${shopProductItem?.isLiked || isAnimating ? 'unscale fill-red' : 'scale'} `} />
+            className={`like-animation ${shopProductItem?.isLiked || isAnimating ? 'unscale fill-red' : ''} `} />
         </button>
       </div>
       <span className="w-full flex flex-col">
         <p className="text-ellipsis text-body2 text-grey450 line-clamp-1">{shopProductItem.name}</p>
-        <p className="text-ellipsis text-body1 text-grey150">{shopProductItem.rentPricePerDay}원</p>
+        <p className="text-ellipsis text-body1 text-grey150">{formattedPrice}원</p>
       </span>
     </Link>
   );

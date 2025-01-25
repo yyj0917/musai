@@ -17,6 +17,7 @@ import { FetchProductListParams, fetchProductList } from '@/lib/api/(product)/pr
 import { mapCategoryToParam, mapFilterToSortBy, mapUsageConditions } from '@/lib/utils/utils';
 import Loading from '@/components/loading';
 import useDelay from '@/hooks/use-delay';
+import NotFoundAll from '@/components/not-found-all';
 
 interface FetchProductListResponse {
   items: ProductList; // 반환되는 제품 리스트
@@ -262,20 +263,23 @@ export default function ProductSection() {
   const category = ['전체', '기타', '베이스', '키보드', '드럼', '관현악'];
 
   const handleCategoryPick = (targetId: string, item: string) => {
-    setSelectedCategory(item);
+    
+    const targetSection = document.getElementById(targetId);
+    const mainContainer = document.getElementById('main');
+    if (targetSection && mainContainer) {
+      const scrollPosition = targetSection.offsetTop;
+      mainContainer.scrollTo({ top: scrollPosition-92, behavior: 'smooth' });
+    }
+    setTimeout(() => {
+      setSelectedCategory(item);
+    }, 300);
 
-    // const targetSection = document.getElementById(targetId);
-    // const mainContainer = document.getElementById('main');
-    // if (targetSection && mainContainer) {
-    //   const scrollPosition = targetSection.offsetTop;
-    //   mainContainer.scrollTo({ top: scrollPosition-100, behavior: 'smooth' });
-    // }
   };
   // ${isHeaderVisible ? 'sticky top-0 z-10' : 'fixed pt-3 min-w-[360px] max-w-[415px] lg:max-w-[375px] mx-auto  top-0 z-100'}
 
   return (
     <>
-      <section ref={sectionRef} className={` ${isHeaderVisible ? 'mt-8' : 'mt-8'}`}>
+      <section ref={sectionRef} className='mt-8'>
         <div id="product-section" className="w-full flex flex-col">
           <div
             id="scroll-event"
@@ -295,17 +299,24 @@ export default function ProductSection() {
                 </Button>
               ))}
             </nav>
-            <FilterSpan className="py-5" />
+            <FilterSpan />
           </div>
 
-          <main className="w-full grid grid-cols-2 gap-[2px]">
-            {product?.pages.map((page, pageIndex) => (
-              <React.Fragment key={pageIndex}>
-                {page.items.map((productItem: Product) => (
-                  <ProductItem key={productItem.id} product={productItem} queryKey={queryKey} />
-                ))}
-              </React.Fragment>
-            ))}
+          <main className={`
+            w-full min-h-[calc(100dvh-88.5px-87px-100px)] grid gap-[2px]
+            ${product?.pages[0].items.length === 0 ? 'grid-cols-1' : 'grid-cols-2'}
+            `}>
+            {product?.pages[0].items.length === 0 ? (
+              <NotFoundAll alertText='해당 상품이 존재하지 않습니다'/>
+            ) : (
+              product?.pages.map((page, pageIndex) => (
+                <React.Fragment key={pageIndex}>
+                  {page.items.map((productItem: Product) => (
+                    <ProductItem key={productItem.id} product={productItem} queryKey={queryKey} />
+                  ))}
+                </React.Fragment>
+              ))
+            )}
             {/* 마지막 sentinel */}
             {hasNextPage && <div ref={sentinelRef} className="bg-transparent"></div>}
           </main>

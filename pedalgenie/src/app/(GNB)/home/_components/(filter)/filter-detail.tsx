@@ -79,8 +79,14 @@ export default function FilterDetail({ isOpen, onClose }: FilterProps) {
   const handleClose = () => {
     onClose();
     updateQueryParam('detailFilters', isActiveDetail);
-    console.log('활성화된 세부 종류:', isActiveDetail);
     toggleDetailFilter(isActiveDetail);
+    // 필터 변경 시 상품 리스트로 스크롤
+    const targetSection = document.getElementById('product-section');
+    const mainContainer = document.getElementById('main');
+    if (targetSection && mainContainer) {
+      const scrollPosition = targetSection.offsetTop;
+      mainContainer.scrollTo({ top: scrollPosition-92, behavior: 'smooth' });
+    }
   };
 
   return (
