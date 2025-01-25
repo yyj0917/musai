@@ -1,8 +1,10 @@
 import CopyButton from './copyButton';
 
-export default function RentFeeInfo() {
-  const accountInfo = '신한 110203923432';
+interface RentFeeInfoProps {
+  account: string;
+}
 
+export default function RentFeeInfo({ account }: RentFeeInfoProps) {
   return (
     <>
       <h2 className="text-title2 pt-8">결제 정보</h2>
@@ -13,12 +15,13 @@ export default function RentFeeInfo() {
         <h3 className="font-normal text-label2 text-grey550">입금 계좌</h3>
         <div className="flex">
           <div className="flex flex-col flex-1">
-            <p>{accountInfo}</p>
+            <p>{account}</p>
             <p>예금주 : 구연성</p>
           </div>
 
           {/* 계좌 복사 버튼 */}
-          <CopyButton textToCopy={accountInfo} />
+          <CopyButton textToCopy={account} />
+          {/* 복사 완료 후 로직 수정 */}
         </div>
       </section>
     </>

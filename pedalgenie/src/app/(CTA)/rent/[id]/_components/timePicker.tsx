@@ -52,7 +52,7 @@ export default function TimePicker({ id }: TimePickerProps) {
 
   const handleNextStep = () => {
     if (selectedTime) {
-      router.push('/rent/agreement'); // 약관 동의 페이지로 이동
+      router.push(`/rent/${id}/agreement`); // 약관 동의 페이지로 이동
     }
   };
 

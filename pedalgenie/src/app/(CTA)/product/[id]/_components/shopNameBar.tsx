@@ -16,11 +16,11 @@ export default function ShopNameBar({ shopName, shopId }: ShopNameBarProps) {
   };
 
   return (
-    <section className="flex w-full justify-between py-3.5 px-4 border-b-[1px] border-grey850">
+    <button className="flex w-full justify-between py-3.5 px-4 border-b-[1px] border-grey850 cursor-pointer" onClick={handleShopClick}>
       <div className="text-grey450 text-sm">{shopName}</div> {/* 가게 이름 */}
-      <div className="flex items-center px-2 cursor-pointer" onClick={handleShopClick}>
+      <div className="flex items-center px-2" >
         <RightArrow />
       </div>
-    </section>
+    </button>
   );
 }

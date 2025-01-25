@@ -11,8 +11,20 @@ import DescriptionImg from './_components/descriptionImg';
 import ShopInfo from './_components/shopInfo';
 import InfoSwitcher from './_components/infoSwitcher';
 // 하트 버튼 컴포넌트로 따로 뺴기
-import Heart from '@public/svg/product/heart.svg';
+import OldHeart from '@public/svg/product/heart.svg';
+import { Heart } from 'lucide-react'; // 하트 체크
 import CTA from '@/components/ui/CTA';
+
+{
+  /*
+<button onClick={(e) => toggleLikeProduct(e)} className="absolute bottom-4 right-4 text-red ">
+  <Heart
+    strokeWidth={1.5}
+    className={`like-animation ${product?.isLiked || isAnimating ? 'unscale fill-red' : 'scale'} `}
+  />
+</button>;
+  */
+}
 
 export default function Product({ params }: { params: { id: number } }) {
   const { id } = params; // 파라미터로 받아온 ProductId 값
@@ -29,7 +41,7 @@ export default function Product({ params }: { params: { id: number } }) {
 
   return (
     <div className="relative w-full h-full bg-grey1000">
-      <div className="w-full flex flex-col text-grey250 font-pretendard">
+      <main className="w-full flex flex-col text-grey250 font-pretendard">
         <TopBar />
         <div className="w-full h-[calc(100vh-48px-87px)] overflow-y-auto scroll-smooth scrollbar-hide pb-10">
           <ProductImg productImg={productDetail?.productImage} />
@@ -57,8 +69,14 @@ export default function Product({ params }: { params: { id: number } }) {
             address={productDetail?.address}
           />
         </div>
-      </div>
-      <CTA id={id} />
+      </main>
+      <CTA
+        productId={id}
+        isRentable={productDetail?.isRentable}
+        isDemoable={productDetail?.isDemoable}
+        isLiked={productDetail?.isLiked}
+        queryKey={['productDetail', String(productDetail?.shopId)]}
+      />
     </div>
   );
 }

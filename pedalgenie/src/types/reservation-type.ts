@@ -1,13 +1,14 @@
 // 대여 가능 날짜 목록 조회 api
+export type availableDates = {
+  productId: number;
+  localDate: string; // "2025-01-22"
+  rentStatus: string;
+}[];
 export interface RentableDate {
   price: number;
   fee: number;
   totalPrice: number;
-  avaiableDates: {
-    productId: number;
-    localDate: string; // "2025-01-22"
-    rentStatus: string;
-  }[];
+  availableDates: availableDates[];
 }
 
 // 대여 가능 시간 조회 api

@@ -1,10 +1,15 @@
-import TopBar from '../[id]/_components/topBar';
+import TopBar from '../_components/topBar';
 import ReservationInfo from './_components/reservationInfo';
 import NoticeSection from './_components/noticeSection';
 import AgreementSection from './_components/agreementSection';
-import PaymentSummary from '../[id]/_components/paymentSummary';
+import PaymentSummary from '../_components/paymentSummary';
 
-export default function Agreement() {
+// ProductDetail의 상품명
+// 대여 기간, 픽업 일정
+
+export default function Agreement({ params }: { params: { id: number } }) {
+  const { id } = params; // 파라미터로 받아온 ProductId 값
+
   return (
     <div className="w-full flex flex-col text-grey250 font-pretendard ">
       <TopBar />
@@ -15,7 +20,7 @@ export default function Agreement() {
         </div>
         <div className="p-4">
           <NoticeSection />
-          <AgreementSection />
+          <AgreementSection id={id} />
         </div>
       </div>
     </div>
