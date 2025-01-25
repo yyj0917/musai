@@ -12,6 +12,8 @@ import FilterDetail from './filter-detail';
 
 import './../../../../globals.css';
 import { useFilterStore } from '@/lib/zustand/useFilterStore';
+import { useModalStore } from '@/lib/zustand/useModalStore';
+import { set } from 'lodash';
 
 interface FilterSpanProps {
   className?: string; // className을 선택적으로 받을 수 있도록 설정
@@ -26,11 +28,15 @@ export default function FilterSpan({ className }: FilterSpanProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [filterType, setFilterType] = useState<'name' | 'condition' | 'detail'>('name');
 
+  const { isFloatingButton, setFloatingButton } = useModalStore();
+
   const category = searchParams.get('category') || '전체'; // 현재 카테고리 가져오기
 
   const handleOpenModal = (type: 'name' | 'condition' | 'detail') => {
     setFilterType(type);
     setIsModalOpen(true);
+    // 필터 올라올 떄 Floating button 숨김
+    setFloatingButton(false);
   };
   const handleCloseModal = () => {
     const timer = setTimeout(() => {
@@ -86,6 +92,12 @@ export default function FilterSpan({ className }: FilterSpanProps) {
     resetDetailFilters(); // 세부 종류 초기
     router.replace(`?${newParams.toString()}`); // URL 갱신
     setShowResetButton(false); // 새로고침 버튼 숨김
+    const targetSection = document.getElementById('product-section');
+    const mainContainer = document.getElementById('main');
+    if (targetSection && mainContainer) {
+      const scrollPosition = targetSection.offsetTop;
+      mainContainer.scrollTo({ top: scrollPosition-92, behavior: 'smooth' });
+    }
   };
 
   const detailLabel = () => {

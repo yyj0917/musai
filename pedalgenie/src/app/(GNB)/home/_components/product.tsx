@@ -50,6 +50,8 @@ export default function ProductItem({ product, queryKey }: ProductItem) {
   if (!product) {
     return null;
   }
+  const price = product?.rentPricePerDay || 0; // 가격 가져오기
+  const formattedPrice = new Intl.NumberFormat('ko-KR').format(price);
 
   return (
     <>
@@ -65,7 +67,7 @@ export default function ProductItem({ product, queryKey }: ProductItem) {
           <button onClick={(e) => toggleLikeProduct(e)} className="absolute bottom-4 right-4 text-red ">
             <Heart
               strokeWidth={1.5}
-              className={`like-animation ${product?.isLiked || isAnimating ? 'unscale fill-red' : 'scale'} `}
+              className={`like-animation ${product?.isLiked || isAnimating ? 'unscale fill-red' : ''} `}
             />
           </button>
         </div>
@@ -84,12 +86,12 @@ export default function ProductItem({ product, queryKey }: ProductItem) {
             {/* Product Name */}
             <p className="text-ellipsis text-grey450 text-body2 line-clamp-1">{product?.name}</p>
             {/* Rental Price */}
-            <p className="text-body1 flex item-center gap-1">
+            <p className="text-body1 flex item-center">
               <span className="text-grey550 flex mb-1">
                 <span>일</span>
                 <span>ㅣ</span>
+                <span className="text-grey250">{formattedPrice}원</span>
               </span>
-              <span className="text-grey250">{product?.rentPricePerDay} 원</span>
             </p>
             {/* 시연, 대여, 구매 여부 chip */}
             <div className="flex gap-1">

@@ -64,12 +64,12 @@ export default function ShopDetail({ shopOne }: ShopProps) {
         <button onClick={(e) => toggleLikeShop(e)} className="text-red ">
           <Heart
             strokeWidth={1.5}
-            className={`like-animation ${shopOne?.isLiked || isAnimating ? 'unscale fill-red' : 'scale'} `}
+            className={`like-animation ${shopOne?.isLiked || isAnimating ? 'unscale fill-red' : ''} `}
           />
         </button>
       </header>
       {/* Store Item List */}
-      <section className="w-full flex gap-2 overflow-x-auto scroll-smooth scrollbar-hide">
+      <section className="pr-4 w-full flex gap-2 overflow-x-auto scroll-smooth scrollbar-hide">
         {shopOne.products.map((shopProductItem: Product, idx) => (
           <ShopItem key={idx} shopProductItem={shopProductItem} />
         ))}

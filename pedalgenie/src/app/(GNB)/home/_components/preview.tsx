@@ -39,9 +39,11 @@ export default function PreviewItem({ genreProductItem }: ProductItemProps) {
       setIsAnimating(false);
     }, 500); // 애니메이션 지속 시간과 동일
   };
+  const price = genreProductItem?.rentPricePerDay || 0; // 가격 가져오기
+  const formattedPrice = new Intl.NumberFormat('ko-KR').format(price);
 
   return (
-    <Link href={`/product/${genreProductItem?.id}`} className="relative min-w-[138px] h-[252px] flex flex-col gap-3">
+    <Link href={`/product/${genreProductItem?.id}`} className="relative min-w-[138px] max-h-[252px] flex flex-col gap-3">
       <div className="relative w-full min-h-[138px] bg-grey750 rounded-sm">
         {genreProductItem?.imageUrl ? (
           <Image
@@ -59,7 +61,7 @@ export default function PreviewItem({ genreProductItem }: ProductItemProps) {
           className="absolute bottom-2 right-2 text-red ">
           <Heart
             strokeWidth={1.5}
-            className={`like-animation ${isAnimating ? 'scale fill-red' : ''} ${isUILike ? 'fill-red' : ''}`}
+            className={`like-animation ${isAnimating ? 'unscale fill-red' : ''} ${isUILike ? 'fill-red' : ''}`}
           />
         </button>
       </div>
@@ -79,7 +81,7 @@ export default function PreviewItem({ genreProductItem }: ProductItemProps) {
           <p className="text-ellipsis text-grey450 text-body1 line-clamp-1">{genreProductItem?.name}</p>
           {/* Rental Price */}
           <p className="text-body1 flex item-center gap-1">
-            <span className="text-grey250">{genreProductItem?.rentPricePerDay}원</span>
+            <span className="text-grey250">{formattedPrice}원</span>
           </p>
           <div className="flex gap-1">
             {genreProductItem?.isDemoable && <Button variant="chip">시연</Button>}

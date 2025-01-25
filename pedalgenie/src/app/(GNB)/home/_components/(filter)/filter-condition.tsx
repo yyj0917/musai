@@ -70,18 +70,20 @@ export default function FilterCondition({ isOpen, onClose }: FilterProps) {
   const handleResetCondition = () => {
     resetUsageConditions();
     setIsActiveCondition([]);
-    onClose();
     updateQueryParam('usageConditions', null);
   };
   // 확인 시 필터 적용
   const handleClose = () => {
     onClose();
-    // 쿼리 파라미터에 전달하기 전 공백 제거
-    // const trimmedConditions = isActiveCondition.map((condition) =>
-    //   condition.replace(/\s+/g, '') // 모든 공백 제거
-    // );
     updateQueryParam('usageConditions', isActiveCondition);
     toggleUsageCondition(isActiveCondition);
+    // 필터 변경 시 상품 리스트로 스크롤
+    const targetSection = document.getElementById('product-section');
+    const mainContainer = document.getElementById('main');
+    if (targetSection && mainContainer) {
+      const scrollPosition = targetSection.offsetTop;
+      mainContainer.scrollTo({ top: scrollPosition-92, behavior: 'smooth' });
+    }
   };
 
   return (

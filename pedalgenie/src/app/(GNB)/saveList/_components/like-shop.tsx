@@ -50,7 +50,7 @@ export default function LikeShopItem({ likeShop }: LikeShopItem) {
       <button onClick={(e) => toggleLikeShop(e)} className="text-red ">
         <Heart
           strokeWidth={1.5}
-          className={`like-animation ${likeShop?.isLiked || isAnimating ? 'unscale fill-red' : 'scale'} `}
+          className={`like-animation ${likeShop?.isLiked || isAnimating ? 'unscale fill-red' : ''} `}
         />
       </button>
     </Link>

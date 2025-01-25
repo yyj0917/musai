@@ -13,6 +13,7 @@ import { useQuery } from '@tanstack/react-query';
 import Loading from '@/components/loading';
 import FloatingButton from '@/components/floating-button';
 import { useScrollToggle } from '@/hooks/use-scroll';
+import NotFoundAll from '@/components/not-found-all';
 
 export default function Search() {
   const router = useRouter();
@@ -97,10 +98,7 @@ export default function Search() {
           id="searchResult"
           className="w-full h-[calc(100dvh-60px-87px)] flex flex-col overflow-y-auto scrollbar-hide">
           {isError && (
-            <div className="my-auto flex flex-col items-center gap-[14px] text-grey650 text-body1">
-              <SymbolLogo />
-              <p>검색 결과가 존재하지 않습니다</p>
-            </div>
+            <NotFoundAll alertText={'검색 결과가 존재하지 않습니다'}/>
           )}
           {isLoading && <Loading />}
           {!isLoading && !isError && searchData && (

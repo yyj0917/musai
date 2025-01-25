@@ -4,9 +4,9 @@ export default function Loading() {
   const option = {
     barColor: '#F1404C',
     bgColor: '#8E8E8E',
-    size: 60,
+    size: 50,
     speed: 0.5,
-    thickness: 4,
+    thickness: 3,
   };
 
   return (

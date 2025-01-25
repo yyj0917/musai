@@ -97,9 +97,11 @@ export default function MyPage() {
         {!isLoggedin ? (
           // 비로그인 상태
           <div className="absolute left-4 top-[10.5px] flex flex-col gap-1">
-            <div className="flex items-center gap-5 cursor-pointer" onClick={() => openLoginModal()}>
+            <div className="flex items-center gap-1 cursor-pointer" onClick={() => openLoginModal()}>
               <p className="text-head1">로그인 및 회원가입</p>
-              <RightArrow />
+              <span className='p-[10px]'>
+                <RightArrow />
+              </span>
             </div>
             <p className="text-caption1 text-grey650">3초 가입으로 더 편리해진 뮤사이를 경험해보세요.</p>
           </div>
@@ -131,11 +133,19 @@ export default function MyPage() {
         </button>
       </div>
 
+      {/* 고객센터 - 자주 묻는 질문 */}
+      <div className="mt-10 ml-5 flex flex-col gap-5">
+        <h1 className="text-body1 text-grey650">고객센터</h1>
+        <Link href={''} className="max-w-40 flex items-center">
+          <p className="text-body1 text-grey150">자주 묻는 질문</p>
+        </Link>
+      </div>
+      
       {/* 내 계정 (로그인 상태에서만 표시) */}
       {isLoggedin && (
         <div className="mt-10 ml-5 flex flex-col gap-5">
           <h1 className="text-body1 text-grey650">내 계정</h1>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-5">
             <button className="w-20 flex items-center" onClick={() => openLogoutModal()}>
               <p className="text-body1 text-grey150">로그아웃</p>
             </button>
@@ -148,7 +158,7 @@ export default function MyPage() {
       {/* 약관 - 그 외 필요정보 */}
       <div className="mt-10 ml-5 flex flex-col gap-5">
         <h1 className="text-body1 text-grey650">약관</h1>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-5">
           {etc.map((item, index) => (
             <Link key={index} href={item.link} className="max-w-40 flex items-center">
               <p className="text-body1 text-grey150">{item.text}</p>

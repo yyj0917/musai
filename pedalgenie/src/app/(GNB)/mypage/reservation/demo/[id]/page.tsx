@@ -48,7 +48,6 @@ export default function DemoDetailPage({ params }: { params: { id: number } }) {
     <div className="relative px-4 w-full flex flex-col">
       {/* 예약 상태 확인 nav 파트 */}
       <nav className="-mx-4 py-3 flex justify-between items-center border-b-[0.5px] border-grey850">
-        {/* <p className="text-body1 text-grey150">{demoDetail.demoStatus}</p> */}
         <p
           className={`pl-4 text-body1
                 ${

@@ -52,7 +52,7 @@ export default function ShopCard({ shop }: ShopCardProps) {
         <button onClick={(e) => toggleLikeSearchedShop(e)} className="text-red ">
           <Heart
             strokeWidth={1.5}
-            className={`like-animation ${isAnimating || isUILike ? 'unscale fill-red' : 'scale'} `}
+            className={`like-animation ${isAnimating || isUILike ? 'unscale fill-red' : ''} `}
           />
         </button>
       </article>
