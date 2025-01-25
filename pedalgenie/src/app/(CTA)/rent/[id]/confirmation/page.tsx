@@ -7,12 +7,14 @@ import SubmitButton from './_components/submitButton';
 
 export default function Confirmation() {
   return (
-    <div className="w-full flex flex-col text-grey250 font-pretendard">
+    <div className="w-full h-full flex flex-col text-grey250 font-pretendard">
       <TopBar />
-      <div className="w-full p-4">
+      <div className="flex-1 w-full p-4">
         <RentFeeSummary />
         <RentFeeInfo account="신한 110203923432" />
-        <SubmitButton text="300,000원 입금하기" />
+      </div>
+      <div className='px-4 pt-3 pb-8'>
+      <SubmitButton text="300,000원 입금하기" />
       </div>
     </div>
   );

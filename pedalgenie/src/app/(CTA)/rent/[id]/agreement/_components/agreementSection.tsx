@@ -89,7 +89,7 @@ export default function AgreementSection({id}: AgreementSectionProps) {
   };
 
   return (
-    <section className="w-full pt-6 text-grey150">
+    <section className="w-full pt-6 text-grey150 pb-10">
       <h2 className="text-title2 pb-3">약관 동의</h2>
 
       {/* 모두 동의 버튼 */}
