@@ -17,8 +17,7 @@ export default function SubmitButton({ text }: SubmitButtonProps) {
     <>
       <button
         onClick={handleOpenModal}
-        className="bg-red text-white py-4 rounded-lg w-full font-semibold text-body1"
-      >
+        className="bg-red text-white py-4 rounded-lg w-full font-semibold text-body1 mt-10">
         {text}
       </button>
 

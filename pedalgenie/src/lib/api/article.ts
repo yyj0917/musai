@@ -1,4 +1,3 @@
-
 import { ArticleDetail, ArticleList } from '@/types/article-type';
 import axiosInstance from './config/axiosConfig';
 

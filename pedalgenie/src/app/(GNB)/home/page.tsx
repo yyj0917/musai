@@ -10,7 +10,6 @@ import { fetchProductList } from '@/lib/api/(product)/product';
 export default async function Home() {
   const { product } = dataset;
 
-
   // // 아티클 목록 조회
   const articleList = await fetchArticles();
   // // 시연해볼 수 있는 장르별 악기 조회
@@ -23,7 +22,7 @@ export default async function Home() {
       {/* article이 들어갈 section */}
       <ArticleSection articleList={articleList} />
       {/* 시연가능한 제품(기준미정) section */}
-      <PreviewSection genreProduct={genreProduct} genre={'클래식'}/>
+      <PreviewSection genreProduct={genreProduct} genre={'클래식'} />
       {/* 전체 제품들 카테고리, 앵커링할 section - Client Comp.*/}
       <Suspense fallback={<div>Loading...</div>}>
         <ProductSection />

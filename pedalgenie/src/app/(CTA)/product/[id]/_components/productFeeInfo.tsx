@@ -5,6 +5,7 @@ interface ProductFeeCardProps {
 
 export default function ProductFeeCard({ price, rentPricePerDay }: ProductFeeCardProps) {
   // 숫자값을 천 단위로 쉼표 추가 해주는 함수
+
   const formatPrice = (amount: number) => {
     return new Intl.NumberFormat('ko-KR').format(amount);
   };

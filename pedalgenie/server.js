@@ -40,11 +40,11 @@
 // });
 // server.js
 
-const http = require("http");
-const { parse } = require("url");
-const next = require("next");
+const http = require('http');
+const { parse } = require('url');
+const next = require('next');
 
-const dev = process.env.NODE_ENV !== "production";
+const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
@@ -62,24 +62,22 @@ app.prepare().then(() => {
       if (err) throw err;
       console.log(`> Ready on http://localhost:${PORT}`);
     });
-    
-    
-  const https = require("https");
-  const fs = require("fs");
-    const httpsOptions = {
-      key: fs.readFileSync('./localhost-key.pem'),
-      cert: fs.readFileSync('./localhost.pem'),
-    };
-  https    
+
+  const https = require('https');
+  const fs = require('fs');
+  const httpsOptions = {
+    key: fs.readFileSync('./localhost-key.pem'),
+    cert: fs.readFileSync('./localhost.pem'),
+  };
+  https
     .createServer(httpsOptions, function (req, res) {
       // Be sure to pass `true` as the second argument to `url.parse`.
       // This tells it to parse the query portion of the URL.
       const parsedUrl = parse(req.url, true);
       handle(req, res, parsedUrl);
     })
-    .listen(PORT-1, (err) => {
+    .listen(PORT - 1, (err) => {
       if (err) throw err;
-      console.log(`> Ready on https://localhost:${PORT-1}`);
+      console.log(`> Ready on https://localhost:${PORT - 1}`);
     });
 });
-

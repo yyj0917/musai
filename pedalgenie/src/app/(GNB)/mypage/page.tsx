@@ -33,14 +33,13 @@ export default function MyPage() {
     const accessToken = queryClient.getQueryData<string>(['authToken']);
     useAuthStore.getState().setAccessToken(accessToken);
     try {
-
       const response = await fetchUserInfo(); // API 호출
       return response;
     } catch (error) {
       // error handling 필요
-      return
+      return;
     }
-  }
+  };
 
   // React Query로 fetchUserInfo 데이터 캐싱
   const { data: memberData, isLoading } = useQuery({
@@ -48,11 +47,9 @@ export default function MyPage() {
     queryFn: fetchMembers, // fetchMembers 함수
     staleTime: 1000 * 60 * 5, // 데이터가 5분 동안 신선하다고 간주
     gcTime: 1000 * 60 * 10, // 10분 동안 캐싱 유지
-    enabled: true, // 활성화
+    enabled: false, // 활성화
   });
-  
-  
-  
+
   // 초기 데이터를 설정하는 useEffect
   useEffect(() => {
     const fetchInitialData = async () => {
@@ -85,15 +82,12 @@ export default function MyPage() {
   ];
 
   // 로그인 상태가 아닐 때 로그인 모달 열기 - 예약 내역 확인 시.
-  const handleNavigation = (
-    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
-  ) => {
+  const handleNavigation = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     if (!isLoggedin) {
       e.preventDefault(); // 기본 라우팅 동작 방지
       openLoginModal(); // 로그인 모달 열기
     }
   };
-
 
   return (
     <div className="w-full h-auto flex flex-col ">
@@ -103,9 +97,11 @@ export default function MyPage() {
         {!isLoggedin ? (
           // 비로그인 상태
           <div className="absolute left-4 top-[10.5px] flex flex-col gap-1">
-            <div className="flex items-center gap-5 cursor-pointer" onClick={() => openLoginModal()}>
+            <div className="flex items-center gap-1 cursor-pointer" onClick={() => openLoginModal()}>
               <p className="text-head1">로그인 및 회원가입</p>
-              <RightArrow />
+              <span className='p-[10px]'>
+                <RightArrow />
+              </span>
             </div>
             <p className="text-caption1 text-grey650">3초 가입으로 더 편리해진 뮤사이를 경험해보세요.</p>
           </div>
@@ -113,7 +109,7 @@ export default function MyPage() {
           // 로그인 상태
           <div className="absolute left-4 top-[10.5px] flex flex-col gap-1">
             <p className="text-head1">{memberData?.nickname} 님</p>
-            <p className="text-body1 text-grey650">{memberData?.email}</p>
+            <p className="text-caption1 text-grey650">{memberData?.email}</p>
           </div>
         )}
       </div>
@@ -137,11 +133,19 @@ export default function MyPage() {
         </button>
       </div>
 
+      {/* 고객센터 - 자주 묻는 질문 */}
+      <div className="mt-10 ml-5 flex flex-col gap-5">
+        <h1 className="text-body1 text-grey650">고객센터</h1>
+        <Link href={''} className="max-w-40 flex items-center">
+          <p className="text-body1 text-grey150">자주 묻는 질문</p>
+        </Link>
+      </div>
+      
       {/* 내 계정 (로그인 상태에서만 표시) */}
       {isLoggedin && (
         <div className="mt-10 ml-5 flex flex-col gap-5">
           <h1 className="text-body1 text-grey650">내 계정</h1>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-5">
             <button className="w-20 flex items-center" onClick={() => openLogoutModal()}>
               <p className="text-body1 text-grey150">로그아웃</p>
             </button>
@@ -154,7 +158,7 @@ export default function MyPage() {
       {/* 약관 - 그 외 필요정보 */}
       <div className="mt-10 ml-5 flex flex-col gap-5">
         <h1 className="text-body1 text-grey650">약관</h1>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-5">
           {etc.map((item, index) => (
             <Link key={index} href={item.link} className="max-w-40 flex items-center">
               <p className="text-body1 text-grey150">{item.text}</p>
@@ -168,11 +172,7 @@ export default function MyPage() {
       <LogoutModal />
       {/* WithdrawModal 컴포넌트 */}
       <WithdrawModal />
-      {
-        isLoading ? (
-          <Loading/>)
-           : null
-      }
+      {isLoading ? <Loading /> : null}
     </div>
   );
 }

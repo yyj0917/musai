@@ -40,7 +40,8 @@ const initialState = (() => {
   const queryParams = qs.parse(window.location.search, {
     parseBooleans: true,
     parseNumbers: true,
-  });  return {
+  });
+  return {
     selectedCategory: queryParams.category as string | undefined,
     nameFilter: (queryParams.nameFilter as string) || '최신순',
     usageConditions: (queryParams.usageConditions as string)?.split(',') || [],
@@ -48,7 +49,7 @@ const initialState = (() => {
   };
 })();
 
-export const useFilterStore = create<FilterStore>((set, get) => ({
+export const useFilterStore = create<FilterStore>((set) => ({
   nameFilter: initialState.nameFilter,
   usageConditions: initialState.usageConditions,
   detailFilters: initialState.detailFilters,
@@ -61,19 +62,6 @@ export const useFilterStore = create<FilterStore>((set, get) => ({
   },
 
   toggleUsageCondition: (condition: string[]) => {
-    // const { usageConditions } = get();
-
-    // const updatedConditions = [...usageConditions];
-    // condition.forEach((condition) => {
-    //   if (updatedConditions.includes(condition)) {
-    //     // 이미 있는 detail이면 제거
-    //     const index = updatedConditions.indexOf(condition);
-    //     updatedConditions.splice(index, 1);
-    //   } else {
-    //     // 없는 detail이면 추가
-    //     updatedConditions.push(condition);
-    //   }
-    // });
     set({
       usageConditions: condition,
     });
@@ -81,26 +69,10 @@ export const useFilterStore = create<FilterStore>((set, get) => ({
   resetUsageConditions: () => {
     set({ usageConditions: [] });
   },
-  
+
   // query Key 변경 때 배열로 한번에 넘겨주기 위해
   toggleDetailFilter: (details: string[]) => {
-    // const { detailFilters } = get();
-  
-    // // 중복되지 않도록 새 배열 생성
-    // const updatedFilters = [...detailFilters];
 
-    // console.log('details', details);
-  
-    // details.forEach((detail) => {
-    //   if (updatedFilters.includes(detail)) {
-    //     // 이미 있는 detail이면 제거
-
-    //   } else {
-    //     // 없는 detail이면 추가
-    //     updatedFilters.push(detail);
-    //   }
-    // });
-  
     // 상태 업데이트
     set({
       detailFilters: details,

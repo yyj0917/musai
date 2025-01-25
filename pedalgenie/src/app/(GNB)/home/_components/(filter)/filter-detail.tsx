@@ -8,19 +8,17 @@ import { useFilterStore } from '@/lib/zustand/useFilterStore';
 import '../../../../globals.css';
 import dataset from '@/data/dataset.json';
 
+type FilterProps = {
+  isOpen: boolean;
+  onClose: () => void;
+};
 
 export default function FilterDetail({ isOpen, onClose }: FilterProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isBrowser, setIsBrowser] = useState(false);
 
-
-  const {
-    isActiveDetail,
-    setIsActiveDetail,
-    toggleDetailFilter,
-    resetDetailFilters,
-  } = useFilterStore();
+  const { isActiveDetail, setIsActiveDetail, toggleDetailFilter, resetDetailFilters } = useFilterStore();
 
   // === URL 쿼리 파라미터 추가/삭제 함수 ===
   const updateQueryParam = (key: string, value: string | string[] | null) => {
@@ -51,15 +49,13 @@ export default function FilterDetail({ isOpen, onClose }: FilterProps) {
     if (detailFromURL) {
       setIsActiveDetail(detailFromURL.split(','));
     } else {
-        setIsActiveDetail([]);
+      setIsActiveDetail([]);
     }
   }, [searchParams]);
 
   if (!isOpen || !isBrowser) {
     return null;
   }
-
-  
 
   // ==================== 세부 종류 ====================
   // Subcategories 가져오기
@@ -83,9 +79,14 @@ export default function FilterDetail({ isOpen, onClose }: FilterProps) {
   const handleClose = () => {
     onClose();
     updateQueryParam('detailFilters', isActiveDetail);
-    console.log('활성화된 세부 종류:', isActiveDetail);
     toggleDetailFilter(isActiveDetail);
-
+    // 필터 변경 시 상품 리스트로 스크롤
+    const targetSection = document.getElementById('product-section');
+    const mainContainer = document.getElementById('main');
+    if (targetSection && mainContainer) {
+      const scrollPosition = targetSection.offsetTop;
+      mainContainer.scrollTo({ top: scrollPosition-92, behavior: 'smooth' });
+    }
   };
 
   return (
@@ -96,34 +97,34 @@ export default function FilterDetail({ isOpen, onClose }: FilterProps) {
         style={{ animation: `${isOpen ? 'slideUp' : 'slideDown'} 0.3s ease-in-out` }}>
         {/* ================ 필터 타입: 세부종류 (detail) ================ */}
         <div className="w-full flex flex-col items-start gap-6">
-            <h2 className="text-title1 !text-white">카테고리</h2>
-            <div className="w-full flex flex-wrap items-start gap-x-2 gap-y-[10px]">
-              {subCategories?.map((detail) => {
-                const isActive = isActiveDetail.includes(detail);
-                return (
-                  <div key={detail} className="flex items-center">
-                    <Button
-                      variant={'filter'}
-                      className={clsx('py-2 text-body2', {
-                        'bg-darkRed border-red': isActive,
-                        '': !isActive,
-                      })}
-                      onClick={() => handleToggleDetail(detail)}>
-                      {detail}
-                    </Button>
-                  </div>
-                );
-              })}
-            </div>
-            <div className="w-full flex gap-2">
-              <Button variant={'custom'} className="flex-1 bg-grey750" onClick={() => handleResetDetail()}>
-                초기화
-              </Button>
-              <Button variant={'custom'} className="w-[70%] bg-red" onClick={handleClose}>
-                확인
-              </Button>
-            </div>
+          <h2 className="text-title1 !text-white">카테고리</h2>
+          <div className="w-full flex flex-wrap items-start gap-x-2 gap-y-[10px]">
+            {subCategories?.map((detail) => {
+              const isActive = isActiveDetail.includes(detail);
+              return (
+                <div key={detail} className="flex items-center">
+                  <Button
+                    variant={'filter'}
+                    className={clsx('py-2 text-body2', {
+                      'bg-darkRed border-red': isActive,
+                      '': !isActive,
+                    })}
+                    onClick={() => handleToggleDetail(detail)}>
+                    {detail}
+                  </Button>
+                </div>
+              );
+            })}
           </div>
+          <div className="w-full flex gap-2">
+            <Button variant={'custom'} className="flex-1 bg-grey750" onClick={() => handleResetDetail()}>
+              초기화
+            </Button>
+            <Button variant={'custom'} className="w-[70%] bg-red" onClick={handleClose}>
+              확인
+            </Button>
+          </div>
+        </div>
       </div>
     </div>
   );

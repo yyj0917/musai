@@ -33,7 +33,7 @@ export default function PaymentModal({ isOpen, onClose }: PaymentModalProps) {
       >
         <h2 className="text-title2 pb-2 text-grey150">입금 계좌</h2>
         <p className="font-semibold pb-3 text-body2 text-red white-space: pre-line">
-          입금자명을 ‘뮤뮤'로 해주세요.
+          입금자명을 뮤뮤로 해주세요.
           <br />
           입금자명이 카카오 닉네임과 다르면 관리자 승인이 어려워요.
         </p>

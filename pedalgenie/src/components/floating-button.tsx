@@ -4,6 +4,7 @@ import Floating from '@public/svg/floating.svg';
 import './../app/globals.css'
 import { useModalStore } from '@/lib/zustand/useModalStore';
 import { useEffect, useState } from 'react';
+import useDelay from '@/hooks/use-delay';
 
 type FloatingButtonProps = {
     scrollContainer: string;
@@ -35,8 +36,10 @@ export default function FloatingButton({ scrollContainer } : FloatingButtonProps
           setShouldRender(true); // fade-in 즉시 렌더링
         }
       }, [isFloatingButton]);
+    
+    const isDelay = useDelay(500);
 
-    return shouldRender ? (
+    return  isDelay && shouldRender ? (
         <div className='absolute bottom-5 w-full flex justify-end pr-5'>
             <button
                 type="button"

@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import RightArrow from '@public/svg/home/right-arrow.svg';
-import { Heart} from 'lucide-react';
+import { Heart } from 'lucide-react';
 import { useAuthStore, useLoginStore } from '@/lib/zustand/useAuthStore';
 import { useModalStore } from '@/lib/zustand/useModalStore';
 import { handleLikeProduct } from '@/lib/utils/like-util';
@@ -23,15 +23,13 @@ export default function PreviewItem({ genreProductItem }: ProductItemProps) {
   const { openLoginModal } = useModalStore();
   const [isAnimating, setIsAnimating] = useState(false);
 
+  const [isUILike, setIsUILike] = useState<boolean>(false);
 
-  const [ isUILike, setIsUILike] = useState<boolean>(false);
-
-
-  const toggleLikeProduct = async (e : React.MouseEvent<HTMLButtonElement>, productId: number) => {
+  const toggleLikeProduct = async (e: React.MouseEvent<HTMLButtonElement>, productId: number) => {
     e.preventDefault();
 
     // await handleLikeProduct(productId, isLoggedIn, openLoginModal);
-    
+
     // 애니메이션 클래스 추가 - 하트 애니메이션
     setIsAnimating(true);
     setIsUILike(!isUILike);
@@ -40,10 +38,12 @@ export default function PreviewItem({ genreProductItem }: ProductItemProps) {
     setTimeout(() => {
       setIsAnimating(false);
     }, 500); // 애니메이션 지속 시간과 동일
-  }
+  };
+  const price = genreProductItem?.rentPricePerDay || 0; // 가격 가져오기
+  const formattedPrice = new Intl.NumberFormat('ko-KR').format(price);
 
   return (
-    <Link href={`/product/${genreProductItem?.id}`} className="relative min-w-[138px] h-[252px] flex flex-col gap-3">
+    <Link href={`/product/${genreProductItem?.id}`} className="relative min-w-[138px] max-h-[252px] flex flex-col gap-3">
       <div className="relative w-full min-h-[138px] bg-grey750 rounded-sm">
         {genreProductItem?.imageUrl ? (
           <Image
@@ -59,11 +59,10 @@ export default function PreviewItem({ genreProductItem }: ProductItemProps) {
         <button
           onClick={(e) => toggleLikeProduct(e, genreProductItem?.id)}
           className="absolute bottom-2 right-2 text-red ">
-          <Heart 
+          <Heart
             strokeWidth={1.5}
-            className={`like-animation ${isAnimating ? 'scale fill-red' : ''} ${
-              isUILike ? 'fill-red' : ''
-            }`} />
+            className={`like-animation ${isAnimating ? 'unscale fill-red' : ''} ${isUILike ? 'fill-red' : ''}`}
+          />
         </button>
       </div>
       <div className="w-full">
@@ -73,27 +72,21 @@ export default function PreviewItem({ genreProductItem }: ProductItemProps) {
             className="text-body1 text-grey250 flex items-center gap-2"
             onClick={(e) => {
               e.preventDefault();
-              router.push(`/home/shop/description/${genreProductItem?.shopId}`)}}
-            >
-            <p className='w-auto max-w-[122px] truncate'>{genreProductItem?.shopName}</p>
+              router.push(`/home/shop/description/${genreProductItem?.shopId}`);
+            }}>
+            <p className="w-auto max-w-[122px] truncate">{genreProductItem?.shopName}</p>
             <RightArrow />
           </button>
           {/* Product Name */}
           <p className="text-ellipsis text-grey450 text-body1 line-clamp-1">{genreProductItem?.name}</p>
           {/* Rental Price */}
           <p className="text-body1 flex item-center gap-1">
-            <span className="text-grey250">{genreProductItem?.rentPricePerDay}원</span>
+            <span className="text-grey250">{formattedPrice}원</span>
           </p>
           <div className="flex gap-1">
-            {genreProductItem?.isDemoable && (
-              <Button variant="chip">시연</Button>
-            )}
-            {genreProductItem?.isRentable && (
-              <Button variant="chip">대여</Button>
-            )}
-            {genreProductItem?.isPurchasable && (
-              <Button variant="chip">구매</Button>
-            )}
+            {genreProductItem?.isDemoable && <Button variant="chip">시연</Button>}
+            {genreProductItem?.isRentable && <Button variant="chip">대여</Button>}
+            {genreProductItem?.isPurchasable && <Button variant="chip">구매</Button>}
           </div>
         </div>
       </div>

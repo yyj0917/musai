@@ -129,25 +129,41 @@
 }
 /* 좋아요 애니메이션 */
 @keyframes beating {
-  0% {transform: scale(1);}
-  40% {transform: scale(1.25);}
-  70% {transform: scale(0.9);}
-  100% {transform: scale(1);}
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.25);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 /* 좋아요 취소 애니메이션 */
 @keyframes shrinking {
-  0% { transform: scale(1); }
-  40% { transform: scale(0.9); }
-  70% { transform: scale(1.25); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(0.9);
+  }
+  70% {
+    transform: scale(1.25);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 @keyframes fadein {
   from {
-      opacity: 0;
+    opacity: 0;
   }
   to {
-      opacity: 1;
+    opacity: 1;
   }
 }
 @keyframes fadeOut {
@@ -158,7 +174,6 @@
     opacity: 0;
   }
 }
-
 
 .like-animation {
   transition: transform 0.2s ease-in-out; /* 부드러운 전환 효과 */
@@ -185,7 +200,7 @@
   animation: fadeOutDown 0.5s ease-out;
 }
 .slide-right {
-  animation: slideRight 1.0s ease-out;
+  animation: slideRight 1s ease-out;
 }
 .animate-bubble {
   animation: bubble 0.4s ease-in-out;

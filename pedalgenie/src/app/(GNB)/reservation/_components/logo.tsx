@@ -1,4 +1,4 @@
-import LogoImg from '@public/svg/union-logo.svg';
+import LogoImg from '@public/svg/main-union.svg';
 
 export default function Logo() {
   return (
