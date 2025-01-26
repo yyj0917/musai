@@ -1,7 +1,7 @@
 'use client';
 
 import Floating from '@public/svg/floating.svg';
-import './../app/globals.css'
+import './../app/globals.css';
 import { useModalStore } from '@/lib/zustand/useModalStore';
 import { useEffect, useState } from 'react';
 import useDelay from '@/hooks/use-delay';

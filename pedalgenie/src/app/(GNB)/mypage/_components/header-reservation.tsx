@@ -24,8 +24,8 @@ export default function ReservationHeader() {
     } else {
       router.push('/mypage');
     }
-  }
-  
+  };
+
   return (
     <header className="w-full flex flex-col">
       <div className="px-4 py-[18px] w-full flex justify-start items-center text-grey150">

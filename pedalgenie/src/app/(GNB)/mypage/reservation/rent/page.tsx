@@ -28,7 +28,7 @@ export default function Rent() {
         <div className='my-auto w-full h-[calc(100dvh-98.5px)] flex justify-center items-center'>
             <NotFoundAll alertText='예약 내역이 존재하지 않습니다' />
         </div>
-    )
+    );
   }
   return (
     <>
