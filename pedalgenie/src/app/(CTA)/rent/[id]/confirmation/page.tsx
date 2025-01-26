@@ -6,6 +6,7 @@ import SubmitButton from './_components/submitButton';
 // 입금계좌
 
 export default function Confirmation() {
+
   return (
     <div className="w-full h-full flex flex-col text-grey250 font-pretendard">
       <TopBar />

@@ -3,6 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 import CopyButton from './copyButton';
+import { useToast } from '@/hooks/use-toast';
 
 interface PaymentModalProps {
   isOpen: boolean;
@@ -11,10 +12,14 @@ interface PaymentModalProps {
 
 export default function PaymentModal({ isOpen, onClose }: PaymentModalProps) {
   const router = useRouter();
+  const { toast } = useToast();
 
   const handleCloseRentPage = () => {
     router.push('/home'); // [id]
     onClose(); // 모달 닫기
+    toast({
+      description: '대여 예약이 완료되었어요!',
+    });
   };
 
   if (!isOpen) return null; // 모달이 닫혀 있으면 렌더링하지 않음
