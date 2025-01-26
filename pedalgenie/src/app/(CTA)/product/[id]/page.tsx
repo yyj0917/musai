@@ -10,9 +10,7 @@ import ProductFeeCard from './_components/productFeeInfo';
 import DescriptionImg from './_components/descriptionImg';
 import ShopInfo from './_components/shopInfo';
 import InfoSwitcher from './_components/infoSwitcher';
-// 하트 버튼 컴포넌트로 따로 뺴기
-import OldHeart from '@public/svg/product/heart.svg';
-import { Heart } from 'lucide-react'; // 하트 체크
+import { Heart } from 'lucide-react';
 import CTA from '@/components/ui/CTA';
 
 {
@@ -38,6 +36,7 @@ export default function Product({ params }: { params: { id: number } }) {
     queryFn: () => fetchProductDetail(id), // fetchShopDetail 함수 호출
     staleTime: 1000 * 60 * 5, // 5분 동안 데이터 신선 상태 유지
   });
+
 
   return (
     <div className="relative w-full h-full bg-grey1000">

@@ -2,6 +2,8 @@ import Time from '@public/svg/product/time.svg';
 import Call from '@public/svg/product/call.svg';
 import Location from '@public/svg/product/location.svg';
 import Heart from '@public/svg/product/heart.svg';
+import { Button } from '@/components/ui/button';
+import { useToast } from '@/hooks/use-toast';
 
 interface ShopHour {
   shopHoursId: number;
@@ -47,13 +49,26 @@ const formatTime = (hour: ShopHour) => {
 // [매장 운영 시간, 번호, 주소]를 위한 [이미지, 텍스트] 렌더링 컴포넌트
 const ShopDetailInfo = (Img: React.ComponentType<React.SVGProps<SVGSVGElement>>, text?: string) =>
   text ? (
-    <div className="flex w-full items-center">
+    <div className="flex items-center">
       <Img />
       <p className="text-sm text-grey250 pl-1">{text}</p>
     </div>
   ) : null; // text가 없을 경우 렌더링 생략
 
 export default function ShopInfo({ shopName, shopHours, contactNumber, address }: ShopInfoProps) {
+  const { toast } = useToast();
+
+  // 복사 토스트
+    const handleCopyToast = (text: string | undefined) => {
+      // undefined 예외처리
+      if (!text) return;
+
+      navigator.clipboard.writeText(text);
+      toast({
+        description: '복사가 완료되었습니다.',
+      });
+    };
+
   return (
     <div>
       {/* 상점 정보 요약 섹션 */}
@@ -68,7 +83,7 @@ export default function ShopInfo({ shopName, shopHours, contactNumber, address }
       </section>
 
       {/* 상점 상세 정보 섹션 */}
-      <section className="w-full flex flex-col gap-2 py-5 px-4">
+      <section className="flex flex-col gap-2 py-5 px-4">
         {/* 매장 운영 시간 */}
         {shopHours && shopHours.length > 0 ? (
           shopHours.map((hour) => (
@@ -80,11 +95,27 @@ export default function ShopInfo({ shopName, shopHours, contactNumber, address }
           <p className="text-sm text-grey250">운영 시간이 없습니다.</p>
         )}
 
+
         {/* 매장 번호 */}
+        <span className='flex gap-2'>
         {ShopDetailInfo(Call, contactNumber)}
+        <Button
+          variant="copy"
+          onClick={() => handleCopyToast(contactNumber)}
+          className="text-center text-body2 text-sm text-red">
+            복사
+        </Button>
+        </span>
 
         {/* 매장 주소 */}
-        {ShopDetailInfo(Location, address)}
+        <span className='flex gap-2'>
+        {ShopDetailInfo(Location, address)}<Button
+          variant="copy"
+          onClick={() => handleCopyToast(address)}
+          className="text-center text-body2 text-sm text-red">
+            복사
+        </Button>
+        </span>
       </section>
     </div>
   );
