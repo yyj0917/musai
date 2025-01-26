@@ -39,7 +39,7 @@ export default function ArticleProducts({ articleProducts }: ArticleProductProps
                     <button
                       onClick={(e) => {
                         e.preventDefault();
-                        router.push(`/home/shop/description/${articleProduct.shopId}`)
+                        router.push(`/home/shop/description/${articleProduct.shopId}`);
                       }}
                       className="flex items-center gap-3 text-grey250 text-body1 ">
                       <span>{articleProduct.shopName}</span>
