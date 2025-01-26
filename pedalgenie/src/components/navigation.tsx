@@ -19,7 +19,7 @@ import LoginModal from './modal/login-modal';
 type NavItem = {
   id: number;
   icon: React.FC<React.SVGProps<SVGSVGElement>>;
-  clickedIcon: React.FC<React.SVGProps<SVGSVGElement>>;
+  clickedIcon?: React.FC<React.SVGProps<SVGSVGElement>>;
   text: string;
   route: string;
   // 로그인 필요한 페이지
@@ -29,8 +29,8 @@ type NavItem = {
 const navItems: NavItem[] = [
   { id: 0, icon: Home, clickedIcon: HomeClick, text: '홈', route: '/home' },
   { id: 1, icon: Reserve, clickedIcon: ReserveClick, text: '내 예약', route: '/reservation/demo', requiresAuth: true },
-  { id: 2, icon: Heart, clickedIcon: HeartClick, text: '좋아요', route: '/saveList/product', requiresAuth: true },
-  { id: 3, icon: Profile, clickedIcon: ProfileClick, text: '마이페이지', route: '/mypage' },
+  { id: 2, icon: Heart, text: '좋아요', route: '/saveList/product', requiresAuth: true },
+  { id: 3, icon: Profile, text: '마이페이지', route: '/mypage' },
 ];
 
 export default function Navigation() {
@@ -66,16 +66,32 @@ export default function Navigation() {
     <nav className="absolute bottom-0 w-full flex justify-center items-center pt-3 pb-6 px-[10px] border-t-[1px] border-grey850 bg-grey1000">
       {navItems.map((item) => {
         const Icon = item.icon;
+        
+        if (item.clickedIcon) {
+          const ClickedIcon = item.clickedIcon;
+          return (
+            <Link
+              key={item.id}
+              href={item.route}
+              onClick={(e) => handleNavigation(e, item.requiresAuth)}
+              className={`max-h-[50px] flex flex-1 flex-col justify-center items-center gap-1 ${
+                activeIndex === item.id ? 'text-red' : 'text-grey650 '
+              }`}>
+              {activeIndex === item.id ? <ClickedIcon /> : <Icon />}
+              <p className="w-15 text-caption1 text-center">{item.text}</p>
+            </Link>
+          );
+        }
 
         return (
           <Link
             key={item.id}
             href={item.route}
             onClick={(e) => handleNavigation(e, item.requiresAuth)}
-            className={`h-[50px] flex flex-1 flex-col justify-center items-center gap-1 ${
+            className={`max-h-[50px] flex flex-1 flex-col justify-center items-center gap-1 ${
               activeIndex === item.id ? 'text-red' : 'text-grey650 '
             }`}>
-            {activeIndex === item.id ? <Icon /> : <Icon/>}
+            {activeIndex === item.id ? <Icon className='fill-red'/> : <Icon/>}
             <p className="w-15 text-caption1 text-center">{item.text}</p>
           </Link>
         );
