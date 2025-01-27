@@ -4,12 +4,12 @@ import NextMonth from '@public/svg/rent/next-month.svg';
 import PrevMonth from '@public/svg/rent/prev-month.svg';
 
 import React, { useState } from 'react';
-import { addMonths, format, startOfMonth, endOfMonth, eachDayOfInterval, isBefore, isSameDay } from 'date-fns';
+import { addMonths, format, startOfMonth, endOfMonth, eachDayOfInterval, isBefore, isSameDay, getDay } from 'date-fns';
 
 import { availableDates } from '@/types/reservation-type';
 
 interface CalendarProps {
-  availableDates?: availableDates;
+  availableDates?: availableDates[];
 }
 
 export default function Calendar({ availableDates }: CalendarProps) {
@@ -49,6 +49,14 @@ export default function Calendar({ availableDates }: CalendarProps) {
       selectedDate.getTime() - startDate.getTime() >= 3 * 24 * 60 * 60 * 1000
     ) {
       setEndDate(selectedDate);
+    } else if (
+      startDate &&
+      !endDate &&
+      selectedDate > startDate &&
+      selectedDate.getTime() - startDate.getTime() < 3 * 24 * 60 * 60 * 1000
+    ) {
+      alert('대여 기간은 최소 3일 이상부터 가능합니다'); // 알림창 표시
+      setStartDate(null);
     } else {
       setStartDate(selectedDate);
       setEndDate(null);
@@ -58,7 +66,11 @@ export default function Calendar({ availableDates }: CalendarProps) {
   const generateDates = () => {
     const start = startOfMonth(currentMonth);
     const end = endOfMonth(currentMonth);
-    return eachDayOfInterval({ start, end });
+    const dates = eachDayOfInterval({ start, end });
+
+    // 월의 1일이 무슨 요일인지 계산하여 앞에 빈칸 추가
+    const firstDayOfWeek = getDay(start); // 0(일요일) ~ 6(토요일)
+    return Array(firstDayOfWeek).fill(null).concat(dates); // 빈칸(null) 추가 후 날짜 배열 결합
   };
 
   return (
@@ -83,24 +95,33 @@ export default function Calendar({ availableDates }: CalendarProps) {
             {day}
           </span>
         ))}
-        {generateDates().map((date) => {
+        {generateDates().map((date, index) => {
+          if (date === null) {
+            // 빈칸 렌더링
+            return <div key={`empty-${index}`} className="w-[34px] h-[34px]" />;
+          }
+
           const formattedDate = format(date, 'yyyy-MM-dd');
-          const isToday = formattedDate === format(today, 'yyyy-MM-dd');
           const isStart = startDate && formattedDate === format(startDate, 'yyyy-MM-dd');
           const isEnd = endDate && formattedDate === format(endDate, 'yyyy-MM-dd');
           const isInRange = startDate && endDate && date > startDate && date < endDate;
-          const isBeforeToday = isBefore(date, today); // 오늘 이전 날짜 확인
+          const isBeforeToday = isBefore(date, today);
+          const isRentable = totalRentableDates.includes(formattedDate); // 대여 가능 여부 확인
 
           return (
             <button
               key={formattedDate}
               onClick={() => handleDateClick(date)}
               className={`w-[34px] h-[34px] rounded-full text-sm relative flex items-center justify-center
-                ${isBeforeToday ? 'text-grey750' : 'text-grey250'} 
+                ${
+                  isBeforeToday || !isRentable
+                    ? 'text-grey750' // 비활성화된 날짜 스타일
+                    : 'text-grey250'
+                }
                 ${isInRange || isStart || isEnd ? 'bg-red bg-opacity-10 rounded-none w-full' : 'hover:bg-grey900'}
                 ${isStart ? 'rounded-l-full' : ''}
                 ${isEnd ? 'rounded-r-full' : ''}`}
-              disabled={isBeforeToday}>
+              disabled={isBeforeToday || !isRentable}>
               {/* ✅ 배경 요소 (z-0) */}
               {isStart || isEnd ? (
                 <span className="absolute inset-0 rounded-full w-[34px] border-1.5 border-red bg-darkRed z-0 ml-[5px]"></span>

@@ -24,6 +24,7 @@ export default function Rent({ params }: { params: { id: number } }) {
     queryFn: () => fetchRentableDate(id), // fetchShopDetail 함수 호출
     staleTime: 1000 * 60 * 5, // 5분 동안 데이터 신선 상태 유지
   });
+
   if (isLoading) {
     return (
       <div>
@@ -31,6 +32,7 @@ export default function Rent({ params }: { params: { id: number } }) {
       </div>
     );
   }
+
   if (isError) {
     return <div>Error occurred while fetching data.</div>;
   }

@@ -3,7 +3,7 @@ export type availableDates = {
   productId: number;
   localDate: string; // "2025-01-22"
   rentStatus: string;
-}[];
+};
 export interface RentableDate {
   price: number;
   fee: number;
