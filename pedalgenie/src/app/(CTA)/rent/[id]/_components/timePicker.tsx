@@ -11,6 +11,7 @@ import { fetchRentableTime } from '@/lib/api/(product)/reservation';
 
 interface TimePickerProps {
   id: number;
+  targetDate: Date;
 }
 
 interface PickUpTimeButtonProps {
@@ -20,7 +21,7 @@ interface PickUpTimeButtonProps {
   onClick: MouseEventHandler;
 }
 
-export default function TimePicker({ id }: TimePickerProps) {
+export default function TimePicker({ id, targetDate }: TimePickerProps) {
   const router = useRouter();
 
   const {

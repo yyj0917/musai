@@ -5,7 +5,7 @@ export type availableDates = {
   rentStatus: string;
 };
 export interface RentableDate {
-  price: number;
+  rentPricePerDay: number;
   fee: number;
   totalPrice: number;
   availableDates: availableDates[];

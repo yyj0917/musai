@@ -13,6 +13,9 @@ import { fetchRentableDate, fetchRentableTime } from '@/lib/api/(product)/reserv
 import Loading from '@/components/loading';
 
 export default function Rent({ params }: { params: { id: number } }) {
+  const rentDuration = 0;
+  // rentDuration: Calender에서 선택한 날짜에서 가져올거임.
+
   const { id } = params; // 파라미터로 받아온 ProductId 값
 
   const {
@@ -48,7 +51,7 @@ export default function Rent({ params }: { params: { id: number } }) {
             <AlertCircle />
             대여 기간은 최소 3일 이상부터 가능합니다
           </p>
-          <PaymentSummary />
+          <PaymentSummary rentPricePerDay={RentableDate?.rentPricePerDay} rentDuration={rentDuration}/>
         </div>
         <section className="w-full px-4 pt-4 pb-10 border-t-0.5 border-grey850">
           <TimePicker id={id} />
