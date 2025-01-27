@@ -6,6 +6,7 @@ import Check from '@public/svg/filter-check.svg';
 import { useFilterStore } from '@/lib/zustand/useFilterStore';
 
 import '../../../../globals.css';
+import useDelay from '@/hooks/use-delay';
 
 type FilterProps = {
   isOpen: boolean;
@@ -15,8 +16,8 @@ type FilterProps = {
 export default function FilterName({ isOpen, onClose }: FilterProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [isBrowser, setIsBrowser] = useState(false);
-  const [isAnimating, setIsAnimating] = useState(false);
+  const [shouldRender, setShouldRender] = useState(true); // 렌더링 여부
+
 
   const { isCategoryActiveName, setIsCategoryActiveName, setNameFilter } = useFilterStore();
 
@@ -36,11 +37,6 @@ export default function FilterName({ isOpen, onClose }: FilterProps) {
     // URL 업데이트
     router.replace(`?${newParams.toString()}`);
   };
-
-  useEffect(() => {
-    setIsBrowser(true);
-  }, []);
-
   // 활성화된 필터 상태를 URL 쿼리 파라미터에서 가져와 적용
   useEffect(() => {
     const nameFromURL = searchParams.get('nameFilter');
@@ -53,16 +49,10 @@ export default function FilterName({ isOpen, onClose }: FilterProps) {
     }
   }, [searchParams]);
 
-  if (!isOpen || !isBrowser) {
-    return null;
-  }
+
 
   const handleClose = () => {
-    setIsAnimating(true); // 애니메이션 시작
-    setTimeout(() => {
-      onClose(); // 애니메이션이 끝난 후 isOpen 상태 변경
-      setIsAnimating(false); // 애니메이션 상태 초기화
-    }, 300); // 애니메이션 지속 시간과 일치시킴
+    onClose(); // 애니메이션이 끝난 후 isOpen 상태 변경
   };
 
   // ==================== 정렬 기준 ====================
@@ -82,15 +72,24 @@ export default function FilterName({ isOpen, onClose }: FilterProps) {
     }
   };
 
-  if (!isOpen && !isAnimating) return null;
+  // 필터 스르륵 내리는 모션용 useEffect
+  useEffect(() => {
+    if (!isOpen) {
+      // fade-out 완료 후 렌더링 중지
+      const timeout = setTimeout(() => setShouldRender(false), 300); // fade-out 시간
+      return () => clearTimeout(timeout);
+    } else {
+      setShouldRender(true); // fade-in 즉시 렌더링
+    }
+  }, [isOpen]);
+  const isDelay = useDelay(300);
 
-  return (
+  return  isDelay && shouldRender ? (
     <div 
-      className={`fixed inset-0 z-50 flex items-end justify-center bg-black bg-opacity-50 ${
-      isOpen ? 'slideDown' : 'slideUp'
-      }`} onClick={handleClose}>
+      className='fixed inset-0 z-50 flex items-end justify-center bg-black bg-opacity-50' 
+      onClick={handleClose}>
       <div
-        className="w-full min-w-[360px] max-w-[415px] lg:max-w-[375px] bg-grey850 px-4 pt-5 pb-6 rounded-t-2xl rounded-b-none transition-transform duration-300 transform translate-y-0"
+        className="w-full min-w-[360px]  max-w-[415px] lg:max-w-[375px] bg-grey850 px-4 pt-5 pb-6 rounded-t-2xl rounded-b-none transition-transform duration-300 "
         onClick={(e) => e.stopPropagation()} // 모달 안쪽 클릭 시 닫히지 않도록
         style={{ animation: `${isOpen ? 'slideUp' : 'slideDown'} 0.3s ease-in-out` }}>
         {/* ================ 필터 타입: 정렬기준 (name) ================ */}
@@ -116,5 +115,5 @@ export default function FilterName({ isOpen, onClose }: FilterProps) {
         </div>
       </div>
     </div>
-  );
+  ) : null;
 }

@@ -7,6 +7,7 @@ import Check from '@public/svg/filter-check.svg';
 import { useFilterStore } from '@/lib/zustand/useFilterStore';
 
 import '../../../../globals.css';
+import useDelay from '@/hooks/use-delay';
 
 type FilterProps = {
   isOpen: boolean;
@@ -16,7 +17,7 @@ type FilterProps = {
 export default function FilterCondition({ isOpen, onClose }: FilterProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [isBrowser, setIsBrowser] = useState(false);
+  const [shouldRender, setShouldRender] = useState(true); // 렌더링 여부
 
   const { isActiveCondition, setIsActiveCondition, toggleUsageCondition, resetUsageConditions } = useFilterStore();
 
@@ -37,9 +38,6 @@ export default function FilterCondition({ isOpen, onClose }: FilterProps) {
     router.replace(`?${newParams.toString()}`);
   };
 
-  useEffect(() => {
-    setIsBrowser(true);
-  }, []);
 
   // 활성화된 필터 상태를 URL 쿼리 파라미터에서 가져와 적용
   useEffect(() => {
@@ -53,9 +51,6 @@ export default function FilterCondition({ isOpen, onClose }: FilterProps) {
     }
   }, [searchParams]);
 
-  if (!isOpen || !isBrowser) {
-    return null;
-  }
 
   // ==================== 이용 조건 ====================
   const conditionOptions = ['시연 가능', '대여 가능', '구매 가능'];
@@ -86,7 +81,20 @@ export default function FilterCondition({ isOpen, onClose }: FilterProps) {
     }
   };
 
-  return (
+  // 필터 스르륵 내리는 모션용 useEffect
+  useEffect(() => {
+    if (!isOpen) {
+      // fade-out 완료 후 렌더링 중지
+      const timeout = setTimeout(() => setShouldRender(false), 300); // fade-out 시간
+      return () => clearTimeout(timeout);
+    } else {
+      setShouldRender(true); // fade-in 즉시 렌더링
+    }
+  }, [isOpen]);
+
+  const isDelay = useDelay(300);
+
+  return isDelay && shouldRender ? (
     <div className="fixed inset-0 z-50 flex items-end justify-center bg-black bg-opacity-50" onClick={handleClose}>
       <div
         className="bg-grey850 px-4 pt-5 pb-6 rounded-t-2xl rounded-b-none w-full min-w-[360px] max-w-[415px] lg:max-w-[375px] transition-transform duration-300 transform translate-y-0"
@@ -123,5 +131,5 @@ export default function FilterCondition({ isOpen, onClose }: FilterProps) {
         </div>
       </div>
     </div>
-  );
+  ) : null;
 }

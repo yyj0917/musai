@@ -1,4 +1,4 @@
-import SymbolLogo from "@public/svg/symbol-logo.svg";
+import SymbolLogo from '@public/svg/symbol-logo.svg';
 
 export default function NotFoundAll({ alertText }: { alertText: string }) {
   return (
