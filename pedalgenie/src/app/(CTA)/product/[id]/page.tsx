@@ -10,8 +10,9 @@ import ProductFeeCard from './_components/productFeeInfo';
 import DescriptionImg from './_components/descriptionImg';
 import ShopInfo from './_components/shopInfo';
 import InfoSwitcher from './_components/infoSwitcher';
-import { Heart } from 'lucide-react';
 import CTA from '@/components/ui/CTA';
+import LoginModal from '@/components/modal/login-modal';
+import ProductHeart from './_components/ProductHeart';
 
 {
   /*
@@ -55,7 +56,7 @@ export default function Product({ params }: { params: { id: number } }) {
               <div className="flex w-full font-semibold text-lg pb-5 max-w-[310px] break-words">
                 {productDetail?.name}
               </div>
-              <Heart />
+              <ProductHeart isLiked={productDetail?.isLiked} productId={id} queryKey={['productDetail']}/>
             </section>
             <ProductFeeCard price={productDetail?.price} rentPricePerDay={productDetail?.rentPricePerDay} />
             <InfoSwitcher />
@@ -66,6 +67,8 @@ export default function Product({ params }: { params: { id: number } }) {
             shopHours={productDetail?.shopHours}
             contactNumber={productDetail?.contactNumber}
             address={productDetail?.address}
+            shopId={productDetail?.shopId}
+            isLiked={productDetail?.isLiked}
           />
         </div>
       </main>
@@ -74,8 +77,8 @@ export default function Product({ params }: { params: { id: number } }) {
         isRentable={productDetail?.isRentable}
         isDemoable={productDetail?.isDemoable}
         isLiked={productDetail?.isLiked}
-        queryKey={['productDetail', String(productDetail?.shopId)]}
       />
+      <LoginModal />
     </div>
   );
 }

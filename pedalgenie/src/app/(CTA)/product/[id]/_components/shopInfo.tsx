@@ -1,9 +1,15 @@
 import Time from '@public/svg/product/time.svg';
 import Call from '@public/svg/product/call.svg';
 import Location from '@public/svg/product/location.svg';
-import Heart from '@public/svg/product/heart.svg';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
+import LoginModal from '@/components/modal/login-modal';
+import { useState } from 'react';
+import { Heart } from 'lucide-react';
+import { useLoginStore } from '@/lib/zustand/useAuthStore';
+import { useModalStore } from '@/lib/zustand/useModalStore';
+import { useLikeProductMutation } from '@/hooks/useLikeProductMutation';
+// import { useLikeShopMutation } from '@/hooks/useLikeShopMutation';
 
 interface ShopHour {
   shopHoursId: number;
@@ -19,6 +25,8 @@ interface ShopInfoProps {
   shopHours?: ShopHour[];
   contactNumber?: string;
   address?: string;
+  shopId?: number;
+  isLiked?: boolean | undefined | null;
 }
 
 // 시간을 HH:MM 형식으로 포맷하는 함수
@@ -55,19 +63,45 @@ const ShopDetailInfo = (Img: React.ComponentType<React.SVGProps<SVGSVGElement>>,
     </div>
   ) : null; // text가 없을 경우 렌더링 생략
 
-export default function ShopInfo({ shopName, shopHours, contactNumber, address }: ShopInfoProps) {
+export default function ShopInfo({ shopName, shopHours, contactNumber, address, shopId, isLiked }: ShopInfoProps) {
   const { toast } = useToast();
+  const { isLoggedIn } = useLoginStore(); // 로그인 상태 가져오기
+  const [isAnimating, setIsAnimating] = useState(false);
+  const { openLoginModal } = useModalStore();
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const likeMutation = useLikeProductMutation(shopId, ['productDetail']);
+  // 임시로 Productid
 
-  // 복사 토스트
-    const handleCopyToast = (text: string | undefined) => {
-      // undefined 예외처리
-      if (!text) return;
+  const toggleLikeShop = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
 
-      navigator.clipboard.writeText(text);
-      toast({
-        description: '복사가 완료되었습니다.',
-      });
-    };
+    // 로그인 체크
+    if (!isLoggedIn) {
+      openLoginModal();
+      console.log('로그인', isLoggedIn);
+      return;
+    }
+
+    // shopId가 유효하지 않다면 처리하지 않음
+    if (!shopId || !likeMutation) return;
+
+    // 1) 하트 애니메이션 실행
+    setIsAnimating(true);
+    setTimeout(() => {
+      setIsAnimating(false);
+    }, 500);
+
+    // 2) 서버에 좋아요 or 취소 요청 (Optimistic Update)
+    likeMutation?.mutate(!isLiked);
+  };
+
+  const handleCopyToast = (text: string | undefined) => {
+    if (!text) return;
+    navigator.clipboard.writeText(text);
+    toast({
+      description: '복사가 완료되었습니다.',
+    });
+  };
 
   return (
     <div>
@@ -78,7 +112,12 @@ export default function ShopInfo({ shopName, shopHours, contactNumber, address }
             <div className="bg-grey450 w-10 h-10 rounded-full"> </div> {/* 매장 이미지 */}
             <p className="font-semibold text-white pl-3">{shopName}</p> {/* 매장 이름 */}
           </div>
-          <Heart /> {/* 하트 아이콘 */}
+          <button onClick={(e) => toggleLikeShop(e)} className="text-red">
+            <Heart
+              strokeWidth={1.5}
+              className={`like-animation ${isLiked || isAnimating ? 'unscale fill-red' : 'scale'} `}
+            />
+          </button>
         </div>
       </section>
 
@@ -95,27 +134,28 @@ export default function ShopInfo({ shopName, shopHours, contactNumber, address }
           <p className="text-sm text-grey250">운영 시간이 없습니다.</p>
         )}
 
-
         {/* 매장 번호 */}
-        <span className='flex gap-2'>
-        {ShopDetailInfo(Call, contactNumber)}
-        <Button
-          variant="copy"
-          onClick={() => handleCopyToast(contactNumber)}
-          className="text-center text-body2 text-sm text-red">
+        <span className="flex gap-2">
+          {ShopDetailInfo(Call, contactNumber)}
+          <Button
+            variant="copy"
+            onClick={() => handleCopyToast(contactNumber)}
+            className="text-center text-body2 text-sm text-red">
             복사
-        </Button>
+          </Button>
         </span>
 
         {/* 매장 주소 */}
-        <span className='flex gap-2'>
-        {ShopDetailInfo(Location, address)}<Button
-          variant="copy"
-          onClick={() => handleCopyToast(address)}
-          className="text-center text-body2 text-sm text-red">
+        <span className="flex gap-2">
+          {ShopDetailInfo(Location, address)}
+          <Button
+            variant="copy"
+            onClick={() => handleCopyToast(address)}
+            className="text-center text-body2 text-sm text-red">
             복사
-        </Button>
+          </Button>
         </span>
+        <LoginModal />
       </section>
     </div>
   );
