@@ -11,6 +11,7 @@ import { useLikeProductMutation } from '@/hooks/useLikeProductMutation';
 import { useState } from 'react';
 import { useModalStore } from '@/lib/zustand/useModalStore';
 import { useLoginStore } from '@/lib/zustand/useAuthStore';
+import LoginModal from '../modal/login-modal';
 
 // 로그인 모달이 안뜸
 
@@ -119,6 +120,7 @@ export default function CTA({ productId, isRentable, isDemoable, isLiked, queryK
           </Button>
         )}
       </div>
+      <LoginModal/>
     </nav>
   );
 }
