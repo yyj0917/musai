@@ -1,5 +1,5 @@
 import AlertCircle from '@public/svg/rent/alert-circle.svg';
-import DateDevider from '@public/svg/rent/agreement/dateDevider.svg'
+import DateDevider from '@public/svg/rent/agreement/dateDevider.svg';
 
 export default function ReservationInfo() {
   return (

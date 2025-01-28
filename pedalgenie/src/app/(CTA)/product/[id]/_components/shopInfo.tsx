@@ -69,7 +69,7 @@ export default function ShopInfo({ shopName, shopHours, contactNumber, address, 
   const [isAnimating, setIsAnimating] = useState(false);
   const { openLoginModal } = useModalStore();
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const likeMutation = useLikeProductMutation(shopId, ['productDetail']);
+  const likeMutation = useLikeProductMutation(Number(shopId), ['productDetail']);
   // 임시로 Productid
 
   const toggleLikeShop = async (e: React.MouseEvent<HTMLButtonElement>) => {
