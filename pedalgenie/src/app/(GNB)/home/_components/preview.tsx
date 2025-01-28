@@ -12,6 +12,7 @@ import Link from 'next/link';
 import { Product } from '@/types/product-type';
 import { useRouter } from 'next/navigation';
 import { likeProduct } from '@/lib/api/like';
+import { useLikeProductMutation } from '@/hooks/useLikeProductMutation';
 
 type ProductItemProps = {
   genreProductItem: Product;
@@ -26,11 +27,16 @@ export default function PreviewItem({ genreProductItem }: ProductItemProps) {
 
   const [isUILike, setIsUILike] = useState<boolean>(false);
 
+  const likeMutation = useLikeProductMutation(genreProductItem.id, ['genreProduct']);
+
   const toggleLikeProduct = async (e: React.MouseEvent<HTMLButtonElement>, productId: number) => {
     e.preventDefault();
 
-    // await handleLikeProduct(productId, isLoggedIn, openLoginModal);
-
+    // 로그인 체크
+    if (!isLoggedIn) {
+      openLoginModal();
+      return;
+    }
     // 애니메이션 클래스 추가 - 하트 애니메이션
     setIsAnimating(true);
     setIsUILike(!isUILike);
@@ -39,7 +45,7 @@ export default function PreviewItem({ genreProductItem }: ProductItemProps) {
     setTimeout(() => {
       setIsAnimating(false);
     }, 500); // 애니메이션 지속 시간과 동일
-    await likeProduct(productId);
+    likeMutation?.mutate(!genreProductItem.isLiked);
   };
   const price = genreProductItem?.rentPricePerDay || 0; // 가격 가져오기
   const formattedPrice = new Intl.NumberFormat('ko-KR').format(price);
@@ -63,7 +69,7 @@ export default function PreviewItem({ genreProductItem }: ProductItemProps) {
           className="absolute bottom-2 right-2 text-red ">
           <Heart
             strokeWidth={1.5}
-            className={`like-animation ${isAnimating ? 'unscale fill-red' : ''} ${isUILike ? 'fill-red' : ''}`}
+            className={`like-animation ${ genreProductItem.isLiked || isAnimating ? 'unscale fill-red' : ''} ${isUILike ? 'fill-red' : ''}`}
           />
         </button>
       </div>

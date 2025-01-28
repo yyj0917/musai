@@ -14,9 +14,6 @@ export default function ArticleProductSection({ articleProducts }: ArticleProduc
 
   useScrollToggle({ containerId: 'articleSection' });
 
-  
-
-
   return (
     <>
       <section className="pt-3 pb-10 w-full flex flex-col">
