@@ -25,9 +25,16 @@ export default function ShopSection() {
 
   if (!shopList) return <NotFoundAll alertText='매장이 존재하지 않습니다'/>;
 
+  // 🔹 상품이 있는 shop을 먼저 오도록 정렬
+  const sortedShopList = [...shopList].sort((a: Shop, b: Shop) => {
+    const hasProductsA = a.products?.length > 0 ? 1 : 0;
+    const hasProductsB = b.products?.length > 0 ? 1 : 0;
+    return hasProductsB - hasProductsA; // 상품이 있는 shop이 앞으로 정렬됨
+  });
+
   return (
     <>
-      {shopList?.map((shop: Shop) => <ShopDetail key={shop.shopId} shopOne={shop} />)}
+      {sortedShopList?.map((shop: Shop) => <ShopDetail key={shop.shopId} shopOne={shop} />)}
       {!isDelay || (isLoading && <Loading />)}
       <FloatingButton scrollContainer={'shopList'} />
     </>

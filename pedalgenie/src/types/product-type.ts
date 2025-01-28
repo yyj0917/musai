@@ -1,11 +1,12 @@
 // 아티클 상세 조회에 달릴 상품 정보
 export interface ArticleProduct {
-  id: number;
-  name: string;
-  shopId: number;
-  shopName: string;
-  rentPricePerDay: number;
-  imageUrl: string;
+    id: number;
+    name: string;
+    shopId: number;
+    shopName: string;
+    rentPricePerDay: number;
+    imageUrl: string;
+    isLiked?: boolean;
 }
 export type ArticleProductList = ArticleProduct[];
 

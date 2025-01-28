@@ -1,14 +1,29 @@
-import Image from 'next/image';
-import ArticleProducts from '../_components/article-products';
-import { fetchArticleDetail } from '@/lib/api/article';
+'use client';
 
-export default async function ArticlePage({ params }: { params: { id: string } }) {
+import Image from 'next/image';
+import ArticleProducts from '../_components/article-product-section';
+import { fetchArticleDetail } from '@/lib/api/article';
+import { useQuery } from '@tanstack/react-query';
+import Loading from '@/components/loading';
+import NotFoundAll from '@/components/not-found-all';
+
+export default function ArticlePage({ params }: { params: { id: string } }) {
   const { id } = params;
 
-  const article = await fetchArticleDetail(id);
+  const { data: article, isLoading } = useQuery({
+    queryKey: ['articleDetail', id],
+    queryFn: () => fetchArticleDetail(id), // 실행이 아니라 함수 참조 전달
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
+    enabled: true,
+  });
 
   if (!article) {
-    return <div>아티클을 찾을 수 없습니다.</div>;
+    return (
+      <div className='w-full h-[calc(100dvh - 50px)] my-auto flex justify-center items-center'>
+        <NotFoundAll alertText='해당 아티클을 찾을 수 없습니다'/>
+      </div>
+    );
   }
 
 
@@ -60,6 +75,8 @@ export default async function ArticlePage({ params }: { params: { id: string } }
 
       {/* Article Products */}
       <ArticleProducts articleProducts={article?.products} />
+      
+      {isLoading && <Loading/>}
     </div>
   );
 }

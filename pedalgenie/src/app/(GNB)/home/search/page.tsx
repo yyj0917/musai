@@ -2,10 +2,9 @@
 
 import LeftArrow from '@public/svg/home/shop/shop-leftarrow.svg';
 import SearchIcon from '@public/svg/search.svg';
-import SymbolLogo from '@public/svg/symbol-logo.svg';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import SearchedProduct from './_components/searched-product';
 import SearchedShop from './_components/searched-shop';
 import { fetchSearchItem } from '@/lib/api/(product)/product';
@@ -61,55 +60,57 @@ export default function Search() {
   useScrollToggle({ containerId: 'searchResult' });
 
   return (
-    <div className="w-full h-full">
-      <div className="px-4 py-2 w-full h-15 flex items-center">
-        <button onClick={() => router.back()} className="w-6 h-6 flex justify-center items-center text-grey150">
-          <LeftArrow />
-        </button>
-        <div className="px-[14px] py-1 w-full flex justify-between items-center rounded-[20px] bg-grey850">
-          <input
-            type="text"
-            placeholder="검색어를 입력하세요"
-            value={searchQuery}
-            onChange={(e) => {
-              const newQuery = e.target.value;
-              setSearchQuery(newQuery);
-              // Input이 빈 값일 경우 searchParams 초기화
-              if (!newQuery.trim()) {
-                setSearchQuery('');
-                const params = new URLSearchParams();
-                params.delete('keyword'); // 'keyword' 파라미터 제거
-                router.replace(`?${params.toString()}`);
-                setSearching(false);
-              }
-            }}
-            onKeyDown={handleKeyDown} // 엔터 키 이벤트 추가
-            className="max-w-64 w-full flex justify-start bg-inherit 
-                             text-white text-body2 placeholder:text-grey650 focus:outline-none focus:ring-0 focus:border-white focus:placeholder-transparent line-clamp-1"
-          />
-          <button onClick={handleSearch} className="text-grey150">
-            <SearchIcon />
-          </button>
+    <Suspense fallback={<Loading />}>
+        <div className="w-full h-full">
+            <div className="px-4 py-2 w-full h-15 flex items-center">
+                <button onClick={() => router.back()} className="w-6 h-6 flex justify-center items-center text-grey150">
+                    <LeftArrow />
+                </button>
+                <div className="px-[14px] py-1 w-full flex justify-between items-center rounded-[20px] bg-grey850">
+                    <input
+                        type="text"
+                        placeholder="검색어를 입력하세요"
+                        value={searchQuery}
+                        onChange={(e) => {
+                        const newQuery = e.target.value;
+                        setSearchQuery(newQuery);
+                        // Input이 빈 값일 경우 searchParams 초기화
+                        if (!newQuery.trim()) {
+                            setSearchQuery('');
+                            const params = new URLSearchParams();
+                            params.delete('keyword'); // 'keyword' 파라미터 제거
+                            router.replace(`?${params.toString()}`);
+                            setSearching(false);
+                        }
+                        }}
+                        onKeyDown={handleKeyDown} // 엔터 키 이벤트 추가
+                        className="max-w-64 w-full flex justify-start bg-inherit 
+                                        text-white text-body2 placeholder:text-grey650 focus:outline-none focus:ring-0 focus:border-white focus:placeholder-transparent line-clamp-1"
+                    />
+                    <button onClick={handleSearch} className="text-grey150">
+                        <SearchIcon />
+                    </button>
+                </div>
+            </div>
+            {/* 검색 결과 렌더링 */}
+            {searchQuery && searching && (
+                <div
+                id="searchResult"
+                className="w-full h-[calc(100dvh-60px-87px)] flex flex-col overflow-y-auto scrollbar-hide">
+                {isError && (
+                    <NotFoundAll alertText={'검색 결과가 존재하지 않습니다'}/>
+                )}
+                {isLoading && <Loading />}
+                {!isLoading && !isError && searchData && (
+                    <>
+                    {searchData.shops.length > 0 && <SearchedShop searchedShops={searchData.shops} />}
+                    {searchData.products.length > 0 && <SearchedProduct searchedProducts={searchData.products} />}
+                    <FloatingButton scrollContainer={'searchResult'} />
+                    </>
+                )}
+                </div>
+            )}
         </div>
-      </div>
-      {/* 검색 결과 렌더링 */}
-      {searchQuery && searching && (
-        <div
-          id="searchResult"
-          className="w-full h-[calc(100dvh-60px-87px)] flex flex-col overflow-y-auto scrollbar-hide">
-          {isError && (
-            <NotFoundAll alertText={'검색 결과가 존재하지 않습니다'}/>
-          )}
-          {isLoading && <Loading />}
-          {!isLoading && !isError && searchData && (
-            <>
-              {searchData.shops.length > 0 && <SearchedShop searchedShops={searchData.shops} />}
-              {searchData.products.length > 0 && <SearchedProduct searchedProducts={searchData.products} />}
-              <FloatingButton scrollContainer={'searchResult'} />
-            </>
-          )}
-        </div>
-      )}
-    </div>
+    </Suspense>
   );
 }
