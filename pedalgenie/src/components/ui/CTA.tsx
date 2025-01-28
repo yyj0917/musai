@@ -11,40 +11,17 @@ import { useLikeProductMutation } from '@/hooks/useLikeProductMutation';
 import { useState } from 'react';
 import { useModalStore } from '@/lib/zustand/useModalStore';
 import { useLoginStore } from '@/lib/zustand/useAuthStore';
-
-// 로그인 모달이 안뜸
-
-{
-  /* 
-const reserveButton = (isLoggedIn: boolean, action: string, isAble: boolean) => {
-  return (
-    <>
-      {isLoggedIn === false ? (
-        <Button variant="reserve" onClick={() => openLoginModal()}>
-          {action} 예약하기
-        </Button>
-      ) : isAble === true ? (
-        <Link href={`/rent/${productId}`}>{action} 예약하기</Link>
-      ) : (
-        <Button variant="reserve" onClick={() => handleUnableToast(`${action}`)}>
-          {action} 예약하기
-        </Button>
-      )}
-    </>
-  );
-};*/
-}
+import LoginModal from '../modal/login-modal';
 
 interface CTAProps {
   productId: number;
   isRentable: boolean | undefined;
   isDemoable: boolean | undefined;
   isLiked: boolean | undefined | null;
-  queryKey: (string | string[])[];
   // 비로그인 시 null로 받아와짐
 }
 
-export default function CTA({ productId, isRentable, isDemoable, isLiked, queryKey }: CTAProps) {
+export default function CTA({ productId, isRentable, isDemoable, isLiked }: CTAProps) {
   // 로그인 관련
   const { isLoggedIn } = useLoginStore();
   // 하트 관련
@@ -60,7 +37,7 @@ export default function CTA({ productId, isRentable, isDemoable, isLiked, queryK
   };
 
   // 좋아요 Mutation
-  const likeMutation = useLikeProductMutation(productId, queryKey);
+  const likeMutation = useLikeProductMutation(productId, ['productDetail']);
 
   const toggleLikeProduct = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -119,6 +96,7 @@ export default function CTA({ productId, isRentable, isDemoable, isLiked, queryK
           </Button>
         )}
       </div>
+      <LoginModal/>
     </nav>
   );
 }

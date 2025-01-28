@@ -10,10 +10,9 @@ import ProductFeeCard from './_components/productFeeInfo';
 import DescriptionImg from './_components/descriptionImg';
 import ShopInfo from './_components/shopInfo';
 import InfoSwitcher from './_components/infoSwitcher';
-// 하트 버튼 컴포넌트로 따로 뺴기
-import OldHeart from '@public/svg/product/heart.svg';
-import { Heart } from 'lucide-react'; // 하트 체크
 import CTA from '@/components/ui/CTA';
+import LoginModal from '@/components/modal/login-modal';
+import ProductHeart from './_components/ProductHeart';
 
 {
   /*
@@ -39,6 +38,7 @@ export default function Product({ params }: { params: { id: number } }) {
     staleTime: 1000 * 60 * 5, // 5분 동안 데이터 신선 상태 유지
   });
 
+
   return (
     <div className="relative w-full h-full bg-grey1000">
       <main className="w-full flex flex-col text-grey250 font-pretendard">
@@ -56,7 +56,7 @@ export default function Product({ params }: { params: { id: number } }) {
               <div className="flex w-full font-semibold text-lg pb-5 max-w-[310px] break-words">
                 {productDetail?.name}
               </div>
-              <Heart />
+              <ProductHeart isLiked={productDetail?.isLiked} productId={id} queryKey={['productDetail']}/>
             </section>
             <ProductFeeCard price={productDetail?.price} rentPricePerDay={productDetail?.rentPricePerDay} />
             <InfoSwitcher />
@@ -67,6 +67,8 @@ export default function Product({ params }: { params: { id: number } }) {
             shopHours={productDetail?.shopHours}
             contactNumber={productDetail?.contactNumber}
             address={productDetail?.address}
+            shopId={productDetail?.shopId}
+            isLiked={productDetail?.isLiked}
           />
         </div>
       </main>
@@ -75,8 +77,8 @@ export default function Product({ params }: { params: { id: number } }) {
         isRentable={productDetail?.isRentable}
         isDemoable={productDetail?.isDemoable}
         isLiked={productDetail?.isLiked}
-        queryKey={['productDetail', String(productDetail?.shopId)]}
       />
+      <LoginModal />
     </div>
   );
 }

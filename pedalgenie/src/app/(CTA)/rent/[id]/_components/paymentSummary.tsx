@@ -2,24 +2,29 @@
 
 import React, { useEffect, useState } from 'react';
 
-{
-  /* API 데이터로 수정 */
-}
+type PaymentSummaryProps = {
+  rentPricePerDay: number | undefined;
+  rentDuration: number | undefined;
+};
 
-export default function PaymentSummary() {
+export default function PaymentSummary({ rentPricePerDay, rentDuration }: PaymentSummaryProps) {
+  if (!rentPricePerDay) rentPricePerDay = 0;
+  if (!rentDuration) rentDuration = 0;
+
+  const totalPrice= Math.ceil(rentPricePerDay * rentDuration).toLocaleString('ko-KR');
+
   return (
     <section className="w-full">
-      <div className="pt-3 flex justify-between">
-        <p className="text-grey550">30,000원 x 10일</p>
-        <p className="text-grey150">300,000원</p>
-      </div>
-      <div className="flex justify-between pb-3 border-b-0.5 border-grey850">
-        <p className="text-grey550">수수료</p>
-        <p className="text-grey150">3,000원</p>
+      <div className="pt-3 pb-3 border-b-0.5 border-grey850 flex justify-between">
+        <span className="flex-col">
+          <p className="text-grey550 text-label2">{rentPricePerDay.toLocaleString('ko-KR')}원</p>
+          <p className="text-grey550 ">x {rentDuration}일</p>
+        </span>
+        <p className="pt-6 text-label1 text-grey150">{totalPrice}원</p>
       </div>
       <div className="flex justify-between pt-3 pb-1">
         <p className="text-title1 text-red">합계</p>
-        <p className="text-title1 text-red">303,000원</p>
+        <p className="text-title1 text-red">{totalPrice}원</p>
       </div>
     </section>
   );

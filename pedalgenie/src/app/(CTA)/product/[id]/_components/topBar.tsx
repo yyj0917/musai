@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import LeftArrow from '@public/svg/product/left-arrow.svg';
+import LeftArrow from '@public/svg/home/shop/shop-leftarrow.svg';
 
 export default function TopBar() {
   const router = useRouter(); // Next.js의 useRouter 훅 사용

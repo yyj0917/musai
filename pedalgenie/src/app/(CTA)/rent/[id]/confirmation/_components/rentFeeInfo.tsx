@@ -8,7 +8,7 @@ export default function RentFeeInfo({ account }: RentFeeInfoProps) {
   return (
     <>
       <h2 className="text-title2 pt-8">결제 정보</h2>
-      <p className="font-normal text-label2 text-red pb-3">입금자명을 ‘뮤뮤’로 해주세요</p>
+      <p className="text-label2 font-normal text-red pb-3">입금자명을 ‘뮤뮤’로 해주세요</p>
 
       {/* 결제 금액 요약 섹션 */}
       <section className="flex flex-col bg-grey850 p-4 rounded-sm space-y-1">
