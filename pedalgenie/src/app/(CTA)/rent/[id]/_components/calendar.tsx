@@ -10,9 +10,11 @@ import { availableDates } from '@/types/reservation-type';
 
 interface CalendarProps {
   availableDates?: availableDates[];
+  onDateChange: (date:string|null) => void;
+  setRentDuration: (rentDuration: number) => void;
 }
 
-export default function Calendar({ availableDates }: CalendarProps) {
+export default function Calendar({ availableDates, onDateChange, setRentDuration }: CalendarProps) {
   const today = new Date(); // 현재 날짜
   const [currentMonth, setCurrentMonth] = useState<Date>(startOfMonth(today)); // 현재 월의 시작일
 
@@ -40,26 +42,38 @@ export default function Calendar({ availableDates }: CalendarProps) {
 
   // 달력에서 날짜 선택
   const handleDateClick = (selectedDate: Date) => {
+    const formattedStartDate = format(selectedDate, 'yyyy-MM-dd');
     if (!startDate && !endDate) {
       setStartDate(selectedDate);
+      setRentDuration(0);
+      onDateChange(formattedStartDate);
     } else if (
       startDate &&
       !endDate &&
       selectedDate > startDate &&
       selectedDate.getTime() - startDate.getTime() >= 3 * 24 * 60 * 60 * 1000
+      // 대여 기간이 3일 이상 일 때
     ) {
       setEndDate(selectedDate);
+      const duration = Math.ceil((selectedDate.getTime() - startDate.getTime()) / (24 * 60 * 60 * 1000) + 1);
+      setRentDuration(duration);
     } else if (
       startDate &&
       !endDate &&
       selectedDate > startDate &&
       selectedDate.getTime() - startDate.getTime() < 3 * 24 * 60 * 60 * 1000
+      // 대여 기간이 3일 미만일 때
     ) {
       alert('대여 기간은 최소 3일 이상부터 가능합니다'); // 알림창 표시
       setStartDate(null);
-    } else {
-      setStartDate(selectedDate);
       setEndDate(null);
+      setRentDuration(0);
+      onDateChange(null);
+    } else { // startDate의 이전을 클릭한 경우
+      setStartDate(selectedDate);
+      onDateChange(formattedStartDate);
+      setEndDate(null);
+      setRentDuration(0);
     }
   };
 
