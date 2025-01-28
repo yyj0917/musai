@@ -7,8 +7,6 @@ export async function fetchDemoProductList(): Promise<DemoProductList> {
     const response = await axiosInstance.get('/demos');
     return response.data.data;
   } catch (error) {
-    console.log(error);
-
     throw new Error('Unable to fetch demo products. Please try again later.');
   }
 }

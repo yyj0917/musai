@@ -3,8 +3,8 @@
 import React, { useEffect, useState } from 'react';
 
 type PaymentSummaryProps = {
-  rentPricePerDay: number | undefined;
-  rentDuration: number | undefined;
+  rentPricePerDay?: number;
+  rentDuration?: number;
 };
 
 export default function PaymentSummary({ rentPricePerDay, rentDuration }: PaymentSummaryProps) {
