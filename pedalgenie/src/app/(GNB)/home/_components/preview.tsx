@@ -11,6 +11,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Product } from '@/types/product-type';
 import { useRouter } from 'next/navigation';
+import { likeProduct } from '@/lib/api/like';
 
 type ProductItemProps = {
   genreProductItem: Product;
@@ -38,6 +39,7 @@ export default function PreviewItem({ genreProductItem }: ProductItemProps) {
     setTimeout(() => {
       setIsAnimating(false);
     }, 500); // 애니메이션 지속 시간과 동일
+    await likeProduct(productId);
   };
   const price = genreProductItem?.rentPricePerDay || 0; // 가격 가져오기
   const formattedPrice = new Intl.NumberFormat('ko-KR').format(price);

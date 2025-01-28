@@ -58,7 +58,7 @@ export default function ArticleSection({ articleList }: ArticleProps) {
   }, [api]);
 
   return (
-    <section className="mt-5 ">
+    <section className="relative mt-5 z-20">
       <p className="pl-4 text-title1 text-grey250">오늘의 영감</p>
 
       <>
