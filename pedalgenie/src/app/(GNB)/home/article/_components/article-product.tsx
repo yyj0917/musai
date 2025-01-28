@@ -1,17 +1,18 @@
-import { ArticleProduct } from "@/types/product-type";
-import Link from "next/link";
+import { ArticleProduct } from '@/types/product-type';
+import Link from 'next/link';
 import Image from 'next/image';
 import RightArrow from '@public/svg/home/right-arrow.svg';
-import { useRouter } from "next/navigation";
-import { Heart } from "lucide-react";
-import { useLikeProductMutation } from "@/hooks/useLikeProductMutation";
+import { useRouter } from 'next/navigation';
+import { Heart } from 'lucide-react';
+import { useLikeProductMutation } from '@/hooks/useLikeProductMutation';
 import { useLoginStore } from '@/lib/zustand/useAuthStore';
 import { useModalStore } from '@/lib/zustand/useModalStore';
 import { useState } from 'react';
-import { set } from "lodash";
 
-
-export default function ArticleProduct({ articleProduct }: { articleProduct: ArticleProduct }) {
+type ArticleProductItemProps = {
+    articleProduct: ArticleProduct;
+    };
+export default function ArticleProductItem({ articleProduct }: ArticleProductItemProps) {
     
     const router = useRouter();
     const { isLoggedIn } = useLoginStore();
@@ -70,5 +71,5 @@ export default function ArticleProduct({ articleProduct }: { articleProduct: Art
                     />
                 </button>
               </Link>
-    )
+    );
 }

@@ -4,7 +4,7 @@ import { ArticleProductList } from '@/types/product-type';
 import FloatingButton from '@/components/floating-button';
 import { useScrollToggle } from '@/hooks/use-scroll';
 import NotFoundAll from '@/components/not-found-all';
-import ArticleProduct from './article-product';
+import ArticleProductItem from './article-product';
 
 type ArticleProductProps = {
   articleProducts: ArticleProductList;
@@ -25,7 +25,7 @@ export default function ArticleProductSection({ articleProducts }: ArticleProduc
         ) : (
           <div className="flex flex-col gap-[10px]">
             {articleProducts.map((articleProduct, index) => (
-              <ArticleProduct key={index} articleProduct={articleProduct}/>
+              <ArticleProductItem key={index} articleProduct={articleProduct}/>
             ))}
           </div>
         )}

@@ -20,7 +20,7 @@ export default function PreviewSection({ genre }: GenreProductProps) {
       queryFn: () => fetchProductGenre(genre),
       enabled: true,
     }
-  )
+  );
 
   return (
     <section id="preview-section" className="mt-11 max-h-[300px] pl-4 overflow-auto">
