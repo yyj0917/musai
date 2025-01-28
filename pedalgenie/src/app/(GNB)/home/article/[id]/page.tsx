@@ -62,7 +62,7 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
         </div>
       </article>
       {/* Article Content */}
-      <section className="relative w-full h-auto" style={{ aspectRatio: '1 / 2' }}>
+      <section className="relative w-full h-auto" style={{ aspectRatio: '1 / 5' }}>
         <Image
           src={`${article?.bodyUrl}`}
           alt={'article 상세 이미지'}
