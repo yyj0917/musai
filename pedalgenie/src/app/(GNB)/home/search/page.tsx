@@ -4,7 +4,7 @@ import LeftArrow from '@public/svg/home/shop/shop-leftarrow.svg';
 import SearchIcon from '@public/svg/search.svg';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Suspense, useEffect, useState } from 'react';
+import { Suspense, useEffect, useMemo, useState } from 'react';
 import SearchedProduct from './_components/searched-product';
 import SearchedShop from './_components/searched-shop';
 import { fetchSearchItem } from '@/lib/api/(product)/product';
@@ -17,7 +17,10 @@ import NotFoundAll from '@/components/not-found-all';
 export default function Search() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [searchQuery, setSearchQuery] = useState(searchParams.get('keyword') || '');
+
+  // ✅ `useMemo`를 사용해 클라이언트에서만 실행되도록 변경
+  const searchKeyword = useMemo(() => searchParams.get('keyword') || '', [searchParams]);
+  const [searchQuery, setSearchQuery] = useState(searchKeyword);
   const [searching, setSearching] = useState(false);
   const {
     data: searchData,
@@ -49,9 +52,8 @@ export default function Search() {
   };
   // 새로고침 시 keyword 파라미터로 데이터 refetch
   useEffect(() => {
-    const currentKeyword = searchParams.get('keyword');
-    if (currentKeyword) {
-      setSearchQuery(currentKeyword);
+    if (searchKeyword) {
+      setSearchQuery(searchKeyword);
       setSearching(true);
       refetch();
     }
