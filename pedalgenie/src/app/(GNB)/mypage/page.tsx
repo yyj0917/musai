@@ -68,7 +68,7 @@ export default function MyPage() {
 
   const etc = [
     {
-      link: '/mypage/open-source',
+      link: 'https://coda.io/@musai/faq',
       text: '오픈소스 라이선스',
     },
     {
