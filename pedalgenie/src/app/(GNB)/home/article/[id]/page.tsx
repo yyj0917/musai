@@ -6,6 +6,7 @@ import { fetchArticleDetail } from '@/lib/api/article';
 import { useQuery } from '@tanstack/react-query';
 import Loading from '@/components/loading';
 import NotFoundAll from '@/components/not-found-all';
+import LoginModal from '@/components/modal/login-modal';
 
 export default function ArticlePage({ params }: { params: { id: string } }) {
   const { id } = params;
@@ -62,7 +63,7 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
         </div>
       </article>
       {/* Article Content */}
-      <section className="relative w-full h-auto" style={{ aspectRatio: '1 / 5' }}>
+      <section className="relative w-full h-auto" style={{ aspectRatio: '1 / 8' }}>
         <Image
           src={`${article?.bodyUrl}`}
           alt={'article 상세 이미지'}
@@ -75,7 +76,7 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
 
       {/* Article Products */}
       <ArticleProducts articleProducts={article?.products} />
-      
+      <LoginModal/>
       {isLoading && <Loading/>}
     </div>
   );

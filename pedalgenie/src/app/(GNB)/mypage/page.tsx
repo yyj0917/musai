@@ -72,11 +72,11 @@ export default function MyPage() {
       text: '오픈소스 라이선스',
     },
     {
-      link: '/mypage/terms-of-use',
+      link: 'https://coda.io/@musai/termsofservice',
       text: '이용약관',
     },
     {
-      link: '/mypage/privacy-policy',
+      link: 'https://coda.io/@musai/musaiprivacypolicy',
       text: '개인정보처리방침',
     },
   ];
@@ -90,89 +90,91 @@ export default function MyPage() {
   };
 
   return (
-    <div className="w-full h-auto flex flex-col ">
+    <div className="w-full h-full flex flex-col">
       <LogoHeader />
-      {/* 로그인 및 회원가입 region */}
-      <div className="relative w-full h-[82px] text-grey450">
-        {!isLoggedin ? (
-          // 비로그인 상태
-          <div className="absolute left-4 top-[10.5px] flex flex-col gap-1">
-            <div className="flex items-center gap-1 cursor-pointer" onClick={() => openLoginModal()}>
-              <p className="text-head1">로그인 및 회원가입</p>
-              <span className='p-[10px]'>
-                <RightArrow />
-              </span>
+      <div className='w-full h-[calc(100dvh-50px-85px)] flex flex-col overflow-auto scrollbar-hide'>
+        {/* 로그인 및 회원가입 region */}
+        <div className="w-full min-h-[82px] text-grey450">
+          {!isLoggedin ? (
+            // 비로그인 상태
+            <div className="pl-4 pt-[10.5px] flex flex-col gap-1">
+              <div className="flex items-center gap-1 cursor-pointer" onClick={() => openLoginModal()}>
+                <p className="text-head1">로그인 및 회원가입</p>
+                <span className='p-[10px]'>
+                  <RightArrow />
+                </span>
+              </div>
+              <p className="text-caption1 text-grey650">3초 가입으로 더 편리해진 뮤사이를 경험해보세요.</p>
             </div>
-            <p className="text-caption1 text-grey650">3초 가입으로 더 편리해진 뮤사이를 경험해보세요.</p>
-          </div>
-        ) : (
-          // 로그인 상태
-          <div className="absolute left-4 top-[10.5px] flex flex-col gap-1">
-            <p className="text-head1">{memberData?.nickname} 님</p>
-            <p className="text-caption1 text-grey650">{memberData?.email}</p>
+          ) : (
+            // 로그인 상태
+            <div className="pl-4 pt-[10.5px] flex flex-col gap-1">
+              <p className="text-head1">{memberData?.nickname} 님</p>
+              <p className="text-caption1 text-grey650">{memberData?.email}</p>
+            </div>
+          )}
+        </div>
+
+        {/* 예약내역 && 채널톡 region */}
+        <div className="w-full min-h-[106px] flex">
+          <Link
+            href="/mypage/reservation/demo"
+            onClick={handleNavigation}
+            className="flex flex-col items-center justify-center w-1/2 gap-2 text-grey150 border-r-[0.5px] border-grey850">
+            <ReserveInfo />
+            <p className="text-body1 ">예약 내역</p>
+            {isLoggedin && <p className="text-body1 text-grey550">보기</p>}
+          </Link>
+          <button
+            className="custom-channeltalk flex flex-col items-center justify-center w-1/2 gap-2 text-grey150"
+            onClick={showMessenger}>
+            <ChannelTalk />
+            <p className="text-body1">1:1 채널톡</p>
+            {isLoggedin && <p className="text-body1 text-grey550">문의하기</p>}
+          </button>
+        </div>
+
+        {/* 고객센터 - 자주 묻는 질문 */}
+        <div className="mt-10 ml-5 flex flex-col gap-5">
+          <h1 className="text-body1 text-grey650">고객센터</h1>
+          <Link href={'https://coda.io/@musai/faq'} className="max-w-40 flex items-center">
+            <p className="text-body1 text-grey150">자주 묻는 질문</p>
+          </Link>
+        </div>
+        
+        {/* 내 계정 (로그인 상태에서만 표시) */}
+        {isLoggedin && (
+          <div className="mt-10 ml-5 flex flex-col gap-5">
+            <h1 className="text-body1 text-grey650">내 계정</h1>
+            <div className="flex flex-col gap-5">
+              <button className="w-20 flex items-center" onClick={() => openLogoutModal()}>
+                <p className="text-body1 text-grey150">로그아웃</p>
+              </button>
+              <button className="w-20 flex items-center" onClick={() => openWithdrawModal()}>
+                <p className="text-body1 text-grey150">회원탈퇴</p>
+              </button>
+            </div>
           </div>
         )}
-      </div>
-
-      {/* 예약내역 && 채널톡 region */}
-      <div className="w-full h-[106px] flex">
-        <Link
-          href="/mypage/reservation/demo"
-          onClick={handleNavigation}
-          className="flex flex-col items-center justify-center w-1/2 gap-1 text-grey150 border-r-[0.5px] border-grey850">
-          <ReserveInfo />
-          <p className="text-body1 ">예약 내역</p>
-          {isLoggedin && <p className="text-body1 text-grey550">보기</p>}
-        </Link>
-        <button
-          className="custom-channeltalk flex flex-col items-center justify-center w-1/2 gap-1 text-grey150"
-          onClick={showMessenger}>
-          <ChannelTalk />
-          <p className="text-body1">1:1 채널톡</p>
-          {isLoggedin && <p className="text-body1 text-grey550">문의하기</p>}
-        </button>
-      </div>
-
-      {/* 고객센터 - 자주 묻는 질문 */}
-      <div className="mt-10 ml-5 flex flex-col gap-5">
-        <h1 className="text-body1 text-grey650">고객센터</h1>
-        <Link href={''} className="max-w-40 flex items-center">
-          <p className="text-body1 text-grey150">자주 묻는 질문</p>
-        </Link>
-      </div>
-      
-      {/* 내 계정 (로그인 상태에서만 표시) */}
-      {isLoggedin && (
-        <div className="mt-10 ml-5 flex flex-col gap-5">
-          <h1 className="text-body1 text-grey650">내 계정</h1>
+        {/* 약관 - 그 외 필요정보 */}
+        <div className="mt-10 ml-5 pb-10 flex flex-col gap-5">
+          <h1 className="text-body1 text-grey650">약관</h1>
           <div className="flex flex-col gap-5">
-            <button className="w-20 flex items-center" onClick={() => openLogoutModal()}>
-              <p className="text-body1 text-grey150">로그아웃</p>
-            </button>
-            <button className="w-20 flex items-center" onClick={() => openWithdrawModal()}>
-              <p className="text-body1 text-grey150">회원탈퇴</p>
-            </button>
+            {etc.map((item, index) => (
+              <Link key={index} href={item.link} className="max-w-40 flex items-center">
+                <p className="text-body1 text-grey150">{item.text}</p>
+              </Link>
+            ))}
           </div>
         </div>
-      )}
-      {/* 약관 - 그 외 필요정보 */}
-      <div className="mt-10 ml-5 flex flex-col gap-5">
-        <h1 className="text-body1 text-grey650">약관</h1>
-        <div className="flex flex-col gap-5">
-          {etc.map((item, index) => (
-            <Link key={index} href={item.link} className="max-w-40 flex items-center">
-              <p className="text-body1 text-grey150">{item.text}</p>
-            </Link>
-          ))}
-        </div>
+        {/* LoginModal 컴포넌트 */}
+        <LoginModal />
+        {/* LogoutModal 컴포넌트 */}
+        <LogoutModal />
+        {/* WithdrawModal 컴포넌트 */}
+        <WithdrawModal />
+        {isLoading ? <Loading /> : null}
       </div>
-      {/* LoginModal 컴포넌트 */}
-      <LoginModal />
-      {/* LogoutModal 컴포넌트 */}
-      <LogoutModal />
-      {/* WithdrawModal 컴포넌트 */}
-      <WithdrawModal />
-      {isLoading ? <Loading /> : null}
     </div>
   );
 }
