@@ -44,11 +44,9 @@ export default function Calendar({ availableDates, onDateChange, setRentDuration
 
   // 달력에서 날짜 선택
   const handleDateClick = (selectedDate: Date) => {
-    const formattedStartDate = format(selectedDate, 'yyyy-MM-dd');
     if (!startDate && !endDate) {
       setStartDate(selectedDate);
       setRentDuration(0);
-      onDateChange(formattedStartDate);
     } else if (startDate && !endDate && selectedDate > startDate) {
       const duration = Math.ceil((selectedDate.getTime() - startDate.getTime()) / (24 * 60 * 60 * 1000) + 1);
       const rangeDates = eachDayOfInterval({ start: startDate, end: selectedDate }).map((date) => format(date, 'yyyy-MM-dd'));
@@ -63,12 +61,13 @@ export default function Calendar({ availableDates, onDateChange, setRentDuration
         });
         resetSelection();
       } else {
+        if (startDate) onDateChange(format(startDate, 'yyyy-MM-dd'));
         setEndDate(selectedDate);
         setRentDuration(duration);
       }
     } else {
+      if (startDate) onDateChange(format(startDate, 'yyyy-MM-dd'));
       setStartDate(selectedDate);
-      onDateChange(formattedStartDate);
       setEndDate(null);
       setRentDuration(0);
     }
