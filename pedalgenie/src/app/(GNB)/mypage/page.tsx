@@ -27,46 +27,22 @@ export default function MyPage() {
 
   const { showMessenger } = useChannelIOApi();
   const isLoggedIn = useLoginStore((state) => state.isLoggedIn);
-  console.log('isLoggedIn',isLoggedIn);
 
-  const fetchMembers = async () => {
-    console.log('fetchMembers');
-    const accessToken = queryClient.getQueryData<string>(['authToken']);
-    useAuthStore.getState().setAccessToken(accessToken);
-    try {
-      const response = await fetchUserInfo(); // API 호출
-      return response;
-    } catch (error) {
-      // error handling 필요
-      return;
-    }
-  };
+
 
   // React Query로 fetchUserInfo 데이터 캐싱
-  const { data: memberData, isLoading } = useQuery({
+  const { data: memberData, isLoading, refetch } = useQuery({
     queryKey: ['memberInfo'], // 캐싱 키
-    queryFn: fetchMembers, // fetchMembers 함수
+    queryFn: fetchUserInfo, // fetchMembers 함수
     staleTime: 1000 * 60 * 5, // 데이터가 5분 동안 신선하다고 간주
     gcTime: 1000 * 60 * 10, // 10분 동안 캐싱 유지
-    enabled: false, // 활성화
+    enabled: true, // 활성화
   });
 
-  // 초기 데이터를 설정하는 useEffect
+  // 새로고침 시 isLoggedIn = true이면 refetch
   useEffect(() => {
-    const fetchInitialData = async () => {
-      try {
-        const initialData = await fetchMembers(); // 데이터를 서버에서 가져옴
-        if (initialData) queryClient.setQueryData(['memberInfo'], initialData); // 초기 데이터를 캐싱
-      } catch (error) {
-        // console.error('초기 데이터 가져오기 실패:', error);
-        // error handling 필요
-      }
-    };
-    // 로그인 상태일 때만 초기 데이터를 가져옴
     if (isLoggedIn) {
-      fetchInitialData();
-      console.log(memberData);
-      console.log('fetchInitialData');
+      refetch();
     }
   }, []);
 
