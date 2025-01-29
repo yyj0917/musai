@@ -61,9 +61,12 @@ export default function MyPage() {
       }
     };
     // 로그인 상태일 때만 초기 데이터를 가져옴
-    if (!isLoggedIn) return;
-    fetchInitialData();
-  }, [queryClient]);
+    if (isLoggedIn) {
+      const response = fetchInitialData();
+      console.log(response);
+      console.log('fetchInitialData');
+    }
+  }, []);
 
   const etc = [
     {
