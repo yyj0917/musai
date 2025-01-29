@@ -32,7 +32,7 @@ export interface RentReservationData {
   pickUpTime: string;
   productId: number;
   productName: string;
-  price: number;
+  rentPricePerDay: number;
   fee: number;
   totalPrice: number;
   availableDateTimeId: number;

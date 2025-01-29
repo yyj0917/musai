@@ -37,11 +37,10 @@ export async function fetchRentableTime(productId: number, targetDate: string): 
 export async function CreateRentReservation(
   productId: number,
   availableDateTimeId: number,
-  rentStartDateTime: string,
-  rentEndDateTime: string,
+  rentEndDateTime: string, // "2025-02-14T11:30:00"
 ): Promise<RentReservationData> {
   try {
-    const response = await axiosInstance.post('/api/rents');
+    const response = await axiosInstance.post('/api/rents', { productId, availableDateTimeId, rentEndDateTime });
     return response.data.data;
   } catch (error) {
     console.log(error);

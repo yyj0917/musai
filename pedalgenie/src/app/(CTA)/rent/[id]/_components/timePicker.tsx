@@ -4,6 +4,12 @@ import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { fetchRentableTime } from '@/lib/api/(product)/reservation';
 
+interface AvailableTimeSlots {
+  time: string; // "10:00:00"
+  status: string;
+  availableDateTimedId: number;
+};
+
 interface TimePickerProps {
   id: number;
   targetDate: string | null;
@@ -31,10 +37,9 @@ const PickUpTimeButton = ({ time, disabled, isSelected, onClick }: PickUpTimeBut
       disabled
         ? 'border-grey750 text-grey150 cursor-not-allowed opacity-30 text-opacity-30'
         : isSelected
-        ? 'border-red bg-darkRed'
-        : 'border-grey750 text-grey150 hover:bg-grey950 hover:text-white cursor-pointer'
-    }`}
-  >
+          ? 'border-red bg-darkRed'
+          : 'border-grey750 text-grey150 hover:bg-grey950 hover:text-white cursor-pointer'
+    }`}>
     {formatTime(time)}
   </div>
 );
@@ -51,6 +56,7 @@ export default function TimePicker({ id, targetDate }: TimePickerProps) {
 
   const [selectedTime, setSelectedTime] = useState<string>('');
   const [disabledTimes, setDisabledTimes] = useState<string[]>(times);
+  const [selectedTimeSlot, SetselectedTimeSlot] = useState<AvailableTimeSlots>();
 
   // targetDate 변경 시 선택된 시간 초기화
   useEffect(() => {
@@ -77,8 +83,20 @@ export default function TimePicker({ id, targetDate }: TimePickerProps) {
   }, [RentableTime]);
 
   const handleNextStep = () => {
-    if (selectedTime) {
-      router.push(`/rent/${id}/agreement`);
+    if (selectedTime && RentableTime?.availableTimeSlots) {
+      const reservationData = {
+        productId: id,
+        availableDateTimeId: RentableTime.availableTimeSlots.find((slot) => slot.time.slice(0, 5) === selectedTime)?.availableDateTimeId,
+        rentEndDateTime: `${targetDate}T${selectedTime}:00`,
+      };
+      console.log(reservationData.availableDateTimeId);
+      if (reservationData.availableDateTimeId) {
+        // LocalStorage에 저장 (새로고침 대비)
+        localStorage.setItem('reservationData', JSON.stringify(reservationData));
+
+        // router.push로 상태 전달
+        router.push(`/rent/${id}/agreement?data=${encodeURIComponent(JSON.stringify(reservationData))}`);
+      }
     }
   };
 
@@ -124,8 +142,7 @@ export default function TimePicker({ id, targetDate }: TimePickerProps) {
         variant={'custom'}
         className={`w-full ${selectedTime ? 'bg-red text-grey150' : 'bg-grey750 text-grey150 opacity-30 cursor-not-allowed'}`}
         onClick={handleNextStep}
-        disabled={!selectedTime}
-      >
+        disabled={!selectedTime}>
         다음으로
       </Button>
     </div>
