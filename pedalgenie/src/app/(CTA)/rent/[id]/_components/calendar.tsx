@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 import { addMonths, format, startOfMonth, endOfMonth, eachDayOfInterval, isBefore, isSameDay, getDay } from 'date-fns';
 
 import { availableDates } from '@/types/reservation-type';
+import { useToast } from '@/hooks/use-toast';
 
 interface CalendarProps {
   availableDates?: availableDates[];
@@ -17,6 +18,7 @@ interface CalendarProps {
 export default function Calendar({ availableDates, onDateChange, setRentDuration }: CalendarProps) {
   const today = new Date(); // 현재 날짜
   const [currentMonth, setCurrentMonth] = useState<Date>(startOfMonth(today)); // 현재 월의 시작일
+  const { toast } = useToast();
 
   // 조건에 맞는 날짜 필터링
   const totalRentableDates =
@@ -47,34 +49,36 @@ export default function Calendar({ availableDates, onDateChange, setRentDuration
       setStartDate(selectedDate);
       setRentDuration(0);
       onDateChange(formattedStartDate);
-    } else if (
-      startDate &&
-      !endDate &&
-      selectedDate > startDate &&
-      selectedDate.getTime() - startDate.getTime() >= 3 * 24 * 60 * 60 * 1000
-      // 대여 기간이 3일 이상 일 때
-    ) {
-      setEndDate(selectedDate);
+    } else if (startDate && !endDate && selectedDate > startDate) {
       const duration = Math.ceil((selectedDate.getTime() - startDate.getTime()) / (24 * 60 * 60 * 1000) + 1);
-      setRentDuration(duration);
-    } else if (
-      startDate &&
-      !endDate &&
-      selectedDate > startDate &&
-      selectedDate.getTime() - startDate.getTime() < 3 * 24 * 60 * 60 * 1000
-      // 대여 기간이 3일 미만일 때
-    ) {
-      alert('대여 기간은 최소 3일 이상부터 가능합니다'); // 알림창 표시
-      setStartDate(null);
-      setEndDate(null);
-      setRentDuration(0);
-      onDateChange(null);
-    } else { // startDate의 이전을 클릭한 경우
+      const rangeDates = eachDayOfInterval({ start: startDate, end: selectedDate }).map((date) => format(date, 'yyyy-MM-dd'));
+      if (duration < 3) {
+        toast({
+          description: '대여 기간은 최소 3일 이상부터 가능합니다.',
+        });
+        resetSelection();
+      } else if (rangeDates.some((date) => !totalRentableDates.includes(date))) {
+        toast({
+          description: '대여 기간 중 불가능한 날짜가 있습니다. 다시 선택해주세요.',
+        });
+        resetSelection();
+      } else {
+        setEndDate(selectedDate);
+        setRentDuration(duration);
+      }
+    } else {
       setStartDate(selectedDate);
       onDateChange(formattedStartDate);
       setEndDate(null);
       setRentDuration(0);
     }
+  };
+
+  const resetSelection = () => {
+    setStartDate(null);
+    setEndDate(null);
+    setRentDuration(0);
+    onDateChange(null);
   };
 
   const generateDates = () => {
