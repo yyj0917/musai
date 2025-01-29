@@ -27,8 +27,10 @@ export default function MyPage() {
 
   const { showMessenger } = useChannelIOApi();
   const isLoggedIn = useLoginStore((state) => state.isLoggedIn);
+  console.log('isLoggedIn',isLoggedIn);
 
   const fetchMembers = async () => {
+    console.log('fetchMembers');
     const accessToken = queryClient.getQueryData<string>(['authToken']);
     useAuthStore.getState().setAccessToken(accessToken);
     try {
@@ -62,8 +64,8 @@ export default function MyPage() {
     };
     // 로그인 상태일 때만 초기 데이터를 가져옴
     if (isLoggedIn) {
-      const response = fetchInitialData();
-      console.log(response);
+      fetchInitialData();
+      console.log(memberData);
       console.log('fetchInitialData');
     }
   }, []);
