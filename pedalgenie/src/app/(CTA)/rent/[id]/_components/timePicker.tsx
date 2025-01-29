@@ -91,10 +91,8 @@ export default function TimePicker({ id, targetDate }: TimePickerProps) {
         availableDateTimeId: RentableTime.availableTimeSlots.find((slot) => slot.time.slice(0, 5) === selectedTime)?.availableDateTimeId,
         rentEndDateTime: `${targetDate}T${selectedTime}:00`,
       };
-      console.log(reservationData.availableDateTimeId);
-      // availableDateTimedId를 URL 파라미터로 전달
       router.push(
-        `/rent/${id}/agreement?pickUpTime=${selectedTime}&TimeId=${reservationData.availableDateTimeId}&StartDate=${targetDate}$EndDateTime=${reservationData.rentEndDateTime}`
+        `/rent/${id}/agreement?pickUpTime=${selectedTime}&TimeId=${reservationData.availableDateTimeId}&StartDate=${targetDate}&EndDate=${targetDate}`
       );
     }
   };

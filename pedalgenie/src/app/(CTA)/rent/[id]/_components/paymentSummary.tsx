@@ -1,17 +1,27 @@
 'use client';
 
+import { differenceInDays, format, parseISO } from 'date-fns';
+import { useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
 type PaymentSummaryProps = {
   rentPricePerDay?: number;
-  rentDuration?: number;
 };
 
-export default function PaymentSummary({ rentPricePerDay, rentDuration }: PaymentSummaryProps) {
-  if (!rentPricePerDay) rentPricePerDay = 0;
-  if (!rentDuration) rentDuration = 0;
+export default function PaymentSummary({ rentPricePerDay }: PaymentSummaryProps) {
+  const searchParams = useSearchParams();
+  const startDateParam = searchParams.get('StartDate'); // 2025-09-17
+  const endDateParam = searchParams.get('EndDateTime'); // 2025-09-26T17:30:00
 
-  const totalPrice= Math.ceil(rentPricePerDay * rentDuration).toLocaleString('ko-KR');
+  if (!rentPricePerDay) rentPricePerDay = 0;
+
+  // 날짜 변환 처리
+  const startDate = startDateParam ? parseISO(startDateParam) : null;
+  const endDate = endDateParam ? parseISO(endDateParam.split('T')[0]) : null;
+  // 대여 기간 계산 (startDate, endDate가 존재할 경우)
+  const rentDuration = startDate && endDate ? differenceInDays(endDate, startDate) + 1 : 0;
+
+  const totalPrice = Math.ceil(rentPricePerDay * rentDuration).toLocaleString('ko-KR');
 
   return (
     <section className="w-full">
