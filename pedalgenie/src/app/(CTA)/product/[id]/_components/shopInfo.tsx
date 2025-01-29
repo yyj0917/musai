@@ -78,7 +78,6 @@ export default function ShopInfo({ shopName, shopHours, contactNumber, address, 
     // 로그인 체크
     if (!isLoggedIn) {
       openLoginModal();
-      console.log('로그인', isLoggedIn);
       return;
     }
 
