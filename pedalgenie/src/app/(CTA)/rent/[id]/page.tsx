@@ -31,14 +31,6 @@ export default function Rent({ params }: { params: { id: number } }) {
     staleTime: 1000 * 60 * 5, // 5분 동안 데이터 신선 상태 유지
   });
 
-  if (isLoading) {
-    return (
-      <div>
-        <Loading />
-      </div>
-    );
-  }
-
   if (isError) {
     return <div>Error occurred while fetching data.</div>;
   }
@@ -63,6 +55,7 @@ export default function Rent({ params }: { params: { id: number } }) {
         <section className="w-full px-4 pt-4 pb-10 border-t-0.5 border-grey850">
           <TimePicker id={id} targetDate={targetDate} />
         </section>
+        {isLoading && <Loading />}
       </div>
     </div>
   );
