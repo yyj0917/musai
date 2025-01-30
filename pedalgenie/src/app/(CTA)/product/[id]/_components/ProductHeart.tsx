@@ -33,7 +33,6 @@ export default function ProductHeart({ productId, isLiked, queryKey }: ProductHe
     // 로그인 체크
     if (!isLoggedIn) {
       openLoginModal();
-      console.log('로그인', isLoggedIn);
       return;
     }
     setIsUILike(!isLiked);
