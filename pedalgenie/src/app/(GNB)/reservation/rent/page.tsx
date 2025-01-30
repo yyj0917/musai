@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchRentProductList } from '@/lib/api/(product)/rent-product';
 import { RentProduct } from '@/types/product-type';
 import Loading from '@/components/loading';
+import NotFoundAll from '@/components/not-found-all';
 
 // 픽업예정, 사용중 상태의 대여 상품만 필터링하는 함수
 const filterRentProducts = (products: RentProduct[]) => {
@@ -30,6 +31,13 @@ export default function Rent() {
   // 데이터가 존재하고 로딩중이 아닐 경우 대여 상품 필터링
   const filteredRentProducts = rentProducts ? filterRentProducts(rentProducts) : [];
 
+  if (rentProducts?.length === 0) {
+    return (
+      <div className="w-full h-[calc(100dvh-87px-85px)] my-auto flex justify-center items-center">
+        <NotFoundAll alertText="대여 내역이 존재하지 않습니다" />
+      </div>
+    );
+  }
   return (
     <>
       <div className="w-full h-[100dvh-98.5px] flex flex-col overflow-y-auto scrollbar-hide">

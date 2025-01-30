@@ -91,10 +91,7 @@ export default function AgreementSection({ id }: AgreementSectionProps) {
     }
   };
 
-  if (!demoDate || !selectedTime) {
-    toast({ description: '날짜와 시간을 선택해주세요.' });
-    return;
-  }
+  
   const formattedDateTime = `${demoDate}T${selectedTime}`;
 
   // 시연 생성 요청
@@ -105,15 +102,17 @@ export default function AgreementSection({ id }: AgreementSectionProps) {
   } = useMutation({
     mutationFn: () => CreateDemoReservation(formattedDateTime, id),
     onSuccess: (data) => {
-      console.log('시연 예약 성공:', data);
       toast({ description: '시연 예약이 완료되었어요!' });
       router.push(`/product/${id}`);
     },
     onError: (error) => {
-      console.error('시연 예약 실패:', error);
       toast({ description: '시연 예약에 실패했어요. 다시 시도해주세요.' });
     },
   });
+  if (!demoDate || !selectedTime) {
+    toast({ description: '날짜와 시간을 선택해주세요.' });
+    return;
+  }
 
   return (
     <section className="w-full pt-6 text-grey150 pb-10">

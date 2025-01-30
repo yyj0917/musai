@@ -313,7 +313,7 @@ export default function ProductSection() {
         {/* 로그인 유저가 아닐 시 로그인 모달 */}
         <LoginModal />
         {/* 로딩 중 */}
-        {isLoading || (!isDelay && <Loading />)}
+        {isLoading && <Loading />}
       </section>
       {/* 플로팅 버튼 */}
       <FloatingButton scrollContainer={'main'} />
