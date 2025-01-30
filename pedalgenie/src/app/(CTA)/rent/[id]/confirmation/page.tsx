@@ -16,7 +16,7 @@ export default function Confirmation({ params }: { params: { id: number } }) {
         <RentFeeInfo account="신한 110203923432" />
       </div>
       <div className='px-4 pt-3 pb-8'>
-      <SubmitButton text="300,000원 입금하기" id={id} />
+      <SubmitButton id={id} />
       </div>
     </div>
   );
