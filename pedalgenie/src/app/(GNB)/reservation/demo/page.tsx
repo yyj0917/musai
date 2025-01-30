@@ -9,7 +9,7 @@ import Loading from '@/components/loading';
 
 // 시연예정 상태의 대여 상품만 필터링하는 함수
 const filterDemoProducts = (products: DemoProduct[]) => {
-  return products.filter((product) => product.demoStatus === '픽업예정');
+  return products.filter((product) => product.demoStatus === '시연예정');
 };
 
 export default function Demo() {
