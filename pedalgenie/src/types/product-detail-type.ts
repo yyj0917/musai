@@ -11,6 +11,7 @@ export interface ProductDetail {
   descriptionUrl?: string;
   productImage: { imageUrl: string }[];
   isLiked?: boolean | null; // 로그인 여부에 따라 존재
+  isShopLiked?: boolean | null;
   shopHours: {
     shopHoursId: number;
     dayType: string;
@@ -21,4 +22,5 @@ export interface ProductDetail {
   }[];
   contactNumber: string;
   address: string;
+  shopImage: string;
 }

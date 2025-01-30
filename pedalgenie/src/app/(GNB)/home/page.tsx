@@ -15,7 +15,7 @@ export default async function Home() {
   // // 시연해볼 수 있는 장르별 악기 조회
 
   return (
-    <main id="main" className="w-full h-[calc(100dvh-88.5px-87px)] overflow-y-auto scrollbar-hide">
+    <main id="main" className="w-full h-[calc(100dvh-88.5px-87px)] overflow-y-auto scroll-smooth scrollbar-hide">
       {/* article이 들어갈 section */}
       <ArticleSection articleList={articleList} />
       {/* 시연가능한 제품(기준미정) section */}

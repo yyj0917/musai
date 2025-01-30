@@ -1,15 +1,15 @@
-import Time from '@public/svg/product/time.svg';
-import Call from '@public/svg/product/call.svg';
-import Location from '@public/svg/product/location.svg';
-import { Button } from '@/components/ui/button';
-import { useToast } from '@/hooks/use-toast';
-import LoginModal from '@/components/modal/login-modal';
 import { useState } from 'react';
+import { useToast } from '@/hooks/use-toast';
+import { Button } from '@/components/ui/button';
 import { Heart } from 'lucide-react';
 import { useLoginStore } from '@/lib/zustand/useAuthStore';
 import { useModalStore } from '@/lib/zustand/useModalStore';
-import { useLikeProductMutation } from '@/hooks/useLikeProductMutation';
-// import { useLikeShopMutation } from '@/hooks/useLikeShopMutation';
+import { useLikeShopMutation } from '@/hooks/useLikeShopMutation';
+import Image from 'next/image';
+import Time from '@public/svg/product/time.svg';
+import Call from '@public/svg/product/call.svg';
+import Location from '@public/svg/product/location.svg';
+import LoginModal from '@/components/modal/login-modal';
 
 interface ShopHour {
   shopHoursId: number;
@@ -26,7 +26,8 @@ interface ShopInfoProps {
   contactNumber?: string;
   address?: string;
   shopId?: number;
-  isLiked?: boolean | undefined | null;
+  isShopLiked?: boolean | undefined | null;
+  shopImage?: string;
 }
 
 // 시간을 HH:MM 형식으로 포맷하는 함수
@@ -69,13 +70,13 @@ const ShopDetailInfo = (Img: React.ComponentType<React.SVGProps<SVGSVGElement>>,
     </div>
   ) : null; // text가 없을 경우 렌더링 생략
 
-export default function ShopInfo({ shopName, shopHours, contactNumber, address, shopId, isLiked }: ShopInfoProps) {
+export default function ShopInfo({ shopName, shopHours, contactNumber, address, shopId, isShopLiked, shopImage }: ShopInfoProps) {
   const { toast } = useToast();
   const { isLoggedIn } = useLoginStore(); // 로그인 상태 가져오기
   const [isAnimating, setIsAnimating] = useState(false);
   const { openLoginModal } = useModalStore();
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const likeMutation = useLikeProductMutation(Number(shopId), ['productDetail']);
+  const likeMutation = useLikeShopMutation(Number(shopId), ['productDetail']);
   // 임시로 Productid
 
   const toggleLikeShop = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -98,7 +99,7 @@ export default function ShopInfo({ shopName, shopHours, contactNumber, address, 
     }, 500);
 
     // 2) 서버에 좋아요 or 취소 요청 (Optimistic Update)
-    likeMutation?.mutate(!isLiked);
+    likeMutation?.mutate(!isShopLiked);
   };
 
   const handleCopyToast = (text: string | undefined) => {
@@ -114,14 +115,25 @@ export default function ShopInfo({ shopName, shopHours, contactNumber, address, 
       {/* 상점 정보 요약 섹션 */}
       <section>
         <div className="flex w-full items-center p-5 border-0.5 border-grey850">
-          <div className="w-full flex items-center">
-            <div className="bg-grey450 w-10 h-10 rounded-full"> </div> {/* 매장 이미지 */} 
-            <p className="font-semibold text-white pl-3">{shopName}</p> {/* 매장 이름 */}
+        <div className="w-full flex items-center">
+            {shopImage ? (
+              <Image
+              src={shopImage}
+              alt="상점 이미지"
+              width={40}
+              height={40}
+              className="rounded-full object-cover w-10 h-10"
+              priority={true}
+            />
+            ) : (
+              <div className="bg-grey450 w-10 h-10 rounded-full" />
+            )}
+            <p className="font-semibold text-white pl-3">{shopName}</p>
           </div>
           <button onClick={(e) => toggleLikeShop(e)} className="text-red">
             <Heart
               strokeWidth={1.5}
-              className={`like-animation ${isLiked || isAnimating ? 'unscale fill-red' : 'scale'} `}
+              className={`like-animation ${isShopLiked || isAnimating ? 'unscale fill-red' : 'scale'} `}
             />
           </button>
         </div>
@@ -146,17 +158,19 @@ export default function ShopInfo({ shopName, shopHours, contactNumber, address, 
         <p className="text-sm text-grey250">운영 시간이 없습니다.</p>
       )}
 
-
-        {/* 매장 번호 */}
-        <span className="flex gap-2 pb-1 pt-1">
-          {ShopDetailInfo(Call, contactNumber)}
+      {/* 매장 번호 */}
+      <span className="flex gap-2 pb-1 pt-1">
+        {ShopDetailInfo(Call, contactNumber)}
+        {contactNumber && !contactNumber.includes("마이페이지") && (
           <Button
             variant="copy"
             onClick={() => handleCopyToast(contactNumber)}
-            className="text-center text-body2 text-sm text-red">
+            className="text-center text-body2 text-sm text-red"
+          >
             복사
           </Button>
-        </span>
+        )}
+      </span>
 
         {/* 매장 주소 */}
         <span className="flex gap-2">
