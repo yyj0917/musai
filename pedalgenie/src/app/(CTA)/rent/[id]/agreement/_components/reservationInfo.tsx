@@ -50,7 +50,6 @@ export default function ReservationInfo({ productId }: ReservationInfoProps) {
     isError,
   } = useQuery<ProductDetail>({
     queryKey: ['productDetail', productId], // 캐싱 키
-    staleTime: 1000 * 60 * 5, // 5분 동안 데이터 신선 상태 유지
   });
   const productName = productDetail?.name || '상품명 없음'; // 데이터가 없을 때 기본값 처리
 
