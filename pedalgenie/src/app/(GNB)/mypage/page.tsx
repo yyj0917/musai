@@ -79,7 +79,7 @@ export default function MyPage() {
             // 비로그인 상태
             <div className="pl-4 pt-[10.5px] flex flex-col gap-1">
               <div className="flex items-center gap-1 cursor-pointer" onClick={() => openLoginModal()}>
-                <p className="text-head1">로그인 및 회원가입 accesstoken{accessToken} isLoggedIn : {isLoggedIn}</p>
+                <p className="text-head1">로그인 및 회원가입</p>
                 <span className='p-[10px]'>
                   <RightArrow />
                 </span>
