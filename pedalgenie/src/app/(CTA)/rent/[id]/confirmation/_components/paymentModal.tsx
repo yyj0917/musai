@@ -42,7 +42,7 @@ export default function PaymentModal({ isOpen, onClose, id, totalPrice }: Paymen
     isPending,
     isError,
   } = useMutation({
-    mutationFn: () => CreateRentReservation(Number(id), timeId, formattedEndDateTime),
+    mutationFn: () => CreateRentReservation(id, timeId, formattedEndDateTime),
     onSuccess: (data) => {
       console.log('대여 예약 성공:', data);
       toast({ description: '대여 예약이 완료되었어요!' });

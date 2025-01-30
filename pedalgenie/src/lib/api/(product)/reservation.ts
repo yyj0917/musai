@@ -54,7 +54,6 @@ export async function fetchDemoableDate(productId: number): Promise<DemoableDate
     return response.data.data;
   } catch (error) {
     console.log(error);
-
     throw new Error('Unable to fetch rentable dates. Please try again later.');
   }
 }
