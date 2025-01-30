@@ -2,42 +2,61 @@
 
 import NextMonth from '@public/svg/rent/next-month.svg';
 import PrevMonth from '@public/svg/rent/prev-month.svg';
-
 import React, { useState } from 'react';
-import { addMonths, format, startOfMonth, endOfMonth, eachDayOfInterval, isBefore } from 'date-fns';
+import { addMonths, format, startOfMonth, endOfMonth, eachDayOfInterval, isBefore, isSameDay, getDay } from 'date-fns';
+import { DemoableDate } from '@/types/reservation-type';
+import { useToast } from '@/hooks/use-toast';
 
-export default function Calendar() {
+interface CalendarProps {
+  availableDates?: DemoableDate[];
+  onStartDateChange: (date: string | null) => void;
+}
+
+export default function Calendar({
+  availableDates,
+  onStartDateChange,
+}: CalendarProps) {
   const today = new Date(); // 현재 날짜
-  const [currentMonth, setCurrentMonth] = useState(startOfMonth(today)); // 현재 월의 시작일
-  const [startDate, setStartDate] = useState<Date | null>(null); // 대여 시작일
-  const [endDate, setEndDate] = useState<Date | null>(null); // 대여 종료일
+  const [currentMonth, setCurrentMonth] = useState<Date>(startOfMonth(today));
 
+  // 조건에 맞는 날짜 필터링
+  const totalRentableDates =
+    availableDates
+      ?.filter((date) => {
+        const parsedDate = new Date(date.date);
+        return isBefore(today, parsedDate) || isSameDay(today, parsedDate); // 오늘 이전 날짜 제외
+      })
+      .filter((date) => date.available == true) // 시연 가능 시간이 있는 경우
+      .map((date) => date.date) || [];
+
+  // 대여 시작일
+  const [startDate, setStartDate] = useState<Date | null>(null);
+
+  // 이전 달로 이동
   const handlePrevMonth = () => {
-    setCurrentMonth(addMonths(currentMonth, -1)); // 이전 달로 이동
+    setCurrentMonth(addMonths(currentMonth, -1));
   };
 
+  // 다음 달로 이동
   const handleNextMonth = () => {
-    setCurrentMonth(addMonths(currentMonth, 1)); // 다음 달로 이동
+    setCurrentMonth(addMonths(currentMonth, 1));
   };
 
+  // 달력에서 선택한 날짜를 Demo 페이지 상태로 전달
   const handleDateClick = (selectedDate: Date) => {
-    if (!startDate) {
       setStartDate(selectedDate);
-      setEndDate(null); // 새 시작일 선택 시 종료일 초기화
-    } else if (
-      selectedDate.getTime() > startDate.getTime() &&
-      selectedDate.getTime() - startDate.getTime() >= 3 * 24 * 60 * 60 * 1000
-    ) {
-      setEndDate(selectedDate);
-    } else {
-      alert('대여 종료일은 대여 시작일로부터 최소 3일 이후여야 합니다!');
+      onStartDateChange(format(selectedDate, 'yyyy-MM-dd'));
     }
-  };
 
+  // 달력 요일 계산
   const generateDates = () => {
     const start = startOfMonth(currentMonth);
     const end = endOfMonth(currentMonth);
-    return eachDayOfInterval({ start, end });
+    const dates = eachDayOfInterval({ start, end });
+
+    // 월의 1일이 무슨 요일인지 계산하여 앞에 빈칸 추가
+    const firstDayOfWeek = getDay(start); // 0(일요일) ~ 6(토요일)
+    return Array(firstDayOfWeek).fill(null).concat(dates); // 빈칸(null) 추가 후 날짜 배열 결합
   };
 
   return (
@@ -62,26 +81,31 @@ export default function Calendar() {
             {day}
           </span>
         ))}
-        {generateDates().map((date) => {
+        {generateDates().map((date, index) => {
+          if (date === null) {
+            // 빈칸 렌더링
+            return <div key={`empty-${index}`} className="w-[34px] h-[34px]" />;
+          }
+
           const formattedDate = format(date, 'yyyy-MM-dd');
-          const isToday = formattedDate === format(today, 'yyyy-MM-dd');
-          const isStart = startDate && formattedDate === format(startDate, 'yyyy-MM-dd');
-          const isEnd = endDate && formattedDate === format(endDate, 'yyyy-MM-dd');
-          const isInRange = startDate && endDate && date > startDate && date < endDate;
-          const isBeforeToday = isBefore(date, today); // 오늘 이전 날짜 확인
+          const demoDate = startDate && formattedDate === format(startDate, 'yyyy-MM-dd');
+          const isBeforeToday = isBefore(date, today);
+          const isDemoable = totalRentableDates.includes(formattedDate); // 대여 가능 여부 확인
 
           return (
             <button
               key={formattedDate}
               onClick={() => handleDateClick(date)}
               className={`w-[34px] h-[34px] rounded-full text-sm relative flex items-center justify-center
-                ${isBeforeToday ? 'text-grey750' : 'text-grey250'} 
-                ${isInRange || isStart || isEnd ? 'bg-red bg-opacity-10 rounded-none w-full' : 'hover:bg-grey900'}
-                ${isStart ? 'rounded-l-full' : ''}
-                ${isEnd ? 'rounded-r-full' : ''}`}
-              disabled={isBeforeToday}>
+                ${
+                  isBeforeToday || !isDemoable
+                    ? 'text-grey750' // 비활성화된 날짜 스타일
+                    : 'text-grey250'
+                }
+                ${demoDate ? 'rounded-none w-full' : 'hover:bg-grey900'}`}
+              disabled={isBeforeToday || !isDemoable}>
               {/* ✅ 배경 요소 (z-0) */}
-              {isStart || isEnd ? (
+              {demoDate ? (
                 <span className="absolute inset-0 rounded-full w-[34px] border-1.5 border-red bg-darkRed z-0 ml-[5px]"></span>
               ) : null}
               {/* ✅ 숫자 요소 (z-10) */}

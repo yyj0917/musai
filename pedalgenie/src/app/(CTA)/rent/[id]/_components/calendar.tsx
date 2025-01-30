@@ -11,11 +11,17 @@ import { useToast } from '@/hooks/use-toast';
 
 interface CalendarProps {
   availableDates?: availableDates[];
-  onDateChange: (date:string|null) => void;
+  onStartDateChange: (date: string | null) => void;
+  onEndDateChange: (date: string | null) => void;
   setRentDuration: (rentDuration: number) => void;
 }
 
-export default function Calendar({ availableDates, onDateChange, setRentDuration }: CalendarProps) {
+export default function Calendar({
+  availableDates,
+  onStartDateChange,
+  onEndDateChange,
+  setRentDuration,
+}: CalendarProps) {
   const today = new Date(); // 현재 날짜
   const [currentMonth, setCurrentMonth] = useState<Date>(startOfMonth(today)); // 현재 월의 시작일
   const { toast } = useToast();
@@ -44,14 +50,14 @@ export default function Calendar({ availableDates, onDateChange, setRentDuration
 
   // 달력에서 날짜 선택
   const handleDateClick = (selectedDate: Date) => {
-    const formattedStartDate = format(selectedDate, 'yyyy-MM-dd');
     if (!startDate && !endDate) {
       setStartDate(selectedDate);
       setRentDuration(0);
-      onDateChange(formattedStartDate);
     } else if (startDate && !endDate && selectedDate > startDate) {
       const duration = Math.ceil((selectedDate.getTime() - startDate.getTime()) / (24 * 60 * 60 * 1000) + 1);
-      const rangeDates = eachDayOfInterval({ start: startDate, end: selectedDate }).map((date) => format(date, 'yyyy-MM-dd'));
+      const rangeDates = eachDayOfInterval({ start: startDate, end: selectedDate }).map((date) =>
+        format(date, 'yyyy-MM-dd'),
+      );
       if (duration < 3) {
         toast({
           description: '대여 기간은 최소 3일 이상부터 가능합니다.',
@@ -63,12 +69,14 @@ export default function Calendar({ availableDates, onDateChange, setRentDuration
         });
         resetSelection();
       } else {
+        if (startDate) onStartDateChange(format(startDate, 'yyyy-MM-dd'));
         setEndDate(selectedDate);
+        onEndDateChange(format(selectedDate, 'yyyy-MM-dd'));
         setRentDuration(duration);
       }
     } else {
+      if (startDate) onStartDateChange(format(startDate, 'yyyy-MM-dd'));
       setStartDate(selectedDate);
-      onDateChange(formattedStartDate);
       setEndDate(null);
       setRentDuration(0);
     }
@@ -78,7 +86,7 @@ export default function Calendar({ availableDates, onDateChange, setRentDuration
     setStartDate(null);
     setEndDate(null);
     setRentDuration(0);
-    onDateChange(null);
+    onStartDateChange(null);
   };
 
   const generateDates = () => {

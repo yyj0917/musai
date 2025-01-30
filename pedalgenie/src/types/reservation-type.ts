@@ -43,7 +43,6 @@ export interface DemoableDate {
   date: string;
   available: true;
 }
-export type DemoableDateList = DemoableDate[];
 
 // 시연 가능 시간 조회 api
 export interface DemoableTime {
@@ -56,6 +55,15 @@ export type DemoableTimeList = DemoableTime[];
 export interface DemoReservationData {
   demoId: number;
   demoStatus: string;
+  demoDate: string; // 2025.01.20 PM 3:00
+  productName: string;
+  shopName: string;
+  memberNickName: string;
+}
+
+export type DemoSuccess = {
+  demoId: number;
+  demoStatus: string; // 시연예정
   demoDate: string; // 2025.01.20 PM 3:00
   productName: string;
   shopName: string;
