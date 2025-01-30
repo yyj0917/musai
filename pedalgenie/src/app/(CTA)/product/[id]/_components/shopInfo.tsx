@@ -111,9 +111,9 @@ export default function ShopInfo({ shopName, shopHours, contactNumber, address, 
   };
 
   return (
-    <Link href={`/home/shop/description/${shopId}`}>
+    <>
       {/* 상점 정보 요약 섹션 */}
-      <section>
+      <Link href={`/home/shop/description/${shopId}`}>
         <div className="flex w-full items-center p-5 border-0.5 border-grey850">
         <div className="w-full flex items-center">
             {shopImage ? (
@@ -137,7 +137,7 @@ export default function ShopInfo({ shopName, shopHours, contactNumber, address, 
             />
           </button>
         </div>
-      </section>
+      </Link>
 
       {/* 상점 상세 정보 섹션 */}
       <section className="flex flex-col gap-1 py-5 px-4 pb-10">
@@ -184,6 +184,6 @@ export default function ShopInfo({ shopName, shopHours, contactNumber, address, 
         </span>
         <LoginModal />
       </section>
-    </Link>
+    </>
   );
 }
