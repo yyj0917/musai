@@ -76,10 +76,10 @@ export default function TimePicker({ id, rentStartDate, rentEndDate, rentDuratio
 
   useEffect(() => {
     if (Array.isArray(RentableTime?.availableTimeSlots)) {
-      const availableTimes = RentableTime.availableTimeSlots
+      const availableTimes = RentableTime?.availableTimeSlots
         .filter((slot) => slot.status === 'OPEN') // `OPEN` 상태인 시간만 선택
         .map((slot) => slot.time.slice(0, 5)); // "10:00:00" -> "10:00"
-      setDisabledTimes(times.filter((time) => !availableTimes.includes(time)));
+      setDisabledTimes(times.filter((time) => !availableTimes?.includes(time)));
     } else {
       setDisabledTimes([...times]); // 데이터를 받지 못하면 전체 비활성화
     }
@@ -87,7 +87,7 @@ export default function TimePicker({ id, rentStartDate, rentEndDate, rentDuratio
 
   // 선택한 시간에 해당하는 availableDateTimedId를 찾아서 URL에 추가
   const handleNextStep = () => {
-    if (selectedTime && RentableTime?.availableTimeSlots) {
+    if (selectedTime && RentableTime?.availableTimeSlots && Array.isArray(RentableTime.availableTimeSlots)) {
       const reservationData = {
         productId: id,
         availableDateTimeId: RentableTime.availableTimeSlots.find((slot) => slot.time.slice(0, 5) === selectedTime)?.availableDateTimeId,
