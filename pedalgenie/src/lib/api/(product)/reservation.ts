@@ -5,6 +5,7 @@ import {
   DemoableTimeList,
   RentReservationData,
   DemoReservationData,
+  DemoableDate,
 } from '@/types/reservation-type';
 import axiosInstance from '../config/axiosConfig';
 
@@ -48,7 +49,7 @@ export async function CreateRentReservation(
 }
 
 // 시연 가능 날짜 목록 조회 api
-export async function fetchDemoableDate(productId: number): Promise<DemoableDateList> {
+export async function fetchDemoableDate(productId: number): Promise<DemoableDate[]> {
   try {
     const response = await axiosInstance.get(`/api/demos/dates/${productId}`);
     return response.data.data;

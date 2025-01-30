@@ -43,7 +43,6 @@ export interface DemoableDate {
   date: string;
   available: true;
 }
-export type DemoableDateList = DemoableDate[];
 
 // 시연 가능 시간 조회 api
 export interface DemoableTime {

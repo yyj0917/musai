@@ -1,16 +1,12 @@
-'use client';
-
-import { MouseEventHandler, useState } from 'react';
+import { MouseEventHandler, useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { fetchDemoableTime } from '@/lib/api/(product)/reservation';
 
-// 날짜 선택 되기 전 즉, api로 받아올 데이터가 없을 시
-// 날짜를 선택해주세요 텍스트 대체
-
 interface TimePickerProps {
   id: number;
+  demoDate: string | null;
 }
 
 interface PickUpTimeButtonProps {
@@ -20,88 +16,93 @@ interface PickUpTimeButtonProps {
   onClick: MouseEventHandler;
 }
 
-export default function TimePicker({ id }: TimePickerProps) {
-  const router = useRouter();
+// 24시간 형식을 12시간 형식으로 변환하는 함수
+const formatTime = (time: string) => {
+  const [hour, minute] = time.split(':').map(Number);
+  const formattedHour = hour > 12 ? hour - 12 : hour === 0 ? 12 : hour; // 0시는 12AM, 13시는 1PM
+  return `${formattedHour}:${minute.toString().padStart(2, '0')}`;
+};
 
-  const {
-    data: DemoableTime,
-    isLoading,
-    isError,
-  } = useQuery({
-    queryKey: ['DemoableTime', id], // 캐싱 키
-    queryFn: () => fetchDemoableTime(id, '2025-01-26'), // 날짜 첫번째 날짜로
-    staleTime: 1000 * 60 * 5, // 5분 동안 데이터 신선 상태 유지
-  });
+// 특정 시간을 표시하는 버튼 컴포넌트
+const PickUpTimeButton = ({ time, disabled, isSelected, onClick }: PickUpTimeButtonProps) => (
+  <div
+    onClick={!disabled ? onClick : undefined}
+    className={`flex items-center justify-center w-full h-[34px] border-1.5 rounded-sm text-body2 ${
+      disabled
+        ? 'border-grey750 text-grey150 cursor-not-allowed opacity-30 text-opacity-30'
+        : isSelected
+        ? 'border-red bg-darkRed'
+        : 'border-grey750 text-grey150 hover:bg-grey950 hover:text-white cursor-pointer'
+    }`}>
+    {formatTime(time)}
+  </div>
+);
 
-  // 특정 시간을 표시하는 픽업 시간 버튼 컴포넌트
-  const PickUpTimeButton = ({ time, disabled, isSelected, onClick }: PickUpTimeButtonProps) => {
-    return (
-      <div
-        onClick={!disabled ? onClick : undefined} // 비활성화된 시간은 클릭 이벤트 제거
-        className={`flex items-center justify-center w-full h-[34px] border-1.5 rounded-sm text-body2 ${
-          disabled
-            ? 'border-grey750 text-grey150 cursor-not-allowed opacity-30 text-opacity-30' // 비활성화된 시간
-            : isSelected
-              ? 'border-red bg-darkRed' // 선택된 시간
-              : 'border-grey750 text-grey150 hover:bg-grey950 hover:text-white cursor-pointer' // 기본 시간
-        }`}>
-        {time}
-      </div>
-    );
-  };
-
-  const handleNextStep = () => {
-    if (selectedTime) {
-      router.push('/rent/agreement'); // 약관 동의 페이지로 이동
-    }
-  };
-
-  // 오전 9시부터 오후 7시까지 시간 목록
-  const times = [
-    '9:00',
-    '9:30',
-    '10:00',
-    '10:30',
-    '11:00',
-    '11:30', // 오전
-    '12:00',
-    '12:30',
-    '1:00',
-    '1:30',
-    '2:00',
-    '2:30', // 오후
-    '3:00',
-    '3:30',
-    '4:00',
-    '4:30',
-    '5:00',
-    '5:30',
-    '6:00',
-    '6:30',
-    '7:00',
-  ];
-
-  // 임시로 픽업 불가능한 시간 체크
-  const disabledTimes = ['10:00', '3:00', '4:00'];
-
+export default function TimePicker({ id, demoDate }: TimePickerProps) {
   // 선택된 시간 상태
   const [selectedTime, setSelectedTime] = useState<string>('');
+  const router = useRouter();
+  // 오전 9시부터 오후 7시까지 시간 목록 (24시간 형식)
+  const times = Array.from({ length: 21 }, (_, i) => {
+    const hour = 9 + Math.floor(i / 2);
+    const minute = i % 2 === 0 ? '00' : '30';
+    return `${hour.toString().padStart(2, '0')}:${minute}`;
+  });
+
+  const [disabledTimes, setDisabledTimes] = useState<string[]>(times);
+
+  // 달력에서 선택된 날짜가 바뀔 시
+  useEffect(() => {
+    setSelectedTime('');
+  }, [demoDate]);
+
+  // targetDate가 null이 아닐 때만 API 호출
+  const { data: demoableTime } = useQuery({
+    queryKey: ['DemoableTime', id, demoDate],
+    queryFn: () => fetchDemoableTime(id, demoDate as string),
+    enabled: !!demoDate,
+    staleTime: 1000 * 60 * 5,
+  });
+
+  useEffect(() => {
+    if (Array.isArray(demoableTime)) {
+      const availableTimes = demoableTime
+        .filter((slot) => slot.available == true) // true 인 것만 선택
+        .map((slot) => slot.slotTime.slice(0, 5)); // "10:00:00" -> "10:00"
+      setDisabledTimes(times.filter((time) => !availableTimes.includes(time)));
+    } else {
+      setDisabledTimes([...times]); // 데이터를 받지 못하면 전체 비활성화
+    }
+  }, [demoableTime]);
+  // 이후 시연 생성 api에 사용될 값을 파라미터로 전달
+
+  const handleNextStep = () => {
+      router.push(
+        `/demo/${id}/agreement?demoDate=${demoDate}&selectedTime=${selectedTime}`
+      );
+  };
+
+  // 오전/오후 시간 나누기
+  const morningTimes = times.filter((time) => parseInt(time.split(':')[0]) < 12);
+  const afternoonTimes = times.filter((time) => parseInt(time.split(':')[0]) >= 12);
 
   return (
     <div className="pt-1">
-      <p className="text-title2 text-grey150">시연 시간</p>
+      <p className="text-title2 text-grey150">픽업 시간</p>
 
-      {/* 오전 */}
       <section className="py-[10px] pb-10">
+        {/* 오전 */}
         <p className="text-body2 text-grey150 pb-2">오전</p>
         <div className="grid grid-cols-4 gap-3">
-          {times.slice(0, 6).map((time) => (
+          {morningTimes.map((time) => (
             <PickUpTimeButton
               key={time}
               time={time}
-              disabled={disabledTimes.includes(time)}
+              disabled={demoDate === null || disabledTimes.includes(time)}
               isSelected={selectedTime === time}
-              onClick={() => setSelectedTime(time)}
+              onClick={() => {
+                setSelectedTime(time);
+              }}
             />
           ))}
         </div>
@@ -109,25 +110,25 @@ export default function TimePicker({ id }: TimePickerProps) {
         {/* 오후 */}
         <p className="text-body2 text-grey150 pb-2 mt-4">오후</p>
         <div className="grid grid-cols-4 gap-2">
-          {times.slice(6).map((time) => (
+          {afternoonTimes.map((time) => (
             <PickUpTimeButton
               key={time}
               time={time}
-              disabled={disabledTimes.includes(time)}
+              disabled={demoDate === null || disabledTimes.includes(time)}
               isSelected={selectedTime === time}
-              onClick={() => setSelectedTime(time)}
+              onClick={() => {
+                setSelectedTime(time);
+              }}
             />
           ))}
         </div>
       </section>
 
-      {/* 다음으로 버튼 */}
       <Button
         variant={'custom'}
         className={`w-full ${selectedTime ? 'bg-red text-grey150' : 'bg-grey750 text-grey150 opacity-30 cursor-not-allowed'}`}
         onClick={handleNextStep}
-        disabled={!selectedTime} // 선택된 시간이 없으면 비활성화
-      >
+        disabled={!selectedTime}>
         다음으로
       </Button>
     </div>
