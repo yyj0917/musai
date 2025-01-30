@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Checked from '@public/svg/rent/agreement/checked.svg';
 import Unchecked from '@public/svg/rent/agreement/unchecked.svg';
 
@@ -23,10 +23,15 @@ interface CheckButtonProps {
 }
 
 interface AgreementSectionProps {
-  id : number;
+  id: number;
 }
 
-export default function AgreementSection({id}: AgreementSectionProps) {
+export default function AgreementSection({ id }: AgreementSectionProps) {
+  const searchParams = useSearchParams();
+  const TimeId = searchParams.get('TimeId');
+  const EndDate = searchParams.get('EndDate');
+  const rentPricePerDay = searchParams.get('rentPricePerDay');
+  const rentDuration = searchParams.get('rentDuration'); // '4'
   const router = useRouter();
 
   // 개별 동의 상태 관리
@@ -56,7 +61,9 @@ export default function AgreementSection({id}: AgreementSectionProps) {
   // 다음으로 버튼 클릭 핸들러
   const handleNextStep = () => {
     if (isAllChecked) {
-      router.push(`/rent/${id}/confirmation`); // 다음 페이지로 이동
+      router.push(
+        `/rent/${id}/confirmation?rentPricePerDay=${rentPricePerDay}&rentDuration=${rentDuration}&TimeId=${TimeId}&EndDate=${EndDate}`,
+      ); // 다음 페이지로 이동
     }
   };
 

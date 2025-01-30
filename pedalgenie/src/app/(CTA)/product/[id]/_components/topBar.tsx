@@ -7,7 +7,7 @@ export default function TopBar() {
   const router = useRouter(); // Next.js의 useRouter 훅 사용
 
   const handleGoBack = () => {
-    router.back(); // 이전 페이지로 이동
+    router.push('/home');
   };
 
   return (

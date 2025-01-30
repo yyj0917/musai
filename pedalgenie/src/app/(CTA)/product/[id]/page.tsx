@@ -13,17 +13,7 @@ import InfoSwitcher from './_components/infoSwitcher';
 import CTA from '@/components/ui/CTA';
 import LoginModal from '@/components/modal/login-modal';
 import ProductHeart from './_components/ProductHeart';
-
-{
-  /*
-<button onClick={(e) => toggleLikeProduct(e)} className="absolute bottom-4 right-4 text-red ">
-  <Heart
-    strokeWidth={1.5}
-    className={`like-animation ${product?.isLiked || isAnimating ? 'unscale fill-red' : 'scale'} `}
-  />
-</button>;
-  */
-}
+import Loading from '@/components/loading';
 
 export default function Product({ params }: { params: { id: number } }) {
   const { id } = params; // 파라미터로 받아온 ProductId 값
@@ -79,6 +69,7 @@ export default function Product({ params }: { params: { id: number } }) {
         isLiked={productDetail?.isLiked}
       />
       <LoginModal />
+      {isLoading && <Loading />}
     </div>
   );
 }
