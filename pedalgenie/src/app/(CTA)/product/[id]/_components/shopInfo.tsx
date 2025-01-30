@@ -10,6 +10,7 @@ import Time from '@public/svg/product/time.svg';
 import Call from '@public/svg/product/call.svg';
 import Location from '@public/svg/product/location.svg';
 import LoginModal from '@/components/modal/login-modal';
+import Link from 'next/link';
 
 interface ShopHour {
   shopHoursId: number;
@@ -85,7 +86,6 @@ export default function ShopInfo({ shopName, shopHours, contactNumber, address, 
     // 로그인 체크
     if (!isLoggedIn) {
       openLoginModal();
-      console.log('로그인', isLoggedIn);
       return;
     }
 
@@ -111,7 +111,7 @@ export default function ShopInfo({ shopName, shopHours, contactNumber, address, 
   };
 
   return (
-    <div>
+    <Link href={`/home/shop/description/${shopId}`}>
       {/* 상점 정보 요약 섹션 */}
       <section>
         <div className="flex w-full items-center p-5 border-0.5 border-grey850">
@@ -133,7 +133,7 @@ export default function ShopInfo({ shopName, shopHours, contactNumber, address, 
           <button onClick={(e) => toggleLikeShop(e)} className="text-red">
             <Heart
               strokeWidth={1.5}
-              className={`like-animation ${isShopLiked || isAnimating ? 'unscale fill-red' : 'scale'} `}
+              className={`like-animation ${isShopLiked || isAnimating ? 'unscale fill-red' : ''} `}
             />
           </button>
         </div>
@@ -161,7 +161,7 @@ export default function ShopInfo({ shopName, shopHours, contactNumber, address, 
       {/* 매장 번호 */}
       <span className="flex gap-2 pb-1 pt-1">
         {ShopDetailInfo(Call, contactNumber)}
-        {contactNumber && !contactNumber.includes("마이페이지") && (
+        {contactNumber && !contactNumber.includes('마이페이지') && (
           <Button
             variant="copy"
             onClick={() => handleCopyToast(contactNumber)}
@@ -184,6 +184,6 @@ export default function ShopInfo({ shopName, shopHours, contactNumber, address, 
         </span>
         <LoginModal />
       </section>
-    </div>
+    </Link>
   );
 }

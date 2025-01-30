@@ -30,10 +30,7 @@ export default function PaymentModal({ isOpen, onClose, id, totalPrice }: Paymen
 
   // 파라미터에서 timeId 받아오기
   const timeIdParam = searchParams.get('TimeId');
-  if (!timeIdParam) {
-    console.log('timeId 불러오기 실패');
-    return null;
-  } // timeIdParam이 null일 때 0으로 설정하여 항상 useMutation이 실행되도록 수정.
+  // timeIdParam이 null일 때 0으로 설정하여 항상 useMutation이 실행되도록 수정.
   const timeId = timeIdParam ? parseInt(timeIdParam, 10) || 0 : 0;
 
   // 대여 생성 요청
@@ -44,17 +41,18 @@ export default function PaymentModal({ isOpen, onClose, id, totalPrice }: Paymen
   } = useMutation({
     mutationFn: () => CreateRentReservation(id, timeId, formattedEndDateTime),
     onSuccess: (data) => {
-      console.log('대여 예약 성공:', data);
       toast({ description: '대여 예약이 완료되었어요!' });
       router.push(`/product/${id}`);
       onClose();
     },
     onError: (error) => {
-      console.error('대여 예약 실패:', error);
       toast({ description: '대여 예약에 실패했어요. 다시 시도해주세요.' });
     },
   });
-
+  // 이제 timeId가 0일 경우 early return 가능
+  if (!timeIdParam) {
+    return null;
+  }
   const handleCloseRentPage = () => {
     router.push(`/product/${id}`);
     createRent();

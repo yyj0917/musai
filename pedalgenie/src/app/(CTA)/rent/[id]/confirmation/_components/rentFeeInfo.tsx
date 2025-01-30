@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { fetchUserInfo } from '@/lib/api/auth';
 import CopyButton from './copyButton';

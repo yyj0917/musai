@@ -6,6 +6,7 @@ import { DemoProduct } from '@/types/product-type';
 import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import Loading from '@/components/loading';
+import NotFoundAll from '@/components/not-found-all';
 
 // 시연예정 상태의 대여 상품만 필터링하는 함수
 const filterDemoProducts = (products: DemoProduct[]) => {
@@ -30,6 +31,14 @@ export default function Demo() {
   // 데이터가 존재하고 로딩중이 아닐 경우 시연 상품 필터링
   const filteredDemoProducts = demoProducts ? filterDemoProducts(demoProducts) : [];
 
+
+  if (demoProducts?.length === 0) {
+    return (
+      <div className="w-full h-[calc(100dvh-87px-85px)] my-auto flex justify-center items-center">
+        <NotFoundAll alertText="시연 내역이 존재하지 않습니다" />
+      </div>
+    );
+  }
   return (
     <>
       <div className="w-full h-[100dvh-98.5px] flex flex-col overflow-y-auto scrollbar-hide">

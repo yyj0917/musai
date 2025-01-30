@@ -48,27 +48,3 @@ export default function KakaoCallbackPage() {
 
   return null;
 }
-// export default function KakaoCallbackPage() {
-//   const searchParams = useSearchParams();
-//   const code = searchParams?.get('code');
-
-//   useEffect(() => {
-//     if (code) {
-//       axios
-//         .get('http://localhost:8080/auth/kakao/callback', { params: { code } })
-//         .then((response) => {
-//           console.log('로그인 성공:', response.data);
-//           localStorage.setItem('accessToken', response.data.data.accessToken);
-//         })
-//         .catch((error) => {
-//           console.error('로그인 실패:', error);
-//         });
-//     }
-//   }, [code]);
-
-//   if (!code) {
-//     return <div>코드가 없습니다. URL을 확인해주세요.</div>;
-//   }
-
-//   return <div>카카오 로그인 중...</div>;
-// }

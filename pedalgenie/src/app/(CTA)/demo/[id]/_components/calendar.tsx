@@ -46,7 +46,7 @@ export default function Calendar({
   const handleDateClick = (selectedDate: Date) => {
       setStartDate(selectedDate);
       onStartDateChange(format(selectedDate, 'yyyy-MM-dd'));
-    }
+    };
 
   // 달력 요일 계산
   const generateDates = () => {

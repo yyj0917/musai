@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import ProductItem from './product';
 import FilterSpan from './(filter)/filter-span';
@@ -9,7 +9,6 @@ import { useFilterStore } from '@/lib/zustand/useFilterStore';
 import { useScrollStore } from '@/lib/zustand/useScrollStore';
 import { useModalStore } from '@/lib/zustand/useModalStore';
 import LoginModal from '@/components/modal/login-modal';
-import { before, set, throttle } from 'lodash';
 import FloatingButton from '@/components/floating-button';
 import { Product, ProductList } from '@/types/product-type';
 import { useInfiniteQuery } from '@tanstack/react-query';
@@ -33,7 +32,6 @@ export default function ProductSection() {
 
   const { setFloatingButton } = useModalStore();
 
-  const isHeaderVisible = useScrollStore((state) => state.isHeaderVisible);
   const setHeaderVisible = useScrollStore((state) => state.setHeaderVisible);
 
   const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory);
@@ -182,16 +180,7 @@ export default function ProductSection() {
         // 작은 변동 무시
         return;
       }
-
-      if (navTop <= mainTop) {
-        setHeaderVisible(false); // nav 고정
-        // 0.5초 후에 카테고리 고정 실행
-        // setTimeout(() => {
-        //   setCategoryFixed(true);
-        // }, 300); // 0.5초 (500ms) 후 실행
-      }
       if (beforeScrollY.current > currentScrollTop) {
-        setHeaderVisible(true); // 헤더 보이기
         // setCategoryFixed(false); // 카테고리 고정 해제
         setFloatingButton(false);
       } else {
@@ -324,7 +313,7 @@ export default function ProductSection() {
         {/* 로그인 유저가 아닐 시 로그인 모달 */}
         <LoginModal />
         {/* 로딩 중 */}
-        {isLoading || (!isDelay && <Loading />)}
+        {isLoading && <Loading />}
       </section>
       {/* 플로팅 버튼 */}
       <FloatingButton scrollContainer={'main'} />
