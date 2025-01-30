@@ -35,7 +35,7 @@ export default function MyPage() {
     queryFn: fetchUserInfo, // fetchMembers 함수
     staleTime: 1000 * 60 * 5, // 데이터가 5분 동안 신선하다고 간주
     gcTime: 1000 * 60 * 10, // 10분 동안 캐싱 유지
-    enabled: true, // 활성화
+    enabled: isLoggedIn, // 활성화
   });
 
   // 새로고침 시 isLoggedIn = true이면 refetch
