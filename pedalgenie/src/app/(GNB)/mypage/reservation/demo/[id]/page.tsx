@@ -67,7 +67,7 @@ export default function DemoDetailPage({ params }: { params: { id: number } }) {
                 className="pr-4 text-grey550 text-body2">취소하기</button>)}
       </nav>
       {/* 상품 정보 카드 */}
-      <div className="py-5 w-full flex justify-between items-center">
+      <div className="py-5 w-full flex justify-between items-start">
         <div className="relative flex-shrink-0 w-[100px] h-[100px]" style={{ aspectRatio: '1 : 1' }}>
           <Image
             src={`${demoProductDetail?.productThumbnailImageUrl}`}
@@ -82,7 +82,7 @@ export default function DemoDetailPage({ params }: { params: { id: number } }) {
             {demoProductDetail?.productName}
           </h2>
           <p className="flex justify-start text-body1 text-grey550">
-            <span className='flex-1'>{demoProductDetail?.shopName} ㅣ </span>
+            <span className='flex'>{demoProductDetail?.shopName} ㅣ </span>
             <span className='flex-1'>{demoProductDetail?.shopAddress}</span>
           </p>
         </div>

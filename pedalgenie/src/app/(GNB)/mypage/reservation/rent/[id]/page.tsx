@@ -87,7 +87,7 @@ export default function RentDetailPage({ params }: { params: { id: number } }) {
         )}
       </nav>
       {/* 상품 정보 카드 */}
-      <div className="py-5 w-full flex justify-between items-center">
+      <div className="py-5 w-full flex justify-between items-start">
         <div className="relative flex-shrink-0 w-[100px] h-[100px]" style={{ aspectRatio: '1 : 1' }}>
           <Image
             src={`${rentProductDetail?.productImage}` || '/img/preview-card.jpg'}
@@ -102,7 +102,7 @@ export default function RentDetailPage({ params }: { params: { id: number } }) {
             {rentProductDetail?.productName}
           </h2>
           <p className="flex justify-start text-body1 text-grey550">
-            <span className='flex-1'>{rentProductDetail?.shopName} ㅣ </span>
+            <span className='flex'>{rentProductDetail?.shopName} ㅣ </span>
             <span className='flex-1'>{rentProductDetail?.shopDetailAddress}</span>
           </p>
         </div>
