@@ -160,7 +160,7 @@ export default function ShopInfo({ shopName, shopHours, contactNumber, address, 
       {/* 매장 번호 */}
       <span className="flex gap-2 pb-1 pt-1">
         {ShopDetailInfo(Call, contactNumber)}
-        {contactNumber && !contactNumber.includes("마이페이지") && (
+        {contactNumber && !contactNumber.includes('마이페이지') && (
           <Button
             variant="copy"
             onClick={() => handleCopyToast(contactNumber)}
