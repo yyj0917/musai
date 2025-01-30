@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 
-import { use, useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useModalStore } from '@/lib/zustand/useModalStore';
 import { useChannelIOApi } from 'react-channel-plugin';
 
@@ -15,8 +15,8 @@ import LoginModal from '../../../components/modal/login-modal';
 import LogoutModal from '@/components/modal/logout-modal';
 import WithdrawModal from '@/components/modal/withdraw-modal';
 import { fetchUserInfo } from '@/lib/api/auth';
-import { useAuthStore, useLoginStore } from '@/lib/zustand/useAuthStore';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useLoginStore } from '@/lib/zustand/useAuthStore';
+import { useQuery } from '@tanstack/react-query';
 import Loading from '@/components/loading';
 
 export default function MyPage() {
@@ -26,7 +26,6 @@ export default function MyPage() {
 
   const { showMessenger } = useChannelIOApi();
   const isLoggedIn = useLoginStore((state) => state.isLoggedIn);
-  const { accessToken } = useAuthStore();
 
 
 
@@ -36,7 +35,7 @@ export default function MyPage() {
     queryFn: fetchUserInfo, // fetchMembers 함수
     staleTime: 1000 * 60 * 5, // 데이터가 5분 동안 신선하다고 간주
     gcTime: 1000 * 60 * 10, // 10분 동안 캐싱 유지
-    enabled: isLoggedIn, // 활성화
+    enabled: true, // 활성화
   });
 
   // 새로고침 시 isLoggedIn = true이면 refetch
