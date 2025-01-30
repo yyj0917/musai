@@ -12,7 +12,10 @@ interface AvailableTimeSlots {
 
 interface TimePickerProps {
   id: number;
-  targetDate: string | null;
+  rentStartDate: string | null;
+  rentEndDate: string | null;
+  rentDuration: number;
+  rentPricePerDay: number | undefined;
 }
 
 interface PickUpTimeButtonProps {
@@ -44,9 +47,8 @@ const PickUpTimeButton = ({ time, disabled, isSelected, onClick }: PickUpTimeBut
   </div>
 );
 
-export default function TimePicker({ id, targetDate }: TimePickerProps) {
+export default function TimePicker({ id, rentStartDate, rentEndDate, rentDuration, rentPricePerDay }: TimePickerProps) {
   const router = useRouter();
-
   // 오전 9시부터 오후 7시까지 시간 목록 (24시간 형식)
   const times = Array.from({ length: 21 }, (_, i) => {
     const hour = 9 + Math.floor(i / 2);
@@ -62,13 +64,13 @@ export default function TimePicker({ id, targetDate }: TimePickerProps) {
   useEffect(() => {
     setSelectedTime('');
     setSelectedTimeId(null); // 선택된 시간 ID도 초기화
-  }, [targetDate]);
+  }, [rentStartDate]);
 
   // targetDate가 null이 아닐 때만 API 호출
   const { data: RentableTime } = useQuery({
-    queryKey: ['RentableTime', id, targetDate],
-    queryFn: () => fetchRentableTime(id, targetDate as string),
-    enabled: !!targetDate,
+    queryKey: ['RentableTime', id, rentStartDate],
+    queryFn: () => fetchRentableTime(id, rentStartDate as string),
+    enabled: !!rentStartDate,
     staleTime: 1000 * 60 * 5,
   });
 
@@ -89,10 +91,10 @@ export default function TimePicker({ id, targetDate }: TimePickerProps) {
       const reservationData = {
         productId: id,
         availableDateTimeId: RentableTime.availableTimeSlots.find((slot) => slot.time.slice(0, 5) === selectedTime)?.availableDateTimeId,
-        rentEndDateTime: `${targetDate}T${selectedTime}:00`,
+        rentEndDateTime: `${rentStartDate}T${selectedTime}:00`,
       };
       router.push(
-        `/rent/${id}/agreement?pickUpTime=${selectedTime}&TimeId=${reservationData.availableDateTimeId}&StartDate=${targetDate}&EndDate=${targetDate}`
+        `/rent/${id}/agreement?pickUpTime=${selectedTime}&TimeId=${reservationData.availableDateTimeId}&StartDate=${rentStartDate}&EndDate=${rentEndDate}&rentDuration=${rentDuration}&rentPricePerDay=${rentPricePerDay}`
       );
     }
   };
@@ -113,7 +115,7 @@ export default function TimePicker({ id, targetDate }: TimePickerProps) {
             <PickUpTimeButton
               key={time}
               time={time}
-              disabled={targetDate === null || disabledTimes.includes(time)}
+              disabled={rentStartDate === null || disabledTimes.includes(time)}
               isSelected={selectedTime === time}
               onClick={() => {
                 setSelectedTime(time);
@@ -129,7 +131,7 @@ export default function TimePicker({ id, targetDate }: TimePickerProps) {
             <PickUpTimeButton
               key={time}
               time={time}
-              disabled={targetDate === null || disabledTimes.includes(time)}
+              disabled={rentStartDate === null || disabledTimes.includes(time)}
               isSelected={selectedTime === time}
               onClick={() => {
                 setSelectedTime(time);
