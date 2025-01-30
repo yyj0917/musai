@@ -75,9 +75,8 @@ export async function fetchDemoableTime(productId: number, date: string): Promis
 // 시연 생성 api => header에 토큰
 export async function CreateDemoReservation(demoDate: string, productId: number): Promise<void> {
   try {
-    await axiosInstance.post('/api/demos', {demoDate, productId});
+    await axiosInstance.post('/demos', {demoDate, productId});
   } catch (error) {
-    console.log(error);
     console.log('CreateDemoReservation 에러', error);
     throw new Error('Unable to fetch rentable times. Please try again later.');
   }
