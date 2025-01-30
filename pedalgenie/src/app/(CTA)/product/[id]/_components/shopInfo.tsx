@@ -140,7 +140,7 @@ export default function ShopInfo({ shopName, shopHours, contactNumber, address, 
       </section>
 
       {/* 상점 상세 정보 섹션 */}
-      <section className="flex flex-col gap-1 py-5 px-4">
+      <section className="flex flex-col gap-1 py-5 px-4 pb-10">
       {/* 매장 운영 시간 */}
       {shopHours && shopHours.length > 0 ? (
         shopHours.map((hour, index) => (
