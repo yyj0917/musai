@@ -82,8 +82,8 @@ export default function DemoDetailPage({ params }: { params: { id: number } }) {
             {demoProductDetail?.productName}
           </h2>
           <p className="flex justify-start text-body1 text-grey550">
-            <span>{demoProductDetail?.shopName} ㅣ </span>
-            <span>{demoProductDetail?.shopAddress}</span>
+            <span className='flex-1'>{demoProductDetail?.shopName} ㅣ </span>
+            <span className='flex-1'>{demoProductDetail?.shopAddress}</span>
           </p>
         </div>
       </div>

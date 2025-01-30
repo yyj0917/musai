@@ -46,8 +46,8 @@ export default function RentCard({ rentProduct }: { rentProduct: RentProduct }) 
               {rentProduct.productName}
             </h2>
             <p className="flex justify-start text-caption2 text-grey550">
-              <span>{rentProduct.shopName} ㅣ </span>
-              <span>{rentProduct.shopDetailAddress}</span>
+              <span className='flex-1'>{rentProduct.shopName} ㅣ </span>
+              <span className='flex-1'>{rentProduct.shopDetailAddress}</span>
             </p>
           </div>
           <div className="w-auto flex flex-col gap-1">

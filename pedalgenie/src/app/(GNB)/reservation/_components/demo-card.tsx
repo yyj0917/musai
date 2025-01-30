@@ -3,7 +3,7 @@
 import { useModalStore } from '@/lib/zustand/useModalStore';
 import { DemoProduct } from '@/types/product-type';
 import Image from 'next/image';
-import { useState } from 'react';
+import Link from 'next/link';
 
 export default function DemoCard({ demoProduct }: { demoProduct: DemoProduct }) {
   const { openCancelModal } = useModalStore();
@@ -28,22 +28,26 @@ export default function DemoCard({ demoProduct }: { demoProduct: DemoProduct }) 
           </button>
         )}
       </nav>
-      <div className="w-full flex justify-between items-center">
-        <Image
-          src={`${demoProduct.productThumbnailImageUrl}`}
-          alt="preview card"
-          width={100}
-          height={100}
-          className="rounded-[2px]"
-        />
+      <Link
+        href={`/mypage/reservation/demo/${demoProduct.demoId}`}
+        className="w-full flex justify-between items-center">
+        <div className="relative w-[100px] h-[100px]" style={{ aspectRatio: '1 : 1' }}>
+          <Image
+            src={`${demoProduct.productThumbnailImageUrl}`}
+            alt="preview card"
+            layout="fill"
+            className="rounded-[2px] object-fit"
+            priority
+          />
+        </div>
         <div className="w-auto flex flex-col gap-2">
           <div className="w-auto flex flex-col justify-start">
             <h2 className="max-w-[227px] max-h-[54px] text-body1 text-grey150 line-clamp-1">
               {demoProduct.productName}
             </h2>
             <p className="flex justify-start text-caption2 text-grey550">
-              <span>{demoProduct.shopName} ㅣ </span>
-              <span>{demoProduct.shopAddress}</span>
+              <span className='flex-1'>{demoProduct.shopName} ㅣ </span>
+              <span className='flex-1'>{demoProduct.shopAddress}</span>
             </p>
           </div>
           <div className="w-auto flex items-center">
@@ -53,7 +57,7 @@ export default function DemoCard({ demoProduct }: { demoProduct: DemoProduct }) 
             </span>
           </div>
         </div>
-      </div>
+      </Link>
     </section>
   );
 }

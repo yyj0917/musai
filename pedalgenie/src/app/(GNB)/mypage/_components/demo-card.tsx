@@ -4,7 +4,6 @@ import { useModalStore } from '@/lib/zustand/useModalStore';
 import { DemoProduct } from '@/types/product-type';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
 
 export default function DemoCard({ demoProduct }: { demoProduct: DemoProduct }) {
   const { openCancelModal } = useModalStore();
@@ -47,8 +46,8 @@ export default function DemoCard({ demoProduct }: { demoProduct: DemoProduct }) 
               {demoProduct.productName}
             </h2>
             <p className="flex justify-start text-caption2 text-grey550">
-              <span>{demoProduct.shopName} ㅣ </span>
-              <span>{demoProduct.shopAddress}</span>
+              <span className='flex-1'>{demoProduct.shopName} ㅣ </span>
+              <span className='flex-1'>{demoProduct.shopAddress}</span>
             </p>
           </div>
           <div className="w-auto flex items-center">

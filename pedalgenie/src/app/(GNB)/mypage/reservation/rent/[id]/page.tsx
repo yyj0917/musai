@@ -102,8 +102,8 @@ export default function RentDetailPage({ params }: { params: { id: number } }) {
             {rentProductDetail?.productName}
           </h2>
           <p className="flex justify-start text-body1 text-grey550">
-            <span>{rentProductDetail?.shopName} ㅣ </span>
-            <span>{rentProductDetail?.shopDetailAddress}</span>
+            <span className='flex-1'>{rentProductDetail?.shopName} ㅣ </span>
+            <span className='flex-1'>{rentProductDetail?.shopDetailAddress}</span>
           </p>
         </div>
       </div>
