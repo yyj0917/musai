@@ -6,6 +6,7 @@ import {
   RentReservationData,
   DemoReservationData,
   DemoableDate,
+  DemoSuccess,
 } from '@/types/reservation-type';
 import axiosInstance from '../config/axiosConfig';
 
@@ -72,13 +73,12 @@ export async function fetchDemoableTime(productId: number, date: string): Promis
 }
 
 // 시연 생성 api => header에 토큰
-export async function CreateDemoReservation(demoDate: string, productId: number): Promise<RentReservationData> {
+export async function CreateDemoReservation(demoDate: string, productId: number): Promise<void> {
   try {
-    const response = await axiosInstance.post('/api/demos');
-    return response.data.data;
+    await axiosInstance.post('/api/demos', {demoDate, productId});
   } catch (error) {
     console.log(error);
-
+    console.log('CreateDemoReservation 에러', error);
     throw new Error('Unable to fetch rentable times. Please try again later.');
   }
 }

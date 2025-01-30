@@ -60,3 +60,12 @@ export interface DemoReservationData {
   shopName: string;
   memberNickName: string;
 }
+
+export type DemoSuccess = {
+  demoId: number;
+  demoStatus: string; // 시연예정
+  demoDate: string; // 2025.01.20 PM 3:00
+  productName: string;
+  shopName: string;
+  memberNickName: string;
+}

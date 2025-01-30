@@ -5,6 +5,10 @@ import { Button } from '@/components/ui/button';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Checked from '@public/svg/rent/agreement/checked.svg';
 import Unchecked from '@public/svg/rent/agreement/unchecked.svg';
+import { CreateDemoReservation } from '@/lib/api/(product)/reservation';
+import { useMutation } from '@tanstack/react-query';
+import { toast } from '@/hooks/use-toast';
+import Loading from '@/components/loading';
 
 // 동의 항목의 키 타입 정의
 type AgreementKeys = 'personalInfo' | 'terms';
@@ -28,8 +32,8 @@ interface AgreementSectionProps {
 
 export default function AgreementSection({ id }: AgreementSectionProps) {
   const searchParams = useSearchParams();
-  const selectedTime = searchParams.get('TimeId');
-  const demoDate = searchParams.get('EndDate');
+  const selectedTime = searchParams.get('selectedTime');
+  const demoDate = searchParams.get('demoDate');
   const router = useRouter();
 
   // 개별 동의 상태 관리
@@ -56,15 +60,6 @@ export default function AgreementSection({ id }: AgreementSectionProps) {
     setAgreements(newAgreements);
   };
 
-  // 다음으로 버튼 클릭 핸들러
-  const handleNextStep = () => {
-    if (isAllChecked) {
-      router.push(
-        `/demo/${id}/confirmation?demoDate=${demoDate}&selectedTime=${selectedTime}`,
-      ); // 다음 페이지로 이동
-    }
-  };
-
   // 모두 동의 버튼 컴포넌트
   const AllCheckButton = ({ text, isChecked, onClick }: CheckButtonProps) => {
     return (
@@ -88,6 +83,37 @@ export default function AgreementSection({ id }: AgreementSectionProps) {
       </div>
     );
   };
+
+  // 다음으로 버튼 클릭 핸들러
+  const handleNextStep = () => {
+    if (isAllChecked) {
+      createDemo();
+    }
+  };
+
+  if (!demoDate || !selectedTime) {
+    toast({ description: '날짜와 시간을 선택해주세요.' });
+    return;
+  }
+  const formattedDateTime = `${demoDate}T${selectedTime}`;
+
+  // 시연 생성 요청
+  const {
+    mutate: createDemo,
+    isPending,
+    isError,
+  } = useMutation({
+    mutationFn: () => CreateDemoReservation(formattedDateTime, id),
+    onSuccess: (data) => {
+      console.log('시연 예약 성공:', data);
+      toast({ description: '시연 예약이 완료되었어요!' });
+      router.push(`/product/${id}`);
+    },
+    onError: (error) => {
+      console.error('시연 예약 실패:', error);
+      toast({ description: '시연 예약에 실패했어요. 다시 시도해주세요.' });
+    },
+  });
 
   return (
     <section className="w-full pt-6 text-grey150 pb-10">
@@ -117,6 +143,7 @@ export default function AgreementSection({ id }: AgreementSectionProps) {
           다음으로
         </Button>
       </div>
+      {isPending && <Loading />}
     </section>
   );
 }
