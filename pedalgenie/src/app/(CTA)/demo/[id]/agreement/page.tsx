@@ -1,8 +1,7 @@
 import TopBar from '../_components/topBar';
 import DemoReservationInfo from './_components/demoReservationInfo';
-import NoticeSection from '@/app/(CTA)/rent/[id]/agreement/_components/noticeSection';
-import AgreementSection from '@/app/(CTA)/rent/[id]/agreement/_components/agreementSection';
-import PaymentSummary from '@/app/(CTA)/rent/[id]/_components/paymentSummary';
+import NoticeSection from './_components/noticeSection';
+import AgreementSection from './_components/agreementSection';
 
 // ProductDetail의 상품명
 // 대여 기간, 픽업 일정
