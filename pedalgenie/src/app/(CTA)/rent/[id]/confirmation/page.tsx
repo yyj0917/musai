@@ -13,7 +13,7 @@ export default function Confirmation({ params }: { params: { id: number } }) {
       <TopBar />
       <div className="flex-1 w-full p-4">
         <RentFeeSummary />
-        <RentFeeInfo account="신한 110203923432" />
+        <RentFeeInfo account="79420695566 카카오뱅크" />
       </div>
       <div className='px-4 pt-3 pb-8'>
       <SubmitButton id={id} />

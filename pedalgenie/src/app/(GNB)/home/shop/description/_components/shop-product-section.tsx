@@ -18,7 +18,7 @@ export default function ShopProductSection({ shopProduct, instrumentCount }: Sho
   return (
     <section
       className="
-            w-full h-auto flex flex-col justify-center items-center 
+            w-full h-auto flex flex-col justify-center items-center
             text-head1 text-grey450">
       <div className="px-4 pt-4 pb-1 w-full flex gap-1">
         <span className="text-title1 text-grey150">전체</span>
