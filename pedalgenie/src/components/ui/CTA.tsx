@@ -6,26 +6,21 @@ import CTAvector from '@public/svg/CTA-vector.svg';
 import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';
 import { Button } from './button';
-import { Heart } from 'lucide-react';
-import { useLikeProductMutation } from '@/hooks/useLikeProductMutation';
-import { useState } from 'react';
 import { useModalStore } from '@/lib/zustand/useModalStore';
 import { useLoginStore } from '@/lib/zustand/useAuthStore';
 import LoginModal from '../modal/login-modal';
+import ProductHeart from '@/app/(CTA)/product/[id]/_components/ProductHeart';
 
 interface CTAProps {
   productId: number;
   isRentable: boolean | undefined;
   isDemoable: boolean | undefined;
   isLiked: boolean | undefined | null;
-  // 비로그인 시 null로 받아와짐
 }
 
 export default function CTA({ productId, isRentable, isDemoable, isLiked }: CTAProps) {
   // 로그인 관련
   const { isLoggedIn } = useLoginStore();
-  // 하트 관련
-  const [isAnimating, setIsAnimating] = useState(false);
   const { toast } = useToast();
   const { openLoginModal } = useModalStore();
 
@@ -36,37 +31,9 @@ export default function CTA({ productId, isRentable, isDemoable, isLiked }: CTAP
     });
   };
 
-  // 좋아요 Mutation
-  const likeMutation = useLikeProductMutation(productId, ['productDetail']);
-
-  const toggleLikeProduct = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-
-    // 로그인 체크
-    if (!isLoggedIn) {
-      openLoginModal();
-      console.log('로그인', isLoggedIn);
-      return;
-    }
-    // 1) 하트 애니메이션 실행
-    setIsAnimating(true);
-    setTimeout(() => {
-      setIsAnimating(false);
-    }, 500);
-
-    // 2) 서버에 좋아요 or 취소 요청 (Optimistic Update)
-    likeMutation?.mutate(!isLiked);
-  };
-
   return (
     <nav className="bg-grey1000 absolute bottom-0 w-full flex justify-between items-center pt-3 pb-[50px] px-[20px] border-t-[1px] border-grey750 font-pretendard">
-      <button onClick={(e) => toggleLikeProduct(e)} className="text-red">
-        <Heart
-          strokeWidth={1.5}
-          className={`like-animation ${isLiked || isAnimating ? 'unscale fill-red' : 'scale'} `}
-        />
-      </button>
-
+      <ProductHeart isLiked={isLiked} productId={productId} queryKey={['productDetail']} />
       <div className="flex justify-center items-center gap-5 text-label1 text-grey250">
         {/* 대여 예약하기 */}
         {isLoggedIn === false ? (
@@ -96,7 +63,7 @@ export default function CTA({ productId, isRentable, isDemoable, isLiked }: CTAP
           </Button>
         )}
       </div>
-      <LoginModal/>
+      <LoginModal />
     </nav>
   );
 }
