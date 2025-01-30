@@ -41,15 +41,21 @@ const formatBreakTime = (breakStartTime?: string | null, breakEndTime?: string |
   }
   return '';
 };
-
 // 매장 운영 시간 포맷 함수 (ShopHour 객체 전체를 받아서 처리)
 const formatTime = (hour: ShopHour) => {
   const formattedOpenTime = formatTimeString(hour.openTime);
   const formattedCloseTime = formatTimeString(hour.closeTime);
   const breakTime = formatBreakTime(hour.breakStartTime, hour.breakEndTime);
 
-  // dayType 구분하여 (평일/주말) 포맷
-  const formattedDayType = hour.dayType === 'WEEKDAY' ? '평일' : '주말';
+  // dayType 구분하여 (평일/주말/휴일) 포맷
+  let formattedDayType = '';
+  if (hour.dayType === 'WEEKDAY') {
+    formattedDayType = '평일';
+  } else if (hour.dayType === 'WEEKEND') {
+    formattedDayType = '주말';
+  } else if (hour.dayType === 'HOLIDAY') {
+    formattedDayType = '휴일';
+  }
 
   return `${formattedDayType} ${formattedOpenTime} ~ ${formattedCloseTime} ${breakTime}`;
 };
@@ -57,9 +63,9 @@ const formatTime = (hour: ShopHour) => {
 // [매장 운영 시간, 번호, 주소]를 위한 [이미지, 텍스트] 렌더링 컴포넌트
 const ShopDetailInfo = (Img: React.ComponentType<React.SVGProps<SVGSVGElement>>, text?: string) =>
   text ? (
-    <div className="flex items-center">
-      <Img />
-      <p className="text-sm text-grey250 pl-1">{text}</p>
+    <div className="flex items-start gap-2">
+      <Img className="w-5 h-5" />
+      <p className="text-sm text-grey250 break-words">{text}</p> {/* break-words로 텍스트가 여러 줄로 나뉘게 함 */}
     </div>
   ) : null; // text가 없을 경우 렌더링 생략
 
@@ -109,7 +115,7 @@ export default function ShopInfo({ shopName, shopHours, contactNumber, address, 
       <section>
         <div className="flex w-full items-center p-5 border-0.5 border-grey850">
           <div className="w-full flex items-center">
-            <div className="bg-grey450 w-10 h-10 rounded-full"> </div> {/* 매장 이미지 */}
+            <div className="bg-grey450 w-10 h-10 rounded-full"> </div> {/* 매장 이미지 */} 
             <p className="font-semibold text-white pl-3">{shopName}</p> {/* 매장 이름 */}
           </div>
           <button onClick={(e) => toggleLikeShop(e)} className="text-red">
@@ -122,20 +128,27 @@ export default function ShopInfo({ shopName, shopHours, contactNumber, address, 
       </section>
 
       {/* 상점 상세 정보 섹션 */}
-      <section className="flex flex-col gap-2 py-5 px-4">
-        {/* 매장 운영 시간 */}
-        {shopHours && shopHours.length > 0 ? (
-          shopHours.map((hour) => (
-            <div key={hour.shopHoursId} className="flex w-full">
-              {ShopDetailInfo(Time, formatTime(hour))}
-            </div>
-          ))
-        ) : (
-          <p className="text-sm text-grey250">운영 시간이 없습니다.</p>
-        )}
+      <section className="flex flex-col gap-1 py-5 px-4">
+      {/* 매장 운영 시간 */}
+      {shopHours && shopHours.length > 0 ? (
+        shopHours.map((hour, index) => (
+          <div key={hour.shopHoursId} className="flex w-full">
+            {/* 첫 번째 항목일 때만 이미지 렌더링 */}
+            {index === 0 ? ShopDetailInfo(Time, formatTime(hour)) : (
+              <div className="flex items-start gap-2">
+                <span className='w-5 h-w' />
+                <p className="text-sm text-grey250 break-words">{formatTime(hour)}</p> {/* 텍스트만 렌더링 */}
+              </div>
+            )}
+          </div>
+        ))
+      ) : (
+        <p className="text-sm text-grey250">운영 시간이 없습니다.</p>
+      )}
+
 
         {/* 매장 번호 */}
-        <span className="flex gap-2">
+        <span className="flex gap-2 pb-1 pt-1">
           {ShopDetailInfo(Call, contactNumber)}
           <Button
             variant="copy"
