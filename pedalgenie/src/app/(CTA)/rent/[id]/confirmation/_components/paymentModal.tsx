@@ -1,21 +1,27 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import CopyButton from './copyButton';
 import { useToast } from '@/hooks/use-toast';
 
 interface PaymentModalProps {
   isOpen: boolean;
   onClose: () => void; // 부모에서 모달 닫기 제어
+  id: number;
 }
 
-export default function PaymentModal({ isOpen, onClose }: PaymentModalProps) {
+export default function PaymentModal({ isOpen, onClose, id }: PaymentModalProps) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const endDateParam = searchParams.get('EndDate');
+  const rentDurationParam = searchParams.get('rentDuration'); // '4'
+  const rentPricePerDayParam = searchParams.get('rentPricePerDay'); // '1000'
+
   const { toast } = useToast();
 
   const handleCloseRentPage = () => {
-    router.push('/home'); // [id]
+    router.push(`/product/${id}`);
     onClose(); // 모달 닫기
     toast({
       description: '대여 예약이 완료되었어요!',

@@ -5,9 +5,10 @@ import PaymentModal from './paymentModal';
 
 interface SubmitButtonProps {
   text: string;
+  id: number;
 }
 
-export default function SubmitButton({ text }: SubmitButtonProps) {
+export default function SubmitButton({ text, id }: SubmitButtonProps) {
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 열림 상태
 
   const handleOpenModal = () => setIsModalOpen(true); // 모달 열기
@@ -22,7 +23,7 @@ export default function SubmitButton({ text }: SubmitButtonProps) {
       </button>
 
       {/* 모달 */}
-      {isModalOpen && <PaymentModal isOpen={isModalOpen} onClose={handleCloseModal} />}
+      {isModalOpen && <PaymentModal isOpen={isModalOpen} onClose={handleCloseModal} id={id}/>}
     </>
   );
 }

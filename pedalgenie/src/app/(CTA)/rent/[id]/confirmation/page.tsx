@@ -5,7 +5,8 @@ import SubmitButton from './_components/submitButton';
 
 // 입금계좌
 
-export default function Confirmation() {
+export default function Confirmation({ params }: { params: { id: number } }) {
+  const { id } = params; // 파라미터로 받아온 ProductId 값
 
   return (
     <div className="w-full h-full flex flex-col text-grey250 font-pretendard">
@@ -15,7 +16,7 @@ export default function Confirmation() {
         <RentFeeInfo account="신한 110203923432" />
       </div>
       <div className='px-4 pt-3 pb-8'>
-      <SubmitButton text="300,000원 입금하기" />
+      <SubmitButton text="300,000원 입금하기" id={id} />
       </div>
     </div>
   );

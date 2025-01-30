@@ -6,7 +6,7 @@ export default function RentFeeSummary() {
   const searchParams = useSearchParams();
   const rentPricePerDay = searchParams.get('rentPricePerDay');
   const rentDuration = searchParams.get('rentDuration');
-  
+
   // rentPricePerDay와 rentDuration을 숫자로 변환
   const rentPricePerDayNum = rentPricePerDay ? parseInt(rentPricePerDay, 10) : 0;
   const rentDurationNum = rentDuration ? parseInt(rentDuration, 10) : 0;
