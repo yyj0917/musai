@@ -42,7 +42,7 @@ export async function CreateRentReservation(
   rentEndDateTime: string, // "2025-02-14T11:30:00"
 ): Promise<void> {
   try {
-    await axiosInstance.post('/api/rents', { productId, availableDateTimeId, rentEndDateTime });
+    await axiosInstance.post('/rents', { productId, availableDateTimeId, rentEndDateTime });
   } catch (error) {
     console.log('CreateRentReservation 에러', error);
     throw new Error('Unable to fetch rentable times. Please try again later.');
