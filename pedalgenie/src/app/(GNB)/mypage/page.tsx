@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 
-import { useEffect, useState } from 'react';
+import { use, useEffect, useState } from 'react';
 import { useModalStore } from '@/lib/zustand/useModalStore';
 import { useChannelIOApi } from 'react-channel-plugin';
 
@@ -23,10 +23,10 @@ export default function MyPage() {
   const { openLoginModal } = useModalStore();
   const { openLogoutModal } = useModalStore();
   const { openWithdrawModal } = useModalStore();
-  const queryClient = useQueryClient();
 
   const { showMessenger } = useChannelIOApi();
   const isLoggedIn = useLoginStore((state) => state.isLoggedIn);
+  const { accessToken } = useAuthStore();
 
 
 
@@ -79,7 +79,7 @@ export default function MyPage() {
             // 비로그인 상태
             <div className="pl-4 pt-[10.5px] flex flex-col gap-1">
               <div className="flex items-center gap-1 cursor-pointer" onClick={() => openLoginModal()}>
-                <p className="text-head1">로그인 및 회원가입 {isLoggedIn}</p>
+                <p className="text-head1">로그인 및 회원가입 accesstoken{accessToken} isLoggedIn : {isLoggedIn}</p>
                 <span className='p-[10px]'>
                   <RightArrow />
                 </span>
