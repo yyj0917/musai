@@ -5,17 +5,17 @@ import { useToast } from '@/hooks/use-toast';
 import { useLikeProductMutation } from '@/hooks/useLikeProductMutation';
 import { useLoginStore } from '@/lib/zustand/useAuthStore';
 import { useModalStore } from '@/lib/zustand/useModalStore';
-import { set } from 'lodash';
 import {Heart} from 'lucide-react';
 import { useState } from 'react';
 
 type ProductHeartProps = {
   productId: number;
   isLiked: boolean | undefined | null;
-  queryKey: (string | string[])[];
+  setIsProductUiLiked: (isLiked : boolean) => void;
+  isProductUiLiked: boolean;
 };
 
-export default function ProductHeart({ productId, isLiked, queryKey }: ProductHeartProps) {
+export default function ProductHeart({ productId, isLiked, setIsProductUiLiked, isProductUiLiked }: ProductHeartProps) {
   // 로그인 관련
   const { isLoggedIn } = useLoginStore();
   // 하트 관련
@@ -25,7 +25,7 @@ export default function ProductHeart({ productId, isLiked, queryKey }: ProductHe
   const [isUILike, setIsUILike] = useState(isLiked);
 
   // 좋아요 Mutation
-  const likeMutation = useLikeProductMutation(productId, queryKey);
+  const likeMutation = useLikeProductMutation(productId, ['productDetail']);
 
   const toggleLikeProduct = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -35,7 +35,7 @@ export default function ProductHeart({ productId, isLiked, queryKey }: ProductHe
       openLoginModal();
       return;
     }
-    setIsUILike(!isLiked);
+    setIsProductUiLiked(!isLiked);
     // 1) 하트 애니메이션 실행
     setIsAnimating(true);
     setTimeout(() => {
@@ -51,7 +51,7 @@ export default function ProductHeart({ productId, isLiked, queryKey }: ProductHe
       <button onClick={(e) => toggleLikeProduct(e)} className="text-red">
         <Heart
           strokeWidth={1.5}
-          className={`like-animation ${isLiked || isUILike || isAnimating ? 'unscale fill-red' : 'scale'} `}
+          className={`like-animation ${isLiked || isProductUiLiked || isAnimating ? 'unscale fill-red' : 'scale'} `}
         />
       </button>
       <LoginModal/>

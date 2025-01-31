@@ -14,6 +14,7 @@ import CTA from '@/components/ui/CTA';
 import LoginModal from '@/components/modal/login-modal';
 import ProductHeart from './_components/ProductHeart';
 import Loading from '@/components/loading';
+import { useState } from 'react';
 
 export default function Product({ params }: { params: { id: number } }) {
   const { id } = params; // 파라미터로 받아온 ProductId 값
@@ -28,51 +29,60 @@ export default function Product({ params }: { params: { id: number } }) {
     staleTime: 1000 * 60 * 5, // 5분 동안 데이터 신선 상태 유지
   });
 
+  const [isProductUiLiked, setIsProductUiLiked] = useState(false);
+  if (productDetail?.isLiked) setIsProductUiLiked(productDetail.isLiked);
 
   return (
     <>
-    <div className="relative w-full h-full bg-grey1000">
-      <main className="w-full flex flex-col text-grey250 font-pretendard">
-        <TopBar />
-        <div className="w-full h-[calc(100vh-50px-87px)] overflow-y-auto scroll-smooth scrollbar-hide">
-          <ProductImg productImg={productDetail?.productImage} />
-          <ShopNameBar shopName={productDetail?.shopName} shopId={productDetail?.shopId} />
-          <div className="px-4 pb-0 py-[14px]">
-            <ProductActionMenus
-              isRentable={productDetail?.isRentable}
-              isPurchasable={productDetail?.isPurchasable}
-              isDemoable={productDetail?.isDemoable}
+      <div className="relative w-full h-full bg-grey1000">
+        <main className="w-full flex flex-col text-grey250 font-pretendard">
+          <TopBar />
+          <div className="w-full h-[calc(100vh-50px-87px)] overflow-y-auto scroll-smooth scrollbar-hide">
+            <ProductImg productImg={productDetail?.productImage} />
+            <ShopNameBar shopName={productDetail?.shopName} shopId={productDetail?.shopId} />
+            <div className="px-4 pb-0 py-[14px]">
+              <ProductActionMenus
+                isRentable={productDetail?.isRentable}
+                isPurchasable={productDetail?.isPurchasable}
+                isDemoable={productDetail?.isDemoable}
+              />
+              <section className="flex space-x-[9px]">
+                <div className="flex w-full font-semibold text-lg pb-5 max-w-[310px] break-words">
+                  {productDetail?.name}
+                </div>
+                <ProductHeart
+                  isLiked={productDetail?.isLiked}
+                  productId={id}
+                  setIsProductUiLiked={setIsProductUiLiked}
+                  isProductUiLiked={isProductUiLiked}
+                />
+              </section>
+              <ProductFeeCard price={productDetail?.price} rentPricePerDay={productDetail?.rentPricePerDay} />
+              <InfoSwitcher />
+            </div>
+            <DescriptionImg descriptionImg={productDetail?.descriptionUrl} />
+            <ShopInfo
+              shopName={productDetail?.shopName}
+              shopHours={productDetail?.shopHours}
+              contactNumber={productDetail?.contactNumber}
+              address={productDetail?.address}
+              shopId={productDetail?.shopId}
+              isShopLiked={productDetail?.isShopLiked}
+              shopImage={productDetail?.shopImage}
             />
-            <section className="flex space-x-[9px]">
-              <div className="flex w-full font-semibold text-lg pb-5 max-w-[310px] break-words">
-                {productDetail?.name}
-              </div>
-              <ProductHeart isLiked={productDetail?.isLiked} productId={id} queryKey={['productDetail']}/>
-            </section>
-            <ProductFeeCard price={productDetail?.price} rentPricePerDay={productDetail?.rentPricePerDay} />
-            <InfoSwitcher />
           </div>
-          <DescriptionImg descriptionImg={productDetail?.descriptionUrl} />
-          <ShopInfo
-            shopName={productDetail?.shopName}
-            shopHours={productDetail?.shopHours}
-            contactNumber={productDetail?.contactNumber}
-            address={productDetail?.address}
-            shopId={productDetail?.shopId}
-            isShopLiked={productDetail?.isShopLiked}
-            shopImage={productDetail?.shopImage}
-          />
-        </div>
-      </main>
-      <CTA
-        productId={id}
-        isRentable={productDetail?.isRentable}
-        isDemoable={productDetail?.isDemoable}
-        isLiked={productDetail?.isLiked}
-      />
-      <LoginModal />
-      {isLoading && <Loading />}
-    </div>
+        </main>
+        <CTA
+          productId={id}
+          isRentable={productDetail?.isRentable}
+          isDemoable={productDetail?.isDemoable}
+          isLiked={productDetail?.isLiked}
+          setIsProductUiLiked={setIsProductUiLiked}
+          isProductUiLiked={isProductUiLiked}
+        />
+        <LoginModal />
+        {isLoading && <Loading />}
+      </div>
     </>
   );
 }
