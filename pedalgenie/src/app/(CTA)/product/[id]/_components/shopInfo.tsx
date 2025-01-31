@@ -12,6 +12,7 @@ import Location from '@public/svg/product/location.svg';
 import LoginModal from '@/components/modal/login-modal';
 import Link from 'next/link';
 
+
 interface ShopHour {
   shopHoursId: number;
   dayType: string;
@@ -43,6 +44,7 @@ const formatBreakTime = (breakStartTime?: string | null, breakEndTime?: string |
   }
   return '';
 };
+
 // 매장 운영 시간 포맷 함수 (ShopHour 객체 전체를 받아서 처리)
 const formatTime = (hour: ShopHour) => {
   const formattedOpenTime = formatTimeString(hour.openTime);
@@ -66,12 +68,22 @@ const formatTime = (hour: ShopHour) => {
 const ShopDetailInfo = (Img: React.ComponentType<React.SVGProps<SVGSVGElement>>, text?: string) =>
   text ? (
     <div className="flex items-start gap-2">
-      <Img className="w-5 h-5" />
-      <p className="text-sm text-grey250 break-words">{text}</p> {/* break-words로 텍스트가 여러 줄로 나뉘게 함 */}
+      <div className="w-5 h-5 flex items-center justify-center">
+        <Img className="w-5 h-5" />
+      </div>
+      <p className="text-sm text-grey250 break-words">{text}</p>
     </div>
   ) : null; // text가 없을 경우 렌더링 생략
 
-export default function ShopInfo({ shopName, shopHours, contactNumber, address, shopId, isShopLiked, shopImage }: ShopInfoProps) {
+export default function ShopInfo({
+  shopName,
+  shopHours,
+  contactNumber,
+  address,
+  shopId,
+  isShopLiked,
+  shopImage,
+}: ShopInfoProps) {
   const { toast } = useToast();
   const { isLoggedIn } = useLoginStore(); // 로그인 상태 가져오기
   const [isAnimating, setIsAnimating] = useState(false);
@@ -115,16 +127,16 @@ export default function ShopInfo({ shopName, shopHours, contactNumber, address, 
       {/* 상점 정보 요약 섹션 */}
       <Link href={`/home/shop/description/${shopId}`}>
         <div className="flex w-full items-center p-5 border-0.5 border-grey850">
-        <div className="w-full flex items-center">
+          <div className="w-full flex items-center">
             {shopImage ? (
               <Image
-              src={shopImage}
-              alt="상점 이미지"
-              width={40}
-              height={40}
-              className="rounded-full object-cover w-10 h-10"
-              priority={true}
-            />
+                src={shopImage}
+                alt="상점 이미지"
+                width={40}
+                height={40}
+                className="rounded-full object-cover w-10 h-10"
+                priority={true}
+              />
             ) : (
               <div className="bg-grey450 w-10 h-10 rounded-full" />
             )}
@@ -141,36 +153,37 @@ export default function ShopInfo({ shopName, shopHours, contactNumber, address, 
 
       {/* 상점 상세 정보 섹션 */}
       <section className="flex flex-col gap-1 py-5 px-4 pb-10">
-      {/* 매장 운영 시간 */}
-      {shopHours && shopHours.length > 0 ? (
-        shopHours.map((hour, index) => (
-          <div key={hour.shopHoursId} className="flex w-full">
-            {/* 첫 번째 항목일 때만 이미지 렌더링 */}
-            {index === 0 ? ShopDetailInfo(Time, formatTime(hour)) : (
-              <div className="flex items-start gap-2">
-                <span className='w-5 h-w' />
-                <p className="text-sm text-grey250 break-words">{formatTime(hour)}</p> {/* 텍스트만 렌더링 */}
-              </div>
-            )}
-          </div>
-        ))
-      ) : (
-        <p className="text-sm text-grey250">운영 시간이 없습니다.</p>
-      )}
-
-      {/* 매장 번호 */}
-      <span className="flex gap-2 pb-1 pt-1">
-        {ShopDetailInfo(Call, contactNumber)}
-        {contactNumber && !contactNumber.includes('마이페이지') && (
-          <Button
-            variant="copy"
-            onClick={() => handleCopyToast(contactNumber)}
-            className="text-center text-body2 text-sm text-red"
-          >
-            복사
-          </Button>
+        {/* 매장 운영 시간 */}
+        {shopHours && shopHours.length > 0 ? (
+          shopHours.map((hour, index) => (
+            <div key={hour.shopHoursId} className="flex w-full">
+              {/* 첫 번째 항목일 때만 이미지 렌더링 */}
+              {index === 0 ? (
+                ShopDetailInfo(Time, formatTime(hour))
+              ) : (
+                <div className="flex items-start gap-2">
+                  <span className="w-5 h-w" />
+                  <p className="text-sm text-grey250 break-words">{formatTime(hour)}</p> {/* 텍스트만 렌더링 */}
+                </div>
+              )}
+            </div>
+          ))
+        ) : (
+          <p className="text-sm text-grey250">운영 시간이 없습니다.</p>
         )}
-      </span>
+
+        {/* 매장 번호 */}
+        <span className="flex gap-2 pb-1 pt-1">
+          {ShopDetailInfo(Call, contactNumber)}
+          {contactNumber && !contactNumber.includes('마이페이지') && (
+            <Button
+              variant="copy"
+              onClick={() => handleCopyToast(contactNumber)}
+              className="items-start text-start text-body2 text-sm text-red">
+              복사
+            </Button>
+          )}
+        </span>
 
         {/* 매장 주소 */}
         <span className="flex gap-2">
@@ -178,7 +191,7 @@ export default function ShopInfo({ shopName, shopHours, contactNumber, address, 
           <Button
             variant="copy"
             onClick={() => handleCopyToast(address)}
-            className="text-center text-body2 text-sm text-red">
+            className="items-start text-start text-body2 text-sm text-red">
             복사
           </Button>
         </span>

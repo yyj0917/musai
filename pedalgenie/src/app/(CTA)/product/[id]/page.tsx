@@ -34,8 +34,8 @@ export default function Product({ params }: { params: { id: number } }) {
 
   return (
     <>
-      <div className="relative w-full h-full bg-grey1000">
-        <main className="w-full flex flex-col text-grey250 font-pretendard">
+      <div className="relative w-full h-full">
+        <main className="w-full flex flex-col bg-grey1000 text-grey250 font-pretendard">
           <TopBar />
           <div className="w-full h-[calc(100vh-50px-87px)] overflow-y-auto scroll-smooth scrollbar-hide">
             <ProductImg productImg={productDetail?.productImage} />

@@ -22,7 +22,6 @@ export default function ProductHeart({ productId, isLiked, setIsProductUiLiked, 
   const [isAnimating, setIsAnimating] = useState(false);
   const { toast } = useToast();
   const { openLoginModal } = useModalStore();
-  const [isUILike, setIsUILike] = useState(isLiked);
 
   // 좋아요 Mutation
   const likeMutation = useLikeProductMutation(productId, ['productDetail']);
