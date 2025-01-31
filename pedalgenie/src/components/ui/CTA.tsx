@@ -1,7 +1,5 @@
 'use client';
 
-import { useParams } from 'next/navigation';
-import CTAHeart from '@public/svg/CTA-heart.svg';
 import CTAvector from '@public/svg/CTA-vector.svg';
 import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';
@@ -16,9 +14,18 @@ interface CTAProps {
   isRentable: boolean | undefined;
   isDemoable: boolean | undefined;
   isLiked: boolean | undefined | null;
+  setIsProductUiLiked: (isLiked: boolean) => void;
+  isProductUiLiked: boolean;
 }
 
-export default function CTA({ productId, isRentable, isDemoable, isLiked }: CTAProps) {
+export default function CTA({
+  productId,
+  isRentable,
+  isDemoable,
+  isLiked,
+  setIsProductUiLiked,
+  isProductUiLiked,
+}: CTAProps) {
   // 로그인 관련
   const { isLoggedIn } = useLoginStore();
   const { toast } = useToast();
@@ -33,7 +40,12 @@ export default function CTA({ productId, isRentable, isDemoable, isLiked }: CTAP
 
   return (
     <nav className="bg-grey1000 absolute bottom-0 w-full flex justify-between items-center pt-3 pb-[50px] px-[20px] border-t-[1px] border-grey750 font-pretendard">
-      <ProductHeart isLiked={isLiked} productId={productId} queryKey={['productDetail']} />
+      <ProductHeart
+        isLiked={isLiked}
+        productId={productId}
+        setIsProductUiLiked={setIsProductUiLiked}
+        isProductUiLiked={isProductUiLiked}
+      />
       <div className="flex justify-center items-center gap-5 text-label1 text-grey250">
         {/* 대여 예약하기 */}
         {isLoggedIn === false ? (

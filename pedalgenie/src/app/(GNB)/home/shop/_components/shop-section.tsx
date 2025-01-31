@@ -23,13 +23,13 @@ export default function ShopSection() {
 
   useScrollToggle({ containerId: 'shopList' });
 
-  if (!shopList) return <NotFoundAll alertText='매장이 존재하지 않습니다'/>;
+  if (!shopList && isDelay) return <NotFoundAll alertText='매장이 존재하지 않습니다'/>;
 
   // 🔹 상품이 있는 shop을 먼저 오도록 정렬
-  const sortedShopList = [...shopList].sort((a: Shop, b: Shop) => {
+  const sortedShopList = [...(shopList || [])].sort((a: Shop, b: Shop) => {
     const hasProductsA = a.products?.length > 0 ? 1 : 0;
     const hasProductsB = b.products?.length > 0 ? 1 : 0;
-    return hasProductsB - hasProductsA; // 상품이 있는 shop이 앞으로 정렬됨
+    return hasProductsB - hasProductsA; // 상품이 있는 shop이 앞에 오도록 정렬
   });
 
   return (

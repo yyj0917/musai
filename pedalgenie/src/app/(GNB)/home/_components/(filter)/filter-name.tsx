@@ -86,7 +86,7 @@ export default function FilterName({ isOpen, onClose }: FilterProps) {
 
   return  isDelay && shouldRender ? (
     <div 
-      className='fixed inset-0 z-50 flex items-end justify-center bg-black bg-opacity-50' 
+      className='fixed-safari fixed inset-0 z-50 flex items-end justify-center bg-black bg-opacity-50' 
       onClick={handleClose}>
       <div
         className="w-full min-w-[360px]  max-w-[415px] lg:max-w-[375px] bg-grey850 px-4 pt-5 pb-6 rounded-t-2xl rounded-b-none transition-transform duration-300 "

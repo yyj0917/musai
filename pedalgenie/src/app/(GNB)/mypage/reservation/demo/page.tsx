@@ -25,7 +25,7 @@ export default function Demo() {
   if (demoProducts?.length === 0) {
     return (
         <div className='my-auto w-full h-[calc(100dvh-98.5px)] flex justify-center items-center'>
-            <NotFoundAll alertText='예약 내역이 존재하지 않습니다' />
+            <NotFoundAll alertText='시연 내역이 존재하지 않습니다' />
         </div>
     );
   }

@@ -11,10 +11,11 @@ import { useState } from 'react';
 type ProductHeartProps = {
   productId: number;
   isLiked: boolean | undefined | null;
-  queryKey: (string | string[])[];
+  setIsProductUiLiked: (isLiked : boolean) => void;
+  isProductUiLiked: boolean;
 };
 
-export default function ProductHeart({ productId, isLiked, queryKey }: ProductHeartProps) {
+export default function ProductHeart({ productId, isLiked, setIsProductUiLiked, isProductUiLiked }: ProductHeartProps) {
   // 로그인 관련
   const { isLoggedIn } = useLoginStore();
   // 하트 관련
@@ -23,17 +24,17 @@ export default function ProductHeart({ productId, isLiked, queryKey }: ProductHe
   const { openLoginModal } = useModalStore();
 
   // 좋아요 Mutation
-  const likeMutation = useLikeProductMutation(productId, queryKey);
+  const likeMutation = useLikeProductMutation(productId, ['productDetail']);
 
   const toggleLikeProduct = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-
+    
     // 로그인 체크
     if (!isLoggedIn) {
       openLoginModal();
-      console.log('로그인', isLoggedIn);
       return;
     }
+    setIsProductUiLiked(!isLiked);
     // 1) 하트 애니메이션 실행
     setIsAnimating(true);
     setTimeout(() => {
@@ -49,7 +50,7 @@ export default function ProductHeart({ productId, isLiked, queryKey }: ProductHe
       <button onClick={(e) => toggleLikeProduct(e)} className="text-red">
         <Heart
           strokeWidth={1.5}
-          className={`like-animation ${isLiked || isAnimating ? 'unscale fill-red' : 'scale'} `}
+          className={`like-animation ${isLiked || isProductUiLiked || isAnimating ? 'unscale fill-red' : 'scale'} `}
         />
       </button>
       <LoginModal/>

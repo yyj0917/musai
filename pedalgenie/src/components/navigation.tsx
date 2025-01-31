@@ -5,9 +5,7 @@ import HomeClick from '@public/svg/GNB/home-click.svg';
 import Reserve from '@public/svg/GNB/reserve.svg';
 import ReserveClick from '@public/svg/GNB/reserve-click.svg';
 import Heart from '@public/svg/GNB/heart.svg';
-import HeartClick from '@public/svg/GNB/heart-click.svg';
 import Profile from '@public/svg/GNB/profile.svg';
-import ProfileClick from '@public/svg/GNB/profile-click.svg';
 
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';

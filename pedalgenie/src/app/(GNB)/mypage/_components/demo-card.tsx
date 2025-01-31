@@ -4,7 +4,6 @@ import { useModalStore } from '@/lib/zustand/useModalStore';
 import { DemoProduct } from '@/types/product-type';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
 
 export default function DemoCard({ demoProduct }: { demoProduct: DemoProduct }) {
   const { openCancelModal } = useModalStore();
@@ -31,7 +30,7 @@ export default function DemoCard({ demoProduct }: { demoProduct: DemoProduct }) 
       </nav>
       <Link
         href={`/mypage/reservation/demo/${demoProduct.demoId}`}
-        className="w-full flex justify-between items-center">
+        className="w-full flex justify-between items-start gap-2">
         <div className="relative w-[100px] h-[100px]" style={{ aspectRatio: '1 : 1' }}>
           <Image
             src={`${demoProduct.productThumbnailImageUrl}`}
@@ -46,9 +45,9 @@ export default function DemoCard({ demoProduct }: { demoProduct: DemoProduct }) 
             <h2 className="max-w-[227px] max-h-[54px] text-body1 text-grey150 line-clamp-1">
               {demoProduct.productName}
             </h2>
-            <p className="flex justify-start text-caption2 text-grey550">
-              <span>{demoProduct.shopName} ㅣ </span>
-              <span>{demoProduct.shopAddress}</span>
+            <p className="max-w-[227px] flex justify-start text-caption2 text-grey550">
+              <span className='flex'>{demoProduct.shopName} ㅣ </span>
+              <span className='flex-1'>{demoProduct.shopAddress}</span>
             </p>
           </div>
           <div className="w-auto flex items-center">

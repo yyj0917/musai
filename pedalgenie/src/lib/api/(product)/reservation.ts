@@ -1,12 +1,8 @@
 import {
   RentableDate,
   RentableTime,
-  DemoableDateList,
   DemoableTimeList,
-  RentReservationData,
-  DemoReservationData,
   DemoableDate,
-  DemoSuccess,
 } from '@/types/reservation-type';
 import axiosInstance from '../config/axiosConfig';
 
@@ -16,8 +12,6 @@ export async function fetchRentableDate(productId: number): Promise<RentableDate
     const response = await axiosInstance.get(`/api/dates/${productId}`);
     return response.data.data;
   } catch (error) {
-    console.log(error);
-
     throw new Error('Unable to fetch rentable dates. Please try again later.');
   }
 }
