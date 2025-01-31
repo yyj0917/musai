@@ -179,7 +179,7 @@ export default function ShopInfo({
             <Button
               variant="copy"
               onClick={() => handleCopyToast(contactNumber)}
-              className="text-center text-body2 text-sm text-red">
+              className="items-start text-start text-body2 text-sm text-red">
               복사
             </Button>
           )}
@@ -191,7 +191,7 @@ export default function ShopInfo({
           <Button
             variant="copy"
             onClick={() => handleCopyToast(address)}
-            className="text-center text-body2 text-sm text-red">
+            className="items-start text-start text-body2 text-sm text-red">
             복사
           </Button>
         </span>
