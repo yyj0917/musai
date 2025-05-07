@@ -77,3 +77,5 @@ middleware.ts -> Next.js 자체의 middleware로 서버와 클라이언트 사�
    -> 회원정보, 상품정보, 아티클정보 등의 캐싱이 필요한 데이터들은 useQuery를 통해 적절한 기준으로 캐싱하여 데이터를 관리.
 
 - 이외의 각 컴포넌트에 필요한 상태는 useState로 관리.
+
+![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/yyj0917/musai?utm_source=oss&utm_medium=github&utm_campaign=yyj0917%2Fmusai&labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)
