@@ -1,17 +1,13 @@
-import dataset from '@/data/dataset.json';
 import { Suspense } from 'react';
 import ProductSection from './_components/product-section';
 import ArticleSection from './_components/article-section';
 import PreviewSection from './_components/preview-section';
-import { fetchArticles } from '@/lib/api/article';
-import { fetchProductGenre } from '@/lib/api/(product)/genre-product';
-import { fetchProductList } from '@/lib/api/(product)/product';
 import Loading from '@/components/loading';
+import { mockArticleData } from '@/mockdata/article.mock';
 
 export default async function Home() {
-
   // // 아티클 목록 조회
-  const articleList = await fetchArticles();
+  const articleList = mockArticleData;
   // // 시연해볼 수 있는 장르별 악기 조회
 
   return (
@@ -21,7 +17,7 @@ export default async function Home() {
       {/* 시연가능한 제품(기준미정) section */}
       <PreviewSection genre={'페달'} />
       {/* 전체 제품들 카테고리, 앵커링할 section - Client Comp.*/}
-      <Suspense fallback={<Loading/> }>
+      <Suspense fallback={<Loading />}>
         <ProductSection />
       </Suspense>
     </main>

@@ -1,26 +1,26 @@
 'use client';
 
-import { Suspense } from 'react';
 import PreviewItem from './preview';
-import { useQuery } from '@tanstack/react-query';
-import { GenreProductList, Product, ProductList } from '@/types/product-type';
-import { fetchProductGenre } from '@/lib/api/(product)/genre-product';
+import { Product } from '@/types/product-type';
+
+import { mockGenreProductList } from '@/mockdata/genre-product.mock';
 
 type GenreProductProps = {
   genre: string;
 };
 export default function PreviewSection({ genre }: GenreProductProps) {
-  const {
-    data: genreProducts,
-    isLoading,
-    isError
-  } = useQuery<ProductList, Error> (
-    {
-      queryKey: ['genreProduct', genre],
-      queryFn: () => fetchProductGenre(genre),
-      enabled: true,
-    }
-  );
+  // const {
+  //   data: genreProducts,
+  //   isLoading,
+  //   isError
+  // } = useQuery<ProductList, Error> (
+  //   {
+  //     queryKey: ['genreProduct', genre],
+  //     queryFn: () => fetchProductGenre(genre),
+  //     enabled: true,
+  //   }
+  // );
+  const genreProducts = mockGenreProductList;
 
   return (
     <section id="preview-section" className="mt-11 max-h-[300px] pl-4 overflow-auto">
