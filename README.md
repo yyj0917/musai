@@ -5,7 +5,7 @@
 ![서비스개요2](https://github.com/user-attachments/assets/089cf8bd-b704-4d39-a5de-c27473e76d23)
 
 
-(배포 링크)
+[배포 링크](https://www.musai.pro/home)
 
 ## 1️⃣ Member
 
