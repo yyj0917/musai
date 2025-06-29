@@ -97,7 +97,7 @@ export default function ProductSection() {
     isFetchingNextPage,
   } = useInfiniteQuery<FetchProductListResponse>({
     queryKey, // Query Key
-    queryFn: async ({ pageParam = 0 } ): Promise<FetchProductListResponse> => {
+    queryFn: async ({ pageParam = 0 }): Promise<FetchProductListResponse> => {
       // 전역 값(카테고리,필터) → API 파라미터로 매핑
       const mappedCategory = mapCategoryToParam(selectedCategory);
       const mappedSortBy = mapFilterToSortBy(nameFilter);
@@ -263,23 +263,21 @@ export default function ProductSection() {
   const category = ['전체', '기타', '베이스', '키보드', '드럼', '관현악'];
 
   const handleCategoryPick = (targetId: string, item: string) => {
-    
     const targetSection = document.getElementById(targetId);
     const mainContainer = document.getElementById('main');
     if (targetSection && mainContainer) {
       const scrollPosition = targetSection.offsetTop;
-      mainContainer.scrollTo({ top: scrollPosition-92, behavior: 'smooth' });
+      mainContainer.scrollTo({ top: scrollPosition - 92, behavior: 'smooth' });
     }
     setTimeout(() => {
       setSelectedCategory(item);
     }, 300);
-
   };
   // ${isHeaderVisible ? 'sticky top-0 z-10' : 'fixed pt-3 min-w-[360px] max-w-[415px] lg:max-w-[375px] mx-auto  top-0 z-100'}
 
   return (
     <>
-      <section ref={sectionRef} className='mt-8'>
+      <section ref={sectionRef} className="mt-8">
         <div id="product-section" className="w-full flex flex-col">
           <div
             id="scroll-event"
@@ -288,7 +286,7 @@ export default function ProductSection() {
             transition-transform duration-300
             sticky top-0 z-10 pt-3 
           `}>
-            <nav id="product-nav" className='px-4 w-full flex justify-between items-center'>
+            <nav id="product-nav" className="px-4 w-full flex justify-between items-center">
               {category.map((item, index) => (
                 <Button
                   key={index}
@@ -302,12 +300,13 @@ export default function ProductSection() {
             <FilterSpan />
           </div>
 
-          <main className={`
+          <main
+            className={`
             w-full min-h-[calc(100dvh-88.5px-87px-100px)] grid gap-[2px]
             ${product?.pages[0].items.length === 0 ? 'grid-cols-1' : 'grid-cols-2'}
             `}>
             {product?.pages[0].items.length === 0 ? (
-              <NotFoundAll alertText='해당 상품이 존재하지 않습니다'/>
+              <NotFoundAll alertText="해당 상품이 존재하지 않습니다" />
             ) : (
               product?.pages.map((page, pageIndex) => (
                 <React.Fragment key={pageIndex}>
@@ -324,7 +323,7 @@ export default function ProductSection() {
         {/* 로그인 유저가 아닐 시 로그인 모달 */}
         <LoginModal />
         {/* 로딩 중 */}
-        {isLoading || (!isDelay && <Loading />)}
+        {isLoading && <Loading />}
       </section>
       {/* 플로팅 버튼 */}
       <FloatingButton scrollContainer={'main'} />

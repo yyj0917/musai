@@ -10,7 +10,8 @@ export async function fetchArticles(): Promise<ArticleList> {
     const response = await axiosInstance.get('/api/articles');
     return response.data.data; // data.data로 받아옴 - type 일치 때문에
   } catch (error) {
-    throw new Error('Unable to fetch articles. Please try again later.');
+    console.error('Error fetching articles:', error);
+    return [];
   }
 }
 

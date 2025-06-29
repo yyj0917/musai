@@ -1,6 +1,7 @@
 import { ProductList } from '@/types/product-type';
 import axiosInstance from '../config/axiosConfig';
 import { SearchItem } from '@/types/search-type';
+import { mockProductList } from '@/mockdata/product.mock';
 
 export interface FetchProductListParams {
   category?: string;
@@ -15,14 +16,15 @@ export interface FetchProductListParams {
 
 // 상품 목록 조회 - category, filter, sort, page, size로 - tanstackquery 캐싱
 export async function fetchProductList(params: FetchProductListParams): Promise<ProductList> {
-  try {
-    const response = await axiosInstance.get('/api/products/search', {
-      params: params,
-    });
-    return response.data.data;
-  } catch (error) {
-    throw new Error('Unable to fetch product list. Please try again later.');
-  }
+  // try {
+  //   const response = await axiosInstance.get('/api/products/search', {
+  //     params: params,
+  //   });
+  //   return response.data.data;
+  // } catch (error) {
+  //   throw new Error('Unable to fetch product list. Please try again later.');
+  // }
+  return mockProductList;
 }
 
 // 상품, 매장 검색 api - 로그인했으면 토큰 o - tanstackquery 캐싱

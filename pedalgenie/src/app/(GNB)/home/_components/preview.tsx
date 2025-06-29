@@ -51,7 +51,9 @@ export default function PreviewItem({ genreProductItem }: ProductItemProps) {
   const formattedPrice = new Intl.NumberFormat('ko-KR').format(price);
 
   return (
-    <Link href={`/product/${genreProductItem?.id}`} className="relative min-w-[138px] max-h-[252px] flex flex-col gap-3">
+    <Link
+      href={`/product/${genreProductItem?.id}`}
+      className="relative min-w-[138px] max-h-[252px] flex flex-col gap-3">
       <div className="relative w-full min-h-[138px] bg-grey750 rounded-sm">
         {genreProductItem?.imageUrl ? (
           <Image
@@ -69,7 +71,7 @@ export default function PreviewItem({ genreProductItem }: ProductItemProps) {
           className="absolute bottom-2 right-2 text-red ">
           <Heart
             strokeWidth={1.5}
-            className={`like-animation ${ genreProductItem.isLiked || isAnimating ? 'unscale fill-red' : ''} ${isUILike ? 'fill-red' : ''}`}
+            className={`like-animation ${genreProductItem.isLiked || isAnimating ? 'unscale fill-red' : ''} ${isUILike ? 'fill-red' : ''}`}
           />
         </button>
       </div>
